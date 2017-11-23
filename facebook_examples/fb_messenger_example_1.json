@@ -1,0 +1,167 @@
+// Facebook Messenger Example API calls for /messages.
+// Design notes:
+// 1. Facebook are introducing a breaking change to their API. Read: https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types. There are four possible values. Viber also have the same construct in their API. They just require each message to be tagged with either "transactional" or “promotional". A "message_type" property needs to be added, see the current designs. It would only be mandatory for  viber_service_msg and messenger. I don’t believe we can abstract the values, instead we should just use the same values they have.
+// 2. The is an option to send a mobile number. Please see the first two example API calls.
+// 3. We now have MO messages. This is following the same format that we agreed in August. The only thing to really note here is the use of a "direction" parameter.
+// 4. Sending media via a URL that the devloper provides.
+// 5. There are a lot of todos at the very end. We will tackle those in a later session.
+
+// MT with an id
+{ 
+   "from":{ 
+      "type":"messenger",
+      "id":"1753206581582102"
+   },
+   "to":{ 
+      "type":"messenger",
+      "id":"1341127079312546"
+   },
+   "message":{ 
+      "content":{ 
+         "type":"text",
+         "text":"Yeah, we didn't choose the Skux life."
+      },
+      "message_type": "response"
+   }
+}
+
+// MT with a phone number
+{ 
+   "from":{ 
+      "type":"messenger",
+      "id":"1753206581582102"
+   },
+   "to":{ 
+      "type":"messenger",
+      "number":"47877443987"
+   },
+   "message":{ 
+      "content":{ 
+         "type":"text",
+         "text":"Yeah, we didn't choose the Skux life."
+      },
+    "message_type": "response"
+   }
+}
+
+// How it would look like for Viber Service Mesasges
+{ 
+   "from":{ 
+      "type":"viber_service_msg",
+      "id":"3018"
+   },
+   "to":{ 
+      "type":"viber_service_msg",
+      "number":"447866003987"
+   },
+   "message":{ 
+      "content":{ 
+         "type":"text",
+         "text":"Yeah, we didn't choose the Skux life."
+      },
+      "message_type": "transactional"
+   }
+}
+
+
+// MT with media. Media types would be 'image', audio','video' and 'file'. All take a URL.
+{ 
+   "from":{ 
+      "type":"messenger",
+      "id":"1753206581582102"
+   },
+   "to":{ 
+      "type":"messenger",
+      "number":"47877443987"
+   },
+   "message":{ 
+      "content":{ 
+         "type":"image",
+         "url":"http://hughhopkins.co.uk/assets/img/youtube-sailing-hughhopkins.jpg"
+      },
+    "message_type": "response"
+   }
+}
+
+// Message Status Callbacks rejected, submitted, delivered and read. There is no change here from what we have with Viber.
+// Delivered status has the price
+{
+   "message_uuid": "9042aa29-7e09-4d6d-a4e1-ec0923fafcd3",
+   "from":{ 
+      "type":"messenger",
+      "id":"1753206581582102"
+   },
+   "to":{ 
+      "type":"messenger",
+      "id":"1341127079312546"
+   },
+   "timestamp": "2017-11-09T10:56:42.469Z",
+   "status": "delivered",
+   "usage": {
+        "currency": "EUR",
+        "price": "0.001"
+    }
+}
+
+{
+   "message_uuid": "9042aa29-7e09-4d6d-a4e1-ec0923fafcd3",
+   "from":{ 
+      "type":"messenger",
+      "id":"1753206581582102"
+   },
+   "to":{ 
+      "type":"messenger",
+      "id":"1341127079312546"
+   },
+   "timestamp": "2017-11-09T10:56:42.469Z",
+   "status": "read"
+}
+
+// MO Message. to = the facebook page ID (so this our customer). from = the facebook user (the consumer who is sending a message to the business)
+{
+    "message_uuid": "9042aa29-7e09-4d6d-a4e1-ec0923fafcd3",
+    "to": {
+        "type": "messenger",
+        "id": "1753206581582102"
+    },
+    "from": {
+        "type": "messenger",
+        "id": "1341127079312546"
+    },
+    "message":{ 
+      "content":{ 
+         "type":"text",
+         "text":"hello world"
+      }
+   },
+   "timestamp": "2017-11-09T10:56:42.469Z",
+   "direction": "inbound"
+}
+
+// MO Media Message
+{
+    "message_uuid": "9042aa29-7e09-4d6d-a4e1-ec0923fafcd3",
+    "to": {
+        "type": "messenger",
+        "id": "1753206581582102"
+    },
+    "from": {
+        "type": "messenger",
+        "id": "1341127079312546"
+    },
+    "message":{ 
+      "content":{ 
+         "type":"image",
+         "url":"https://scontent.xx.fbcdn.net/v/t35.0-12/23585346_10156872661884778_1734288644_o.png?_nc_ad=z-m&_nc_cid=0&oh=e81a0161d8266f7e742e4769a12f440a&oe=5A0C0782"
+      }
+   },
+   "timestamp": "2017-11-09T10:56:42.469Z",
+   "direction": "inbound"
+}
+
+// to do:
+// - location (MO)
+// - events (MO)
+// - complex events such as a payment (MO)
+// - Sending a structured notification (MT)
+// - Sending other complex message types (MT)
