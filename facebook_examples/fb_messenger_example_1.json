@@ -159,9 +159,35 @@
    "direction": "inbound"
 }
 
-// to do:
 // - location (MO)
+
+{
+  "message_uuid": "9042aa29-7e09-4d6d-a4e1-ec0923fafcd3",
+  "to": {
+    "type": "messenger",
+    "id": "1753206581582102"
+  },
+  "from": {
+    "type": "messenger",
+    "id": "1341127079312546"
+  },
+  "message":{
+    "content":{
+      "type":"location",
+      "lat": 51.523202,
+      "long": -0.085363
+    }
+  },
+  "timestamp": "2017-11-09T10:56:42.469Z",
+  "direction": "inbound"
+}
+
 // - events (MO)
+
+Webhook events
+https://developers.facebook.com/docs/messenger-platform/reference
+subscribed and unsubscribed
+
 // - complex events such as a payment (MO)
 // - Sending a structured notification (MT)
 // - Sending other complex message types (MT)
