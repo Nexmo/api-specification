@@ -20,8 +20,7 @@
       "content":{ 
          "type":"text",
          "text":"Yeah, we didn't choose the Skux life."
-      },
-      "message_type": "response"
+      }
    }
 }
 
@@ -39,30 +38,9 @@
       "content":{ 
          "type":"text",
          "text":"Yeah, we didn't choose the Skux life."
-      },
-    "message_type": "response"
+      }
    }
 }
-
-// How it would look like for Viber Service Mesasges
-{ 
-   "from":{ 
-      "type":"viber_service_msg",
-      "id":"3018"
-   },
-   "to":{ 
-      "type":"viber_service_msg",
-      "number":"447866003987"
-   },
-   "message":{ 
-      "content":{ 
-         "type":"text",
-         "text":"Yeah, we didn't choose the Skux life."
-      },
-      "message_type": "transactional"
-   }
-}
-
 
 // MT with media. Media types would be 'image', audio','video' and 'file'. All take a URL.
 { 
@@ -103,20 +81,6 @@
     }
 }
 
-{
-   "message_uuid": "9042aa29-7e09-4d6d-a4e1-ec0923fafcd3",
-   "from":{ 
-      "type":"messenger",
-      "id":"1753206581582102"
-   },
-   "to":{ 
-      "type":"messenger",
-      "id":"1341127079312546"
-   },
-   "timestamp": "2017-11-09T10:56:42.469Z",
-   "status": "read"
-}
-
 // MO Message. to = the facebook page ID (so this our customer). from = the facebook user (the consumer who is sending a message to the business)
 {
     "message_uuid": "9042aa29-7e09-4d6d-a4e1-ec0923fafcd3",
@@ -138,7 +102,7 @@
    "direction": "inbound"
 }
 
-// MO Media Message
+// MO Media Message - We are just passing the url from facebook
 {
     "message_uuid": "9042aa29-7e09-4d6d-a4e1-ec0923fafcd3",
     "to": {
@@ -158,6 +122,8 @@
    "timestamp": "2017-11-09T10:56:42.469Z",
    "direction": "inbound"
 }
+
+
 
 // - location (MO)
 
