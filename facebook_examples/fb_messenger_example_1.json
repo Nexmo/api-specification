@@ -148,8 +148,32 @@
   "direction": "inbound"
 }
 
+
+// TODO: dont know about location in MT Flow dont see it in ott.
+
 // - events (MO)
 
+{
+  "message_uuid": "9042aa29-7e09-4d6d-a4e1-ec0923fafcd3",
+  "to": {
+    "type": "messenger",
+    "id": "1753206581582102"
+  },
+  "from": {
+    "type": "messenger",
+    "user_ref": "1341127079312546"
+  },
+  "message":{
+    "content":{
+      "type":"event",
+      "event":"checkin pklugin"
+    }
+  },
+  "timestamp": "2017-11-09T10:56:42.469Z",
+  "direction": "inbound"
+}
+
+//Webhook events
 Webhook events
 https://developers.facebook.com/docs/messenger-platform/reference
 subscribed and unsubscribed
