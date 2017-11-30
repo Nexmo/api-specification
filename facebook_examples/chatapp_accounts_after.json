@@ -1,12 +1,40 @@
-Endpoint
-after: /chatapp/accounts/
+// POST
 
-//POST
+POST /chatapp/accounts
+Content-Type: application/json
 
-//GET
+{
+"name": "name",
+"external_id": "3018",
+"owner_id": "account123",
+"access_token": "accessToken",
+"provider_name": "messenger"
+}
 
-//PUT
+// GET
+
+GET /chatapp/accounts/messenger/3018
+
+// Search
+
+GET /chatapp/accounts
+
+// Returns all accounts belonging to account id of the JWT Token used in the request
+
+GET /chatapp/accounts/messenger
+
+// Returns all messenger accounts belonging to account id of the JWT Token used in the request
+
+// Optional query parameter only used by admin: ?owner_id=account123 to retrieve all the accounts for a specific account
+
+// PUT
+
+PUT /chatapp/accounts/messenger/3018
+Content-Type: application/x-www-form-urlencoded
+
+name=MyNewName&access_token=myNewValidToken
 
 //DELETE
 
-//SEARCH
+
+DELETE /chatapp/accounts/messenger/3018
