@@ -1,0 +1,29 @@
+Endpoint
+before: /chatapp/accounts/3018
+
+//POST
+
+{
+"active": true,
+"name": "name",
+"username": "username",
+"password": "password",
+"dateCreated": null,
+"dateModified": null,
+"chatAppAccountOwnerType": "ACCOUNT",
+"external-id": "externalId",
+"owner-id": "ownerAccountId",
+"encryption-key": "aesKey",
+"access-token": "accessToken",
+"refresh-token": "refreshToken",
+"provider-name": "MESSENGER"
+}
+
+//GET
+
+//PUT
+
+//DELETE
+
+
+
