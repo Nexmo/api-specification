@@ -14,10 +14,57 @@ Content-Type: application/json
 // GET
 
 GET /chatapp/accounts/3018
+{
+"date_created": 1504006950209,
+"date_modified": 1504006950209,
+"owner_type": "ACCOUNT",
+"name": "Viber PA 3018",
+"external_id": "3018",
+"owner_id": "nexmo-chatapp",
+"username": null,
+"password": null,
+"encryption_key": null,
+"access_token": null,
+"refresh_token": null,
+"provider_name": "viber_service_msg"
+}
 
 // Search
-
 GET /chatapp/accounts
+
+{
+[
+  {
+  "date_created": 1504006950209,
+  "date_modified": 1504006950209,
+  "owner_type": "ACCOUNT",
+  "name": "Messenger 2018",
+  "external_id": "3018",
+  "owner_id": "nexmo-chatapp",
+  "username": null,
+  "password": null,
+  "encryption_key": null,
+  "access_token": null,
+  "refresh_token": null,
+  "provider_name": "messenger"
+  },
+  {
+  "date_created": 1504006950209,
+  "date_modified": 1504006950209,
+  "owner_type": "ACCOUNT",
+  "name": "viber 12345678",
+  "external_id": "12345678",
+  "owner_id": "nexmo-chatapp",
+  "username": null,
+  "password": null,
+  "encryption_key": null,
+  "access_token": null,
+  "refresh_token": null,
+  "provider_name": "viber"
+  }
+
+]
+}
 
 // Returns all the account for belonging to account id of the JWT Token used in the request (returns all accounts for admin)
 
