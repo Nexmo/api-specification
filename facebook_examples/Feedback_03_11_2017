@@ -1,0 +1,9 @@
+
+Chatapp - accounts
+- remove provider from post in chatapp accounts POST since the path already includes this info. (DONE)
+- every channel should have its own representation and not show null fields that do not apply to this channel. (DONE)
+- All endpoints should be accepting application/json (DONE)
+- Change PUT to PATCH (DONE)
+- HAL/JSON for chatapp-accounts (DONE)
+- Fix price in workflows with usage (Will raise a ticket)
+- Need to sync with Neil on the events that we are going to expose.

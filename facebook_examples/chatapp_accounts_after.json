@@ -1,14 +1,13 @@
 // POST
 
-POST beta/chatapp-accounts
+POST beta/chatapp-accounts/messenger
 Content-Type: application/json
 
 {
-"name": "name",
-"external_id": "3018",
-"owner_id": "account123",
-"access_token": "accessToken",
-"provider_name": "messenger"
+   "name":"name",
+   "external_id":"3018",
+   "owner_id":"account123",
+   "access_token":"accessToken"
 }
 
 // GET
@@ -16,67 +15,66 @@ Content-Type: application/json
 
 GET beta/chatapp-accounts/messenger/3018
 {
-"date_created": 1504006950209,
-"date_modified": 1504006950209,
-"owner_type": "ACCOUNT",
-"name": "Messenger 2018",
-"external_id": "3018",
-"owner_id": "nexmo-chatapp",
-"username": null,
-"password": null,
-"encryption_key": null,
-"access_token": null,
-"refresh_token": null,
-"provider_name": "messenger"
+   "date_created":1504006950209,
+   "date_modified":1504006950209,
+   "owner_type":"ACCOUNT",
+   "name":"Messenger 2018",
+   "external_id":"3018",
+   "owner_id":"nexmo-chatapp",
+   "provider_name":"messenger"
 }
 
 
-        SEARCH
+
+SEARCH
 // Returns all accounts belonging to account id of the JWT Token used in the request
 
 GET beta/chatapp-accounts
 {
-  [
-    {
-    "date_created": 1504006950209,
-    "date_modified": 1504006950209,
-    "owner_type": "ACCOUNT",
-    "name": "Messenger 2018",
-    "external_id": "3018",
-    "owner_id": "nexmo-chatapp",
-    "username": null,
-    "password": null,
-    "encryption_key": null,
-    "access_token": null,
-    "refresh_token": null,
-    "provider_name": "messenger"
-    },
-    {
-    "date_created": 1504006950209,
-    "date_modified": 1504006950209,
-    "owner_type": "ACCOUNT",
-    "name": "viber 12345678",
-    "external_id": "12345678",
-    "owner_id": "nexmo-chatapp",
-    "username": null,
-    "password": null,
-    "encryption_key": null,
-    "access_token": null,
-    "refresh_token": null,
-    "provider_name": "viber"
-    }
-
-  ]
+   "count":2,
+   "_embedded":{
+      "item":[
+         {
+            "_links":{
+               "self":{
+                  "href":"/chatapp-accounts/messenger/3018"
+               }
+            },
+            "date_created":1504006950209,
+            "date_modified":1504006950209,
+            "owner_type":"ACCOUNT",
+            "name":"Messenger 3018",
+            "external_id":"3018",
+            "owner_id":"nexmo-chatapp",
+            "provider_name":"messenger"
+         },
+         {
+            "_links":{
+               "self":{
+                  "href":"/chatapp-accounts/viber/666"
+               }
+            },
+            "date_created":1504006950209,
+            "date_modified":1504006950209,
+            "owner_type":"ACCOUNT",
+            "name":"Viber 666",
+            "external_id":"666",
+            "owner_id":"nexmo-chatapp",
+            "provider_name":"viber"
+         }
+      ]
+   }
 }
+
 
 // Returns all messenger accounts belonging to account id of the JWT Token used in the request
 
 // Optional query parameter only used by admin: ?owner_id=account123 to retrieve all the accounts for a specific account
 
-// PUT
+// PATCH
 
 PUT beta/chatapp-accounts/messenger/3018
-Content-Type: application/x-www-form-urlencoded
+Content-Type: application/json
 {
   name=MyNewName,
   access_token=myNewValidToken
