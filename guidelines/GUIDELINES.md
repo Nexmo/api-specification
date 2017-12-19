@@ -296,7 +296,7 @@ Every API shall be described using the [OpenAPI Specification][oai].
 
 Versioning
 ----------
-Nexmo APIs will support versioning. The version is given in the URI.
+Nexmo APIs will support versioning. The version is given in the URI. The format for versioning is `HOST/VERSION/API` e.g. `api.nexmo.com/v1/calls` or `api.nexmo.com/v3/media`
 
 ### Deprecation
 When the decision has been taken to deprecate an API:
