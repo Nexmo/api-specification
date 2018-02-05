@@ -270,6 +270,10 @@ To keep things consistent, only the following additional keys are available:
 
 If you require an additional key, raise a pull request against this file with the new key and example value
 
+Error messages should be clear and instructive: as best as you can, tell the developer what they need to fix about their request to make it successful.
+
+Error messages MUST not reveal underlying implementation details (e.g. parser state, class/package names). This is both unhelpful (it tells the user what is wrong with the server's software rather than what is wrong with their request) and also potentially leaks valuable information that would enable a malicious actor to break the security of the system.
+
 ### Collection and Links
 - [HAL-JSON][hal] provides a consistent format supported by consumer and provider tooling. [Current Draft][hal-draft]
 - Allows resources to be embedded using an `_embedded` property (with a distinguishing key).
