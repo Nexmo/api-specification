@@ -1,6 +1,6 @@
 openapi: "3.0.0"
 info:
-  version: 1.0.3
+  version: 1.0.4
   title: SMS API
   description: With the Nexmo SMS API you can send SMS from your account and lookup messages both messages that you've sent as well as messages sent to your virtual numbers. Numbers are specified in E.164 format. More SMS API documentation is at <https://developer.nexmo.com/messaging/sms/overview>
   contact:
@@ -195,6 +195,10 @@ components:
           description: '**Advanced**: You can optionally include your own reference of up to 40 characters.'
           type: string
           example: my-personal-reference
+        account-ref:
+          description: '**Advanced**: An optional string used to identify separate accounts using the SMS endpoint for billing purposes. To use this feature, please email [support@nexmo.com](mailto:support@nexmo.com)'
+          type: string
+          example: customer1234
     Error:
       type: object
       properties:
@@ -336,6 +340,10 @@ components:
           type: string
           description: The ID of the network of the recipient
           example: '12345'
+        account-ref:
+          type: string
+          description: '**Advanced**: An optional string used to identify separate accounts using the SMS endpoint for billing purposes. To use this feature, please email [support@nexmo.com](mailto:support@nexmo.com)'
+          example: customer1234
     MessageXmlWrapper:
       type: object
       xml:
