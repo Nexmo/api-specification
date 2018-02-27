@@ -208,41 +208,67 @@ Generic, like a 200 used in most cases when no more specific code applies. More 
 ### Error Messages
 Any non 200 response body should follow a standard format. This should be consistent for all products, as an error may be product specific (invalid parameters) or global in nature (invalid authorization). The [HTTP Problem draft][http_problem], specifically the [JSON Object][http-problem-object] provide a familiar format used by other APIs that provides a set of standard properties while allowing additional properties when needed for a particular error condition.
 
-Stealing the the examples from the draft:
+This is the minimum required in a response:
+
 ```
 HTTP/1.1 403 Forbidden
 Content-Type: application/problem+json
 Content-Language: en
 {
     "type": "https://example.com/Error#out-of-credit",
-    "detail": "Your current balance is 30, but that costs 50.",
-    "instance": "/account/12345/msgs/abc",
-    "balance": 30,
-    "accounts": ["/account/12345",
-                 "/account/67890"]
+    "title": "You do not have enough credit",
+    "instance": "<trace_id>"
 }
 ```
+
+In some cases, you may wish to add additional detail to the error by adding a `detail` key
+
+```
+HTTP/1.1 403 Forbidden
+Content-Type: application/problem+json
+Content-Language: en
+{
+  "type": "https://example.com/Error#out-of-credit",
+  "title": "You do not have enough credit",
+  "detail": "Your current balance is 30, but that costs 50.",
+  "instance": "<trace_id>"
+}
+```
+
+If there are lots of errors, you may choose to return them as structured data. In this case, you would not return `detail`, but instead add a new key at the top level and put the data inside that (see below for a list of additional keys). In this case, we're returning a set of validation errors:
+
 ``` 
 HTTP/1.1 400 Bad Request
 Content-Type: application/problem+json
 Content-Language: en
 {
-   "type": "https://example.net/validation-error",
-   "title": "Your request parameters didn't validate.",
-   "invalid_parameters": [ {
-                         "name": "age",
-                         "reason": "must be a positive integer"
-                       },
-                       {
-                         "name": "color",
-                         "reason": "must be 'green', 'red' or 'blue'"}
-                     ]
+  "type": "https://example.net/validation-error",
+  "title": "Your request parameters didn't validate.",
+  "instance": "<trace_id>",
+  "invalid_parameters": [
+    {
+      "name": "age",
+      "reason": "must be a positive integer"
+    },
+    {
+      "name": "color",
+      "reason": "must be 'green', 'red' or 'blue'"
+    }
+  ]
 }
 ```
 
 Following REST patterns, `type` is both the identifier for the specific error (URI) and a link to human readable documentation about the problem.
 `type`, `title`, `status`, `detail`, and `instance` [are the standard properties][http-problem-properties], as the example shows additional properties can be added if relevant to the error.
 Note that this means a single response can not contain both a success and a failure (or even two failures that are significant enough to require two different high level problems).
+
+To keep things consistent, only the following additional keys are available:
+
+| Key                | Example value                                            |
+|--------------------|----------------------------------------------------------|
+| invalid_parameters | [{"name": "age","reason": "must be a positive integer"}] |
+
+If you require an additional key, raise a pull request against this file with the new key and example value
 
 ### Collection and Links
 - [HAL-JSON][hal] provides a consistent format supported by consumer and provider tooling. [Current Draft][hal-draft]
