@@ -35,6 +35,7 @@ tags:
 paths:
   /message:
     get:
+      summary: Search for Message
       description: >-
         Retrieve information about a single message that you sent using SMS API
         or that was received on your number.
@@ -61,6 +62,7 @@ paths:
                 $ref: '#/components/schemas/message'
   /messages:
     get:
+      summary: Search Messages
       description: >-
         Retrieve multiple messages that you sent using SMS API or were received
         on your number. Either `ids` or `date` and `number` are required.
@@ -71,14 +73,16 @@ paths:
         - name: ids
           in: query
           description: The list of up to 10 message IDs to search for.
-          example: 00A0B0C0
           style: form
           explode: true
           schema:
             type: array
             items:
               type: string
+              description: A message ID to search for.
+              example: 00A0B0C0
             minItems: 1
+            maxItems: 10
         - name: date
           in: query
           description: >-
@@ -106,6 +110,7 @@ paths:
                 $ref: '#/components/schemas/messages'
   /rejections:
     get:
+      summary: Search for Rejections
       description: >-
         Search for messages that have been rejected by Nexmo. Messages rejected
         by carrier do not appear.
