@@ -54,10 +54,10 @@ paths:
         '200':
           description: OK
           content:
-            application/json;charset=UTF-8:
+            application/json:
               schema:
                 $ref: '#/components/schemas/message'
-            application/xml;charset=UTF-8:
+            application/xml:
               schema:
                 $ref: '#/components/schemas/message'
   /messages:
@@ -102,10 +102,10 @@ paths:
         '200':
           description: OK
           content:
-            application/json;charset=UTF-8:
+            application/json:
               schema:
                 $ref: '#/components/schemas/messages'
-            application/xml;charset=UTF-8:
+            application/xml:
               schema:
                 $ref: '#/components/schemas/messages'
   /rejections:
@@ -139,10 +139,10 @@ paths:
         '200':
           description: OK
           content:
-            application/json;charset=UTF-8:
+            application/json:
               schema:
                 $ref: '#/components/schemas/rejections'
-            application/xml;charset=UTF-8:
+            application/xml:
               schema:
                 $ref: '#/components/schemas/rejections'
 components:
