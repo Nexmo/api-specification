@@ -60,6 +60,24 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/message'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/message'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/message'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/message'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/message'
   /messages:
     get:
       summary: Search Messages
@@ -108,6 +126,24 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/messages'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/messages'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/messages'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/messages'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/messages'
   /rejections:
     get:
       summary: Search for Rejections
@@ -138,6 +174,28 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/rejections'
+                  - $ref: '#/components/schemas/errorJson'
+            application/xml:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/rejections'
+                  - $ref: '#/components/schemas/errorXml'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rejections'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/rejections'
+        '401':
+          description: Unauthorized
           content:
             application/json:
               schema:
@@ -370,6 +428,8 @@ components:
         - '14'
         - '15'
         - '99'
+        - '400'
+        - '401'
       x-ms-enum:
         name: error-code
         values:
@@ -461,10 +521,52 @@ components:
               your message. To resolve this issue either email us at
               [support@nexmo.com](mailto:support@nexmo.com) or create a helpdesk
               ticket at [https://help.nexmo.com](https://help.nexmo.com).
+          - value: '400'
+            description: wrong parameters
+          - value: '401'
+            description: authentication failed
     error-code-label:
       type: string
       description: A text label to explain `error-code`.
       example: Delivered
+    errorJson:
+      type: object
+      properties:
+        type:
+          type: string
+          example: BAD_REQUEST
+        error_title:
+          type: string
+          example: Bad Request
+        invalid_parameters:
+          type: object
+          additionalProperties:
+            type: string
+            example: Is required.
+    errorXml:
+      type: object
+      xml:
+        name: error
+      properties:
+        type:
+          type: string
+          example: BAD_REQUEST
+        error_title:
+          type: string
+          example: Bad Request
+        invalid_parameters:
+          type: array
+          items:
+            type: object
+            xml:
+              name: entry
+            properties:
+              key:
+                type: string
+                example: date
+              value:
+                type: string
+                example: Is required.
   securitySchemes:
     apiKey:
       type: apiKey
