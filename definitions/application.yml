@@ -99,7 +99,7 @@ paths:
                 $ref: '#/components/schemas/application'
             application/xml:
               schema:
-                $ref: '#/components/schemas/application'
+                $ref: '#/components/schemas/applicationXml'
     get:
       summary: Retrieve all Applications
       description: >-
@@ -136,7 +136,7 @@ paths:
                 $ref: '#/components/schemas/applications'
             application/xml:
               schema:
-                $ref: '#/components/schemas/applications'
+                $ref: '#/components/schemas/applicationsXml'
   '/{app_id}':
     get:
       summary: Retrieve Application
@@ -155,7 +155,7 @@ paths:
                 $ref: '#/components/schemas/application'
             application/xml:
               schema:
-                $ref: '#/components/schemas/application'
+                $ref: '#/components/schemas/applicationXml'
     put:
       summary: Update Application
       description: You use a `PUT` request to update an existing application.
@@ -232,7 +232,7 @@ paths:
                 $ref: '#/components/schemas/application'
             application/xml:
               schema:
-                $ref: '#/components/schemas/application'
+                $ref: '#/components/schemas/applicationXml'
     delete:
       summary: Destroy Application
       description: You use a `DELETE` request to delete a single application.
@@ -283,11 +283,103 @@ components:
             format: url
             description: The link URL.
             example: /v1/applications/aaaaaaaa-bbbb-cccc-dddd-0123456789ab
+    voiceXml:
+      description: >-
+        The Nexmo product or products that you access with this application.
+        Currently only `voice` is supported.
+      type: object
+      properties:
+        webhooks:
+          $ref: '#/components/schemas/voiceBase/properties/webhooks'
+        keys:
+          $ref: '#/components/schemas/voiceBase/properties/keys'
+    voiceBase:
+      description: >-
+        The Nexmo product or products that you access with this application.
+        Currently only `voice` is supported.
+      type: object
+      properties:
+        webhooks:
+          type: array
+          items:
+            type: object
+            required:
+              - endpoint_type
+              - endpoint
+              - http_method
+            properties:
+              endpoint_type:
+                type: string
+                enum:
+                  - answer_url
+                  - event_url
+                example: answer_url
+              endpoint:
+                type: string
+                description: >-
+                  * `answer_url`: The URL where your webhook delivers the Nexmo
+                  Call Control Object that governs this call. As soon as your
+                  user answers a call Nexmo makes a request to answer_url. *
+                  `event_url`: Nexmo sends event information asynchronously to
+                  this URL when status changes.
+                format: url
+                example: 'https://example.com'
+              http_method:
+                type: string
+                description: >-
+                  The HTTP method used to send event information to the
+                  event_url or answer_url.
+                enum:
+                  - GET
+                  - POST
+                example: GET
+        keys:
+          type: object
+          required:
+            - public_key
+          properties:
+            public_key:
+              description: >-
+                The public key used to validate the
+                [JWT](https://en.wikipedia.org/wiki/JSON_Web_Token).
+              type: string
+              example: PUBLIC_KEY
+            private_key:
+              description: >-
+                The private key you use to generate the JSON Web Token (JWT)
+                that authenticates your requests to Voice API.
+              type: string
+              example: PRIVATE_KEY
+        _links:
+          $ref: '#/components/schemas/links'
     application:
       type: object
       required:
         - name
         - voice
+      properties:
+        id:
+          $ref: '#/components/schemas/applicationBase/properties/id'
+        name:
+          $ref: '#/components/schemas/applicationBase/properties/name'
+        voice:
+          $ref: '#/components/schemas/voiceBase'
+    applicationXml:
+      type: object
+      required:
+        - name
+        - voice
+      xml:
+        name: application
+      properties:
+        id:
+          $ref: '#/components/schemas/applicationBase/properties/id'
+        name:
+          $ref: '#/components/schemas/applicationBase/properties/name'
+        voice:
+          $ref: '#/components/schemas/voiceXml'
+    applicationBase:
+      type: object
       properties:
         id:
           description: The ID allocated to your application by Nexmo.
@@ -297,65 +389,6 @@ components:
           description: The name of your application
           type: string
           example: My Application
-        voice:
-          description: >-
-            The Nexmo product or products that you access with this application.
-            Currently only `voice` is supported.
-          type: object
-          properties:
-            webhooks:
-              type: array
-              items:
-                type: object
-                required:
-                  - endpoint_type
-                  - endpoint
-                  - http_method
-                properties:
-                  endpoint_type:
-                    type: string
-                    enum:
-                      - answer_url
-                      - event_url
-                    example: answer_url
-                  endpoint:
-                    type: string
-                    description: >-
-                      * `answer_url`: The URL where your webhook delivers the
-                      Nexmo Call Control Object that governs this call. As soon
-                      as your user answers a call Nexmo makes a request to
-                      answer_url. * `event_url`: Nexmo sends event information
-                      asynchronously to this URL when status changes.
-                    format: url
-                    example: 'https://example.com'
-                  http_method:
-                    type: string
-                    description: >-
-                      The HTTP method used to send event information to the
-                      event_url or answer_url.
-                    enum:
-                      - GET
-                      - POST
-                    example: GET
-            keys:
-              type: object
-              required:
-                - public_key
-              properties:
-                public_key:
-                  description: >-
-                    The public key used to validate the
-                    [JWT](https://en.wikipedia.org/wiki/JSON_Web_Token).
-                  type: string
-                  example: PUBLIC_KEY
-                private_key:
-                  description: >-
-                    The private key you use to generate the JSON Web Token (JWT)
-                    that authenticates your requests to Voice API.
-                  type: string
-                  example: PRIVATE_KEY
-            _links:
-              $ref: '#/components/schemas/links'
     applications:
       type: object
       required:
@@ -363,6 +396,37 @@ components:
         - page_size
         - page_index
         - _embedded
+        - _links
+      properties:
+        count:
+          $ref: '#/components/schemas/applicationsBase/properties/count'
+        page_size:
+          $ref: '#/components/schemas/applicationsBase/properties/page_size'
+        page_index:
+          $ref: '#/components/schemas/applicationsBase/properties/page_index'
+        _embedded:
+          $ref: '#/components/schemas/applicationsBase/properties/_embedded'
+        _links:
+          $ref: '#/components/schemas/links'
+    applicationsXml:
+      type: object
+      required:
+        - count
+        - page_size
+        - page_index
+        - _embedded
+      xml:
+        name: applications
+      properties:
+        count:
+          $ref: '#/components/schemas/applicationsBase/properties/count'
+        page_size:
+          $ref: '#/components/schemas/applicationsBase/properties/page_size'
+        page_index:
+          $ref: '#/components/schemas/applicationsBase/properties/page_index'
+        voice:
+          $ref: '#/components/schemas/voiceXml'
+    applicationsBase:
       properties:
         count:
           description: The number of items associated with your account.
@@ -393,5 +457,3 @@ components:
                 is not included in the application information.
               items:
                 $ref: '#/components/schemas/application'
-        _links:
-          $ref: '#/components/schemas/links'
