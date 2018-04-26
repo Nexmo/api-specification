@@ -56,28 +56,32 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/message'
+                oneOf:
+                  - $ref: '#/components/schemas/messageBase'
+                  - $ref: '#/components/schemas/messageMT'
             application/xml:
               schema:
-                $ref: '#/components/schemas/message'
+                oneOf:
+                  - $ref: '#/components/schemas/messageBase'
+                  - $ref: '#/components/schemas/messageMT'
         '400':
           description: Bad request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/message'
+                $ref: '#/components/schemas/errorJson'
             application/xml:
               schema:
-                $ref: '#/components/schemas/message'
+                $ref: '#/components/schemas/errorXml'
         '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/message'
+                $ref: '#/components/schemas/error'
             application/xml:
               schema:
-                $ref: '#/components/schemas/message'
+                $ref: '#/components/schemas/error'
   /messages:
     get:
       summary: Search Messages
@@ -131,19 +135,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/messages'
+                $ref: '#/components/schemas/errorJson'
             application/xml:
               schema:
-                $ref: '#/components/schemas/messages'
+                $ref: '#/components/schemas/errorXml'
         '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/messages'
+                $ref: '#/components/schemas/error'
             application/xml:
               schema:
-                $ref: '#/components/schemas/messages'
+                $ref: '#/components/schemas/error'
   /rejections:
     get:
       summary: Search for Rejections
@@ -152,7 +156,7 @@ paths:
         by carrier do not appear.
       operationId: searchRejections
       tags:
-        - Search Rejections
+        - Retrieve Rejected
       parameters:
         - name: date
           in: query
@@ -177,36 +181,103 @@ paths:
           content:
             application/json:
               schema:
-                oneOf:
-                  - $ref: '#/components/schemas/rejections'
-                  - $ref: '#/components/schemas/errorJson'
+                $ref: '#/components/schemas/rejections'
             application/xml:
               schema:
-                oneOf:
-                  - $ref: '#/components/schemas/rejections'
-                  - $ref: '#/components/schemas/errorXml'
+                $ref: '#/components/schemas/rejections'
         '400':
           description: Bad request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/rejections'
+                $ref: '#/components/schemas/errorJson'
             application/xml:
               schema:
-                $ref: '#/components/schemas/rejections'
+                $ref: '#/components/schemas/errorXml'
         '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/rejections'
+                $ref: '#/components/schemas/error'
             application/xml:
               schema:
-                $ref: '#/components/schemas/rejections'
+                $ref: '#/components/schemas/error'
 components:
   schemas:
-    message:
+    messageBase:
       type: object
+      required:
+        - type
+        - message-id
+        - account-id
+        - network
+        - from
+        - to
+        - body
+        - date-received
+      xml:
+        name: message
+      properties:
+        type:
+          type: string
+          description: >-
+            The message type. `MT` (mobile terminated or outbound) or `MO`
+            (mobile originated or inbound)
+          example: MO
+          enum:
+            - MO
+        message-id:
+          type: string
+          description: The id of the message you sent.
+          example: 0A00000000ABCD00
+        account-id:
+          type: string
+          description: Your API Key.
+          example: API_KEY
+        date-received:
+          type: string
+          description: >-
+            The date and time at UTC+0 when Platform received your request in
+            the following format: `YYYY-MM-DD HH:MM:SS`.
+          example: '2020-01-01 12:00:00'
+        network:
+          type: string
+          description: >-
+            The [MCCMNC](https://en.wikipedia.org/wiki/Mobile_Network_Code) for
+            the carrier who delivered the message.
+          example: '012345'
+        from:
+          type: string
+          description: >-
+            The sender ID the message was sent from. Could be a phone number or
+            name.
+          example: Nexmo
+        to:
+          type: string
+          description: The phone number the message was sent to.
+          example: 447700900000
+        body:
+          type: string
+          description: The body of the message.
+          example: A text message sent using the Nexmo SMS API
+    messageMT:
+      type: object
+      required:
+        - type
+        - message-id
+        - account-id
+        - network
+        - from
+        - to
+        - body
+        - date-received
+        - price
+        - final-status
+        - date-closed
+        - latency
+      xml:
+        name: message
       properties:
         type:
           type: string
@@ -216,29 +287,20 @@ components:
           example: MT
           enum:
             - MT
-            - MO
         message-id:
-          type: string
-          description: The id of the message you sent.
-          example: 0A00000000ABCD00
+          $ref: '#/components/schemas/messageBase/properties/message-id'
         account-id:
-          $ref: '#/components/schemas/account-id'
+          $ref: '#/components/schemas/messageBase/properties/account-id'
         network:
-          type: string
-          description: >-
-            The [MCCMNC](https://en.wikipedia.org/wiki/Mobile_Network_Code) for
-            the carrier who delivered the message.
-          example: '012345'
+          $ref: '#/components/schemas/messageBase/properties/network'
         from:
-          $ref: '#/components/schemas/from'
+          $ref: '#/components/schemas/messageBase/properties/from'
         to:
-          $ref: '#/components/schemas/to'
+          $ref: '#/components/schemas/messageBase/properties/to'
         body:
-          type: string
-          description: The body of the message.
-          example: A text message sent using the Nexmo SMS API
+          $ref: '#/components/schemas/messageBase/properties/body'
         date-received:
-          $ref: '#/components/schemas/date-received'
+          $ref: '#/components/schemas/messageBase/properties/date-received'
         price:
           type: number
           description: Price in Euros for a MT message.
@@ -328,15 +390,6 @@ components:
           $ref: '#/components/schemas/error-code'
         error-code-label:
           $ref: '#/components/schemas/error-code-label'
-      required:
-        - type
-        - message-id
-        - account-id
-        - network
-        - from
-        - to
-        - body
-        - date-received
     messages:
       type: object
       properties:
@@ -348,10 +401,11 @@ components:
           xml:
             wrapped: true
           items:
-            allOf:
-              - $ref: '#/components/schemas/message'
-              - xml:
-                  name: message
+            xml:
+              name: message
+            oneOf:
+              - $ref: '#/components/schemas/messageBase'
+              - $ref: '#/components/schemas/messageMT'
     rejections:
       type: object
       properties:
@@ -366,13 +420,13 @@ components:
             type: object
             properties:
               account-id:
-                $ref: '#/components/schemas/account-id'
+                $ref: '#/components/schemas/messageBase/properties/account-id'
               from:
-                $ref: '#/components/schemas/from'
+                $ref: '#/components/schemas/messageBase/properties/from'
               to:
-                $ref: '#/components/schemas/to'
+                $ref: '#/components/schemas/messageBase/properties/to'
               date-received:
-                $ref: '#/components/schemas/date-received'
+                $ref: '#/components/schemas/messageBase/properties/date-received'
               error-code:
                 $ref: '#/components/schemas/error-code'
               error-code-label:
@@ -386,26 +440,6 @@ components:
               - date-received
               - error-code
               - error-code-label
-    account-id:
-      type: string
-      description: Your API Key.
-      example: API_KEY
-    from:
-      type: string
-      description: >-
-        The sender ID the message was sent from. Could be a phone number or
-        name.
-      example: Nexmo
-    to:
-      type: string
-      description: The phone number the message was sent to.
-      example: 447700900000
-    date-received:
-      type: string
-      description: >-
-        The date and time at UTC+0 when Platform received your request in the
-        following format: `YYYY-MM-DD HH:MM:SS`.
-      example: '2020-01-01 12:00:00'
     error-code:
       type: string
       description: Will be set if the `status` is not `accepted`.
@@ -529,6 +563,13 @@ components:
       type: string
       description: A text label to explain `error-code`.
       example: Delivered
+    error:
+      type: object
+      properties:
+        error-code:
+          $ref: '#/components/schemas/error-code'
+        error-code-label:
+          $ref: '#/components/schemas/error-code-label'
     errorJson:
       type: object
       properties:
