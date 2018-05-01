@@ -1,0 +1,165 @@
+openapi: 3.0.0
+info:
+  title: Nexmo Conversion API
+  version: 1.0.0
+  description: >-
+    The Conversion API allows you to tell Nexmo about the reliability of your
+    2FA communications. Sending conversion data back to us means that Nexmo can
+    deliver messages faster and more reliably.
+
+    The conversion data you send us is confidential: Nexmo does not share it
+    with third parties.
+
+    In order to identify the carriers who provide the best performance, Nexmo
+    continually tests the routes we use to deliver SMS and voice calls. Using
+    Adaptive Routing™, Nexmo actively reroutes messages through different
+    carrier routes and ensures faster and more reliable delivery for your
+    messages. The route choice is made using millions of real-time conversion
+    data points.
+  contact:
+    name: Nexmo.com
+    email: devrel@nexmo.com
+    url: 'https://developer.nexmo.com/'
+    x-twitter: Nexmo
+  termsOfService: 'https://www.nexmo.com/terms-of-use'
+  license:
+    name: The MIT License (MIT)
+    url: 'https://opensource.org/licenses/MIT'
+  x-logo:
+    url: 'https://twitter.com/Nexmo/profile_image?size=original'
+  x-apiClientRegistration: 'https://dashboard.nexmo.com/sign-up'
+servers:
+  - url: 'https://api.nexmo.com/conversions'
+externalDocs:
+  url: 'https://developer.nexmo.com/api/conversion'
+  x-sha1: 8ad8bc6b0c51af4ca458c13cfced6124783ab113
+security:
+  - apiKey: []
+    apiSecret: []
+  - apiKey: []
+    apiSig: []
+tags:
+  - name: SMS Conversion
+    description: SMS Conversion Request
+  - name: Voice Conversion
+    description: Voice Conversion Request
+paths:
+  /sms:
+    post:
+      operationId: smsConversion
+      summary: Tell Nexmo if your SMS message was successful
+      description: >-
+        Send a Conversion API request with information about the SMS message
+        identified by `message-id`. Nexmo uses your conversion data and internal
+        information about `message-id` to help improve our routing of messages
+        in the future.
+      tags:
+        - SMS Conversion
+      parameters:
+        - $ref: '#/components/parameters/message-id'
+        - $ref: '#/components/parameters/delivered'
+        - $ref: '#/components/parameters/timestamp'
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Wrong credentials
+        '420':
+          description: Invalid parameters
+        '422':
+          description: Unprocessable Entity
+        '423':
+          description: Locked
+  /voice:
+    post:
+      operationId: voiceConversion
+      summary: Tell Nexmo if your voice call was successful
+      description: >-
+        Send a Conversion API request with information about the Call or
+        Text-To-Speech identified by `message-id`. Nexmo uses your conversion
+        data and internal information about `message-id` to help improve our
+        routing of messages in the future.
+      tags:
+        - Voice Conversion
+      parameters:
+        - $ref: '#/components/parameters/message-id'
+        - $ref: '#/components/parameters/delivered'
+        - $ref: '#/components/parameters/timestamp'
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Wrong credentials
+        '420':
+          description: Invalid parameters
+        '422':
+          description: Unprocessable Entity
+        '423':
+          description: Locked
+components:
+  parameters:
+    message-id:
+      name: message-id
+      required: true
+      in: query
+      description: >-
+        The ID you receive in the response to a request. * From the Verify API -
+        use the `event_id` in the response to Verify Check. * From the SMS API -
+        use the `message-id` * From the Text-To-Speech API - use the `call-id` *
+        From the Text-To-Speech-Prompt API - use the `call-id`
+      schema:
+        type: string
+      example: 00A0B0C0
+    delivered:
+      name: delivered
+      required: true
+      in: query
+      description: >-
+        Set to _true_ if your user replied to the message you sent. Otherwise,
+        set to _false_.
+
+        **Note**: for curl, use 0 and 1.
+      schema:
+        enum:
+          - true
+          - false
+          - 0
+          - 1
+      example: true
+    timestamp:
+      name: timestamp
+      required: true
+      in: query
+      description: >-
+        When the user completed your call-to-action (e.g. visited your website,
+        installed your app) in
+        [UTC±00:00](https://en.wikipedia.org/wiki/UTC%C2%B100:00) format:
+        _yyyy-MM-dd HH:mm:ss_.
+
+        If you do not set this parameter, Nexmo uses the time it receives this
+        request.
+      schema:
+        type: string
+      example: '2020-01-01 12:00:00'
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      name: api_key
+      in: query
+      description: >-
+        You can find your API key in your [account
+        overview](https://dashboard.nexmo.com/account-overview)
+    apiSecret:
+      type: apiKey
+      name: api_secret
+      in: query
+      description: >-
+        You can find your API secret in your [account
+        overview](https://dashboard.nexmo.com/account-overview)
+    apiSig:
+      type: apiKey
+      name: sig
+      in: query
+      description: >-
+        The hash of the request parameters in alphabetical order, a timestamp
+        and the signature secret. For example: `sig=SIGNATURE`
