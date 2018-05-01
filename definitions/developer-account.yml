@@ -1,0 +1,194 @@
+openapi: 3.0.0
+info:
+  title: Nexmo Developer Account API
+  version: 1.0.0
+  description: >-
+    The Account API allows you to retrieve your balance, change settings on your
+    account, and top-up your account.
+  contact:
+    name: Nexmo.com
+    email: devrel@nexmo.com
+    url: 'https://developer.nexmo.com/'
+    x-twitter: Nexmo
+  termsOfService: 'https://www.nexmo.com/terms-of-use'
+  license:
+    name: The MIT License (MIT)
+    url: 'https://opensource.org/licenses/MIT'
+  x-logo:
+    url: 'https://twitter.com/Nexmo/profile_image?size=original'
+  x-apiClientRegistration: 'https://dashboard.nexmo.com/sign-up'
+servers:
+  - url: 'https://rest.nexmo.com/account'
+externalDocs:
+  url: 'https://developer.nexmo.com/api/developer/account'
+  x-sha1: 2fb8217e19c7708e6cd87fbfc85facc95ee72ae9
+security:
+  - apiKey: []
+    apiSecret: []
+tags:
+  - name: Get Balance
+    description: Retrieve the current balance of your Nexmo account.
+  - name: Settings
+    description: >-
+      Modify settings for your account including callback URLs and your API
+      secret.
+  - name: Top Up
+    description: Top-up your account.
+paths:
+  /get-balance:
+    get:
+      operationId: getBalance
+      summary: Retrieve the current balance of your Nexmo account
+      description: Retrieve the current balance of your Nexmo account
+      tags:
+        - Get Balance
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/accountBalance'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/accountBalance'
+        '401':
+          description: Unauthorized
+  /settings:
+    post:
+      operationId: updateSettings
+      summary: >-
+        Modify settings for your account including callback URLs and your API
+        secret.
+      description: >-
+        Modify settings for your account including callback URLs and your API
+        secret.
+      tags:
+        - Settings
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                moCallBackUrl:
+                  description: >-
+                    An URL encoded URI to the webhook endpoint that handles
+                    inbound messages. Your webhook endpoint must be active
+                    before you make this request, Nexmo makes a [GET] request to
+                    your endpoint and checks that it returns a `200 OK`
+                    response. Set to empty string to clear.
+                  type: string
+                  format: url
+                  example: 'https://example.com/mo'
+                drCallBackUrl:
+                  description: >-
+                    An URL encoded URI to the webhook endpoint that handles
+                    delivery receipts (DLR). Your webhook endpoint must be
+                    active before you make this request, Nexmo makes a [GET]
+                    request to your endpoint and checks that it returns a `200
+                    OK` response. Set to empty string to clear.
+                  type: string
+                  format: url
+                  example: 'https://example.com/dr'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/account-settings'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/account-settings'
+        '401':
+          description: Unauthorized
+  /top-up:
+    post:
+      operationId: topupAccount
+      summary: Top-up your account.
+      description: >-
+        You can top-up your account using Developer API when you have enabled
+        auto-reload in Dashboard. The amount added to your account at each top
+        up is based on your initial reload-enabled payment. That is, if you
+        topped up `€50.00` when you enabled auto-reload, `€50.00` is
+        automatically credited to your account when your balance reaches
+        `€20.00`.
+
+        Your account balance is checked every 6 minutes. If you are sending a
+        lot of messages, use this API to manage reloads when remaining-balance
+        in the response goes below a specific amount.
+      tags:
+        - Top Up
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                trx:
+                  type: string
+                  description: >-
+                    The ID associated with your original auto-reload
+                    transaction.
+                  example: 00X123456Y7890123Z
+              required:
+                - trx
+      responses:
+        '200':
+          description: Top up successful
+        '401':
+          description: You have not setup auto-reload in Dashboard
+        '420':
+          description: Top up failed
+components:
+  schemas:
+    accountBalance:
+      type: object
+      properties:
+        value:
+          type: number
+          description: The account's remaining balance in euros.
+          example: 3.14159
+        autoReload:
+          type: boolean
+          description: A boolean indicating if autoReload is enabled on your account.
+          example: false
+    account-settings:
+      type: object
+      properties:
+        mo-callback-url:
+          type: string
+          format: url
+          description: The current or updated inbound message URI
+          example: 'https://example.com/mo'
+        dr-callback-url:
+          type: string
+          format: url
+          description: The current or updated delivery receipt URI
+          example: 'https://example.com/dr'
+        max-outbound-request:
+          type: integer
+          description: The maximum amount of outbound messages per second.
+          example: 30
+        max-inbound-request:
+          type: integer
+          description: The maximum amount of inbound messages per second.
+          example: 30
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      name: api_key
+      in: query
+      description: >-
+        You can find your API key in your [account
+        overview](https://dashboard.nexmo.com/account-overview)
+    apiSecret:
+      type: apiKey
+      name: api_secret
+      in: query
+      description: >-
+        You can find your API secret in your [account
+        overview](https://dashboard.nexmo.com/account-overview)
