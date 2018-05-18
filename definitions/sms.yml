@@ -395,29 +395,7 @@ components:
           example: '2001011400'
         err-code:
           type: string
-          description: |
-            The status of the request. Will be a non `0` value if there has been an error.
-
-            Code | Description
-            -- | --
-            `0` | Delivered.
-            `1` | ^[Unknown](Either: An unknown error was received from the carrier who tried to send this this message. Depending on the carrier, that to is unknown. When you see this error, and status is rejected, always check if to in your request was valid.)
-            `2` | ^[Absent Subscriber Temporary](This message was not delivered because to was temporarily unavailable. For example, the handset used for to was out of coverage or switched off. This is a temporary failure, retry later for a positive result.)
-            `3` | ^[Absent Subscriber Permanent](To is no longer active, you should remove this phone number from your database.)
-            `4` | ^[Call barred by user](You should remove this phone number from your database. If the user wants to receive messages from you, they need to contact their carrier directly.)
-            `5` | ^[Portability Error](There is an issue after the user has changed carrier for to. If the user wants to receive messages from you, they need to contact their carrier directly.)
-            `6` | ^[Anti-Spam Rejection](Carriers often apply restrictions that block messages following different criteria. For example, on SenderID or message content.)
-            `7` | ^[Handset Busy](The handset associated with to was not available when this message was sent. If status is Failed, this is a temporary failure; retry later for a positive result. If status is Accepted, this message has is in the retry scheme and will be resent until it expires in 24-48 hours.)
-            `8` | ^[Network Error](A network failure while sending your message. This is a temporary failure, retry later for a positive result.)
-            `9` | ^[Illegal Number](You tried to send a message to a blacklisted phone number. That is, the user has already sent a STOP opt-out message and no longer wishes to receive messages from you.)
-            `10` | ^[Invalid Message](The message could not be sent because one of the parameters in the message was incorrect. For example, incorrect type or udh.)
-            `11` | ^[Unroutable](The chosen route to send your message is not available. This is because the phone number is either currently on an unsupported network or on a pre-paid or reseller account that could not receive a message sent by from. To resolve this issue either email us at support@nexmo.com or create a helpdesk ticket at https://help.nexmo.com.)
-            `12` | ^[Destination unreachable](The message could not be delivered to the phone number.)
-            `13` | ^[Subscriber Age Restriction](The carrier blocked this message because the content is not suitable for to based on age restrictions.)
-            `14` | ^[Number Blocked by Carrier](The carrier blocked this message. This could be due to several reasons. For example, to's plan does not include SMS or the account is suspended.)
-            `15` | ^[Pre-Paid](Insufficent funds. To’s pre-paid account does not have enough credit to receive the message.)
-            `99` | ^[General Error](There is a problem with the chosen route to send your message. To resolve this issue either email us at support@nexmo.com or create a helpdesk ticket at https://help.nexmo.com.)
-
+          description: The status of the request. Will be a non `0` value if there has been an error. See the [SMS error reference](/api-errors/sms) for more details
           example: '0'
         message-timestamp:
           description: The time when Nexmo started to push this Delivery Receipt to your webhook endpoint.
@@ -433,3 +411,71 @@ x-groups:
         $ref: '#/components/schemas/SMS'
       text/xml:
         $ref: '#/components/schemas/MessageXmlWrapper'
+
+x-errors:
+  1:
+    description: An unknown error was received from the carrier who tried to send this this message. Depending on the carrier, that `to` is unknown.
+    resolution: When you see this error, and status is rejected, always check if `to` in your request was valid.
+
+  2:
+    description: This message was not delivered because `to` was temporarily unavailable. For example, the handset used for to was out of coverage or switched off.
+    resolution: This is a temporary failure, retry later for a positive result.
+
+  3:
+    description: The `to` number is no longer active
+    resolution: Remove this phone number from your database.
+
+  4:
+    description: Call barred by user
+    resolution: You should remove this phone number from your database. If the user wants to receive messages from you, they need to contact their carrier directly.
+
+  5:
+    description: Portability error. There is an issue after the user has changed carrier for `to`
+    resolution: If the user wants to receive messages from you, they need to contact their carrier directly.
+
+  6:
+    description: Anti-Spam rejection. Carriers often apply restrictions that block messages following different criteria. For example, on SenderID or message content
+    resolution: If you believe that your message is being blocked incorrectly, either email us at support@nexmo.com or create a helpdesk ticket at https://help.nexmo.com
+
+  7:
+    description: Handset busy. The handset associated with to was not available when this message was sent. 
+    resolution: If status is Failed, this is a temporary failure; retry later for a positive result. If status is Accepted, this message has is in the retry scheme and will be resent until it expires in 24-48 hours.
+
+  8:
+    description: Network error. A network failure occured while sending your message
+    resolution: This is a temporary failure, retry later for a positive result.
+
+  9:
+    description: Insufficent funds. `To`’s pre-paid account does not have enough credit to receive the message.
+    resolution: The `to` number must top up, then you can retry sending the message
+
+  10:
+    description: The message could not be sent because one of the parameters in the message was incorrect. For example, incorrect type or udh.
+    resolution: Check your outbound request and try again
+    link:
+      text: View API reference
+      url: /api/sms#send-an-sms
+
+  11:
+    description: The chosen route to send your message is not available. This is because the phone number is either currently on an unsupported network or on a pre-paid or reseller account that could not receive a message sent by `from`.
+    resolution: Either email us at support@nexmo.com or create a helpdesk ticket at https://help.nexmo.com
+
+  12:
+    description: Desintation unreachable. The message could not be delivered to the phone number.
+    resolution: Check that your `to` number is valid. Make sure to use the country prefix (e.g. `44` for the UK) and not a `0`
+
+  13:
+    description: The carrier blocked this message because the content is not suitable for `to` based on age restrictions.)
+    resolution: N/A
+
+  14:
+    description: The carrier blocked this message. This could be due to several reasons. For example, `to`'s plan does not include SMS or the account is suspended.
+    resolution: N/A
+
+  15:
+    description: You tried to send a message to a blacklisted phone number. That is, the user has already sent a STOP opt-out message and no longer wishes to receive messages from you.
+    resolution: N/A
+
+  99:
+    description: There is a problem with the chosen route to send your message
+    resolution: To resolve this issue either email us at support@nexmo.com or create a helpdesk ticket at https://help.nexmo.com.
