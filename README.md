@@ -51,13 +51,13 @@ These API Specifications can be made available as packages. See below for the cu
 
 ##### Install the Gem
 
-```
+```sh
 $ gem install nexmo_api_specification
 ```
 
 or add it to your GemFile and run `bundle install`
 
-```
+```ruby
 gem 'nexmo_api_specification'
 ```
 
@@ -78,19 +78,19 @@ Contributions are welcome, please follow [GitHub Flow](https://guides.github.com
 
 Clone the repo and navigate to its directory:
 
-```
+```sh
 $ cd api-specification
 ```
 
 Bump the latest version in `api-specification/lib/nexmo_api_specification/version.rb`:
 
-```
-//old
+```ruby
+# old
 module OasParser
   VERSION = '1.0.0'.freeze
 end
 
-//new
+# new
 module OasParser
   VERSION = '1.1.0'.freeze
 end
@@ -98,7 +98,7 @@ end
 
 Build the gem:
 
-```
+```sh
 $ gem build nexmo_api_specification.gemspec
 ```
 
@@ -106,7 +106,7 @@ _This will create a `nexmo_api_specification-1.1.0.gem` file._
 
 Push the gem to rubygems.org:
 
-```
+```sh
 $ gem push nexmo_api_specification-1.1.0.gem
 ```
 
