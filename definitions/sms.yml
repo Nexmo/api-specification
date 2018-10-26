@@ -321,7 +321,7 @@ components:
             name: messageId
         status:
           type: string
-          description: The status of the message
+          description: The status of the message. See [Troubleshooting Failed SMS](/messaging/sms/guides/troubleshooting-sms).
           example: '0'
         remaining-balance:
           type: string
