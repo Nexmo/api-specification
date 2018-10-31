@@ -2,7 +2,7 @@
 
 Provides Open API Specification 3 definitions for Nexmo APIs.
 
-These definitions provide a single point of truth that can be used end-to-end can we used to:
+These definitions provide a single point of truth that can be used end-to-end:
 
 - **Planning** Shared during product discussions for planning API functionality
 - **Implementation** Inform engineering during development
@@ -41,7 +41,7 @@ These definitions provide a single point of truth that can be used end-to-end ca
 - [Swagger 2.0 to OAS3 converter](https://openapi-converter.herokuapp.com/) - Unofficial converter that can be used to convert existing Swagger 2.0 definitions to OAS3 definitions.
 - [Swagger Codegen](https://github.com/swagger-api/swagger-codegen) - A template-driven engine to generate documentation, API clients and server stubs in different languages by parsing OAS3 definitions.
 - [Swagger Parser](https://github.com/swagger-api/swagger-parser) - Standalone library for parsing OAS3 definitions from Java
-- [Nexmo Developer](https://github.com/Nexmo/nexmo-developer) - Nexmo Developer has it's own OAS3 definition parser and API reference UI.
+- [Nexmo Developer](https://github.com/Nexmo/nexmo-developer) - Nexmo Developer has its own OAS3 definition parser and API reference UI.
 
 ## Consuming
 
