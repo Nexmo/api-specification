@@ -645,7 +645,7 @@ components:
       type: string
       title: The State of the call
       example: started
-      description: The status of the call. [See possible values](/voice/voice-api/guides/call-flow#event-objects)
+      description: The status of the call. [See possible values](https://developer.nexmo.com/voice/voice-api/guides/call-flow#event-objects)
 
     EndpointPhone:
       type: object
@@ -662,7 +662,7 @@ components:
         number:
           "$ref": "#/components/schemas/AddressE164"
         dtmfAnswer:
-          description: Provide [DTMF digits](/voice/voice-api/guides/dtmf) to send when the call is answered
+          description: Provide [DTMF digits](https://developer.nexmo.com/voice/voice-api/guides/dtmf) to send when the call is answered
           type: string
           example: p*123#
     EndpointWebsocket:

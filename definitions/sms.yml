@@ -47,7 +47,7 @@ paths:
             minLength: 16
             maxLength: 16
         - name: sig
-          description: The hash of the request parameters in alphabetical order, a timestamp and the signature secret. See [Signing Messages](/concepts/guides/signing-messages) for more details.
+          description: The hash of the request parameters in alphabetical order, a timestamp and the signature secret. See [Signing Messages](https://developer.nexmo.com/concepts/guides/signing-messages) for more details.
           required: false
           in: query
           schema:
@@ -78,7 +78,7 @@ paths:
               summary: Delivery Receipt
               operationId: delivery-receipt
               x-example-path: '/webhooks/delivery-receipt'
-              description: The following are parameters sent in as a [delivery receipt](/messaging/sms/guides/delivery-receipts) callback. You can subscribe to [webhooks](/concepts/guides/webhooks) to receive notification when the delivery status of an SMS that you have sent with Nexmo changes.
+              description: The following are parameters sent in as a [delivery receipt](https://developer.nexmo.com/messaging/sms/guides/delivery-receipts) callback. You can subscribe to [webhooks](https://developer.nexmo.com/concepts/guides/webhooks) to receive notification when the delivery status of an SMS that you have sent with Nexmo changes.
               requestBody:
                 required: true
                 content:
@@ -96,7 +96,7 @@ x-webhooks:
         operationId: inbound-sms
         x-example-path: '/webhooks/inbound-sms'
         description: |
-          If you rent one or more virtual numbers from Nexmo, inbound messages to that number are sent to your [webhook endpoint](/concepts/guides/webhooks).
+          If you rent one or more virtual numbers from Nexmo, inbound messages to that number are sent to your [webhook endpoint](https://developer.nexmo.com/concepts/guides/webhooks).
 
           When you receive an inbound message, you must send a 2xx response. If you do not send a 2xx response Nexmo will resend the inbound message for the next 24 hours.
         requestBody:
@@ -117,7 +117,7 @@ components:
         - to
       properties:
         from:
-          description: The name or number the message should be sent from. Alphanumeric senderID's are not supported in all countries, see [Global Messaging](/messaging/sms/guides/global-messaging#country-specific-features) for more details. If alphanumeric, spaces will be ignored. Numbers are specified in E.164 format.
+          description: The name or number the message should be sent from. Alphanumeric senderID's are not supported in all countries, see [Global Messaging](https://developer.nexmo.com/messaging/sms/guides/global-messaging#country-specific-features) for more details. If alphanumeric, spaces will be ignored. Numbers are specified in E.164 format.
           type: string
           example: 'AcmeInc'
         to:
@@ -139,7 +139,7 @@ components:
           minimum: 20000
           maximum: 604800000
         status-report-req:
-          description: '**Advanced**: Boolean indicating if you like to receive a [Delivery Receipt](/messaging/sms/building-blocks/receive-a-delivery-receipt).'
+          description: '**Advanced**: Boolean indicating if you like to receive a [Delivery Receipt](https://developer.nexmo.com/messaging/sms/building-blocks/receive-a-delivery-receipt).'
           type: boolean
           example: false
           default: true
@@ -326,7 +326,7 @@ components:
             name: messageId
         status:
           type: string
-          description: The status of the message. See [Troubleshooting Failed SMS](/messaging/sms/guides/troubleshooting-sms).
+          description: The status of the message. See [Troubleshooting Failed SMS](https://developer.nexmo.com/messaging/sms/guides/troubleshooting-sms).
           example: '0'
         remaining-balance:
           type: string
@@ -401,7 +401,7 @@ components:
           example: '2001011400'
         err-code:
           type: string
-          description: The status of the request. Will be a non `0` value if there has been an error. See the [SMS error reference](/api-errors/sms) for more details
+          description: The status of the request. Will be a non `0` value if there has been an error. See the [SMS error reference](https://developer.nexmo.com/api-errors/sms) for more details
           example: '0'
         message-timestamp:
           description: The time when Nexmo started to push this Delivery Receipt to your webhook endpoint.
