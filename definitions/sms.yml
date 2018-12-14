@@ -3,6 +3,10 @@ info:
   version: 1.0.0
   title: SMS API
   description: With the Nexmo SMS API you can send SMS from your account and lookup messages both messages that you've sent as well as messages sent to your virtual numbers. Numbers are specified in E.164 format.
+  contact:
+    name: Nexmo DevRel
+    url: https://developer.nexmo.com
+    email: devrel@nexmo.com
 servers:
   - url: https://rest.nexmo.com
 paths:
@@ -117,7 +121,7 @@ components:
           type: string
           example: 'AcmeInc'
         to:
-          description: The number that the message should be sent to. Numbers are specified in E.164 format. 
+          description: The number that the message should be sent to. Numbers are specified in E.164 format.
           type: string
           minLength: 7
           maxLength: 15
@@ -234,27 +238,31 @@ components:
             $ref: '#/components/schemas/Message'
     InboundMessage:
       type: object
+      required:
+        - msisdn
+        - to
+        - messageId
+        - text
+        - type
+        - keyword
+        - message-timestamp
       properties:
         msisdn:
           type: string
           description: The phone number that this inbound message was sent from. Numbers are specified in E.164 format.
           example: '447700900001'
-          required: true
         to:
           type: string
           description: The phone number the message was sent to. **This is your virtual number**. Numbers are specified in E.164 format.
           example: '447700900000'
-          required: true
         messageId:
           type: string
           description: The ID of the message
           example: 0A0000000123ABCD1
-          required: true
         text:
           type: string
           description: The message body for this inbound message.
           example: Hello world
-          required: true
         type:
           type: string
           description: |
@@ -264,17 +272,14 @@ components:
               - `unicode` - URLencoded   unicode  . This is valid for standard GSM, Arabic, Chinese, double-encoded characters and so on.
               - `binary` - a binary message.
           example: 'text'
-          required: true
         keyword:
           type: string
           description: The first word in the message body. This is typically used with short codes.
           example: Hello
-          required: true
         message-timestamp:
           description: The time when Nexmo started to push this Delivery Receipt to your webhook endpoint.
           type: string
           example: 2020-01-01 12:00:00
-          required: true
         timestamp:
           description: A unix timestamp representation of message-timestamp.
           type: string
@@ -426,67 +431,67 @@ x-errors:
     description: Invalid Parameters. The value of one or more parameters is invalid.
     resolution: Check your parameters and try again.
 
-  4: 
+  4:
     description: Invalid Credentials. Your API key and/or secret are incorrect, invalid or disabled.
     resolution: Visit the [Dashboard](https://dashboard.nexmo.com) and check your credentials.
 
-  5: 
+  5:
     description: Internal Error. An error has occurred in the platform whilst processing this message.
     resolution: If the error persists, contact support@nexmo.com.
 
-  6: 
+  6:
     description: Invalid Message. The platform was unable to process this message, for example, an un-recognized number prefix.
     resolution: N/A
 
-  7: 
+  7:
     description: Number Barred. The number you are trying to send messages to is blacklisted and may not receive them.
     resolution: N/A
 
-  8: 
+  8:
     description: Partner Account Barred. Your Nexmo account has been suspended.
     resolution: Contact <support@nexmo.com>.
 
-  9: 
+  9:
     description: Partner Quota Violation. You do not have sufficient credit to send the message.
     resolution: Top-up and retry.
 
-  10: 
+  10:
     description: Too Many Existing Binds. The number of simultaneous connections to the platform exceeds your account allocation.
     resolution: Back-off and retry.
 
-  11: 
+  11:
     description: Account Not Enabled For HTTP. This account is not provisioned for the SMS API.
     resolution: This error usually indicates that you should use SMPP instead.
 
-  12: 
+  12:
     description: Message Too Long. The message length exceeds the maximum allowed.
     resolution: Send shorter messages.
 
-  14: 
+  14:
     description: Invalid Signature. The signature supplied could not be verified.
     resolution: Check the [documentation for signing messages](https://developer.nexmo.com/concepts/guides/signing-messages) or use one of the [SDKs](https://developer.nexmo.com/tools) to handle the signing.
 
-  15: 
+  15:
     description: Invalid Sender Address. You are using a non-authorized sender ID in the `from` field.
     resolution: This is most commonly seen in North America, where a Nexmo long virtual number or short code is required.
 
 
-  22: 
+  22:
     description: Invalid Network Code. The network code supplied was either not recognized, or does not match the country of the destination address.
     resolution: Check the network code or remove it from your request.
 
-  23: 
+  23:
     description: Invalid Callback Url. The callback URL supplied was either too long or contained illegal characters.
     resolution: Supply a valid URL for the callback.
 
-  29: 
+  29:
     description: Non-Whitelisted Destination. Your Nexmo account is still in demo mode. While in demo mode you must add target numbers to your whitelisted destination list.
     resolution: Top-up your account to remove this limitation.
 
-  32: 
+  32:
     description: Signature And API Secret Disallowed. A signed request may not also present an `api_secret`.
     resolution: Remove the API secret from your request, or don't sign the message.
 
-  33: 
+  33:
     description: Number De-activated. The number you are trying to send messages to is de-activated and may not receive them.
     resolution: N/A

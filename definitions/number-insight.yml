@@ -377,15 +377,9 @@ components:
           description: 'Your account balance in EUR after this request. Not returned with Number Insight Advanced Async API.'
           example: '1.23456789'
         current_carrier:
-          type: object
-          description: 'Information about the network `number` is currently connected to.'
-          properties:
-            $ref: '#/components/schemas/niCarrierProperties'
+          $ref: '#/components/schemas/niCurrentCarrierProperties'
         original_carrier:
-          type: object
-          description: 'Information about the network `number` was initially connected to.'
-          properties:
-            $ref: '#/components/schemas/niCarrierProperties'
+          $ref: '#/components/schemas/niInitialCarrierProperties'
         ported:
           description: 'If the user has changed carrier for number. The assumed status means that the information supplier has replied to the request but has not said explicitly that the number is ported'
           properties:
@@ -402,7 +396,7 @@ components:
               xml:
                 x-text: true
         roaming:
-          type: object       
+          type: object
           description: 'Information about the roaming status for number. This is applicable to mobile numbers only.'
           x-nexmo-developer-collection-description-shown: true
           properties:
@@ -446,27 +440,27 @@ components:
               example: 'Smith'
               xml:
                 attribute: true
-          caller_name:
-            type: string
-            description: 'Full name of the person or business who owns the phone number. `unknown` if this information is not available. This parameter is only present if `cnam` had a value of `true` within the request.'
-            example: 'John Smith'
-          last_name:
-            type: string
-            description: 'Last name of the person who owns the phone number if the owner is an individual. This parameter is only present if `cnam` had a value of `true` within the request.'
-            example: 'Smith'
-          firs_name:
-            # Key is not a typo. Do not change.
-            type: string
-            description: 'First name of the person who owns the phone number if the owner is an individual. This parameter is only present if `cnam` had a value of `true` within the request.'
-            example: 'John'
-          caller_type:
-            type: string
-            description: 'The value will be `business` if the owner of a phone number is a business. If the owner is an individual the value will be `consumer`. The value will be `unknown` if this information is not available. This parameter is only present if `cnam` had a value of `true` within the request.'
-            enum:
-              - business
-              - consumer
-              - unknown
-            example: 'consumer'                           
+            caller_name:
+              type: string
+              description: 'Full name of the person or business who owns the phone number. `unknown` if this information is not available. This parameter is only present if `cnam` had a value of `true` within the request.'
+              example: 'John Smith'
+            last_name:
+              type: string
+              description: 'Last name of the person who owns the phone number if the owner is an individual. This parameter is only present if `cnam` had a value of `true` within the request.'
+              example: 'Smith'
+            firs_name:
+              # Key is not a typo. Do not change.
+              type: string
+              description: 'First name of the person who owns the phone number if the owner is an individual. This parameter is only present if `cnam` had a value of `true` within the request.'
+              example: 'John'
+            caller_type:
+              type: string
+              description: 'The value will be `business` if the owner of a phone number is a business. If the owner is an individual the value will be `consumer`. The value will be `unknown` if this information is not available. This parameter is only present if `cnam` had a value of `true` within the request.'
+              enum:
+                - business
+                - consumer
+                - unknown
+              example: 'consumer'
 
     niResponseXmlAdvanced:
       type: object
@@ -538,7 +532,7 @@ components:
               description: 'The status description of your request.'
               example: Success
               xml:
-                x-text: true # see https://github.com/OAI/OpenAPI-Specification/issues/630        
+                x-text: true # see https://github.com/OAI/OpenAPI-Specification/issues/630
         request_price:
           type: number
           description: 'If there is an internal lookup error, the `refund_price` will reflect the lookup price. If `cnam` is requested for a non-US number the `refund_price` will reflect the `cnam` price. If both of these conditions occur, `refund_price` is the sum of the lookup price and `cnam` price.'
@@ -548,17 +542,9 @@ components:
           description: 'Your account balance in EUR after this request. Not returned with Number Insight Advanced Async API.'
           example: '1.23456789'
         current_carrier:
-          type: object
-          x-nexmo-developer-collection-description-shown: true
-          description: 'Information about the network `number` is currently connected to.'
-          properties:
-            $ref: '#/components/schemas/niCarrierProperties'
+          $ref: '#/components/schemas/niCurrentCarrierProperties'
         original_carrier:
-          type: object
-          x-nexmo-developer-collection-description-shown: true
-          description: 'Information about the network `number` was initially connected to.'
-          properties:
-            $ref: '#/components/schemas/niCarrierProperties'
+          $ref: '#/components/schemas/niInitialCarrierProperties'
         ported:
           description: 'If the user has changed carrier for `number`. The assumed status means that the information supplier has replied to the request but has not said explicitly that the number is ported.'
           properties:
@@ -729,7 +715,7 @@ components:
 
     niResponseJsonStandard:
       allOf:
-        - $ref: "#/components/schemas/niResponseJsonBasic"              
+        - $ref: "#/components/schemas/niResponseJsonBasic"
         - type: object
           properties:
             request_price:
@@ -745,17 +731,9 @@ components:
               description: 'Your account balance in EUR after this request. Not returned with Number Insight Advanced Async API.'
               example: '1.23456789'
             current_carrier:
-              type: object
-              x-nexmo-developer-collection-description-shown: true
-              description: 'Information about the network `number` is currently connected to.'
-              properties:
-                $ref: '#/components/schemas/niCarrierProperties'
+              $ref: '#/components/schemas/niCurrentCarrierProperties'
             original_carrier:
-              type: object
-              x-nexmo-developer-collection-description-shown: true
-              description: 'Information about the network `number` was initially connected to.'
-              properties:
-                $ref: '#/components/schemas/niCarrierProperties'
+              $ref: '#/components/schemas/niInitialCarrierProperties'
             ported:
               type: string
               description: 'If the user has changed carrier for `number`. The assumed status means that the information supplier has replied to the request but has not said explicitly that the number is ported.'
@@ -846,17 +824,9 @@ components:
           description: 'Your account balance in EUR after this request. Not returned with Number Insight Advanced Async API.'
           example: '1.23456789'
         current_carrier:
-          type: object
-          x-nexmo-developer-collection-description-shown: true
-          description: 'Information about the network `number` is currently connected to.'
-          properties:
-            $ref: '#/components/schemas/niCarrierProperties'
+          $ref: '#/components/schemas/niCurrentCarrierProperties'
         original_carrier:
-          type: object
-          x-nexmo-developer-collection-description-shown: true
-          description: 'Information about the network `number` was initially connected to.'
-          properties:
-            $ref: '#/components/schemas/niCarrierProperties'
+          $ref: '#/components/schemas/niInitialCarrierProperties'
         ported:
           type: string
           description: 'If the user has changed carrier for `number`. The assumed status means that the information supplier has replied to the request but has not said explicitly that the number is ported.'
@@ -966,40 +936,82 @@ components:
     #       xml:
     #         attribute: true
     #       example: 'mobile'
-    
-    niCarrierProperties:
-      network_code:
-        type: string
-        description: 'The [https://en.wikipedia.org/wiki/Mobile_country_code](https://en.wikipedia.org/wiki/Mobile_country_code) for the carrier`number` is associated with. Unreal numbers are marked as`unknown` and the request is rejected altogether if the number is impossible according to the [E.164](https://en.wikipedia.org/wiki/E.164) guidelines.'
-        xml:
-          attribute: true
-        example: '12345'
-      name:
-        type: string
-        description: 'The full name of the carrier that `number` is associated with.'
-        xml:
-          attribute: true
-        example: 'Acme Inc'
-      country:
-        type: string
-        description: 'The country that `number` is associated with. This is in ISO 3166-1 alpha-2 format.'
-        xml:
-          attribute: true
-        example: 'GB'
-      network_type:
-        type: string
-        description: 'The type of network that `number` is associated with.'
-        enum:
-          - mobile
-          - landline
-          - landline_premium
-          - landline_tollfree
-          - virtual
-          - unknown
-          - pager
-        xml:
-          attribute: true
-        example: 'mobile'
+
+    niCurrentCarrierProperties:
+      type: object
+      x-nexmo-developer-collection-description-shown: true
+      description: 'Information about the network `number` is currently connected to.'
+      properties:
+        network_code:
+          type: string
+          description: 'The [https://en.wikipedia.org/wiki/Mobile_country_code](https://en.wikipedia.org/wiki/Mobile_country_code) for the carrier`number` is associated with. Unreal numbers are marked as`unknown` and the request is rejected altogether if the number is impossible according to the [E.164](https://en.wikipedia.org/wiki/E.164) guidelines.'
+          xml:
+            attribute: true
+          example: '12345'
+        name:
+          type: string
+          description: 'The full name of the carrier that `number` is associated with.'
+          xml:
+            attribute: true
+          example: 'Acme Inc'
+        country:
+          type: string
+          description: 'The country that `number` is associated with. This is in ISO 3166-1 alpha-2   format.'
+          xml:
+            attribute: true
+          example: 'GB'
+        network_type:
+          type: string
+          description: 'The type of network that `number` is associated with.'
+          enum:
+            - mobile
+            - landline
+            - landline_premium
+            - landline_tollfree
+            - virtual
+            - unknown
+            - pager
+          xml:
+            attribute: true
+          example: 'mobile'
+
+    niInitialCarrierProperties:
+      type: object
+      x-nexmo-developer-collection-description-shown: true
+      description: 'Information about the network `number` is currently connected to.'
+      properties:
+        network_code:
+          type: string
+          description: 'The [https://en.wikipedia.org/wiki/Mobile_country_code](https://en.wikipedia.org/wiki/Mobile_country_code) for the carrier`number` is associated with. Unreal numbers are marked as`unknown` and the request is rejected altogether if the number is impossible according to the [E.164](https://en.wikipedia.org/wiki/E.164) guidelines.'
+          xml:
+            attribute: true
+          example: '12345'
+        name:
+          type: string
+          description: 'The full name of the carrier that `number` is associated with.'
+          xml:
+            attribute: true
+          example: 'Acme Inc'
+        country:
+          type: string
+          description: 'The country that `number` is associated with. This is in ISO 3166-1 alpha-2   format.'
+          xml:
+            attribute: true
+          example: 'GB'
+        network_type:
+          type: string
+          description: 'The type of network that `number` is associated with.'
+          enum:
+            - mobile
+            - landline
+            - landline_premium
+            - landline_tollfree
+            - virtual
+            - unknown
+            - pager
+          xml:
+            attribute: true
+          example: 'mobile'
 
     niRoaming:
       type: object
@@ -1100,7 +1112,7 @@ components:
         - 4
         - 5
         - 9
-      example: 0 
+      example: 0
       description: |
         Code | Text
         -- | --
@@ -1109,7 +1121,7 @@ components:
         3 | Invalid - your request is incomplete and missing some mandatory parameters.
         4 | Invalid credentials - the _api_key_ or _api_secret_ you supplied is either not valid or has been disabled.
         5 | Internal Error - the format of the recipient address is not valid.
-        9 | Partner quota exceeded - your Nexmo account does not have sufficient credit to process this request.   
+        9 | Partner quota exceeded - your Nexmo account does not have sufficient credit to process this request.
 
     niStandardAdvancedStatus:
       type: integer
@@ -1141,12 +1153,12 @@ components:
 
   securitySchemes:
     apiKey:
-      type: string
+      type: apiKey
       name: api_key
       in: query
       description: 'You can find your API key in your [account overview](https://dashboard.nexmo.com/account-overview)'
     apiSecret:
-      type: string
+      type: apiKey
       name: api_secret
       in: query
       description: 'You can find your API secret in your [account overview](https://dashboard.nexmo.com/account-overview)'

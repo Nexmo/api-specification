@@ -3,6 +3,10 @@ info:
   version: 0.3.0
   title: Messages API
   description: 'The Messaging API is a new API that consolidates all messaging channels. It encapsulates a user (developer) from having to use multiple APIs to interact with our various channels such as SMS, MMS, Viber, Facebook Messenger, etc. The API normalises information across all channels to abstracted to, from and content. This API is currently Beta.'
+  contact:
+    name: Nexmo.com
+    email: devrel@nexmo.com
+    url: 'https://developer.nexmo.com/'
   x-label: Beta
 servers:
   - url: https://api.nexmo.com/v0.1
@@ -120,18 +124,15 @@ components:
         type:
           type: string
           example: 'https://www.nexmo.com/messages/Errors#InvalidParams'
+        title:
+          type: string
+          example: 'Invalid Parameters'
         detail:
           type: string
           example: 'Your request parameters did not validate.'
         instance:
           type: string
-          example:
-
-      resolution:
-        text: Check your request parameters against the API documentation.
-        link:
-          text: See API request format
-          url: /api/messages-olympus
+          example: f94b4e56604e07e5e5ad5a7228618f81
 
     MessageStatus:
       type: object
