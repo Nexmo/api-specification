@@ -5,8 +5,15 @@ info:
   title: Nexmo Verify API
   version: 1.0.0
   description: >-
-    The Verify API helps you to implement 2FA (two-factor authentication) in your applications
-    to check that you can contact a user at a specific number.
+    The Verify API helps you to implement 2FA (two-factor authentication) in your applications.
+    This is useful for:
+
+
+    * Protecting against spam, by preventing spammers from creating multiple accounts
+
+    * Monitoring suspicious activity, by forcing an account user to verify ownership of a number
+
+    * Ensuring that you can reach your users at any time because you have their correct phone number
   contact:
     name: Nexmo.com
     email: devrel@nexmo.com
@@ -29,11 +36,11 @@ tags:
   - name: Verify Request
     description: >-
       Generate and send a PIN to your user. You use the `request_id` in the
-      response for the Verify Check.
+      response for the Verify check.
   - name: Verify Check
     description: >-
       Confirm that the PIN you received from your user matches the one sent by
-      Nexmo as a result of your Verify Request.
+      Nexmo as a result of your Verify request.
   - name: Verify Search
     description: Lookup the status of one or more requests.
   - name: Verify Control
@@ -45,9 +52,9 @@ paths:
         To use Verify request you:
 
 
-        * Create a request to send a verification code to your user.
+        1. Create a request to send a verification code to your user.
 
-        * Check the `status` field in the response to ensure that your request
+        2. Check the `status` field in the response to ensure that your request
         was successful.
       operationId: verifyRequest
       summary: Verify request
@@ -258,9 +265,9 @@ paths:
         To use Verify check you:
 
 
-        * Send the verification code that your user supplied, with the corresponding `request_id` from the Verify request.
+        1. Send the verification code that your user supplied, with the corresponding `request_id` from the Verify request.
 
-        * Check the `status` of the response to determine if the code the user supplied matches the one sent by Nexmo.
+        2. Check the `status` of the response to determine if the code the user supplied matches the one sent by Nexmo.
       operationId: verifyCheck
       summary: Verify check
       tags:
@@ -312,10 +319,10 @@ paths:
         To check the status of past or current verification requests:
 
 
-        * Send a Verify Search request containing the `request_id`s of the
+        1. Send a Verify Search request containing the `request_id`s of the
         verification requests you are interested in
 
-        * Use the `status` of each verification request in the `checks` array of the response object to determine the outcome
+        2. Use the `status` of each verification request in the `checks` array of the response object to determine the outcome
       operationId: verifySearch
       summary: Verify search
       tags:
@@ -361,9 +368,9 @@ paths:
         To cancel an existing Verify request, or to trigger the next verification event:
 
 
-        * Send a Verify control request with the appropriate command (`cmd`) for what you want to achieve
+        1. Send a Verify control request with the appropriate command (`cmd`) for what you want to achieve
 
-        * Check the response.
+        2. Check the response.
       operationId: verifyControl
       summary: Verify control
       tags:
@@ -697,13 +704,16 @@ components:
       properties:
         status:
           type: string
-          description: >-
-            The Verify control response code that explains how your request
-            proceeded.
           example: '0'
           enum:
             - '0'
             - '19'
+          description: |
+            `cmd` | Code | Description
+            -- | -- | --
+            Any | 0 | Success
+            `cancel` | 19 | Either you have not waited at least 30 secs after sending a Verify request before cancelling or Verify has made too many attempts to deliver the verification code for this request and you must now wait for the process to complete.
+            `trigger_next_event` | 19 | All attempts to deliver the verification code for this request have completed and there are no remaining events to advance to.
           # x-ms-enum:
           #   values:
           #     - value: '0'
@@ -720,6 +730,9 @@ components:
         command:
           type: string
           description: The `cmd` you sent in the request.
+          enum:
+            - cancel
+            - trigger_next_event
           example: cancel
         error_text:
           type: string
@@ -729,6 +742,7 @@ components:
     apiKey:
       type: apiKey
       name: api_key
+      required: true
       in: query
       description: >-
         You can find your API key in your Nexmo account [developer
@@ -736,6 +750,7 @@ components:
     apiSecret:
       type: apiKey
       name: api_secret
+      required: true
       in: query
       description: >-
         You can find your API secret in your Nexmo account [developer
