@@ -19,7 +19,6 @@ paths:
       summary: Create an outbound call
       description: Create an outbound Call
       operationId: createCall
-      x-group: calls
       requestBody:
         description: Call Details
         content:
@@ -116,7 +115,6 @@ paths:
       summary: Get details of your calls
       description: Get details of your calls
       operationId: getCalls
-      x-group: calls
       parameters:
       - name: status
         in: query
@@ -269,7 +267,6 @@ paths:
       summary: Get detail of a specific call
       description: Get detail of a specific call
       operationId: getCall
-      x-group: call
       responses:
         '200':
           description: Ok
@@ -318,7 +315,6 @@ paths:
       summary: Modify an in progress call
       description: Modify an in progress call
       operationId: updateCall
-      x-group: call
       requestBody:
         required: true
         content:
@@ -370,7 +366,6 @@ paths:
       summary: Play an audio file into a call
       description: Play an audio file into a call
       operationId: startStream
-      x-group: stream
       requestBody:
         description: action to perform
         required: true
@@ -416,7 +411,6 @@ paths:
       summary: Stop playing an audio file into a call
       description: Stop playing an audio file into a call
       operationId: stopStream
-      x-group: stream
       responses:
         '200':
           description: Ok
@@ -446,7 +440,6 @@ paths:
       summary: Play text to speech into a call
       description: Play text to speech into a call
       operationId: startTalk
-      x-group: talk
       requestBody:
         description: Action to perform
         content:
@@ -491,7 +484,6 @@ paths:
       summary: Stop text to speech in a call
       description: Stop text to speech in a call
       operationId: stopTalk
-      x-group: talk
       responses:
         '200':
           description: Ok
@@ -521,7 +513,6 @@ paths:
       summary: Play DTMF tones into a call
       description: Play DTMF tones into a call
       operationId: startDTMF
-      x-group: dtmf
       requestBody:
         description: action to perform
         required: true
@@ -829,24 +820,3 @@ components:
       - Filiz
       - Mizuki
       - Seoyeon
-x-groups:
-  calls:
-    name: Calls
-    order: 1
-    description: Create and search calls
-  call:
-    name: Call
-    order: 2
-    description: Manage a specific call
-  stream:
-    name: Stream
-    order: 3
-    description: Stream audio to an active call
-  talk:
-    name: Talk
-    order: 4
-    description: Send a synthesized speech message to an active call
-  dtmf:
-    name: DTMF
-    order: 5
-    description: Send Dual-tone multi-frequency (DTMF) tones to an active call
