@@ -16,7 +16,6 @@ paths:
       summary: List and search media items
       operationId: list-and-search-media-items
       description: Retrieve information about multiple media items with the ability to search and paginate.
-      x-group: media
       parameters:
         - name: order
           description: The order of search results.
@@ -120,7 +119,6 @@ paths:
       summary: Retrieve a media item
       operationId: retrieve-a-media-item
       description: Retrieve information about a single media item
-      x-group: media
       responses:
         '200':
           description: Successfully retrieved
@@ -132,7 +130,6 @@ paths:
       summary: Update a media item
       operationId: update-a-media-item
       description: Update a previously created media item by ID.
-      x-group: media
       requestBody:
         content:
           multipart/form-data:
@@ -174,7 +171,6 @@ paths:
       summary: Delete a media item
       operationId: delete-a-media-item
       description: Delete a previously created media item by ID.
-      x-group: media
       responses:
         '204':
           description: Successfully deleted
@@ -237,11 +233,3 @@ components:
         metadata_secondary:
           type: string
           description: A user set string containing further metadata about the media file.
-x-groups:
-  media:
-    name: "Media"
-    order: 1
-    description: The Media object contains information about the request and details of the media object.
-    schema:
-      application/json:
-        $ref: '#/components/schemas/Media'
