@@ -25,9 +25,6 @@ externalDocs:
 security:
   - apiKey: []
     apiSecret: []
-tags:
-  - name: Request
-    description: 'Ask for information about a phone number'
 paths:
   '/basic/{format}':
     parameters:
@@ -35,9 +32,6 @@ paths:
     get:
       operationId: getNumberInsightBasic
       summary: Basic Number Insight
-      # x-group: number-insight
-      tags:
-        - Request
       parameters:
         - $ref: '#/components/parameters/number'
         - $ref: '#/components/parameters/country'
@@ -57,9 +51,6 @@ paths:
     get:
       operationId: getNumberInsightStandard
       summary: Standard Number Insight
-      # x-group: number-insight
-      tags:
-        - Request
       parameters:
         - $ref: '#/components/parameters/number'
         - $ref: '#/components/parameters/country'
@@ -80,9 +71,6 @@ paths:
     get:
       operationId: getNumberInsightAdvanced
       summary: Advanced Number Insight (sync)
-      # x-group: number-insight
-      tags:
-        - Request
       parameters:
         - $ref: '#/components/parameters/number'
         - $ref: '#/components/parameters/country'
@@ -104,9 +92,6 @@ paths:
     get:
       operationId: getNumberInsightAsync
       summary: Advanced Number Insight (async)
-      # x-group: number-insight
-      tags:
-        - Request
       parameters:
         - $ref: '#/components/parameters/callback'
         - $ref: '#/components/parameters/number'
@@ -1162,13 +1147,3 @@ components:
       name: api_secret
       in: query
       description: 'You can find your API secret in your [account overview](https://dashboard.nexmo.com/account-overview)'
-# x-groups:
-#   number-insight:
-#     name: Number Insight
-#     description: The Number Insight object contains information about the request and details of the phone number information has been requested about.
-#     order: 1
-#     # schema:
-#     #   application/json:
-#     #     $ref: '#/components/schemas/niResponseJsonAdvanced'
-#     #   text/xml:
-#     #     $ref: '#/components/schemas/niResponseXmlAdvanced'
