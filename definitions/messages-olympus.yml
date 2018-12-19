@@ -19,7 +19,6 @@ paths:
         - basicAuth: []
       summary: Send a Message
       operationId: NewMessage
-      x-group: message
       requestBody:
         description: Send a Message.
         required: true
@@ -525,14 +524,6 @@ components:
           type: string
           description: The name of the location attachment.
           example: 'Nexmo London'
-x-groups:
-  message:
-    name: "Message"
-    order: 1
-    description: The Message object contains information about the request and details of the message object.
-    schema:
-      application/json:
-        $ref: '#/components/schemas/Response'
 
 x-errors:
   1000:
