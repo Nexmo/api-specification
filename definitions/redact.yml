@@ -16,7 +16,6 @@ paths:
       summary: Redact a specific message
       operationId: redact-message
       description: ""
-      x-group: transaction
       parameters:
         - name: api_key
           description: Your API key
@@ -79,11 +78,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorThrottled'
-x-groups:
-  transaction:
-    name: Transaction
-    order: 1
-    description: The Redact API can be used to remove personal data from a CDR stored in the Nexmo platform. Personal data held in the platform generally means a person's phone number, and for messages, the body of the message itself.
 
 components:
   securitySchemes:
