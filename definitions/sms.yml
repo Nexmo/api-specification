@@ -12,7 +12,6 @@ servers:
 paths:
   /sms/{format}:
     post:
-      x-group: sms
       operationId: send-an-sms
       summary: Send an SMS
       description: Send an outbound SMS from your Nexmo account
@@ -407,16 +406,6 @@ components:
           description: The time when Nexmo started to push this Delivery Receipt to your webhook endpoint.
           type: string
           example: 2020-01-01 12:00:00
-x-groups:
-  sms:
-    name: "SMS"
-    order: 1
-    description: The SMS object contains information about the request and details of the message information.
-    schema:
-      application/json:
-        $ref: '#/components/schemas/SMS'
-      text/xml:
-        $ref: '#/components/schemas/MessageXmlWrapper'
 
 x-errors:
   1:
