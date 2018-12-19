@@ -19,7 +19,8 @@ paths:
       - basicAuth: []
       summary: Create a Messenger account
       operationId: CreateMessengerAccount
-      x-group: messenger
+      tags:
+        - messenger
       requestBody:
         required: true
         content:
@@ -115,7 +116,8 @@ paths:
       - basicAuth: []
       summary: Retrieve a Messenger account
       operationId: GetMessengerAccount
-      x-group: messenger
+      tags:
+        - messenger
       parameters:
       - in: path
         name: external_id
@@ -144,7 +146,8 @@ paths:
       - basicAuth: []
       summary: Update a Messenger account
       operationId: UpdateMessengerAccount
-      x-group: messenger
+      tags:
+        - messenger
       parameters:
       - in: path
         name: external_id
@@ -263,7 +266,8 @@ paths:
       - basicAuth: []
       summary: Delete a Messenger account
       operationId: DeleteMessengerAccount
-      x-group: messenger
+      tags:
+        - messenger
       parameters:
       - in: path
         name: external_id
@@ -295,7 +299,8 @@ paths:
       - basicAuth: []
       summary: Retrieve a Viber Service Message account
       operationId: GetVSMAccount
-      x-group: viber_service_msg
+      tags:
+        - viber_service_msg
       parameters:
       - in: path
         name: external_id
@@ -325,7 +330,8 @@ paths:
       - basicAuth: []
       summary: Retrieve a Whatsapp account
       operationId: GetWAAccount
-      x-group: whatsapp
+      tags:
+        - whatsapp
       parameters:
       - in: path
         name: external_id
@@ -355,7 +361,8 @@ paths:
       - basicAuth: []
       summary: Retrieve all accounts you own
       operationId: GetAllAccounts
-      x-group: account
+      tags:
+        - account
       parameters:
       - in: query
         name: provider
@@ -447,7 +454,8 @@ paths:
       - basicAuth: []
       summary: Link application to an account
       operationId: LinkApplication
-      x-group: applications
+      tags:
+        - applications
       parameters:
       - in: path
         name: provider
@@ -533,7 +541,8 @@ paths:
       - basicAuth: []
       summary: Unlink application from an account
       operationId: UnliWithoutApplicationnkApplication
-      x-group: applications
+      tags:
+        - applications
       parameters:
       - in: path
         name: provider
@@ -766,24 +775,14 @@ components:
         title:
           type: string
           example: "Wrong authentication - You are not authorised to access this resource"
-x-groups:
-  applications:
-    name: "Application"
-    order: 1
+tags:
+  - name: "Application"
     description: Inbound messages to an external account which is linked to an application will be delivered to the application's inbound URL.
-  account:
-    name: "Account"
-    order: 2
+  - name: "Account"
     description: An external-account used as the `from` field in the Messages API and Dispatch API
-  messenger:
-    name: "Facebook Messenger"
-    order: 3
+  - name: "Facebook Messenger"
     description: 'Managing your [Facebook Messenger](https://developer.nexmo.com/messages/concepts/facebook) account'
-  viber_service_msg:
-    name: "Viber Service Message"
-    order: 4
+  - name: "Viber Service Message"
     description: 'Managing your [Viber Service Message](https://developer.nexmo.com/messages/concepts/viber) account'
-  whatsapp:
-    name: "Whatsapp"
-    order: 5
+  - name: "Whatsapp"
     description: 'Managing your [Whatsapp](https://developer.nexmo.com/messages/concepts/whatsapp) account'
