@@ -15,7 +15,8 @@ paths:
     post:
       x-swagger-router-controller: createConversation
       operationId: createConversation
-      x-group: conversation
+      tags:
+        - conversation
       summary: Create a conversation
       responses:
         '201':
@@ -25,7 +26,8 @@ paths:
     get:
       x-swagger-router-controller: listConversations
       operationId: listConversations
-      x-group: conversation
+      tags:
+        - conversation
       summary: List conversations
       parameters:
         - $ref: '#/components/parameters/date_start'
@@ -84,7 +86,8 @@ paths:
     put:
       x-swagger-router-controller: conversations
       operationId: replaceConversation
-      x-group: conversation
+      tags:
+        - conversation
       summary: Update a conversation
       responses:
         '200':
@@ -94,7 +97,8 @@ paths:
     get:
       x-swagger-router-controller: retrieveConversation
       operationId: retrieveConversation
-      x-group: conversation
+      tags:
+        - conversation
       summary: Retrieve a conversation
       responses:
         '200':
@@ -147,7 +151,8 @@ paths:
     delete:
       x-swagger-router-controller: deleteConversation
       operationId: deleteConversation
-      x-group: conversation
+      tags:
+        - conversation
       summary: Delete a conversation
       responses:
         '200':
@@ -158,7 +163,8 @@ paths:
     post:
       x-swagger-router-controller: createEvent
       operationId: createEvent
-      x-group: event
+      tags:
+        - event
       summary: Create an event
       requestBody:
         content:
@@ -196,7 +202,8 @@ paths:
     get:
       x-swagger-router-controller: getEvents
       operationId: getEvents
-      x-group: event
+      tags:
+        - event
       summary: List events
       responses:
         '200':
@@ -214,7 +221,8 @@ paths:
     get:
       x-swagger-router-controller: getEvent
       operationId: getEvent
-      x-group: event
+      tags:
+        - event
       summary: Retrieve an event
       responses:
         '200':
@@ -226,7 +234,8 @@ paths:
     delete:
       x-swagger-router-controller: deleteEvent
       operationId: deleteEvent
-      x-group: event
+      tags:
+        - event
       summary: Delete an event
       responses:
         '200':
@@ -237,7 +246,8 @@ paths:
     get:
       x-swagger-router-controller: members
       operationId: getMembers
-      x-group: member
+      tags:
+        - member
       summary: List members
       responses:
         '200':
@@ -265,7 +275,8 @@ paths:
     post:
       x-swagger-router-controller: members
       operationId: createMember
-      x-group: member
+      tags:
+        - member
       summary: Create a member
       responses:
         '201':
@@ -315,7 +326,8 @@ paths:
     get:
       x-swagger-router-controller: members
       operationId: getMember
-      x-group: member
+      tags:
+        - member
       summary: Retrieve a member
       responses:
         '200':
@@ -331,7 +343,8 @@ paths:
     put:
       x-swagger-router-controller: members
       operationId: updateMember
-      x-group: member
+      tags:
+        - member
       summary: Update a member
       responses:
         '200':
@@ -356,7 +369,8 @@ paths:
     delete:
       x-swagger-router-controller: members
       operationId: deleteMember
-      x-group: member
+      tags:
+        - member
       summary: Delete a member
       responses:
         '200':
@@ -365,7 +379,8 @@ paths:
     get:
       x-swagger-router-controller: users
       operationId: getUsers
-      x-group: user
+      tags:
+        - user
       summary: List users
       responses:
         '200':
@@ -386,7 +401,8 @@ paths:
     post:
       x-swagger-router-controller: users
       operationId: createUser
-      x-group: user
+      tags:
+        - user
       summary: Create a user
       responses:
         '200':
@@ -421,7 +437,8 @@ paths:
     get:
       x-swagger-router-controller: users
       operationId: getUser
-      x-group: user
+      tags:
+        - user
       summary: Retrieve a user
       responses:
         '200':
@@ -437,7 +454,8 @@ paths:
     put:
       x-swagger-router-controller: users
       operationId: updateUser
-      x-group: user
+      tags:
+        - user
       summary: Update a user
       responses:
         '200':
@@ -466,7 +484,8 @@ paths:
     delete:
       x-swagger-router-controller: users
       operationId: deleteUser
-      x-group: user
+      tags:
+        - user
       summary: Delete a user
       responses:
         '200':
@@ -477,7 +496,8 @@ paths:
     get:
       x-swagger-router-controller: users
       operationId: getuserConversations
-      x-group: user
+      tags:
+        - user
       summary: List user conversations
       responses:
         '200':
@@ -514,7 +534,8 @@ paths:
     get:
       x-swagger-router-controller: listLegs
       operationId: listLegs
-      x-group: leg
+      tags:
+        - leg
       summary: List legs
       responses:
         '200':
@@ -617,7 +638,8 @@ paths:
     delete:
       x-swagger-router-controller: deleteLeg
       operationId: deleteLeg
-      x-group: leg
+      tags:
+        - leg
       summary: Delete a leg
       responses:
         '200':
@@ -1080,28 +1102,17 @@ components:
       bearerFormat: JWT
 security:
   - bearerAuth: []
-x-groups:
-  conversation:
-    name: Conversation
-    order: 1
+
+tags:
+  - name: Conversation
     description: A conversation is a shared core component that Nexmo APIs rely on. Conversations happen over multiple mediums and and can have associated Users through Memberships.
-  user:
-    name: User
-    order: 2
+  - name: User
     description: 'The concept of a user exists in Nexmo APIs, you can associate one with a user in your own application if you choose. A user can have multiple memberships to conversations and can communicate with other users through various different mediums.'
-  member:
-    name: Member
-    order: 3
+  - name: Member
     description: Memberships connect users with conversations. Each membership has one conversation and one user however a user can have many memberships to conversations just as conversations can have many members.
-  event:
-    name: Event
-    order: 4
+  - name: Event
     description: 'Events are actions that occur within a conversation. Examples of this includes: Text events from members, or invite events from users'
-  leg:
-    name: Leg
-    order: 5
+  - name: Leg
     description: 'A leg can be a video call, IP call, or PSTN call that users participate in using multiple platforms. With this endpoint you can retrieve the details about all of the legs that took place in your application.'
-  rtc:
-    name: Rtc
-    order: 6
+  - name: Rtc
     description: Rtc actions. Any rtc action related (like starting a new rtc connection).
