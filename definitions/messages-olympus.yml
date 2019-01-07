@@ -155,7 +155,7 @@ components:
         status:
           type: string
           example: delivered
-          description: The status of the message. The `read` message status is only available for `messenger`.
+          description: The status of the message. The `read` message status is only available for `messenger` and `whatsapp`.
           enum:
             - submitted
             - delivered
