@@ -259,6 +259,20 @@ components:
               description: ‘A full list of the possible tags is available on [developers.facebook.com](https://developers.facebook.com/docs/messenger-platform/send-messages/message-tags)'
               type: string
               example: 'ticket_update'
+        whatsapp:
+          type: object
+          properties:
+            policy:
+              description: 'There are two policies that you can specify when sending an Message Template: `deterministic` and `fallback`. `deterministic` — Deliver the Message Template in exactly the language and locale asked for. `fallback` — Deliver the Message Template in the language that matches users language/locale setting on device. If one can not be found, deliver using the specified fallback language.'
+              type: string
+              example: 'deterministic'
+              enum:
+                - fallback
+                - deterministic
+            locale:
+              description: 'We are using the industry standard, BCP 47, for locales. So in your API call to the /messages API you will need to put “en-GB” and this will refer to the “en_GB” template for WhatsApp.'
+              type: string
+              example: 'en-GB'
 
     FailoverProperty:
       description: 'Please note that last message does not have failover attribute inside it. All other messages must contain a failover attribute.'
