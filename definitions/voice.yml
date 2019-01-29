@@ -27,7 +27,6 @@ paths:
               required:
                 - to
                 - from
-                - answer_url
                 - event_url
               properties:
                 to:
@@ -39,9 +38,27 @@ paths:
                     - "$ref": "#/components/schemas/EndpointWebsocket"
                 from:
                   "$ref": "#/components/schemas/EndpointPhone"
+                ncco:
+                  description: |
+                    **Required** unless `answer_url` is provided.
+
+                    The [Nexmo Call Control Object](/voice/voice-api/ncco-reference) to use for this call.
+                  type: array
+                  x-nexmo-developer-collection-description-shown: true
+                  example: |
+                      [
+                        {
+                          "action":"talk",
+                          "text": "Hello World"
+                        }
+                      ]
+                  items:
+                    type: string
                 answer_url:
-                  description: The webhook endpoint where you provide the Nexmo Call
-                    Control Object that governs this call.
+                  description: |
+                    **Required** unless `ncco` is provided.
+
+                    The webhook endpoint where you provide the [Nexmo Call Control Object](/voice/voice-api/ncco-reference) that governs this call.
                   type: array
                   x-nexmo-developer-collection-description-shown: true
                   example: '["https://example.com/answer"]'
