@@ -10,6 +10,8 @@ COMMAND="$COMMAND -s operation-tags"
 COMMAND="$COMMAND -s default-and-example-are-redundant"
 # Our tag order is respected when rendering in the sidebar. We don't want them alphabetical
 COMMAND="$COMMAND -s openapi-tags-alphabetical"
+# There's an issue that means file-based refs trigger this rule incorrectly
+COMMAND="$COMMAND -s reference-no-other-properties"
 
 for i in $(ls definitions/*.yml); do
   echo -n "$i "
