@@ -735,15 +735,19 @@ components:
           example: error
   securitySchemes:
     apiKey:
-      type: apiKey
+      required: true
       name: api_key
+      schema:
+       type: string
       in: query
       description: >-
         You can find your API key in your Nexmo account [developer
         dashboard](https://dashboard.nexmo.com/)
     apiSecret:
-      type: apiKey
+      required: true
       name: api_secret
+      schema:
+        type: string
       in: query
       description: >-
         You can find your API secret in your Nexmo account [developer
