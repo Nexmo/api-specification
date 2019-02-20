@@ -237,12 +237,12 @@ paths:
           in: query
           description: >-
             Specifies the wait time in seconds between attempts to deliver the
-            verification code. Verify calculates the default value based on the average time
-            taken by users to complete verification.
+            verification code. 
           schema:
             type: integer
             minimum: 60
             maximum: 900
+            default: 300
           example: 300
       responses:
         '200':
