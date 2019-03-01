@@ -578,7 +578,7 @@ paths:
                     description: 'A list of conversation objects. See the [get details of a specific conversation](#retrieveConversation) response fields for a description of the nested objects'
                     type: object
                     properties:
-                      conversations:
+                      legs:
                         type: array
                         items:
                           type: object
