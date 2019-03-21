@@ -27,34 +27,25 @@ externalDocs:
 security:
   - apiKey: []
     apiSecret: []
-tags:
-  - name: Verify Request
-    description: >-
-      Generate and send a PIN to your user. You use the `request_id` in the
-      response for the Verify check.
-  - name: Verify Check
-    description: >-
-      Confirm that the PIN you received from your user matches the one sent by
-      Nexmo as a result of your Verify request.
-  - name: Verify Search
-    description: Lookup the status of one or more requests.
-  - name: Verify Control
-    description: Control the progress of your Verify Requests.
 paths:
   '/{format}':
     get:
+      summary: Verify Request
       description: >-
-        To use Verify request you:
+        Use Verify request to generate and send a PIN to your user:
 
 
         1. Create a request to send a verification code to your user.
 
+
         2. Check the `status` field in the response to ensure that your request
         was successful.
+
+
+        3. Use the `request_id` field in the response for the Verify check.
+
+
       operationId: verifyRequest
-      summary: Verify request
-      tags:
-        - Verify Request
       parameters:
         - $ref: '#/components/parameters/format'
         - name: number
@@ -257,16 +248,15 @@ paths:
   '/check/{format}':
     get:
       description: >-
-        To use Verify check you:
+        Use Verify check to confirm that the PIN you received from your user matches the one sent by
+        Nexmo in your Verify request.
 
 
-        1. Send the verification code that your user supplied, with the corresponding `request_id` from the Verify request.
+        1. Send the verification `code` that your user supplied, with the corresponding `request_id` from the Verify request.
 
         2. Check the `status` of the response to determine if the code the user supplied matches the one sent by Nexmo.
       operationId: verifyCheck
       summary: Verify check
-      tags:
-        - Verify Check
       parameters:
         - $ref: '#/components/parameters/format'
         - name: request_id
@@ -311,17 +301,15 @@ paths:
   '/search/{format}':
     get:
       description: >-
-        To check the status of past or current verification requests:
+        Use Verify search to check the status of past or current verification requests:
 
 
-        1. Send a Verify Search request containing the `request_id`s of the
-        verification requests you are interested in
+        1. Send a Verify search request containing the `request_id`s of the
+        verification requests you are interested in.
 
-        2. Use the `status` of each verification request in the `checks` array of the response object to determine the outcome
+        2. Use the `status` of each verification request in the `checks` array of the response object to determine the outcome.
       operationId: verifySearch
       summary: Verify search
-      tags:
-        - Verify Search
       parameters:
         - $ref: '#/components/parameters/format'
         - name: request_id
@@ -360,16 +348,14 @@ paths:
   '/control/{format}':
     get:
       description: |-
-        To cancel an existing Verify request, or to trigger the next verification event:
+        Control the progress of your Verify requests. To cancel an existing Verify request, or to trigger the next verification event:
 
 
-        1. Send a Verify control request with the appropriate command (`cmd`) for what you want to achieve
+        1. Send a Verify control request with the appropriate command (`cmd`) for what you want to achieve.
 
-        2. Check the response.
+        2. Check the `status` in the response.
       operationId: verifyControl
       summary: Verify control
-      tags:
-        - Verify Control
       parameters:
         - $ref: '#/components/parameters/format'
         - name: request_id
