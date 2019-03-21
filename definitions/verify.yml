@@ -45,6 +45,7 @@ paths:
         3. Use the `request_id` field in the response for the Verify check.
 
 
+        **Note**: You can make a __maximum of one verify request per second__.
       operationId: verifyRequest
       parameters:
         - $ref: '#/components/parameters/format'
