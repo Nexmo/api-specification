@@ -1,7 +1,7 @@
 ---
 openapi: "3.0.0"
 info:
-  version: 1.0.0
+  version: 1.0.1
   title: "Application API"
   description: |
     Nexmo provides an Application API to allow programatic management of your Nexmo Applications.
@@ -187,13 +187,13 @@ paths:
         '400':
           $ref: '#/components/responses/InvalidPayloadError'
         '401':
-          $ref: '../shared_errors.yml#/components/responses/BadCredentialsError'
+          $ref: 'common/common_errors.yml#/components/responses/BadCredentialsError'
         '405':
-          $ref: '../shared_errors.yml#/components/responses/InvalidRequestMethod'
+          $ref: 'common/common_errors.yml#/components/responses/InvalidRequestMethod'
         '406':
-          $ref: '../shared_errors.yml#/components/responses/InvalidAcceptHeader'
+          $ref: 'common/common_errors.yml#/components/responses/InvalidAcceptHeader'
         '415':
-          $ref: '../shared_errors.yml#/components/responses/UnsupportedContentTypeHeader'
+          $ref: 'common/common_errors.yml#/components/responses/UnsupportedContentTypeHeader'
 
     get:
       operationId: listApplication
@@ -268,13 +268,13 @@ paths:
                           type: string
                           example: must be between 1 and 100
                   instance:
-                    $ref: '../shared_errors.yml#/components/fields/instance'
+                    $ref: 'common/common_errors.yml#/components/fields/instance'
         '401':
-          $ref: '../shared_errors.yml#/components/responses/BadCredentialsError'
+          $ref: 'common/common_errors.yml#/components/responses/BadCredentialsError'
         '405':
-          $ref: '../shared_errors.yml#/components/responses/InvalidRequestMethod'
+          $ref: 'common/common_errors.yml#/components/responses/InvalidRequestMethod'
         '406':
-          $ref: '../shared_errors.yml#/components/responses/InvalidAcceptHeader'
+          $ref: 'common/common_errors.yml#/components/responses/InvalidAcceptHeader'
 
   /v2/applications/{id}:
     parameters:
@@ -296,13 +296,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/ApplicationResponse'
         '401':
-          $ref: '../shared_errors.yml#/components/responses/BadCredentialsError'
+          $ref: 'common/common_errors.yml#/components/responses/BadCredentialsError'
         '404':
-          $ref: '../shared_errors.yml#/components/responses/NotFoundError'
+          $ref: 'common/common_errors.yml#/components/responses/NotFoundError'
         '405':
-          $ref: '../shared_errors.yml#/components/responses/InvalidRequestMethod'
+          $ref: 'common/common_errors.yml#/components/responses/InvalidRequestMethod'
         '406':
-          $ref: '../shared_errors.yml#/components/responses/InvalidAcceptHeader'
+          $ref: 'common/common_errors.yml#/components/responses/InvalidAcceptHeader'
 
     put:
       summary: Update an application
@@ -474,15 +474,15 @@ paths:
         '400':
           $ref: '#/components/responses/InvalidPayloadError'
         '401':
-          $ref: '../shared_errors.yml#/components/responses/BadCredentialsError'
+          $ref: 'common/common_errors.yml#/components/responses/BadCredentialsError'
         '404':
-          $ref: '../shared_errors.yml#/components/responses/NotFoundError'
+          $ref: 'common/common_errors.yml#/components/responses/NotFoundError'
         '405':
-          $ref: '../shared_errors.yml#/components/responses/InvalidRequestMethod'
+          $ref: 'common/common_errors.yml#/components/responses/InvalidRequestMethod'
         '406':
-          $ref: '../shared_errors.yml#/components/responses/InvalidAcceptHeader'
+          $ref: 'common/common_errors.yml#/components/responses/InvalidAcceptHeader'
         '415':
-          $ref: '../shared_errors.yml#/components/responses/UnsupportedContentTypeHeader'
+          $ref: 'common/common_errors.yml#/components/responses/UnsupportedContentTypeHeader'
     delete:
       operationId: deleteApplication
       x-group: application
@@ -492,13 +492,13 @@ paths:
         '204':
           description: Success
         '401':
-          $ref: '../shared_errors.yml#/components/responses/BadCredentialsError'
+          $ref: 'common/common_errors.yml#/components/responses/BadCredentialsError'
         '404':
-          $ref: '../shared_errors.yml#/components/responses/NotFoundError'
+          $ref: 'common/common_errors.yml#/components/responses/NotFoundError'
         '405':
-          $ref: '../shared_errors.yml#/components/responses/InvalidRequestMethod'
+          $ref: 'common/common_errors.yml#/components/responses/InvalidRequestMethod'
         '406':
-          $ref: '../shared_errors.yml#/components/responses/InvalidAcceptHeader'
+          $ref: 'common/common_errors.yml#/components/responses/InvalidAcceptHeader'
 
 x-groups:
   application:
@@ -539,7 +539,7 @@ components:
                       type: string
                       example: 'must be one of: GET, POST'
               instance:
-                $ref: '../shared_errors.yml#/components/fields/instance'
+                $ref: 'common/common_errors.yml#/components/fields/instance'
  
   schemas:
     ApplicationResponse:
