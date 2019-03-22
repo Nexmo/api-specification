@@ -1,7 +1,7 @@
 ---
 openapi: "3.0.0"
 info:
-  version: 1.0.1
+  version: 1.0.2
   title: "Redact API"
   description: Nexmo provides [Redact API](https://developer.nexmo.com/redact/overview) to help organisations meet their privacy compliance obligations. Redact API allows you to redact private information on demand, allowing you to meet your own compliance needs.
   contact:
@@ -275,8 +275,7 @@ components:
          - number-insight
          - verify
          - verify-sdk
-         - message
-         - workflow
+         - messages
        type:
          type: string
          enum:

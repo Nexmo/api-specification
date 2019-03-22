@@ -36,6 +36,7 @@ paths:
                     - "$ref": "#/components/schemas/EndpointPhone"
                     - "$ref": "#/components/schemas/EndpointSip"
                     - "$ref": "#/components/schemas/EndpointWebsocket"
+                    - "$ref": "#/components/schemas/EndpointVBCExtension"
                 from:
                   "$ref": "#/components/schemas/EndpointPhone"
                 ncco:
@@ -716,6 +717,22 @@ components:
             - sip
         uri:
           "$ref": "#/components/schemas/AddressSip"
+    EndpointVBCExtension:
+      type: object
+      description: Connect to a VBC extension
+      required:
+        - type
+        - extension
+      properties:
+        type:
+          type: string
+          example: vbc
+          description: The type of connection. Must be `vbc`
+          enum:
+            - vbc
+        extension:
+          type: string
+          example: '1234'         
     AddressE164:
       description: The phone number to connect to
       type: string

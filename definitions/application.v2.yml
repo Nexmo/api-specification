@@ -192,6 +192,8 @@ paths:
           $ref: '../shared_errors.yml#/components/responses/InvalidRequestMethod'
         '406':
           $ref: '../shared_errors.yml#/components/responses/InvalidAcceptHeader'
+        '415':
+          $ref: '../shared_errors.yml#/components/responses/UnsupportedContentTypeHeader'
 
     get:
       operationId: listApplication
@@ -479,6 +481,8 @@ paths:
           $ref: '../shared_errors.yml#/components/responses/InvalidRequestMethod'
         '406':
           $ref: '../shared_errors.yml#/components/responses/InvalidAcceptHeader'
+        '415':
+          $ref: '../shared_errors.yml#/components/responses/UnsupportedContentTypeHeader'
     delete:
       operationId: deleteApplication
       x-group: application

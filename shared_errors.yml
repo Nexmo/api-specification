@@ -40,7 +40,7 @@ components:
               instance:
                 $ref: '#/components/fields/instance'
     NotFoundError:
-      description: Credential is missing or invalid
+      description: Resource Not Found
       content:
         application/json:
           schema:
@@ -57,7 +57,7 @@ components:
               instance:
                 $ref: '#/components/fields/instance'
     InvalidRequestMethod:
-      description: Credential is missing or invalid
+      description: Invalid Request Method
       content:
         application/json:
           schema:
@@ -74,7 +74,7 @@ components:
               instance:
                 $ref: '#/components/fields/instance'
     InvalidAcceptHeader:
-      description: Credential is missing or invalid
+      description: Invalid Accept Header
       content:
         application/json:
           schema:
@@ -88,5 +88,22 @@ components:
               detail:
                 type: string
                 example: "Invalid Accept header provided. Must be one of the following: 'application/json'"
+              instance:
+                $ref: '#/components/fields/instance'
+    UnsupportedContentTypeHeader:
+      description: Unsupported Content Type Header
+      content:
+        application/json:
+          schema:
+            properties:
+              type:
+                type: string
+                example: 'https://developer.nexmo.com/api-errors#content-type-header'
+              title:
+                type: string
+                example: Unsupported Content-Type header
+              detail:
+                type: string
+                example: "Unsupported Content-Type header provided. Must be one of the following: 'application/json'"
               instance:
                 $ref: '#/components/fields/instance'
