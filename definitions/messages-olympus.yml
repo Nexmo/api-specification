@@ -2,7 +2,7 @@ openapi: "3.0.0"
 info:
   version: 0.3.0
   title: Messages API
-  description: 'The Messaging API is a new API that consolidates all messaging channels. It encapsulates a user (developer) from having to use multiple APIs to interact with our various channels such as SMS, MMS, Viber, Facebook Messenger, etc. The API normalises information across all channels to abstracted to, from and content. This API is currently Beta.'
+  description: 'The Messaging API is a new API that consolidates all messaging channels. It encapsulates a user (developer) from having to use multiple APIs to interact with our various channels such as SMS, MMS, Viber, Facebook Messenger, etc. The API normalises information across all channels to abstracted to, from and content. This API is currently in Beta.'
   contact:
     name: Nexmo DevRel
     email: devrel@nexmo.com
@@ -10,7 +10,6 @@ info:
   x-label: Beta
 servers:
   - url: https://api.nexmo.com/v0.1
-
 paths:
   /messages:
     post:
@@ -356,7 +355,7 @@ components:
 
                 **Viber Service Messages**: supports `image` and `text` and `custom`.
 
-                **WhatsApp**: supports `template` and `text`.
+                **WhatsApp**: supports `template`, `text`, `image`, `audio` and `file`.
 
                 **SMS**: supports `text`.
 
@@ -463,7 +462,7 @@ components:
       properties:
         url:
           type: string
-          description: 'The URL of the image attachment. `messenger` supports .jpg, .png and .gif. `viber_service_msg` supports .jpg and .png.'
+          description: 'The URL of the image attachment. `messenger` supports .jpg, .png and .gif. `viber_service_msg` supports .jpg and .png. `whatsapp` supports .jpg and .png.'
           minLength: 1
           maxLength: 2000
           example: 'https://example.com/image.jpg'
@@ -472,7 +471,7 @@ components:
       properties:
         url:
           type: string
-          description: 'The URL of the audio attachment. `messenger` supports .mp3.'
+          description: 'The URL of the audio attachment. `messenger` supports .mp3. `whatsapp` supports .acc, .m4a, .amr, .mp3 and .opus'
           minLength: 1
           maxLength: 2000
           example: 'https://example.com/audio.mp3'
@@ -490,7 +489,7 @@ components:
       properties:
         url:
           type: string
-          description: 'The URL of the file attachment. `messenger` supports a wide range of attachments including .zip, .csv and .pdf'
+          description: 'The URL of the file attachment. `messenger` supports a wide range of attachments including .zip, .csv and .pdf. `whatsapp` supports .pdf, .doc(x), .ppt(x) and .xls(x).'
           minLength: 1
           maxLength: 2000
           example: 'https://example.com/file.zip'
@@ -642,6 +641,9 @@ x-errors:
 
   1330:
     description: Unknown  -  An unknown error was received from the carrier who tried to send this this message. Depending on the carrier, that to is unknown. When you see this error, and status is rejected, always check if to in your request was valid.
+  
+  1331:
+    description: Provider error. 
 
   1340:
     description: Outside of the allowed window  -  This message is sent outside of allowed response window.
@@ -651,3 +653,15 @@ x-errors:
 
   1360:
     description: TTL was activated  -  TTL was activated, no callbacks and no charge will be issued.
+
+  1370:
+    description: Expired access Token.
+  
+  1380:
+    description: Invalid resource - Please check that the URL your provided to your resrouce is accesible and valid.
+  
+  1381:
+    description: Resource size is too large - Please try sending a smaller media file.
+    
+  1382:
+    description: Resource type is invalid - Please check that the file you are trying to send is valid.

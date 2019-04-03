@@ -2,7 +2,7 @@ openapi: "3.0.0"
 info:
   version: 0.3.0
   title: Dispatch API
-  description: 'The Dispatch API enables the developer to specify a multiple message workflow. A workflow follows a template. The first one we are adding is the failover template. The failover template instructs the Messages API to first send a message to the specified channel. If that message fails immediately or if the condition_status is not reached within the given time period the next message is sent. The developer will also receive status webhooks from the messages resource for each delivery and read event. This API is currently Beta.'
+  description: 'The Dispatch API enables the developer to specify a multiple message workflow. A workflow follows a template. The first one we are adding is the failover template. The failover template instructs the Messages API to first send a message to the specified channel. If that message fails immediately or if the condition_status is not reached within the given time period the next message is sent. The developer will also receive status webhooks from the messages resource for each delivery and read event. This API is currently in Beta.'
   contact:
     name: Nexmo DevRel
     email: devrel@nexmo.com
@@ -188,11 +188,11 @@ components:
               description: |
                 The type of message that you are sending.
 
-                **Messenger**: supports all types.
+                **Messenger**: supports `text`, `image`, `audio`, `video` and `file`.
 
                 **Viber Service Messages**: supports `image` and `text`.
                 
-                **WhatsApp**: supports `template` and `text`.
+                **WhatsApp**: supports `template`, `text`, `image`, `audio` and `file`.
 
                 **SMS**: supports `text`.
               type: string
@@ -303,7 +303,7 @@ components:
         properties:
           url:
             type: string
-            description: 'The URL of the image attachment. `messenger` supports .jpg, .png and .gif. `viber_service_msg` supports .jpg and .png.'
+            description: 'The URL of the image attachment. `messenger` supports .jpg, .png and .gif. `viber_service_msg` supports .jpg and .png. `whatsapp` supports .jpg and .png.'
             minLength: 1
             maxLength: 2000
             example: 'https://example.com/image.jpg'
@@ -312,7 +312,7 @@ components:
       properties:
         url:
           type: string
-          description: 'The URL of the audio attachment. `messenger` supports .mp3.'
+          description: 'The URL of the audio attachment. `messenger` supports .mp3. `whatsapp` supports .acc, .m4a, .amr, .mp3 and .opus.'
           minLength: 1
           maxLength: 2000
           example: 'https://example.com/audio.mp3'
@@ -330,7 +330,7 @@ components:
       properties:
         url:
           type: string
-          description: 'The URL of the file attachment. `messenger` supports a wide range of attachments including .zip, .csv and .pdf'
+          description: 'The URL of the file attachment. `messenger` supports a wide range of attachments including .zip, .csv and .pdf. `whatsapp` supports .pdf, .doc(x), .ppt(x) and .xls(x).'
           minLength: 1
           maxLength: 2000
           example: 'https://example.com/file.zip'
