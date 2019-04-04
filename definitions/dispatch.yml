@@ -307,6 +307,12 @@ components:
             minLength: 1
             maxLength: 2000
             example: 'https://example.com/image.jpg'
+          caption:
+            type: string
+            description: 'Additional text to accompany the image. Supported by WhatsApp and MMS.'
+            minLength: 1
+            maxLength: 3000
+            example: 'Additional text to accompany the image.'
     AudioProperty:
       type: object
       properties:
@@ -334,6 +340,12 @@ components:
           minLength: 1
           maxLength: 2000
           example: 'https://example.com/file.zip'
+        caption:
+          type: string
+          description: 'Additional text to accompany the image. Supported by WhatsApp and MMS.'
+          minLength: 1
+          maxLength: 3000
+          example: 'Additional text to accompany the image.'
     TemplateProperty:
       type: object
       properties:
@@ -537,6 +549,8 @@ components:
                       - messenger
                       - viber_sevice_msg
                       - sms
+                      - whatsapp
+                      - mms
                     example: viber_service_msg
                   usage:
                     type: object

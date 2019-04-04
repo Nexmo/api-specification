@@ -265,7 +265,7 @@ components:
                 audio:
                   $ref: '#/components/schemas/AudioProperty'
                 video:
-                  $ref: '#/components/schemas/VideoProperty'
+                  $ref: '#/components/schemas/VideoPropertyInbound'
                 file:
                   $ref: '#/components/schemas/FileProperty'
                 location:
@@ -351,7 +351,7 @@ components:
               description: |
                 The type of message that you are sending.
 
-                **Messenger**: supports all types.
+                **Messenger**: supports `text`, `image`, `audio`, `video` and `file`.
 
                 **Viber Service Messages**: supports `image` and `text` and `custom`.
 
@@ -466,12 +466,18 @@ components:
           minLength: 1
           maxLength: 2000
           example: 'https://example.com/image.jpg'
+        caption:
+          type: string
+          description: 'Additional text to accompany the image. Supported by WhatsApp and MMS.'
+          minLength: 1
+          maxLength: 3000
+          example: 'Additional text to accompany the image.'
     AudioProperty:
       type: object
       properties:
         url:
           type: string
-          description: 'The URL of the audio attachment. `messenger` supports .mp3. `whatsapp` supports .acc, .m4a, .amr, .mp3 and .opus'
+          description: 'The URL of the audio attachment. `messenger` supports .mp3. `whatsapp` supports .acc, .m4a, .amr, .mp3 and .opus.'
           minLength: 1
           maxLength: 2000
           example: 'https://example.com/audio.mp3'
@@ -484,6 +490,21 @@ components:
           minLength: 1
           maxLength: 2000
           example: 'https://example.com/video.mp4'
+    VideoPropertyInbound:
+      type: object
+      properties:
+        url:
+          type: string
+          description: 'The URL of the video attachment. `messenger` and `whatsapp` supports .mp4.'
+          minLength: 1
+          maxLength: 2000
+          example: 'https://example.com/video.mp4'
+        caption:
+          type: string
+          description: 'Additional text to accompany the image. Only supported by WhatsApp.'
+          minLength: 1
+          maxLength: 3000
+          example: 'Additional text to accompany the image.'
     FileProperty:
       type: object
       properties:
@@ -493,6 +514,12 @@ components:
           minLength: 1
           maxLength: 2000
           example: 'https://example.com/file.zip'
+        caption:
+          type: string
+          description: 'Additional text to accompany the image. Only supported by WhatsApp.'
+          minLength: 1
+          maxLength: 3000
+          example: 'Additional text to accompany the image.'
     TemplateProperty:
       type: object
       properties:
@@ -655,7 +682,7 @@ x-errors:
     description: TTL was activated  -  TTL was activated, no callbacks and no charge will be issued.
 
   1370:
-    description: Expired access Token.
+    description: Expired access Token - Please reauthenticate your Facebook Page with Nexmo.
   
   1380:
     description: Invalid resource - Please check that the URL your provided to your resrouce is accesible and valid.
