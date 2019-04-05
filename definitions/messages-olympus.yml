@@ -213,11 +213,20 @@ components:
               example: messenger
               enum:
                 - messenger
+                - mms
                 - whatsapp
             id:
               type: string
               description: The ID of the recipient.
               example: '0123456678901234'
+            number:
+              type: string
+              minLength: 1
+              maxLength: 50
+              example: '447700900000'
+              description: |
+                **WhatsApp** or **MMS**: 
+                The phone number of the message recipient in the [E.164](https://en.wikipedia.org/wiki/E.164) format. Don't use a leading + or 00 when entering a phone number, start with the country code, for example, 447700900000.
         from:
           type: object
           required:
@@ -229,11 +238,20 @@ components:
               example: messenger
               enum:
                 - messenger
+                - mms
                 - whatsapp
             id:
               type: string
               description: The ID of the sender.
               example: '0123456789012345'
+            number:
+              type: string
+              minLength: 1
+              maxLength: 50
+              example: '447700900000'
+              description: |
+                **WhatsApp** or **MMS**: 
+                The phone number of the message sender in the [E.164](https://en.wikipedia.org/wiki/E.164) format. Don't use a leading + or 00 when entering a phone number, start with the country code, for example, 447700900000.
         timestamp:
           type: string
           format: ISO 8601
@@ -247,7 +265,7 @@ components:
               properties:
                 type:
                   type: string
-                  description: The type of message being received.
+                  description: The type of message being received. `whatsapp` and `messenger` supports `text`, `image`, `audio`, `file` and `location`. `mms` supports `image`. `whatsapp` maximum inbound size is 64mb.
                   example: 'text'
                   enum:
                     - text
@@ -355,7 +373,7 @@ components:
 
                 **Viber Service Messages**: supports `image` and `text` and `custom`.
 
-                **WhatsApp**: supports `template`, `text`, `image`, `audio` and `file`.
+                **WhatsApp**: supports `template`, `text`, `image`, `audio` and `file`. Maxmimum outbound media size is 5mb.
 
                 **SMS**: supports `text`.
 
@@ -462,7 +480,7 @@ components:
       properties:
         url:
           type: string
-          description: 'The URL of the image attachment. `messenger` supports .jpg, .png and .gif. `viber_service_msg` supports .jpg and .png. `whatsapp` supports .jpg and .png.'
+          description: 'The URL of the image attachment. `messenger` and `mms` supports .jpg, .jpeg, .png and .gif. `viber_service_msg` supports .jpg .jpeg, and .png. `whatsapp` supports .jpg .jpeg, and .png.'
           minLength: 1
           maxLength: 2000
           example: 'https://example.com/image.jpg'
