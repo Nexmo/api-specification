@@ -516,7 +516,7 @@ components:
           example: 'https://example.com/file.zip'
         caption:
           type: string
-          description: 'Additional text to accompany the image. Only supported by WhatsApp.'
+          description: 'Additional text to accompany the image. Only supported by WhatsApp. Optional. Only present if specified.'
           minLength: 1
           maxLength: 3000
           example: 'Additional text to accompany the image.'
