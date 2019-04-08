@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Numbers API
-  version: 1.0.3
+  version: 1.0.4
   description: >-
     The Numbers API enables you to manage your existing numbers and buy new virtual numbers for
     use with Nexmo's APIs.
@@ -23,14 +23,14 @@ externalDocs:
   url: 'https://developer.nexmo.com/api/developer/numbers'
   x-sha1: 8ad8bc6b0c51af4ca458c13cfced6124783ab113
 paths:
-  '/account/numbers/{NEXMO_API_KEY}/{NEXMO_API_SECRET}':
+  '/account/numbers':
     get:
       operationId: getOwnedNumbers
       summary: List the numbers you own
       description: Retrieve all the inbound numbers associated with your Nexmo account.
       parameters:
-        - $ref: '#/components/parameters/apiKeyPath'
-        - $ref: '#/components/parameters/apiSecretPath'             
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/apiSecret'             
         - $ref: '#/components/parameters/index'
         - $ref: '#/components/parameters/size'
         - $ref: '#/components/parameters/pattern'
@@ -254,25 +254,7 @@ components:
         You can find your API secret in the [developer dashboard](https://dashboard.nexmo.com)
       schema:
         type: string
-      example: Ab1CDEfghIJ23k4          
-    apiKeyPath:
-      name: NEXMO_API_KEY
-      in: path
-      required: true
-      description: >-
-        You can find your API key in the [developer dashboard](https://dashboard.nexmo.com)
-      schema:
-        type: string
-      example: 1a23b45c         
-    apiSecretPath:
-      name: NEXMO_API_SECRET
-      in: path
-      required: true
-      description: >-
-        You can find your API secret in the [developer dashboard](https://dashboard.nexmo.com)  
-      schema:
-        type: string
-      example: Ab1CDEfghIJ23k4                 
+      example: Ab1CDEfghIJ23k4                       
     index:
       name: index
       required: false
