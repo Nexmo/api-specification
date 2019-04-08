@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Numbers API
-  version: 1.0.4
+  version: 1.0.5
   description: >-
     The Numbers API enables you to manage your existing numbers and buy new virtual numbers for
     use with Nexmo's APIs.
@@ -22,15 +22,16 @@ servers:
 externalDocs:
   url: 'https://developer.nexmo.com/api/developer/numbers'
   x-sha1: 8ad8bc6b0c51af4ca458c13cfced6124783ab113
+security:
+  - apiKey: []
+    apiSecret: []  
 paths:
   '/account/numbers':
     get:
       operationId: getOwnedNumbers
       summary: List the numbers you own
       description: Retrieve all the inbound numbers associated with your Nexmo account.
-      parameters:
-        - $ref: '#/components/parameters/apiKey'
-        - $ref: '#/components/parameters/apiSecret'             
+      parameters:          
         - $ref: '#/components/parameters/index'
         - $ref: '#/components/parameters/size'
         - $ref: '#/components/parameters/pattern'
@@ -51,10 +52,8 @@ paths:
     get:
       operationId: getAvailableNumbers
       summary: Search available numbers
-      description: Retrieve inbound numbers that are available for    the specified country.
-      parameters:
-        - $ref: '#/components/parameters/apiKey'
-        - $ref: '#/components/parameters/apiSecret'        
+      description: Retrieve inbound numbers that are available for the specified country.
+      parameters:      
         - $ref: '#/components/parameters/country'
         - $ref: '#/components/parameters/type'        
         - $ref: '#/components/parameters/pattern'
@@ -90,18 +89,17 @@ paths:
     post:
       operationId: buyANumber
       summary: Buy a number
-      description: Request to purchase a specific inbound number.
-      parameters:
-        - $ref: '#/components/parameters/apiKey'
-        - $ref: '#/components/parameters/apiSecret'        
-        - $ref: '#/components/parameters/country'
-        - name: msisdn
-          required: true
-          in: query
-          description: An available inbound virtual number
-          schema:
-            type: string
-          example: '447700900000'
+      description: Request to purchase a specific inbound number.   
+      requestBody:
+        description: Number details
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/number-details'
+          text/xml:
+            schema:
+              $ref: '#/components/schemas/number-details'            
       responses:
         '200':
           description: OK
@@ -119,17 +117,16 @@ paths:
       operationId: cancelANumber
       summary: Cancel a number
       description: Cancel your subscription for a specific inbound number.
-      parameters:
-        - $ref: '#/components/parameters/apiKey'
-        - $ref: '#/components/parameters/apiSecret'        
-        - $ref: '#/components/parameters/country'
-        - name: msisdn
-          required: true
-          in: query
-          description: The inbound number you want to cancel, in [E.164 international format](/concepts/guides/glossary#e-164-format)
-          schema:
-            type: string
-          example: '447700900000'
+      requestBody:
+        description: Number details
+        required: true        
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/number-details'
+          text/xml:
+            schema:
+              $ref: '#/components/schemas/number-details'                                      
       responses:
         '200':
           description: OK
@@ -146,83 +143,17 @@ paths:
     post:
       operationId: updateANumber
       summary: Update a number
-      description: Change the behaviour of a number that you own.
-      parameters:
-        - $ref: '#/components/parameters/apiKey'
-        - $ref: '#/components/parameters/apiSecret'        
-        - $ref: '#/components/parameters/country'
-        - name: msisdn
-          required: true
-          in: query
-          description: The inbound number you want to update, in [E.164 international format](/concepts/guides/glossary#e-164-format)
-          schema:
-            type: string
-          example: '447700900000'
-        - name: moHttpUrl
-          required: false
-          in: query
-          description: >-
-            An URL-encoded URI to the webhook endpoint that handles inbound
-            messages. Your webhook endpoint must be active before you make this
-            request. Nexmo makes a `GET` request to the endpoint and checks
-            that it returns a `200 OK` response. Set this parameter's value to an empty string to remove the webhook.
-          schema:
-            type: string
-          example: 'https://example.com/webhooks/inbound-sms'
-        - name: moSmppSysType
-          required: false
-          in: query
-          description: The associated system type for your SMPP client
-          schema:
-            type: string
-          example: inbound
-        - name: messagesCallbackType
-          required: false
-          in: query
-          description: The SMS webhook type (always `app`). Must be used
-            with the `messagesCallbackValue` parameter.
-          schema:
-            type: string
-            enum:
-              - app
-          example: app
-        - name: messagesCallbackValue
-          required: false
-          in: query
-          description: >-
-            A Nexmo Application ID. Must be used
-            with the `messagesCallbackType` parameter.
-          schema:
-            type: string
-          example: 'aaaaaaaa-bbbb-cccc-dddd-0123456789ab'          
-        - name: voiceCallbackType
-          required: false
-          in: query
-          description: The voice webhook type. Must be used
-            with the `voiceCallbackValue` parameter.
-          schema:
-            type: string
-            enum:
-              - sip
-              - tel
-              - app
-          example: sip
-        - name: voiceCallbackValue
-          required: false
-          in: query
-          description: >-
-            A SIP URI, telephone number or Application ID. Must be used
-            with the `voiceCallbackType` parameter.
-          schema:
-            type: string
-          example: '447700900000'
-        - name: voiceStatusCallback
-          required: false
-          in: query
-          description: A webhook URI for Nexmo to send a request to when a call ends
-          schema:
-            type: string
-          example: 'https://example.com/webhooks/status'
+      description: Change the behaviour of a number that you own.     
+      requestBody:
+        description: Number details
+        required: true        
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/number-details-update'               
+          text/xml:
+            schema:
+              $ref: '#/components/schemas/number-details-update'                      
       responses:
         '200':
           description: OK
@@ -236,25 +167,18 @@ paths:
         '401':
           description: Unauthorized
 components:
-  parameters:
+  securitySchemes:
     apiKey:
+      type: apiKey
       name: api_key
       in: query
-      required: true
-      description: >-
-        You can find your API key in the [developer dashboard](https://dashboard.nexmo.com)
-      schema:
-        type: string
-      example: 1a23b45c        
+      description: 'You can find your API key in the [developer dashboard](https://dashboard.nexmo.com)'
     apiSecret:
+      type: apiKey
       name: api_secret
       in: query
-      required: true
-      description: >-
-        You can find your API secret in the [developer dashboard](https://dashboard.nexmo.com)
-      schema:
-        type: string
-      example: Ab1CDEfghIJ23k4                       
+      description: 'You can find your API key in the [developer dashboard](https://dashboard.nexmo.com)'
+  parameters:                     
     index:
       name: index
       required: false
@@ -320,7 +244,16 @@ components:
           - landline
           - mobile-lvn
           - landline-toll-free
-      example: mobile-lvn      
+      example: mobile-lvn
+    msisdn:  
+      name: msisdn
+      required: true
+      in: query
+      description: The inbound number you want to cancel, in [E.164 international format](/concepts/guides/glossary#e-164-format)
+      schema:
+        type: string
+      example: '447700900000'
+                     
   schemas:
     number:
       type: object
@@ -391,6 +324,81 @@ components:
           description: A paginated array of available numbers and their details.
           items:
             $ref: '#/components/schemas/number'
+
+    number-details:
+      type: object
+      properties:
+        country:
+          type: string
+          example: GB
+          description: The two character country code in ISO 3166-1 alpha-2 format
+        msisdn:
+          type: string
+      
+          example: '447700900000'
+          description: An available inbound virtual number. 
+      required:
+        - country
+        - msisdn     
+
+    number-details-update:
+      type: object
+      properties:
+        country:
+          type: string
+          example: GB
+          description: The two character country code in ISO 3166-1 alpha-2 format
+        msisdn:
+          type: string
+          example: '447700900000'
+          description: An available inbound virtual number.       
+        moHttpUrl:
+          description: >-
+            An URL-encoded URI to the webhook endpoint that handles inbound
+            messages. Your webhook endpoint must be active before you make this
+            request. Nexmo makes a `GET` request to the endpoint and checks
+            that it returns a `200 OK` response. Set this parameter's value to an empty string to remove the webhook.
+          type: string
+          example: 'https://example.com/webhooks/inbound-sms'
+        moSmppSysType:
+          description: The associated system type for your SMPP client
+          type: string
+          example: inbound
+        messagesCallbackType:
+          description: The SMS webhook type (always `app`). Must be used
+            with the `messagesCallbackValue` parameter.
+          type: string
+          enum:
+            - app
+          example: app
+        messagesCallbackValue:
+          description: >-
+            A Nexmo Application ID. Must be used
+            with the `messagesCallbackType` parameter.
+          type: string
+          example: 'aaaaaaaa-bbbb-cccc-dddd-0123456789ab'
+        voiceCallbackType:       
+          description: The voice webhook type. Must be used
+            with the `voiceCallbackValue` parameter.
+          type: string
+          enum:
+            - sip
+            - tel
+            - app
+          example: sip
+        voiceCallbackValue:
+          description: >-
+            A SIP URI, telephone number or Application ID. Must be used
+            with the `voiceCallbackType` parameter.
+          type: string
+          example: '447700900000'
+        voiceStatusCallback:
+          description: A webhook URI for Nexmo to send a request to when a call ends
+          type: string
+          example: 'https://example.com/webhooks/status'
+      required:
+        - country
+        - msisdn                      
     response:
       type: object
       properties:
