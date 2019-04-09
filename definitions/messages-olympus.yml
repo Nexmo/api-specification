@@ -226,7 +226,7 @@ components:
               example: '447700900000'
               description: |
                 **WhatsApp** or **MMS**: 
-                The phone number of the message recipient in the [E.164](https://en.wikipedia.org/wiki/E.164) format. Don't use a leading + or 00 when entering a phone number, start with the country code, for example, 447700900000.
+                The phone number of the message recipient in the [E.164](https://en.wikipedia.org/wiki/E.164) format.
         from:
           type: object
           required:
@@ -251,7 +251,7 @@ components:
               example: '447700900000'
               description: |
                 **WhatsApp** or **MMS**: 
-                The phone number of the message sender in the [E.164](https://en.wikipedia.org/wiki/E.164) format. Don't use a leading + or 00 when entering a phone number, start with the country code, for example, 447700900000.
+                The phone number of the message sender in the [E.164](https://en.wikipedia.org/wiki/E.164) format.
         timestamp:
           type: string
           format: ISO 8601
@@ -265,7 +265,10 @@ components:
               properties:
                 type:
                   type: string
-                  description: The type of message being received. `whatsapp` and `messenger` supports `text`, `image`, `audio`, `file` and `location`. `mms` supports `image`. `whatsapp` maximum inbound size is 64mb.
+                  description: |
+                    The type of message being received. 
+                    **whatsapp** and **messenger** supports `text`, `image`, `audio`, `file` and `location`. WhatsApp maximum inbound size is 64mb.
+                    **mms** supports `image`. 
                   example: 'text'
                   enum:
                     - text
@@ -480,7 +483,14 @@ components:
       properties:
         url:
           type: string
-          description: 'The URL of the image attachment. `messenger` and `mms` supports .jpg, .jpeg, .png and .gif. `viber_service_msg` supports .jpg .jpeg, and .png. `whatsapp` supports .jpg .jpeg, and .png.'
+          description: |
+            The URL of the image attachment. 
+            
+            **messenger** and **mms** supports .jpg, .jpeg, .png and .gif.
+
+            **viber_service_msg** supports .jpg .jpeg, and .png.
+
+            **whatsapp** supports .jpg .jpeg, and .png.
           minLength: 1
           maxLength: 2000
           example: 'https://example.com/image.jpg'
@@ -495,7 +505,12 @@ components:
       properties:
         url:
           type: string
-          description: 'The URL of the audio attachment. `messenger` supports .mp3. `whatsapp` supports .acc, .m4a, .amr, .mp3 and .opus.'
+          description: |
+            The URL of the audio attachment.
+
+            **messenger** supports .mp3.
+
+            **whatsapp** supports .acc, .m4a, .amr, .mp3 and .opus.
           minLength: 1
           maxLength: 2000
           example: 'https://example.com/audio.mp3'
@@ -504,7 +519,7 @@ components:
       properties:
         url:
           type: string
-          description: 'The URL of the video attachment. `messenger` supports .mp4'
+          description: 'The URL of the video attachment. **messenger** supports .mp4'
           minLength: 1
           maxLength: 2000
           example: 'https://example.com/video.mp4'
@@ -513,13 +528,16 @@ components:
       properties:
         url:
           type: string
-          description: 'The URL of the video attachment. `messenger` and `whatsapp` supports .mp4.'
+          description: |
+            The URL of the video attachment.
+
+            **messenger** and **whatsapp** supports .mp4.
           minLength: 1
           maxLength: 2000
           example: 'https://example.com/video.mp4'
         caption:
           type: string
-          description: 'Additional text to accompany the image. Only supported by WhatsApp. Optional. Only present if specified.'
+          description: 'Additional text to accompany the image. Only supported by WhatsApp. Only present if specified.'
           minLength: 1
           maxLength: 3000
           example: 'Additional text to accompany the image.'
@@ -528,7 +546,12 @@ components:
       properties:
         url:
           type: string
-          description: 'The URL of the file attachment. `messenger` supports a wide range of attachments including .zip, .csv and .pdf. `whatsapp` supports .pdf, .doc(x), .ppt(x) and .xls(x).'
+          description: |
+            The URL of the file attachment.
+
+            **messenger** supports a wide range of attachments including .zip, .csv and .pdf.
+
+            **whatsapp** supports .pdf, .doc(x), .ppt(x) and .xls(x).'
           minLength: 1
           maxLength: 2000
           example: 'https://example.com/file.zip'
@@ -543,7 +566,7 @@ components:
       properties:
         name:
           type: string
-          description: 'The name of the template.'
+          description: 'The name of the template. For WhatsApp use "<WhatsApp_namespace>:<template_name>"'
           example: 'whatsapp:hsm:technology:nexmo:verify'
         parameters:
           type: array
@@ -688,7 +711,7 @@ x-errors:
     description: Unknown  -  An unknown error was received from the carrier who tried to send this this message. Depending on the carrier, that to is unknown. When you see this error, and status is rejected, always check if to in your request was valid.
   
   1331:
-    description: Provider error. 
+    description: Provider error  -  The provider is not responding or unable to process the request. Please try sending your message in a few minutes time.
 
   1340:
     description: Outside of the allowed window  -  This message is sent outside of allowed response window.
