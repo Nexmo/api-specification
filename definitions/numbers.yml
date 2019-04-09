@@ -94,12 +94,9 @@ paths:
         description: Number details
         required: true
         content:
-          application/json:
+          application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/number-details'
-          text/xml:
-            schema:
-              $ref: '#/components/schemas/number-details'            
+              $ref: '#/components/schemas/number-details'        
       responses:
         '200':
           description: OK
@@ -109,7 +106,7 @@ paths:
                 $ref: '#/components/schemas/response'
             text/xml:
               schema:
-                $ref: '#/components/schemas/response'
+                $ref: '#/components/schemas/response'                
         '401':
           description: Unauthorized
   '/number/cancel':  
@@ -121,12 +118,9 @@ paths:
         description: Number details
         required: true        
         content:
-          application/json:
+          application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/number-details'
-          text/xml:
-            schema:
-              $ref: '#/components/schemas/number-details'                                      
+              $ref: '#/components/schemas/number-details'                                   
       responses:
         '200':
           description: OK
@@ -148,12 +142,9 @@ paths:
         description: Number details
         required: true        
         content:
-          application/json:
+          application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/number-details-update'               
-          text/xml:
-            schema:
-              $ref: '#/components/schemas/number-details-update'                      
+              $ref: '#/components/schemas/number-details-update'                                    
       responses:
         '200':
           description: OK
