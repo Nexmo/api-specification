@@ -485,13 +485,13 @@ components:
           type: string
           description: |
             The URL of the image attachment. 
-            
+
             **messenger** and **mms** supports .jpg, .jpeg, .png and .gif.
 
             **viber_service_msg** supports .jpg .jpeg, and .png.
 
             **whatsapp** supports .jpg .jpeg, and .png.
-          minLength: 1
+          minLength: 10
           maxLength: 2000
           example: 'https://example.com/image.jpg'
         caption:
@@ -511,7 +511,7 @@ components:
             **messenger** supports .mp3.
 
             **whatsapp** supports .acc, .m4a, .amr, .mp3 and .opus.
-          minLength: 1
+          minLength: 10
           maxLength: 2000
           example: 'https://example.com/audio.mp3'
     VideoProperty:
@@ -520,7 +520,7 @@ components:
         url:
           type: string
           description: 'The URL of the video attachment. **messenger** supports .mp4'
-          minLength: 1
+          minLength: 10
           maxLength: 2000
           example: 'https://example.com/video.mp4'
     VideoPropertyInbound:
@@ -532,7 +532,7 @@ components:
             The URL of the video attachment.
 
             **messenger** and **whatsapp** supports .mp4.
-          minLength: 1
+          minLength: 10
           maxLength: 2000
           example: 'https://example.com/video.mp4'
         caption:
@@ -552,7 +552,7 @@ components:
             **messenger** supports a wide range of attachments including .zip, .csv and .pdf.
 
             **whatsapp** supports .pdf, .doc(x), .ppt(x) and .xls(x).'
-          minLength: 1
+          minLength: 10
           maxLength: 2000
           example: 'https://example.com/file.zip'
         caption:
