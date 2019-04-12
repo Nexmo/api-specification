@@ -358,6 +358,8 @@ paths:
                     type:
                       type: string
                       example: ncco
+                      enum:
+                        - ncco
                     url:
                       x-nexmo-developer-collection-description-shown: true
                       example: '["https://example.com/ncco.json"]'
