@@ -640,4 +640,23 @@ components:
                           example: POST
             vbc:
               type: object
-              description: "Specify the `vbc` capability to enable zero-rated calls for VBC number programmability service applications. This is always an empty object."                         
+              description: "Specify the `vbc` capability to enable zero-rated calls for VBC number programmability service applications. This is always an empty object."
+
+x-errors:
+  payload-validation:
+    description: Invalid request. See `invalid_parameters` field for details
+    resolution: Review the documentation and send a valid `POST` request.
+    link:
+      text: View API reference
+      url: /api/application.v2#createApplication
+
+  list-validation:
+    description: Invalid request. See `invalid_parameters` field for details
+    resolution: Review the documentation and send a valid `GET` request.
+    link:
+      text: View API reference
+      url: /api/application.v2#listApplication
+
+  rate-limit:
+    description: The request was rate limited
+    resolution: The Redact API supports 170 requests per second. Reduce the frequency of your requests.
