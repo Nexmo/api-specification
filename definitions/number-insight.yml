@@ -76,7 +76,7 @@ paths:
       operationId: getNumberInsightAsync
       summary: Advanced Number Insight (async)
       description: |
-        Provides [advanced number insight](/number-insight/overview#basic-standard-and-advanced-apis) number information **asynchronously** using the URL specified in the `callback` parameter. Nexmo recommends asynchronous use of the Number Insight Advanced API to avoid timeouts.
+        Provides [advanced number insight](/number-insight/overview#basic-standard-and-advanced-apis) number information **asynchronously** using the URL specified in the `callback` parameter. Nexmo recommends asynchronous use of the Number Insight Advanced API, to avoid timeouts.
 
         Note that this endpoint also supports `POST` requests.
       parameters:
@@ -122,7 +122,7 @@ paths:
       description: |
         Provides [advanced number insight](/number-insight/overview#basic-standard-and-advanced-apis) information about a number synchronously, in the same way that the basic and standard endpoints do.
 
-        Nexmo recommends accessing the Advanced API **asynchronously**, to avoid timeouts.
+        Nexmo recommends accessing the Advanced API **asynchronously** using the `/advanced/async` endpoint, to avoid timeouts.
 
         Note that this endpoint also supports `POST` requests.
       parameters:
