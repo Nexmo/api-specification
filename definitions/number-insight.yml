@@ -69,31 +69,6 @@ paths:
             text/xml:
               schema:
                 $ref: '#/components/schemas/niResponseXmlStandard'
-  '/advanced/{format}':
-    parameters:
-      - $ref: '#/components/parameters/format'
-    get:
-      operationId: getNumberInsightAdvanced
-      summary: Advanced Number Insight (sync)
-      description: |
-        Provides [advanced number insight](/number-insight/overview#basic-standard-and-advanced-apis) information about a number synchronously, in the same way that the basic and standard endpoints do.
-
-        Note that this endpoint also supports `POST` requests.
-      parameters:
-        - $ref: '#/components/parameters/number'
-        - $ref: '#/components/parameters/country'
-        - $ref: '#/components/parameters/cnam'
-        - $ref: '#/components/parameters/ip'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/niResponseJsonAdvanced'
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/niResponseXmlAdvanced'
   '/advanced/async/{format}':
     parameters:
       - $ref: '#/components/parameters/format'
@@ -101,7 +76,7 @@ paths:
       operationId: getNumberInsightAsync
       summary: Advanced Number Insight (async)
       description: |
-        Provides [advanced number insight](/number-insight/overview#basic-standard-and-advanced-apis) number information **asynchronously** using the URL specified in the `callback` parameter.
+        Provides [advanced number insight](/number-insight/overview#basic-standard-and-advanced-apis) number information **asynchronously** using the URL specified in the `callback` parameter. Nexmo recommends asynchronous use of the Number Insight Advanced API to avoid timeouts.
 
         Note that this endpoint also supports `POST` requests.
       parameters:
@@ -138,6 +113,33 @@ paths:
               responses:
                 '200':
                   description: OK
+  '/advanced/{format}':
+    parameters:
+      - $ref: '#/components/parameters/format'
+    get:
+      operationId: getNumberInsightAdvanced
+      summary: Advanced Number Insight (sync)
+      description: |
+        Provides [advanced number insight](/number-insight/overview#basic-standard-and-advanced-apis) information about a number synchronously, in the same way that the basic and standard endpoints do.
+
+        Nexmo recommends accessing the Advanced API **asynchronously**, to avoid timeouts.
+
+        Note that this endpoint also supports `POST` requests.
+      parameters:
+        - $ref: '#/components/parameters/number'
+        - $ref: '#/components/parameters/country'
+        - $ref: '#/components/parameters/cnam'
+        - $ref: '#/components/parameters/ip'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/niResponseJsonAdvanced'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/niResponseXmlAdvanced'                  
 components:
   parameters:
     format:
