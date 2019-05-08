@@ -16,7 +16,7 @@ COMMAND="$COMMAND -s reference-no-other-properties"
 DOCS=$1
 
 if [[ -z "$DOCS" ]]; then
-  DOCS=$(find definitions -name '*.yml')
+  DOCS=$(find definitions -name '*.yml' -not -path "*definitions/common*")
 fi
 
 for i in $DOCS; do
