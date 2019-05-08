@@ -16,7 +16,7 @@ COMMAND="$COMMAND -s reference-no-other-properties"
 DOCS=$1
 
 if [[ -z "$DOCS" ]]; then
-  DOCS=$(ls definitions/*.yml)
+  DOCS=$(find definitions -name '*.yml')
 fi
 
 for i in $DOCS; do
