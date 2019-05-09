@@ -246,10 +246,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/requestResponse'
+                oneOf:
+                  - $ref: '#/components/schemas/requestResponse'
+                  - $ref: '#/components/schemas/requestErrorResponse'
             text/xml:
               schema:
-                $ref: '#/components/schemas/requestResponse'                
+                oneOf:
+                  - $ref: '#/components/schemas/requestResponse'
+                  - $ref: '#/components/schemas/requestErrorResponse'
   '/check/{format}':
     get:
       description: >-
@@ -298,10 +302,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/checkResponse'
+                oneOf:
+                  - $ref: '#/components/schemas/checkResponse'
+                  - $ref: '#/components/schemas/checkErrorResponse'
             text/xml:
               schema:
-                $ref: '#/components/schemas/checkResponse'                
+                oneOf:
+                  - $ref: '#/components/schemas/checkResponse'
+                  - $ref: '#/components/schemas/checkErrorResponse'
   '/search/{format}':
     get:
       description: >-
@@ -343,10 +351,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/searchResponse'
+                oneOf:
+                  - $ref: '#/components/schemas/searchResponse'
+                  - $ref: '#/components/schemas/searchErrorResponse'
             text/xml:
               schema:
-                $ref: '#/components/schemas/searchResponse'                
+                oneOf:
+                  - $ref: '#/components/schemas/searchResponse'
+                  - $ref: '#/components/schemas/searchErrorResponse'
   '/control/{format}':
     get:
       description: |-
@@ -392,10 +404,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/controlResponse'
+                oneOf:
+                  - $ref: '#/components/schemas/controlResponse'
+                  - $ref: '#/components/schemas/controlErrorResponse'
             text/xml:
               schema:
-                $ref: '#/components/schemas/controlResponse'                
+                oneOf:
+                  - $ref: '#/components/schemas/controlResponse'
+                  - $ref: '#/components/schemas/controlErrorResponse'
 components:
   parameters:
     format:
@@ -412,6 +428,8 @@ components:
   schemas:
     requestResponse:
       type: object
+      xml:
+        name: verify_response
       properties:
         request_id:
           type: string
@@ -423,6 +441,20 @@ components:
         status:
           type: string
           example: '0'
+    requestErrorResponse:
+      type: object
+      xml:
+        name: verify_response
+      properties:
+        request_id:
+          type: string
+          description: >-
+            The unique ID of the Verify request. This may be blank in an error situation
+          maxLength: 32
+          example: aaaaaaaa-bbbb-...
+        status:
+          type: string
+          example: '2'
           enum:
             - '0'
             - '1'
@@ -464,9 +496,7 @@ components:
         error_text:
           type: string
           description: 'If `status` is non-zero, this explains the error encountered.'
-          example: 'Detailed error information is provided in this field when the status is not zero'
-      xml:
-        name: verify_response
+          example: 'Your request is incomplete and missing the mandatory parameter `number`'
     checkResponse:
       type: object
       properties:
@@ -494,10 +524,62 @@ components:
           type: string
           description: The currency code.
           example: EUR
+      xml:
+        name: verify_response
+    checkErrorResponse:
+      type: object
+      properties:
+        request_id:
+          type: string
+          description: >-
+            The `request_id` that you received in the response to the Verify request and
+            used in the Verify check request.
+          example: aaaaaaaa-bbbb-...
+        status:
+          type: string
+          example: '16'
+          enum:
+            - '0'
+            - '1'
+            - '2'
+            - '3'
+            - '4'
+            - '5'
+            - '6'
+            - '7'
+            - '8'
+            - '9'
+            - '10'
+            - '15'
+            - '16'
+            - '17'
+            - '18'
+            - '19'
+            - '101'
+          description: |
+            Code | Text | Description
+            -- | -- | --
+            0 | Success | The request was successfully accepted by Nexmo.
+            1 | Throttled | You are trying to send more than the maximum of 30 requests per second.
+            2 | Your request is incomplete and missing the mandatory parameter `$parameter` | The stated parameter is missing.
+            3 | Invalid value for parameter `$parameter` | Invalid value for parameter. If you see Facility not allowed in the error text, check that you are using the correct Base URL in your request.
+            4 | Invalid credentials were provided | The supplied API key or secret in the request is either invalid or disabled.
+            5 | Internal Error | An error occurred processing this request in the Cloud Communications Platform.
+            6 | The Nexmo platform was unable to process this message for the following reason: `$reason` | The request could not be routed.
+            7 | The number you are trying to verify is blacklisted for verification. |
+            8 | The api_key you supplied is for an account that has been barred from submitting messages. |
+            9 | Partner quota exceeded | Your account does not have sufficient credit to process this request.
+            10 | Concurrent verifications to the same number are not allowed | 
+            15 | The destination number is not in a supported network | The request has been rejected. Find out more about this error in the [Knowledge Base](https://help.nexmo.com/hc/en-us/articles/360018406532-Verify-On-demand-Service-to-High-Risk-Countries)
+            16 | The code inserted does not match the expected value |
+            17 | The wrong code was provided too many times | You can run Verify check on a specific `request_id` up to three times unless a new verification code is generated. If you check a request more than three times, it is set to FAILED and you cannot check it again.
+            18 | Too many request_ids provided | You added more than the maximum ten `request_id`s to your request.
+            19 | No more events are left to execute for this request |
+            101 | No request found | There are no matching verify requests.
         error_text:
           type: string
           description: If the `status` is non-zero, this explains the error encountered.
-          example: error
+          example: The code inserted does not match the expected value
       xml:
         name: verify_response
     searchResponse:
@@ -614,10 +696,39 @@ components:
                   - sms
               id:
                 type: string
+    searchErrorResponse:
+      xml:
+        name: verify_request
+      type: object
+      properties:
+        request_id:
+          type: string
+          description: >-
+            The `request_id` that you received in the response to the Verify request and
+            used in the Verify search request. May be empty in an error situation.
+          example: aaaaaaaa-bbbb-...
+        status:
+          type: string
+          example: '101'
+          enum:
+            - IN PROGRESS
+            - FAILED
+            - EXPIRED
+            - CANCELLED
+            - '101'
+          description: |
+            Code | Description
+            -- | --
+            IN PROGRESS | The search is still in progress.
+            SUCCESS | Your user entered a correct verification code.
+            FAILED | Your user entered an incorrect code more than three times.
+            EXPIRED | Your user did not enter a code before the `pin_expiry` time elapsed.
+            CANCELLED | The verification process was cancelled by a Verify control request.
+            101 | You supplied an invalid `request_id`.
         error_text:
           type: string
           description: If `status` is not `SUCCESS`, this message explains the issue encountered.
-          example: user entered the wrong pin more than 3 times
+          example: No response found
     controlResponse:
       type: object
       xml:
@@ -626,15 +737,10 @@ components:
         status:
           type: string
           example: '0'
-          enum:
-            - '0'
-            - '19'
           description: |
             `cmd` | Code | Description
             -- | -- | --
             Any | 0 | Success
-            `cancel` | 19 | Either you have not waited at least 30 secs after sending a Verify request before cancelling or Verify has made too many attempts to deliver the verification code for this request and you must now wait for the process to complete.
-            `trigger_next_event` | 19 | All attempts to deliver the verification code for this request have completed and there are no remaining events to advance to.
         command:
           type: string
           description: The `cmd` you sent in the request.
@@ -642,10 +748,55 @@ components:
             - cancel
             - trigger_next_event
           example: cancel
+    controlErrorResponse:
+      type: object
+      xml:
+        name: response
+      properties:
+        status:
+          type: string
+          example: '6'
+          enum:
+            - '1'
+            - '2'
+            - '3'
+            - '4'
+            - '5'
+            - '6'
+            - '7'
+            - '8'
+            - '9'
+            - '10'
+            - '15'
+            - '16'
+            - '17'
+            - '18'
+            - '19'
+            - '101'
+          description: |
+            Code | Text | Description
+            -- | -- | --
+            0 | Success | The request was successfully accepted by Nexmo.
+            1 | Throttled | You are trying to send more than the maximum of 30 requests per second.
+            2 | Your request is incomplete and missing the mandatory parameter `$parameter` | The stated parameter is missing.
+            3 | Invalid value for parameter `$parameter` | Invalid value for parameter. If you see Facility not allowed in the error text, check that you are using the correct Base URL in your request.
+            4 | Invalid credentials were provided | The supplied API key or secret in the request is either invalid or disabled.
+            5 | Internal Error | An error occurred processing this request in the Cloud Communications Platform.
+            6 | The Nexmo platform was unable to process this message for the following reason: `$reason` | The request could not be routed.
+            7 | The number you are trying to verify is blacklisted for verification. |
+            8 | The api_key you supplied is for an account that has been barred from submitting messages. |
+            9 | Partner quota exceeded | Your account does not have sufficient credit to process this request.
+            10 | Concurrent verifications to the same number are not allowed | 
+            15 | The destination number is not in a supported network | The request has been rejected. Find out more about this error in the [Knowledge Base](https://help.nexmo.com/hc/en-us/articles/360018406532-Verify-On-demand-Service-to-High-Risk-Countries)
+            16 | The code inserted does not match the expected value |
+            17 | The wrong code was provided too many times | You can run Verify check on a specific `request_id` up to three times unless a new verification code is generated. If you check a request more than three times, it is set to FAILED and you cannot check it again.
+            18 | Too many request_ids provided | You added more than the maximum ten `request_id`s to your request.
+            19 | For `cancel`: Either you have not waited at least 30 secs after sending a Verify request before cancelling or Verify has made too many attempts to deliver the verification code for this request and you must now wait for the process to complete. For `trigger_next_event`: All attempts to deliver the verification code for this request have completed and there are no remaining events to advance to.
+            101 | No request found | There are no matching verify requests.
         error_text:
           type: string
           description: If the `status` is non-zero, this explains the error encountered.
-          example: error
+          example: The requestId 'abcdef0123456789abcdef' does not exist or its no longer active.
   securitySchemes:
     apiKey:
       type: apiKey
