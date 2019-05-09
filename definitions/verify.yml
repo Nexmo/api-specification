@@ -597,6 +597,23 @@ components:
               ip_address:
                 type: string
                 example: 123.0.0.255
+        events:
+          type: array
+          xml:
+            wrapped: true
+          description: The events that have taken place to verify this number, and their unique identifiers.
+          items:
+            type: object
+            xml:
+              name: event
+            properties:
+              type:
+                type: string
+                enum:
+                  - tts
+                  - sms
+              id:
+                type: string
         error_text:
           type: string
           description: If `status` is not `SUCCESS`, this message explains the issue encountered.
