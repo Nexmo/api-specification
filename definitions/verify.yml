@@ -33,6 +33,7 @@ security:
 paths:
   '/{format}':
     get:
+      operationId: verifyRequest
       summary: Verify Request
       description: >-
         Use Verify request to generate and send a PIN to your user:
@@ -48,8 +49,7 @@ paths:
         3. Use the `request_id` field in the response for the Verify check.
 
 
-        **Note**: You can make a __maximum of one verify request per second__.
-      operationId: verifyRequest
+        **Note**: You can make a __maximum of one Verify request per second__.
       parameters:
         - $ref: '#/components/parameters/format'
         - name: number
@@ -87,14 +87,14 @@ paths:
           required: false
           in: query
           description: >-
-            An 11-character alphanumeric string that represents the [identify the sender](/messaging/sms/guides/custom-sender-id) 
+            An 11-character alphanumeric string that represents the [identity of the sender](https://developer.nexmo.com/messaging/sms/guides/custom-sender-id) 
             of the verification request. Depending on the destination of the phone number you are sending the verification SMS to,
             restrictions might apply.
           schema:
             type: string
             maxLength: 11
             default: VERIFY
-          example: VERIFY
+          example: ACME
         - name: code_length
           required: false
           in: query
@@ -105,7 +105,7 @@ paths:
               - 4
               - 6
             default: 4
-          example: 4
+          example: 6
         - name: lg
           required: false
           in: query
@@ -204,7 +204,8 @@ paths:
           description: >-
             Restrict verification to a certain network type. You must 
             contact [support@nexmo.com](mailto:support@nexmo.com) to
-            enable this feature.
+            enable this feature. If not enabled, **sending this field will
+            result in an error**.
           schema:
             type: string
             default: All
@@ -220,7 +221,7 @@ paths:
             How log the generated verification code is valid for, in seconds.
             When you specify both `pin_expiry` and `next_event_wait` then `pin_expiry` must be 
             an integer multiple of `next_event_wait`. Otherwise, `pin_expiry`
-            is set to equal next_event_wait. See [changing the default event timings](/verify/guides/changing-default-timings).
+            is set to equal next_event_wait. See [changing the default event timings](https://developer.nexmo.com/verify/guides/changing-default-timings).
           schema:
             type: integer
             minimum: 60
@@ -260,7 +261,7 @@ paths:
 
         2. Check the `status` of the response to determine if the code the user supplied matches the one sent by Nexmo.
       operationId: verifyCheck
-      summary: Verify check
+      summary: Verify Check
       parameters:
         - $ref: '#/components/parameters/format'
         - name: request_id
@@ -272,7 +273,6 @@ paths:
           schema:
             type: string
             maxLength: 32
-          #example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
           example: aaaaaaaa-bbbb-...
         - name: code
           required: true
@@ -313,7 +313,7 @@ paths:
 
         2. Use the `status` of each verification request in the `checks` array of the response object to determine the outcome.
       operationId: verifySearch
-      summary: Verify search
+      summary: Verify Search
       parameters:
         - $ref: '#/components/parameters/format'
         - name: request_id
@@ -322,7 +322,6 @@ paths:
           description: The `request_id` you received in the Verify Request Response.
           schema:
             type: string
-          #example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
           example: aaaaaaaa-bbbb-...
         - name: request_ids
           required: false
@@ -334,7 +333,6 @@ paths:
             type: array
             items:
               type: string
-              #example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
               example: aaaaaaaa-bbbb-...
             maxItems: 10
           style: form
@@ -359,7 +357,7 @@ paths:
 
         2. Check the `status` in the response.
       operationId: verifyControl
-      summary: Verify control
+      summary: Verify Control
       parameters:
         - $ref: '#/components/parameters/format'
         - name: request_id
@@ -368,7 +366,6 @@ paths:
           description: 'The `request_id` you received in the response to the Verify request.'
           schema:
             type: string
-          #example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
           example: aaaaaaaa-bbbb-...
         - name: cmd
           required: true
@@ -422,11 +419,9 @@ components:
             The unique ID of the Verify request. You need this
             `request_id` for the Verify check.
           maxLength: 32
-          #example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
           example: aaaaaaaa-bbbb-...
         status:
           type: string
-          #description: The response code that indicates success or failure of the Verify request. A non-zero value indicates failure.
           example: '0'
           enum:
             - '0'
@@ -466,67 +461,10 @@ components:
             18 | Too many request_ids provided | You added more than the maximum ten `request_id`s to your request.
             19 | No more events are left to execute for this request |
             101 | No request found | There are no matching verify requests.
-          # x-ms-enum:
-          # values:
-              # - value: '0'
-              #   description: The request was successfully accepted by Nexmo.
-              # - value: '1'
-              #   description: >-
-              #     You are trying to send more than the maximum of 30 requests
-              #     per second.
-              # - value: '2'
-              #   description: The stated parameter is missing.
-              # - value: '3'
-              #   description: >-
-              #     Invalid value for parameter. If you see Facility not allowed
-              #     in the error text, check that you are using the correct Base
-              #     URL in your request.
-              # - value: '4'
-              #   description: >-
-              #     The supplied API key or secret in the request is either
-              #     invalid or disabled.
-              # - value: '5'
-              #   description: >-
-              #     An error occurred processing this request in the Cloud
-              #     Communications Platform.
-              # - value: '6'
-              #   description: The request could not be routed.
-              # - value: '7'
-              #   description: >-
-              #     The number you are trying to verify is blacklisted for
-              #     verification
-              # - value: '8'
-              #   description: >-
-              #     The api_key you supplied is for an account that has been
-              #     barred from submitting messages
-              # - value: '9'
-              #   description: >-
-              #     Your account does not have sufficient credit to process this
-              #     request.
-              # - value: '10'
-              #   description: Concurrent verifications to the same number are not allowed
-              # - value: '15'
-              #   description: The request has been rejected.
-              # - value: '16'
-              #   description: The code inserted does not match the expected value
-              # - value: '17'
-              #   description: >-
-              #     You can run Verify Check on a `request_id` up to three times
-              #     unless a new PIN code is generated. If you check a request
-              #     more than 3 times, it is set to FAILED and you cannot check it
-              #     again.
-              # - value: '18'
-              #   description: >-
-              #     You added more than the maximum of 10 `request_id`s to your
-              #     request.
-              # - value: '19'
-              #   description: No more events are left to execute for the request
-              # - value: '101'
-              #   description: There are no matching Verify requests.
         error_text:
           type: string
           description: 'If `status` is non-zero, this explains the error encountered.'
-          example: error
+          example: 'Detailed error information is provided in this field when the status is not zero'
       xml:
         name: verify_response
     checkResponse:
@@ -537,7 +475,6 @@ components:
           description: >-
             The `request_id` that you received in the response to the Verify request and
             used in the Verify check request.
-          #example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
           example: aaaaaaaa-bbbb-...
         event_id:
           type: string
@@ -573,7 +510,6 @@ components:
           description: >-
             The `request_id` that you received in the response to the Verify request and
             used in the Verify search request.
-          #example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
           example: aaaaaaaa-bbbb-...
         account_id:
           type: string
@@ -581,7 +517,6 @@ components:
           example: abcdef01
         status:
           type: string
-          # description: The status of the Verify request.
           example: IN PROGRESS
           enum:
             - IN PROGRESS
@@ -599,22 +534,6 @@ components:
             EXPIRED | Your user did not enter a code before the `pin_expiry` time elapsed.
             CANCELLED | The verification process was cancelled by a Verify control request.
             101 | You supplied an invalid `request_id`.
-          # x-ms-enum:
-          #   values:
-          #     - value: IN PROGRESS
-          #       description: still in progress.
-          #     - value: SUCCESS
-          #       description: your user entered the PIN correctly.
-          #     - value: FAILED
-          #       description: user entered the wrong pin more than 3 times.
-          #     - value: EXPIRED
-          #       description: no PIN entered during the `pin_expiry` time.
-          #     - value: CANCELLED
-          #       description: the request was cancelled using Verify Control.
-          #     - value: '101'
-          #       description: >-
-          #         the `request_id` you set in the Verify Search request is
-          #         invalid.
         number:
           type: string
           description: The phone number this verification request was used for.
@@ -699,19 +618,6 @@ components:
             Any | 0 | Success
             `cancel` | 19 | Either you have not waited at least 30 secs after sending a Verify request before cancelling or Verify has made too many attempts to deliver the verification code for this request and you must now wait for the process to complete.
             `trigger_next_event` | 19 | All attempts to deliver the verification code for this request have completed and there are no remaining events to advance to.
-          # x-ms-enum:
-          #   values:
-          #     - value: '0'
-          #       description: Success
-          #     - value: null
-          #       description: >-
-          #         Cancel: You must wait at least 30s after sending a Verify
-          #         Request before cancelling, or Verify has made too many
-          #         attempts to redeliver a PIN for this request; you have to wait
-          #         for the workflow to complete. Also, you cannot initiate a new
-          #         Verify Request until this one expires. Trigger_next_event: All
-          #         the attempts to deliver the PIN for this request have been
-          #         completed and there are no more events to skip to.
         command:
           type: string
           description: The `cmd` you sent in the request.
