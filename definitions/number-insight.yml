@@ -101,7 +101,7 @@ paths:
             post:
               operationId: asyncCallback
               summary: Asynchronous response
-              description: Contains the response to your
+              description: Contains the response to your Number Insight Advanced API request.
               requestBody:
                 content:
                   application/json:
