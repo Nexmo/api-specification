@@ -221,7 +221,7 @@ paths:
             How log the generated verification code is valid for, in seconds.
             When you specify both `pin_expiry` and `next_event_wait` then `pin_expiry` must be 
             an integer multiple of `next_event_wait`. Otherwise, `pin_expiry`
-            is set to equal next_event_wait. See [changing the default event timings](https://developer.nexmo.com/verify/guides/changing-default-timings).
+            is set to equal `next_event_wait`. See [changing the default event timings](https://developer.nexmo.com/verify/guides/changing-default-timings).
           schema:
             type: integer
             minimum: 60
