@@ -395,11 +395,13 @@ components:
               description: |
                 The text of the message.
 
-                **Messenger**: Is limited to 640 characters
+                **Messenger**: is limited to 640 characters, including unicode.
 
-                **SMS** or **Viber**: Is 1000 characters
+                **SMS**: is limited to 1000 characters. The Messages API automatically detects unicode characters when sending SMS and sends the message as a unicode SMS. For more information on how concatenation and encoding please visit: [developer.nexmo.com/messaging/sms/guides/concatenation-and-encoding](https://developer.nexmo.com/messaging/sms/guides/concatenation-and-encoding).
 
-                **WhatsApp**: is 4096 characters
+                **Viber**: is limited to 1000 characters, including unicode. 
+
+                **WhatsApp**: is limited to 4096 characters, including unicode.
               type: string
               minLength: 1
               maxLength: 4096
