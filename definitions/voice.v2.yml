@@ -48,7 +48,7 @@ paths:
                     - "$ref": "./voice.yml#/components/schemas/EndpointWebsocket"
                     - "$ref": "./voice.yml#/components/schemas/EndpointVBCExtension"
                 from:
-                  "$ref": "voice.yml#/paths/~1calls/post/requestBody/content/application~1json/schema/properties/from"
+                  "$ref": "voice.yml#/components/schemas/EndpointPhone"
                 ncco:
                   "$ref": "voice.yml#/paths/~1calls/post/requestBody/content/application~1json/schema/properties/ncco"
                 answer_url:
@@ -74,9 +74,60 @@ paths:
                 type: object
                 properties: {}
 
+      callbacks:
+        delivery-receipt:
+          '{$request.body#/event_url}':
+            post:
+              summary: Call Placed Callback
+              operationId: call-placed
+              x-example-path: '/webhooks/event_url'
+              description: Each time a leg is created you'll receive a webhook containing the leg ID (`uuid`) and the conversation ID (`conversation_uuid`) in addition to the `to` and `from` addresses.
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/CallPlacedWebhook'
+              responses:
+                '200':
+                  description: Your server returns this code if it accepts the callback
+
 components:
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
+  schemas:
+    CallPlacedWebhook:
+      properties:
+        from:
+          type: string
+          description: The source of the call
+          example: 14155550100
+        to:
+          type: string
+          description: The destination endpoint. This can be a PSTN, SIP, IP or Websocket address
+          example: 14155550105 / jamie
+        uuid:
+          type: string
+          description: The UUID of the Conversion that the event relates to
+          example: 63f61863-4a51-4f6b-86e1-46edebcf9356
+        conversation_uuid:
+          type: string
+          description: The UUID of the call leg that the event relates to
+          example: CON-f972836a-550f-45fa-956c-12a2ab5b7d22
+        status:
+          type: string
+          example: started
+        direction:
+          type: string
+          description: Possible values are `outbound` or `inbound`
+          example: outbound
+          enum:
+          - outbound
+          - inbound
+        timestamp:
+          type: string
+          format: date-time
+          example: 2018-01-12T15:01:55.315Z
