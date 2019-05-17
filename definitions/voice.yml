@@ -1,7 +1,7 @@
 ---
 openapi: 3.0.0
 info:
-  version: 1.0.2
+  version: 1.0.3
   title: Voice API
   description: The Voice API lets you create outboud calls, control in progress calls
     and get information about historical calls. More information about the Voice API
@@ -672,7 +672,9 @@ components:
           example: app
           description: The type of connection. Must be `app`
         user:
-          "$ref": '#/components/schemas/name_user'
+          type: string
+          example: jamie
+          description: The username to connect to
     EndpointPhone:
       type: object
       description: Connect to a Phone (PSTN) number

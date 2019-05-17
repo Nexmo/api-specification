@@ -1,7 +1,7 @@
 ---
 openapi: 3.0.0
 info:
-  version: 1.0.0
+  version: 1.0.1
   title: Voice API BETA
   description: |
       This is the *beta* version of the Voice API. Calls created with v2 must be managed
@@ -29,7 +29,42 @@ paths:
       operationId:
         "$ref": "voice.yml#/paths/~1calls/post/operationId"
       requestBody:
-        "$ref": "voice.yml#/paths/~1calls/post/requestBody"
+        description: Call Details
+        content:
+          application/json:
+            schema:
+              required:
+                - to
+                - from
+                - event_url
+              properties:
+                to:
+                  type: array
+                  items:
+                    oneOf:
+                    - "$ref": "./voice.yml#/components/schemas/EndpointPhone"
+                    - "$ref": "./voice.yml#/components/schemas/EndpointApp"
+                    - "$ref": "./voice.yml#/components/schemas/EndpointSip"
+                    - "$ref": "./voice.yml#/components/schemas/EndpointWebsocket"
+                    - "$ref": "./voice.yml#/components/schemas/EndpointVBCExtension"
+                from:
+                  "$ref": "voice.yml#/paths/~1calls/post/requestBody/content/application~1json/schema/properties/from"
+                ncco:
+                  "$ref": "voice.yml#/paths/~1calls/post/requestBody/content/application~1json/schema/properties/ncco"
+                answer_url:
+                  "$ref": "voice.yml#/paths/~1calls/post/requestBody/content/application~1json/schema/properties/answer_url"
+                answer_method:
+                  "$ref": "voice.yml#/paths/~1calls/post/requestBody/content/application~1json/schema/properties/answer_method"
+                event_url:
+                  "$ref": "voice.yml#/paths/~1calls/post/requestBody/content/application~1json/schema/properties/event_url"
+                event_method:
+                  "$ref": "voice.yml#/paths/~1calls/post/requestBody/content/application~1json/schema/properties/event_method"
+                machine_detection:
+                  "$ref": "voice.yml#/paths/~1calls/post/requestBody/content/application~1json/schema/properties/machine_detection"
+                length_timer:
+                  "$ref": "voice.yml#/paths/~1calls/post/requestBody/content/application~1json/schema/properties/length_timer"
+                ringing_timer:
+                  "$ref": "voice.yml#/paths/~1calls/post/requestBody/content/application~1json/schema/properties/ringing_timer"
       responses:
         '202':
           description: Accepted
