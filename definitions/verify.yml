@@ -240,6 +240,39 @@ paths:
             maximum: 900
             default: 300
           example: 300
+        - name: workflow_id
+          required: false
+          in: query
+          description: >-
+            Specifies the list of SMS and TTS actions that will be taken to deliver
+            the PIN to your user. For example, an id of 1 identifies the workflow
+            SMS - TTS - TTS. For a list of all workflows and their associated ids,
+            please visit the following [link]().
+          schema:
+            type: integer
+            default: 1
+            enum:
+              - 1
+              - 2
+              - 3
+              - 4
+              - 5
+          example: 1
+        - name: pin_code
+          required: false
+          in: query
+          description: >-
+            A 10-character alphanumeric string that represents the PIN
+            sent to your user. If a PIN is not provided, Verify will
+            generate a random PIN for you. You must contact 
+            [support@nexmo.com](mailto:support@nexmo.com) to enable this 
+            feature.
+          schema:
+            type: string
+            minLength: 4
+            maxLength: 10
+            default: None
+          example: a1b2
       responses:
         '200':
           description: OK
@@ -812,3 +845,5 @@ components:
       description: >-
         You can find your API secret in your Nexmo account [developer
         dashboard](https://dashboard.nexmo.com)
+
+
