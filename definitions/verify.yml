@@ -3,7 +3,7 @@ servers:
   - url: 'https://api.nexmo.com/verify'
 info:
   title: Nexmo Verify API
-  version: 1.0.3
+  version: 1.0.4
   description: >-
     The Verify API helps you to implement 2FA (two-factor authentication) in your applications.
     This is useful for:
@@ -43,7 +43,7 @@ paths:
 
 
         2. Check the `status` field in the response to ensure that your request
-        was successful.
+        was successful (zero is success).
 
 
         3. Use the `request_id` field in the response for the Verify check.
@@ -198,36 +198,22 @@ paths:
                     (`zh-tw`), the text message will be sent in Traditional
                     Chinese, but the voice call uses a female voice speaking
                     English with a Chinese accent.
-        - name: require_type
-          required: false
-          in: query
-          description: >-
-            Restrict verification to a certain network type. You must 
-            contact [support@nexmo.com](mailto:support@nexmo.com) to
-            enable this feature. If not enabled, **sending this field will
-            result in an error**.
-          schema:
-            type: string
-            default: All
-            enum:
-              - All
-              - Mobile
-              - Landline
-          example: Mobile
         - name: pin_expiry
           required: false
           in: query
           description: >-
             How log the generated verification code is valid for, in seconds.
-            When you specify both `pin_expiry` and `next_event_wait` then `pin_expiry` must be 
-            an integer multiple of `next_event_wait`. Otherwise, `pin_expiry`
-            is set to equal `next_event_wait`. See [changing the default event timings](https://developer.nexmo.com/verify/guides/changing-default-timings).
+            When you specify both `pin_expiry` and `next_event_wait` then
+            `pin_expiry` must be an integer multiple of `next_event_wait`
+            otherwise `pin_expiry` is defaulted to equal next_event_wait. See
+            [changing the default event
+            timings](/verify/guides/changing-default-timings).
           schema:
             type: integer
             minimum: 60
             maximum: 3600
             default: 300
-          example: 300
+          example: 240
         - name: next_event_wait
           required: false
           in: query
@@ -239,15 +225,16 @@ paths:
             minimum: 60
             maximum: 900
             default: 300
-          example: 300
+          example: 120
         - name: workflow_id
           required: false
           in: query
           description: >-
-            Specifies the list of SMS and TTS actions that will be taken to deliver
-            the PIN to your user. For example, an id of 1 identifies the workflow
-            SMS - TTS - TTS. For a list of all workflows and their associated ids,
-            please visit the following [link]().
+            Selects the predefined sequence of SMS and TTS (Text To Speech)
+            actions to use in order to convey the PIN to your user. For example,
+            an id of 1 identifies the workflow SMS - TTS - TTS. For a list of
+            all workflows and their associated ids, please visit the [developer
+            portal](https://developer.nexmo.com/verify/guides/workflows-and-events).
           schema:
             type: integer
             default: 1
@@ -257,22 +244,7 @@ paths:
               - 3
               - 4
               - 5
-          example: 1
-        - name: pin_code
-          required: false
-          in: query
-          description: >-
-            A 10-character alphanumeric string that represents the PIN
-            sent to your user. If a PIN is not provided, Verify will
-            generate a random PIN for you. You must contact 
-            [support@nexmo.com](mailto:support@nexmo.com) to enable this 
-            feature.
-          schema:
-            type: string
-            minLength: 4
-            maxLength: 10
-            default: None
-          example: a1b2
+          example: 4
       responses:
         '200':
           description: OK
