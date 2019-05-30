@@ -206,8 +206,8 @@ paths:
             When you specify both `pin_expiry` and `next_event_wait` then
             `pin_expiry` must be an integer multiple of `next_event_wait`
             otherwise `pin_expiry` is defaulted to equal next_event_wait. See
-            [changing the default event
-            timings](/verify/guides/changing-default-timings).
+            [changing the event
+            timings](https://developer.nexmo.com/verify/guides/changing-default-timings).
           schema:
             type: integer
             minimum: 60
@@ -477,6 +477,7 @@ components:
             - '17'
             - '18'
             - '19'
+            - '20'
             - '101'
           description: |
             Code | Text | Description
@@ -497,6 +498,7 @@ components:
             17 | The wrong code was provided too many times | You can run Verify check on a specific `request_id` up to three times unless a new verification code is generated. If you check a request more than three times, it is set to FAILED and you cannot check it again.
             18 | Too many request_ids provided | You added more than the maximum ten `request_id`s to your request.
             19 | No more events are left to execute for this request |
+            20 | This account does not support the parameter: pin_code. | Only certain accounts have the ability to set the `pin_code`. Please contact your account manager for more information.
             101 | No request found | There are no matching verify requests.
         error_text:
           type: string
