@@ -568,7 +568,7 @@ components:
       properties:
         name:
           type: string
-          description: 'The name of the template. For WhatsApp use "<WhatsApp_namespace>:<template_name>"'
+          description: 'The name of the template. For WhatsApp use "WhatsApp_namespace:template_name"'
           example: 'whatsapp:hsm:technology:nexmo:verify'
         parameters:
           type: array
