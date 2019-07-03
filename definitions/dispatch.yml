@@ -318,7 +318,7 @@ components:
       properties:
         url:
           type: string
-          description: 'The URL of the audio attachment. `messenger` supports .mp3. `whatsapp` supports .acc, .m4a, .amr, .mp3 and .opus.'
+          description: 'The URL of the audio attachment. `messenger` supports .mp3. `whatsapp` supports .aac, .m4a, .amr, .mp3 and .opus.'
           minLength: 1
           maxLength: 2000
           example: 'https://example.com/audio.mp3'
