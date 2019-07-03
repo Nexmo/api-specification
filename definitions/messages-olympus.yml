@@ -512,7 +512,7 @@ components:
 
             **messenger** supports .mp3.
 
-            **whatsapp** supports .acc, .m4a, .amr, .mp3 and .opus.
+            **whatsapp** supports .aac, .m4a, .amr, .mp3 and .opus.
           minLength: 10
           maxLength: 2000
           example: 'https://example.com/audio.mp3'
