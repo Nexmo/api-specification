@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Nexmo Conversion API
-  version: 1.0.0
+  version: 1.0.1
   description: >-
     The Conversion API allows you to tell Nexmo about the reliability of your
     2FA communications. Sending conversion data back to us means that Nexmo can
@@ -64,12 +64,12 @@ paths:
           description: OK
         '401':
           description: Wrong credentials
+        '402':
+          description: Conversion has not been enabled for your account
         '420':
           description: Invalid parameters
-        '422':
-          description: Unprocessable Entity
         '423':
-          description: Locked
+          description: Invalid parameters
   /voice:
     post:
       operationId: voiceConversion
@@ -90,12 +90,12 @@ paths:
           description: OK
         '401':
           description: Wrong credentials
+        '402':
+          description: Conversion has not been enabled for your account
         '420':
           description: Invalid parameters
-        '422':
-          description: Unprocessable Entity
         '423':
-          description: Locked
+          description: Invalid parameters
 components:
   parameters:
     message-id:
