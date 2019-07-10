@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Nexmo Application API
-  version: 1.0.0
+  version: 1.0.1
   description: >-
     A Nexmo application contains the security and configuration information you
     need to connect to Nexmo endpoints and easily use our products.
@@ -52,8 +52,6 @@ paths:
               required:
                 - name
                 - type
-                - answer_url
-                - event_url
               properties:
                 name:
                   description: The name of your application.
@@ -72,7 +70,7 @@ paths:
                   description: >-
                     The URL where your webhook delivers the Nexmo Call Control
                     Object that governs this call. As soon as your user answers
-                    a call Nexmo makes a request to `answer_url`.
+                    a call Nexmo makes a request to `answer_url`. Required for inbound calls only.
                   type: string
                   example: 'https://example.com/webhooks/answer'
                 answer_method:
@@ -84,37 +82,37 @@ paths:
                 event_url:
                   description: >-
                     Nexmo sends event information asynchronously to this URL
-                    when status changes for `voice` applications.
+                    when status changes for `voice` applications. Always required for `voice` applications.
                   type: string
                   example: 'https://example.com/webhooks/event'
                 event_method:
                   description: >-
                     The HTTP method used to send event information to `event_url`.
-                    The default value is `POST`. `voice` type applications only.
+                    The default value is `POST`. For `voice` type applications only. 
                   type: string
                   example: POST
                 status_url:
                   description: >-
                     Nexmo sends event information asynchronously to this URL
-                    when status changes. (`messages` only)
+                    when status changes. Required for `messages` type applications only.
                   type: string
                   example: 'https://example.com/webhooks/status'
                 status_method:
                   description: >-
                     The HTTP method used to send event information to `status_url`.
-                    The default value is `POST`. `messages` type applications only.
+                    The default value is `POST`. For `messages` type applications only.
                   type: string
                   example: POST
                 inbound_url:
                   description: >-
                     Nexmo sends a request to this URL when an inbound message
-                    is received (`messages` only)
+                    is received. Required for `messages` type applications only.
                   type: string
                   example: 'https://example.com/webhooks/inbound'                  
                 inbound_method:
                   description: >-
                     The HTTP method used to send event information to `inbound_url`.
-                    The default value is `POST`. `messages` type applications only.
+                    The default value is `POST`. For `messages` type applications only.
                   type: string
                   example: POST
       responses:
@@ -203,7 +201,8 @@ paths:
           in: query
           description: >-
             The Nexmo product or products that you access with this application.
-            Currently `voice` and `messages` application types are supported.
+            Currently `voice` and `messages` application types are supported. You 
+            can't change the type of application.
           schema:
             type: string
             enum:
@@ -220,7 +219,7 @@ paths:
           schema:
             type: string
             format: url
-          example: 'https://example.com/ncco'
+          example: 'https://example.com/webhooks/answer'
         - name: answer_method
           required: false
           in: query
@@ -240,12 +239,12 @@ paths:
           schema:
             type: string
             format: url
-          example: 'https://example.com/call_status'
+          example: 'https://example.com/webhooks/event'
         - name: event_method
           required: false
           in: query
           description: >-
-            The HTTP method used to send event information to event_url. The
+            The HTTP method used to send event information to `event_url`. The
             default value is POST.
           schema:
             type: string
@@ -345,18 +344,18 @@ components:
               endpoint:
                 type: string
                 description: >-
-                  * `answer_url`: The URL where your webhook delivers the Nexmo
+                  `answer_url`: The URL where your webhook delivers the Nexmo
                   Call Control Object that governs this call. As soon as your
-                  user answers a call Nexmo makes a request to answer_url. *
+                  user answers a call Nexmo makes a request to answer_url.
                   `event_url`: Nexmo sends event information asynchronously to
                   this URL when status changes.
                 format: url
-                example: 'https://example.com'
+                example: 'https://example.com/webhooks/event'
               http_method:
                 type: string
                 description: >-
                   The HTTP method used to send event information to the
-                  event_url or answer_url.
+                  `event_url` or `answer_url`.
                 enum:
                   - GET
                   - POST
