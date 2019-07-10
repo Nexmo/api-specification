@@ -313,17 +313,24 @@ components:
     voiceXml:
       description: >-
         The Nexmo product or products that you access with this application.
-        Currently only `voice` is supported.
       type: object
       properties:
         webhooks:
           $ref: '#/components/schemas/voiceBase/properties/webhooks'
         keys:
           $ref: '#/components/schemas/voiceBase/properties/keys'
+    messagesXml:
+      description: >-
+        The Nexmo product or products that you access with this application.
+      type: object
+      properties:
+        webhooks:
+          $ref: '#/components/schemas/messagesBase/properties/webhooks'
+        keys:
+          $ref: '#/components/schemas/messagesBase/properties/keys'
     voiceBase:
       description: >-
         The Nexmo product or products that you access with this application.
-        Currently only `voice` is supported.
       type: object
       properties:
         webhooks:
@@ -360,6 +367,61 @@ components:
                   - GET
                   - POST
                 example: GET
+        keys:
+          type: object
+          required:
+            - public_key
+          properties:
+            public_key:
+              description: >-
+                The public key used to validate the
+                [JWT](https://en.wikipedia.org/wiki/JSON_Web_Token).
+              type: string
+              example: PUBLIC_KEY
+            private_key:
+              description: >-
+                The private key you use to generate the JSON Web Token (JWT)
+                that authenticates your requests to Voice API.
+              type: string
+              example: PRIVATE_KEY
+        _links:
+          $ref: '#/components/schemas/links'
+    messagesBase:
+      description: >-
+        The Nexmo product or products that you access with this application.
+      type: object
+      properties:
+        webhooks:
+          type: array
+          items:
+            type: object
+            required:
+              - endpoint_type
+              - endpoint
+              - http_method
+            properties:
+              endpoint_type:
+                type: string
+                enum:
+                  - inbound_url
+                  - status_url
+                example: status_url
+              endpoint:
+                type: string
+                description: >-
+                  `inbound_url`: The URL where inbound messages are delivered.
+                  `status_url`: The URL where message status is delivered.
+                format: url
+                example: 'https://example.com/webhooks/inbound'
+              http_method:
+                type: string
+                description: >-
+                  The HTTP method used to send data to the
+                  `inbound_url` or `status_url`. Default is POST.
+                enum:
+                  - GET
+                  - POST
+                example: POST
         keys:
           type: object
           required:
@@ -453,6 +515,8 @@ components:
           $ref: '#/components/schemas/applicationsBase/properties/page_index'
         voice:
           $ref: '#/components/schemas/voiceXml'
+        messages:
+          $ref: '#/components/schemas/messagesXml'
     applicationsBase:
       properties:
         count:
