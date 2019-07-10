@@ -312,7 +312,7 @@ components:
             example: /v1/applications/aaaaaaaa-bbbb-cccc-dddd-0123456789ab
     voiceXml:
       description: >-
-        The Nexmo product or products that you access with this application.
+        The Nexmo product that you access with this application.
       type: object
       properties:
         webhooks:
@@ -321,7 +321,7 @@ components:
           $ref: '#/components/schemas/voiceBase/properties/keys'
     messagesXml:
       description: >-
-        The Nexmo product or products that you access with this application.
+        The Nexmo product that you access with this application.
       type: object
       properties:
         webhooks:
@@ -330,7 +330,7 @@ components:
           $ref: '#/components/schemas/messagesBase/properties/keys'
     voiceBase:
       description: >-
-        The Nexmo product or products that you access with this application.
+        The Nexmo product that you access with this application.
       type: object
       properties:
         webhooks:
@@ -388,7 +388,7 @@ components:
           $ref: '#/components/schemas/links'
     messagesBase:
       description: >-
-        The Nexmo product or products that you access with this application.
+        The Nexmo product that you access with this application.
       type: object
       properties:
         webhooks:
@@ -436,7 +436,7 @@ components:
             private_key:
               description: >-
                 The private key you use to generate the JSON Web Token (JWT)
-                that authenticates your requests to Voice API.
+                that authenticates your requests to Messages API.
               type: string
               example: PRIVATE_KEY
         _links:
@@ -446,6 +446,7 @@ components:
       required:
         - name
         - voice
+        - messages
       properties:
         id:
           $ref: '#/components/schemas/applicationBase/properties/id'
@@ -453,11 +454,14 @@ components:
           $ref: '#/components/schemas/applicationBase/properties/name'
         voice:
           $ref: '#/components/schemas/voiceBase'
+        messages:
+          $ref: '#/components/schemas/messagesBase'
     applicationXml:
       type: object
       required:
         - name
         - voice
+        - messages
       xml:
         name: application
       properties:
@@ -467,6 +471,8 @@ components:
           $ref: '#/components/schemas/applicationBase/properties/name'
         voice:
           $ref: '#/components/schemas/voiceXml'
+        messages:
+          $ref: '#/components/schemas/messagesXml'
     applicationBase:
       type: object
       properties:
