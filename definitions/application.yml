@@ -22,37 +22,27 @@ servers:
 externalDocs:
   url: 'https://developer.nexmo.com/api/developer/application'
   x-sha1: d8836c374e2a7504bd2cd59e05fcee440f67cb44
-security:
-  - apiKey: []
-    apiSecret: []
-tags:
-  - name: Create
-    description: Create an application
-  - name: Retrieve All
-    description: Retrieve your applications
-  - name: Retrieve
-    description: Retrieve an application
-  - name: Update
-    description: Update an application
-  - name: Destroy
-    description: Delete an application
 paths:
   /:
     post:
       summary: Create Application
       description: You use a `POST` request to create a new application.
       operationId: createApplication
-      tags:
-        - Create
       requestBody:
         content:
-          application/x-www-form-urlencoded:
+          application/json:
             schema:
               type: object
               required:
+                - api_key
+                - api_secret
                 - name
                 - type
               properties:
+                api_key:
+                  $ref: '#/components/schemas/apiKey'
+                api_secret:
+                  $ref: '#/components/schemas/apiSecret'
                 name:
                   description: The name of your application.
                   type: string
@@ -121,19 +111,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/application'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/applicationXml'
+                $ref: '#/components/schemas/applicationCreated'
     get:
       summary: Retrieve all Applications
       description: >-
         You use a `GET` request to retrieve details of all applications
         associated with your account.
       operationId: retrieveApplications
-      tags:
-        - Retrieve All
       parameters:
+        - $ref: '#/components/parameters/apiKeyQueryString'
+        - $ref: '#/components/parameters/apiSecretQueryString'
         - name: page_size
           required: false
           in: query
@@ -152,6 +139,7 @@ paths:
             type: integer
             default: 0
           example: 0
+
       responses:
         '200':
           description: OK
@@ -159,17 +147,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/applications'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/applicationsXml'
   '/{app_id}':
     get:
       summary: Retrieve Application
       description: You use a `GET` request to retrieve details about a single application.
       operationId: retrieveApplication
-      tags:
-        - Retrieve
       parameters:
+        - $ref: '#/components/parameters/apiKeyQueryString'
+        - $ref: '#/components/parameters/apiSecretQueryString'
         - $ref: '#/components/parameters/app_id'
       responses:
         '200':
@@ -178,78 +163,70 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/application'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/applicationXml'
     put:
       summary: Update Application
       description: You use a `PUT` request to update an existing application.
       operationId: updateApplication
-      tags:
-        - Update
       parameters:
         - $ref: '#/components/parameters/app_id'
-        - name: name
-          required: true
-          in: query
-          description: The name of your application.
-          schema:
-            type: string
-          example: UpdatedApplication
-        - name: type
-          required: true
-          in: query
-          description: >-
-            The Nexmo product or products that you access with this application.
-            Currently `voice` and `messages` application types are supported. You 
-            can't change the type of application.
-          schema:
-            type: string
-            enum:
-              - voice
-              - messages
-          example: voice
-        - name: answer_url
-          required: true
-          in: query
-          description: >-
-            The URL where your webhook delivers the Nexmo Call Control Object
-            that governs this call. As soon as your user answers a call Nexmo
-            makes a request to `answer_url`.
-          schema:
-            type: string
-            format: url
-          example: 'https://example.com/webhooks/answer'
-        - name: answer_method
-          required: false
-          in: query
-          description: >-
-            The HTTP method used to make the request to `answer_url`. The
-            default value is `GET`.
-          schema:
-            type: string
-            default: GET
-          example: GET
-        - name: event_url
-          required: true
-          in: query
-          description: >-
-            Nexmo sends event information asynchronously to this URL when status
-            changes.
-          schema:
-            type: string
-            format: url
-          example: 'https://example.com/webhooks/event'
-        - name: event_method
-          required: false
-          in: query
-          description: >-
-            The HTTP method used to send event information to `event_url`. The
-            default value is POST.
-          schema:
-            type: string
-            default: POST
-          example: POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - api_key
+                - api_secret
+                - name
+                - type
+              properties:
+                api_key:
+                  $ref: '#/components/schemas/apiKey'
+                api_secret:
+                  $ref: '#/components/schemas/apiSecret'
+                name:
+                  description: The name of your application.
+                  type: string
+                  example: UpdatedApplication
+                type:
+                  description: >-
+                    The Nexmo product or products that you access with this application.
+                    Currently `voice` and `messages` application types are supported. You 
+                    can't change the type of application.
+                  type: string
+                  enum:
+                    - voice
+                    - messages
+                  example: voice
+                answer_url:
+                  description: >-
+                    The URL where your webhook delivers the Nexmo Call Control Object
+                    that governs this call. As soon as your user answers a call Nexmo
+                    makes a request to `answer_url`.
+                  type: string
+                  format: url
+                  example: 'https://example.com/webhooks/answer'
+                answer_method:
+                  description: >-
+                    The HTTP method used to make the request to `answer_url`. The
+                    default value is `GET`.
+                  type: string
+                  default: GET
+                  example: GET
+                event_url:
+                  description: >-
+                    Nexmo sends event information asynchronously to this URL when status
+                    changes.
+                  type: string
+                  format: url
+                  example: 'https://example.com/webhooks/event'
+                event_method:
+                  description: >-
+                    The HTTP method used to send event information to `event_url`. The
+                    default value is POST.
+                  type: string
+                  default: POST
+                  example: POST
       responses:
         '200':
           description: OK
@@ -257,36 +234,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/application'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/applicationXml'
     delete:
       summary: Destroy Application
       description: You use a `DELETE` request to delete a single application.
       operationId: deleteApplication
-      tags:
-        - Destroy
       parameters:
         - $ref: '#/components/parameters/app_id'
       responses:
         '204':
           description: No content
 components:
-  securitySchemes:
-    apiKey:
-      type: apiKey
-      name: api_key
-      in: query
-      description: >-
-        You can find your API key in your [account
-        overview](https://dashboard.nexmo.com/account-overview)
-    apiSecret:
-      type: apiKey
-      name: api_secret
-      in: query
-      description: >-
-        You can find your API secret in your [account
-        overview](https://dashboard.nexmo.com/account-overview)
   parameters:
     app_id:
       name: app_id
@@ -296,39 +253,48 @@ components:
       schema:
         type: string
       example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
+    apiKeyQueryString:
+      schema:
+        type: string
+      name: api_key
+      in: query
+      required: true
+      description: >-
+        You can find your API key in your [account
+        overview](https://dashboard.nexmo.com/account-overview)
+    apiSecretQueryString:
+      schema:
+        type: string
+      name: api_secret
+      in: query
+      required: true
+      description: >-
+        You can find your API secret in your [account
+        overview](https://dashboard.nexmo.com/account-overview)
+
   schemas:
+    apiKey:
+      type: string
+      description: >-
+        You can find your API key in your [account
+        overview](https://dashboard.nexmo.com/account-overview)
+    apiSecret:
+      type: string
+      description: >-
+        You can find your API secret in your [account
+        overview](https://dashboard.nexmo.com/account-overview)
     links:
       type: object
       description: >-
         A series of links between resources in this API in the following [HAL
         specification](http://stateless.co/hal_specification.html).
-      additionalProperties:
-        type: object
-        properties:
-          href:
-            type: string
-            format: url
-            description: The link URL.
-            example: /v1/applications/aaaaaaaa-bbbb-cccc-dddd-0123456789ab
-    voiceXml:
-      description: >-
-        The Nexmo product that you access with this application.
-      type: object
       properties:
-        webhooks:
-          $ref: '#/components/schemas/voiceBase/properties/webhooks'
-        keys:
-          $ref: '#/components/schemas/voiceBase/properties/keys'
-    messagesXml:
-      description: >-
-        The Nexmo product that you access with this application.
-      type: object
-      properties:
-        webhooks:
-          $ref: '#/components/schemas/messagesBase/properties/webhooks'
-        keys:
-          $ref: '#/components/schemas/messagesBase/properties/keys'
-    voiceBase:
+        href:
+          type: string
+          format: url
+          description: The link URL.
+          example: /v1/applications/aaaaaaaa-bbbb-cccc-dddd-0123456789ab
+    voice:
       description: >-
         The Nexmo product that you access with this application.
       type: object
@@ -357,7 +323,7 @@ components:
                   `event_url`: Nexmo sends event information asynchronously to
                   this URL when status changes.
                 format: url
-                example: 'https://example.com/webhooks/event'
+                example: 'https://example.com/webhooks/answer'
               http_method:
                 type: string
                 description: >-
@@ -367,26 +333,7 @@ components:
                   - GET
                   - POST
                 example: GET
-        keys:
-          type: object
-          required:
-            - public_key
-          properties:
-            public_key:
-              description: >-
-                The public key used to validate the
-                [JWT](https://en.wikipedia.org/wiki/JSON_Web_Token).
-              type: string
-              example: PUBLIC_KEY
-            private_key:
-              description: >-
-                The private key you use to generate the JSON Web Token (JWT)
-                that authenticates your requests to Voice API.
-              type: string
-              example: PRIVATE_KEY
-        _links:
-          $ref: '#/components/schemas/links'
-    messagesBase:
+    messages:
       description: >-
         The Nexmo product that you access with this application.
       type: object
@@ -412,7 +359,7 @@ components:
                   `inbound_url`: The URL where inbound messages are delivered.
                   `status_url`: The URL where message status is delivered.
                 format: url
-                example: 'https://example.com/webhooks/inbound'
+                example: 'https://example.com/webhooks/status'
               http_method:
                 type: string
                 description: >-
@@ -422,25 +369,33 @@ components:
                   - GET
                   - POST
                 example: POST
-        keys:
-          type: object
-          required:
-            - public_key
-          properties:
-            public_key:
-              description: >-
-                The public key used to validate the
-                [JWT](https://en.wikipedia.org/wiki/JSON_Web_Token).
-              type: string
-              example: PUBLIC_KEY
+    keys:
+      description: >-
+        The Nexmo product that you access with this application.
+      type: object
+      properties:
+        public_key:
+          description: >-
+            The public key used to validate the
+            [JWT](https://en.wikipedia.org/wiki/JSON_Web_Token).
+          type: string
+          example: PUBLIC_KEY
+    keysWithPrivateKey:
+      allOf:
+        - $ref: '#/components/schemas/keys'
+        - properties:
             private_key:
               description: >-
                 The private key you use to generate the JSON Web Token (JWT)
                 that authenticates your requests to Messages API.
               type: string
               example: PRIVATE_KEY
-        _links:
-          $ref: '#/components/schemas/links'
+    applicationCreated:
+      allOf:
+        - $ref: '#/components/schemas/application'
+        - properties:
+            keys:
+              $ref: '#/components/schemas/keysWithPrivateKey'
     application:
       type: object
       required:
@@ -453,26 +408,13 @@ components:
         name:
           $ref: '#/components/schemas/applicationBase/properties/name'
         voice:
-          $ref: '#/components/schemas/voiceBase'
+          $ref: '#/components/schemas/voice'
         messages:
-          $ref: '#/components/schemas/messagesBase'
-    applicationXml:
-      type: object
-      required:
-        - name
-        - voice
-        - messages
-      xml:
-        name: application
-      properties:
-        id:
-          $ref: '#/components/schemas/applicationBase/properties/id'
-        name:
-          $ref: '#/components/schemas/applicationBase/properties/name'
-        voice:
-          $ref: '#/components/schemas/voiceXml'
-        messages:
-          $ref: '#/components/schemas/messagesXml'
+          $ref: '#/components/schemas/messages'
+        keys:
+          $ref: '#/components/schemas/keys'
+        _links:
+          $ref: '#/components/schemas/links'
     applicationBase:
       type: object
       properties:
@@ -503,26 +445,6 @@ components:
           $ref: '#/components/schemas/applicationsBase/properties/_embedded'
         _links:
           $ref: '#/components/schemas/links'
-    applicationsXml:
-      type: object
-      required:
-        - count
-        - page_size
-        - page_index
-        - _embedded
-      xml:
-        name: applications
-      properties:
-        count:
-          $ref: '#/components/schemas/applicationsBase/properties/count'
-        page_size:
-          $ref: '#/components/schemas/applicationsBase/properties/page_size'
-        page_index:
-          $ref: '#/components/schemas/applicationsBase/properties/page_index'
-        voice:
-          $ref: '#/components/schemas/voiceXml'
-        messages:
-          $ref: '#/components/schemas/messagesXml'
     applicationsBase:
       properties:
         count:
@@ -541,13 +463,9 @@ components:
           example: 1
         _embedded:
           type: object
-          xml:
-            name: applications
           properties:
             applications:
               type: array
-              xml:
-                name: application
               description: >-
                 The collection of your applications. Each object contains
                 information about an an individual application. The public_key
