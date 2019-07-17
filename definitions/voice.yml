@@ -1,7 +1,7 @@
 ---
 openapi: 3.0.0
 info:
-  version: 1.1.0
+  version: 1.2.0
   title: Voice API
   description: The Voice API lets you create outbound calls, control in-progress calls
     and get information about historical calls. More information about the Voice API
