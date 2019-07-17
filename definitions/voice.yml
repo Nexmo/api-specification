@@ -380,6 +380,10 @@ paths:
       responses:
         '204':
           description: No Content
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
   "/calls/{uuid}/stream":
     parameters:
     - in: path
