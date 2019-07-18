@@ -86,27 +86,19 @@ paths:
     get:
       summary: Search Messages
       description: >-
-        Retrieve multiple messages that you sent using SMS API or were received
-        on your number. Either `ids` or `date` and `number` are required.
+        Retrieve multiple messages that you sent using the SMS API or that were received
+        on your number. Either one or more `ids` are specified, or both `date` and `number` 
+        are required to identify the messages.
       operationId: searchMessages
       tags:
         - Retrieve Multiple
       parameters:
         - name: ids
           in: query
-          description: The list of up to 10 message IDs to search for.
-          x-nexmo-developer-collection-description-shown: true
-          style: form
-          explode: true
+          description: A message ID to search for. You can specify up to 10 message IDs to search for as query parameters.
+          example: 'ids=123456789&ids=987654321'
           schema:
-            type: array
-            items:
-              type: string
-              description: A message ID to search for.
-              x-nexmo-developer-collection-description-shown: true
-              example: 00A0B0C0
-            minItems: 1
-            maxItems: 10
+            type: string
         - name: date
           in: query
           description: >-
