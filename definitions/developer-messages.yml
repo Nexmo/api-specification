@@ -95,6 +95,7 @@ paths:
         - name: ids
           in: query
           description: The list of up to 10 message IDs to search for.
+          x-nexmo-developer-collection-description-shown: true
           style: form
           explode: true
           schema:
@@ -102,6 +103,7 @@ paths:
             items:
               type: string
               description: A message ID to search for.
+              x-nexmo-developer-collection-description-shown: true
               example: 00A0B0C0
             minItems: 1
             maxItems: 10
