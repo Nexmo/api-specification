@@ -37,14 +37,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SubaccountCreateResponse'
-        '400':
-          $ref: '#/components/responses/BadRequestError'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '403':
           $ref: '#/components/responses/ForbiddenError'
         '404':
           $ref: '#/components/responses/NotFoundError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
     get:
       summary: Retrieve list of subaccounts
       operationId: retrieveSubaccountsList
@@ -145,8 +145,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SubaccountResponse'
-        '400':
-          $ref: '#/components/responses/BadRequestError'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '403':
@@ -413,41 +411,6 @@ components:
               instance:
                 type: string
                 example: '158b8f199c45014ab7b08bfe9cc1c12c'
-    BadRequestError:
-      description: Bad Request Error
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-              - type
-              - title
-              - detail
-              - instance
-            properties:
-              type:
-                type: string
-                example: 'https://developer.nexmo.com/api-errors/account/subaccounts#validation'
-              title:
-                type: string
-                example: 'Bad Request'
-              detail:
-                type: string
-                example: 'The request failed due to validation errors'
-              invalid_parameters:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    name:
-                      type: string
-                      example: 'name'
-                    reason:
-                      type: string
-                      example: 'Does not meet length requirements'
-              instance:
-                type: string
-                example: '158b8f199c45014ab7b08bfe9cc1c12c'
     UnprocessableEntityError:
       description: Validation Error
       content:
@@ -520,15 +483,6 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/SubaccountResponse'
-        _links:
-          type: object
-          properties:
-            self:
-              type: object
-              properties:
-                href:
-                  type: string
-                  example: "/accounts/acc6111f/subaccounts"
     SubaccountResponse:
       properties:
         api_key:
@@ -571,15 +525,6 @@ components:
           type: number
           description: >-
             Credit limit of the subAccount. Value is null if balance is shared with primary account.
-        _links:
-          type: object
-          properties:
-            self:
-              type: object
-              properties:
-                href:
-                  type: string
-                  example: "/accounts/acc6111f/subaccounts/bbe6222f"
     SubaccountCreateResponse:
       allOf:
         - properties:
@@ -621,15 +566,6 @@ components:
           type: string
           description: >-
             The date and time when the credit transfer was executed
-        _links:
-          type: object
-          properties:
-            self:
-              type: object
-              properties:
-                href:
-                  type: string
-                  example: '/accounts/acc6111f/credit-transfers/07b5-46e1-a527-85530e625800'
     TransferBalanceResponse:
       properties:
         balance_transfer_id:
@@ -662,15 +598,6 @@ components:
           type: string
           description: >-
             The date and time when the balance transfer was executed
-        _links:
-          type: object
-          properties:
-            self:
-              type: object
-              properties:
-                href:
-                  type: string
-                  example: '/accounts/acc6111f/balance-transfers/07b5-46e1-a527-85530e625800'
     ListCreditTransfersResponse:
       properties:
         _embedded:
@@ -680,33 +607,15 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/TransferCreditResponse'
-        _links:
-          type: object
-          properties:
-            self:
-              type: object
-              properties:
-                href:
-                  type: string
-                  example: '/accounts/acc6111f/credit-transfers'
     ListBalanceTransfersResponse:
       properties:
         _embedded:
           type: object
           properties:
-            balance-transfers:
+            balance_transfers:
               type: array
               items:
                 $ref: '#/components/schemas/TransferBalanceResponse'
-        _links:
-          type: object
-          properties:
-            self:
-              type: object
-              properties:
-                href:
-                  type: string
-                  example: '/accounts/acc6111f/balance-transfers'
     NewSubaccountRequest:
       type: object
       required:
