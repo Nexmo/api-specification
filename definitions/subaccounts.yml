@@ -217,14 +217,14 @@ paths:
           required: true
           schema:
             type: string
-          example: 2019-07-15T13:11:44Z
+          example: '2019-07-15T13:11:44Z'
         - name: end_date
           in: query
           description: End of the retrieval period. If absent then all transfers until now is returned.
           required: false
           schema:
             type: string
-          example: 2019-07-15T14:11:44Z
+          example: '2019-07-15T14:11:44Z'
         - name: subaccount
           in: query
           description: Subaccount to filter by. You may send this multiple times to filter on multiple subaccounts
@@ -305,14 +305,14 @@ paths:
           required: true
           schema:
             type: string
-          example: 2019-07-15T13:11:44Z
+          example: '2019-07-15T13:11:44Z'
         - name: end_date
           in: query
           description: End of the retrieval period. If absent then all transfers until now is returned.
           required: false
           schema:
             type: string
-          example: 2019-07-15T14:11:44Z
+          example: '2019-07-15T14:11:44Z'
         - name: subaccount
           in: query
           description: Subaccount to filter by. You may send this multiple times to filter on multiple subaccounts
