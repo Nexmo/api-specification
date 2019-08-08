@@ -1,6 +1,6 @@
 openapi: "3.0.0"
 info:
-  version: 0.3.0
+  version: 0.3.1
   title: Messages API
   description: 'The Messaging API is a new API that consolidates all messaging channels. It encapsulates a user (developer) from having to use multiple APIs to interact with our various channels such as SMS, MMS, Viber, Facebook Messenger, etc. The API normalises information across all channels to abstracted to, from and content. This API is currently in Beta.'
   contact:
@@ -376,7 +376,7 @@ components:
 
                 **Viber Service Messages**: supports `image` and `text` and `custom`.
 
-                **WhatsApp**: supports `template`, `text`, `image`, `audio` and `file`. Maxmimum outbound media size is 5mb.
+                **WhatsApp**: supports `template`, `text`, `image`, `audio`, `file` and `video`. Maxmimum outbound media size is 64mb.
 
                 **SMS**: supports `text`.
 
