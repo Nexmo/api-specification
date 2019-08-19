@@ -376,7 +376,7 @@ components:
 
                 **Viber Service Messages**: supports `image` and `text` and `custom`.
 
-                **WhatsApp**: supports `template`, `text`, `image`, `audio`, `file` and `video`. Maxmimum outbound media size is 64mb.
+                **WhatsApp**: supports `template`, `text`, `image`, `audio`, `file`, `video` and `custom`. Maxmimum outbound media size is 64mb.
 
                 **SMS**: supports `text`.
 

@@ -7,3 +7,10 @@
 /spec/reports/
 /tmp/
 *.gem
+# Idea
+.idea/
+*.iml
+*.ipr
+*.iws
+
+
