@@ -267,7 +267,7 @@ components:
                   type: string
                   description: |
                     The type of message being received. 
-                    **whatsapp** and **messenger** supports `text`, `image`, `audio`, `file` and `location`. WhatsApp maximum inbound size is 64mb.
+                    **whatsapp** and **messenger** supports `text`, `image`, `audio`, `video`, `file` and `location`. WhatsApp maximum inbound size is 64mb.
                     **mms** supports `image`. 
                   example: 'text'
                   enum:
@@ -521,7 +521,12 @@ components:
       properties:
         url:
           type: string
-          description: 'The URL of the video attachment. **messenger** supports .mp4'
+          description: |
+            The URL of the video attachment.
+            
+            **messenger** supports .mp4
+            
+            **whatsapp** supports .mp4 and .3gpp. Note, only H.264 video codec and AAC audio codec is supported.
           minLength: 10
           maxLength: 2000
           example: 'https://example.com/video.mp4'

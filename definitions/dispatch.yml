@@ -192,7 +192,7 @@ components:
 
                 **Viber Service Messages**: supports `image` and `text`.
                 
-                **WhatsApp**: supports `template`, `text`, `image`, `audio` and `file`.
+                **WhatsApp**: supports `template`, `text`, `image`, `audio`, `video` and `file`.
 
                 **SMS**: supports `text`.
               type: string
@@ -327,7 +327,12 @@ components:
       properties:
         url:
           type: string
-          description: 'The URL of the video attachment. `messenger` supports .mp4'
+          description:  |
+            The URL of the video attachment.
+            
+            **messenger** supports .mp4
+            
+            **whatsapp** supports .mp4 and .3gpp. Note, only H.264 video codec and AAC audio codec is supported.
           minLength: 1
           maxLength: 2000
           example: 'https://example.com/video.mp4'
