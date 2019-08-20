@@ -1,6 +1,6 @@
 openapi: "3.0.0"
 info:
-  version: 0.3.1
+  version: 0.3.3
   title: Messages API
   description: 'The Messaging API is a new API that consolidates all messaging channels. It encapsulates a user (developer) from having to use multiple APIs to interact with our various channels such as SMS, MMS, Viber, Facebook Messenger, etc. The API normalises information across all channels to abstracted to, from and content. This API is currently in Beta.'
   contact:
