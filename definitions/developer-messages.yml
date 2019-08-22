@@ -392,9 +392,11 @@ components:
           description: The number of messages included in the response.
         items:
           type: array
+          description: The messages in the response.
           xml:
             wrapped: true
           items:
+            type: object
             xml:
               name: message
             oneOf:
