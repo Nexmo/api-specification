@@ -1,14 +1,12 @@
 ---
 openapi: "3.0.0"
 info:
-  version: 1.0.3
+  version: 2.0.4
   title: "Application API"
   description: |
-    This is the *beta* version of the Application API.
-
     Nexmo provides an Application API to allow management of your Nexmo Applications.
 
-    This API is backwards compatible with version 1. Applications created using Version 1 of the API can also be managed using Version 2.
+    This API is backwards compatible with version 1. Applications created using version 1 of the API can also be managed using version 2 (this version) of the API.
   contact:
     name: Nexmo
     url: 'https://developer.nexmo.com/'

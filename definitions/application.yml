@@ -1,8 +1,10 @@
 openapi: 3.0.0
 info:
   title: Nexmo Application API
-  version: 1.0.1
+  version: 1.0.2
   description: >-
+    **This version of the API is now deprecated. Please see [version 2](/api/application.v2).**
+    
     A Nexmo application contains the security and configuration information you
     need to connect to Nexmo endpoints and easily use our products.
   contact:
