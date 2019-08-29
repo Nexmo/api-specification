@@ -175,11 +175,11 @@ paths:
       summary: Record a conversation
       responses:
         '204':
-          $ref: '#/components/responses/SuccessEmptyJSON'
+          description: '{}'
         '404':
-          $ref: '#/components/responses/SuccessEmptyJSON'
+          description: 'Not Found'
         '400':
-          $ref: '#/components/responses/ErrorInvalidParams'
+          description: 'Bad Request'
       requestBody:
         $ref: '#/components/requestBodies/RecordConversation'
   '/conversations/{conversation_id}/events':
@@ -695,14 +695,17 @@ components:
     event_method:
       type: string
       description: The HTTP method used to send event information to event_url.
+      example: POST
       default: POST
     split:
       type: string
       description: Record the sent and received audio in separate channels of a stereo recording
+      example: conversation
       default: conversation
     format:
       type: string
       description: Record the Conversation in a specific format.
+      example: mp3
       default: mp3
       enum:
         - mp3
@@ -1123,14 +1126,6 @@ components:
             type: object
             description: Empty JSON payload
             example: {}
-    ErrorInvalidParams:
-      description: Error response with JSON
-      content:
-        application/json:
-          schema:
-            type: object
-            description: Error response JSON payload
-            example: { "title": "Bad Request" }
   requestBodies:
     EmptyBody:
       description: Conversation Request Payload Object
