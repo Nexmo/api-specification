@@ -167,7 +167,7 @@ paths:
           $ref: '#/components/responses/SuccessEmptyJSON'
   '/conversations/{conversation_id}/record':
     parameters:
-      - $ref: '#/components/parameters/conversation_id/record'
+      - $ref: '#/components/parameters/conversation_id'
     put:
       operationId: recordConversation
       tags:
