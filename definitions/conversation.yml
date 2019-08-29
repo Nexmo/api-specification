@@ -2,7 +2,7 @@ openapi: 3.0.0
 servers:
   - url: 'https://api.nexmo.com/beta'
 info:
-  version: 1.6.0
+  version: 1.7.0
   title: Nexmo Conversation API
   description: 'The Nexmo Conversation API enables you to build conversation features where communication can take place across multiple mediums including IP Messaging, PSTN Voice, SMS and WebRTC Audio and Video. The context of the conversations is maintained though each communication event taking place within a conversation, no matter the medium.'
   contact:
@@ -165,6 +165,23 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/SuccessEmptyJSON'
+  '/conversations/{conversation_id}/record':
+    parameters:
+      - $ref: '#/components/parameters/conversation_id/record'
+    put:
+      operationId: recordConversation
+      tags:
+        - conversation
+      summary: Record a conversation
+      responses:
+        '204':
+          $ref: '#/components/responses/SuccessEmptyJSON'
+        '404':
+          $ref: '#/components/responses/SuccessEmptyJSON'
+        '400':
+          $ref: '#/components/responses/ErrorInvalidParams'
+      requestBody:
+        $ref: '#/components/requestBodies/RecordConversation'
   '/conversations/{conversation_id}/events':
     parameters:
       - $ref: '#/components/parameters/conversation_id'
@@ -663,6 +680,33 @@ components:
             member_id:
                 $ref: '#/components/schemas/member_id'
  
+    action:
+      type: string
+      example: start
+      description: Recording Action
+      enum:
+        - start
+        - stop
+    event_url:
+      type: string
+      format: url
+      example: 'https://example.com/event'
+      description: The webhook endpoint where recording progress events are sent to.
+    event_method:
+      type: string
+      description: The HTTP method used to send event information to event_url.
+      default: POST
+    split:
+      type: string
+      description: Record the sent and received audio in separate channels of a stereo recording
+      default: conversation
+    format:
+      type: string
+      description: Record the Conversation in a specific format.
+      default: mp3
+      enum:
+        - mp3
+        - wav
     leg_state:
       type: string
       example: terminated
@@ -1079,6 +1123,14 @@ components:
             type: object
             description: Empty JSON payload
             example: {}
+    ErrorInvalidParams:
+      description: Error response with JSON
+      content:
+        application/json:
+          schema:
+            type: object
+            description: Error response JSON payload
+            example: { "title": "Bad Request" }
   requestBodies:
     EmptyBody:
       description: Conversation Request Payload Object
@@ -1105,6 +1157,23 @@ components:
                 $ref: '#/components/schemas/numbers'
               properties:
                 $ref: '#/components/schemas/conversation_properties'
+    RecordConversation:
+      description: Record Conversation Request Payload Object
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              action:
+                $ref: '#/components/schemas/action'
+              event_url:
+                $ref: '#/components/schemas/event_url'
+              event_method:
+                $ref: '#/components/schemas/event_method'
+              split:
+                $ref: '#/components/schemas/split'
+              format:
+                $ref: '#/components/schemas/format'
   securitySchemes:
     bearerAuth:
       type: http
