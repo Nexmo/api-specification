@@ -175,7 +175,7 @@ paths:
       summary: Record a conversation
       responses:
         '204':
-          description: '{}'
+          description: 'No Content'
         '404':
           description: 'Not Found'
         '400':
