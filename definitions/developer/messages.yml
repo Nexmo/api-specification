@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Nexmo Message Search API
-  version: 1.0.1
+  version: 1.0.2
   description: >-
     The Messages API lets you retrieve messages you have sent via the SMS API by
     ID, as well as retrieve details of messages that were rejected.
@@ -25,23 +25,14 @@ externalDocs:
 security:
   - apiKey: []
     apiSecret: []
-tags:
-  - name: Search
-    description: Search.
-  - name: Retrieve Multiple
-    description: Retrieve multiple messages.
-  - name: Retrieve Rejected
-    description: Retrieve rejected messages.
 paths:
   /message:
     get:
-      summary: Search for Message
+      summary: Get a single message
       description: >-
         Retrieve information about a single message that you sent using SMS API
         or that was received on your number.
       operationId: searchMessage
-      tags:
-        - Search
       parameters:
         - name: id
           in: query
@@ -84,14 +75,12 @@ paths:
                 $ref: '#/components/schemas/error'
   /messages:
     get:
-      summary: Search Messages
+      summary: Search messages
       description: >-
         Retrieve multiple messages that you sent using the SMS API or that were received
-        on your number. Either one or more `ids` are specified, or both `date` and `number` 
-        are required to identify the messages.
+        on your number. You may provide one or more `ids` are specified, or both `date` and `number` 
+        to identify the messages.
       operationId: searchMessages
-      tags:
-        - Retrieve Multiple
       parameters:
         - name: ids
           in: query
@@ -144,13 +133,11 @@ paths:
                 $ref: '#/components/schemas/error'
   /rejections:
     get:
-      summary: Search for Rejections
+      summary: Search for rejections
       description: >-
         Search for messages that have been rejected by Nexmo. Messages rejected
-        by carrier do not appear.
+        by the carrier do not appear.
       operationId: searchRejections
-      tags:
-        - Retrieve Rejected
       parameters:
         - name: date
           in: query
@@ -201,6 +188,7 @@ components:
   schemas:
     messageBase:
       type: object
+      description: Inbound (MO)
       required:
         - type
         - message-id
@@ -256,6 +244,7 @@ components:
           description: The body of the message.
           example: A text message sent using the Nexmo SMS API
     messageMT:
+      description: Outbound (MT)
       type: object
       required:
         - type
