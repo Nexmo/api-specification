@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Numbers API
-  version: 1.0.8
+  version: 1.0.9
   description: >-
     The Numbers API enables you to manage your existing numbers and buy new virtual numbers for
     use with Nexmo's APIs. Further information is here: <https://developer.nexmo.com/numbers/overview>
@@ -54,9 +54,9 @@ paths:
                 type: object
                 properties:
                   error-code:
-                    type: number
+                    type: string
                     description: A code relating to this error
-                    example: 401
+                    example: "401"
                   error-code-label:
                     type: string
                     description: Words describing the error that occurred
@@ -408,8 +408,8 @@ components:
       type: object
       properties:
         error-code:
-          type: integer
-          example: 200
+          type: string
+          example: "200"
           description: The status code of the response. `200` indicates a successful request.
         error-code-label:
           type: string
