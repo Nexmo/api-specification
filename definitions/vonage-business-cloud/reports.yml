@@ -7,9 +7,7 @@ info:
   contact:
     name: "Report API"
     url: "https://businesssupport.vonage.com/contactus"
-  license:
-    name: "Vonage"
-    url: "https://www.vonage.com/business/legal-policy-center/business-cloud/tos"
+  termsOfService: "https://www.vonage.com/business/legal-policy-center/business-cloud/tos"
 
 servers:
   - url: "https://api.vonage.com/t/vbc.prod/reports"
