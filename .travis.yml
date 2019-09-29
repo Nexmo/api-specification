@@ -2,6 +2,6 @@ language: node_js
 node_js:
   - "10"
 before_script:
-  - npm install -g speccy@0.9.0
+  - npm install -g @stoplight/spectral
 script:
   - bin/validate-specs.sh
