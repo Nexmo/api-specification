@@ -1,7 +1,7 @@
 ---
 openapi: 3.0.0
 info:
-  version: 1.11.7
+  version: 1.11.8
   title: User API
   description: Retrieve information about users.
   contact:
