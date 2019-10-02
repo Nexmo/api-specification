@@ -190,7 +190,6 @@ PLATFORMS
 
 DEPENDENCIES
   nexmo-oas-renderer (~> 0.6.1)
-  rake
 
 BUNDLED WITH
    2.0.2
