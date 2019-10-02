@@ -5,21 +5,18 @@ info:
   title: Extension API
   description: Retrieve information about extensions.
   contact:
-    name: 'Extension API'
-    url: 'https://businesssupport.vonage.com/contactus'
-  license:
-    name: 'Vonage'
-    url: 'https://www.vonage.com/business/legal-policy-center/business-cloud/tos'
+    name: "Extension API"
+    url: "https://businesssupport.vonage.com/contactus"
+  termsOfService: "https://www.vonage.com/business/legal-policy-center/business-cloud/tos"
 
 servers:
-- url: 'https://api.vonage.com/t/vbc.prod/provisioning'
+  - url: "https://api.vonage.com/t/vbc.prod/provisioning"
 paths:
-
-  '/api/accounts/{account_id}/extensions':
+  "/api/accounts/{account_id}/extensions":
     get:
       operationId: ExtensionCtrl.getAccountExtensions
       parameters:
-        - $ref: '#/components/parameters/AccountID'
+        - $ref: "#/components/parameters/AccountID"
         - in: query
           name: page_size
           required: false
@@ -47,43 +44,43 @@ paths:
           schema:
             type: string
           description: Filter by phone number
-          example: '14155550100'
+          example: "14155550100"
         - in: query
           name: login_name
           required: false
           schema:
             type: string
           description: Filter by login name
-          example: 'jsmith'
+          example: "jsmith"
         - in: query
           name: email
           required: false
           schema:
             type: string
           description: Filter by email address
-          example: 'john.smith@example.com'
+          example: "john.smith@example.com"
       responses:
-        '200':
+        "200":
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EndUserRouteHalResponse'
-        '400':
+                $ref: "#/components/schemas/EndUserRouteHalResponse"
+        "400":
           description: Invalid parameters given
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ValidationErrorsResponse'
+                $ref: "#/components/schemas/ValidationErrorsResponse"
       security:
         - bearerAuth: []
       summary: Get account extensions data by account ID
 
-  '/api/accounts/{account_id}/extensions/{extension_number}':
+  "/api/accounts/{account_id}/extensions/{extension_number}":
     get:
       operationId: ExtensionCtrl.getAccountExtensionByID
       parameters:
-        - $ref: '#/components/parameters/AccountID'
+        - $ref: "#/components/parameters/AccountID"
         - in: path
           name: extension_number
           required: true
@@ -92,18 +89,18 @@ paths:
           description: The extension number
           example: 789
       responses:
-        '200':
+        "200":
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EndUserRouteHalResponse'
-        '404':
+                $ref: "#/components/schemas/EndUserRouteHalResponse"
+        "404":
           description: Extension not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: "#/components/schemas/ErrorResponse"
       security:
         - bearerAuth: []
       summary: Get extension data by account ID and extension number
@@ -132,95 +129,95 @@ components:
           type: string
       description: URL to the first page of records
     PrevHref:
-      type: object    
+      type: object
       properties:
         href:
           type: string
       description: URL to the previous page of records
     SelfHref:
-      type: object    
+      type: object
       properties:
         href:
           type: string
       description: URL to the current page of records
     NextHref:
-      type: object    
+      type: object
       properties:
         href:
           type: string
       description: URL to the next page of records
     LastHref:
-      type: object    
+      type: object
       properties:
         href:
           type: string
       description: URL to the last page of records
 
     Links:
-      type: object    
+      type: object
       properties:
         first:
-          $ref: '#/components/schemas/FirstHref'
+          $ref: "#/components/schemas/FirstHref"
         prev:
-          $ref: '#/components/schemas/PrevHref'
+          $ref: "#/components/schemas/PrevHref"
         self:
-          $ref: '#/components/schemas/SelfHref'
+          $ref: "#/components/schemas/SelfHref"
         next:
-          $ref: '#/components/schemas/NextHref'
+          $ref: "#/components/schemas/NextHref"
 
     BasicUser:
-      type: object    
+      type: object
       properties:
         email:
           type: string
           description: Email address of the user
-          example: 'john.smith@example.com'
+          example: "john.smith@example.com"
         login_name:
           type: string
           description: Login name of the user
-          example: 'jsmith'
+          example: "jsmith"
         first_name:
           type: string
           description: First name of the user
-          example: 'John'
+          example: "John"
         last_name:
           type: string
           description: Last name of the user
-          example: 'Smith'
+          example: "Smith"
 
     DID:
-      type: object    
+      type: object
       properties:
         phone_number:
           type: string
           description: Phone number
-          example: '14155550100'
+          example: "14155550100"
         custom_tag:
           type: string
           description: Custom tag associated with the phone number
-          example: 'My Tag'
+          example: "My Tag"
 
     Line:
-      type: object    
+      type: object
       properties:
         handset_name:
           type: string
           description: Name of the handset
-          example: 'line1-VH1234567'
+          example: "line1-VH1234567"
         sip_id:
           type: string
           description: SIP identifier of the handset
-          example: 'VH1234567'
+          example: "VH1234567"
 
     EndUserRoute:
-      type: object    
+      type: object
       properties:
         extension_number:
           type: string
           description: Extension number
-          example: '789'
+          example: "789"
         user:
-          $ref: '#/components/schemas/BasicUser'
+          $ref: "#/components/schemas/BasicUser"
         location_id:
           type: number
           description: Unique identifier of the assigned location
@@ -236,36 +233,36 @@ components:
         caller_id:
           type: string
           description: Caller ID of the extension
-          example: 'John Smith'
+          example: "John Smith"
         block_caller_id:
           type: boolean
           description: Block Caller ID status of the extension
           example: false
         dids:
           items:
-            $ref: '#/components/schemas/DID'
+            $ref: "#/components/schemas/DID"
           type: array
           description: Collection of phone numbers assigned to the extension
         extension_handsets:
           items:
-            $ref: '#/components/schemas/Line'
+            $ref: "#/components/schemas/Line"
           type: array
           description: Collection of handsets assigned to the extension
 
     EndUserRouteEmbeddedObject:
-      type: object    
+      type: object
       properties:
         data:
-          $ref: '#/components/schemas/EndUserRoute'
+          $ref: "#/components/schemas/EndUserRoute"
 
     EndUserRouteHalResponse:
-      type: object    
+      type: object
       properties:
-        page_size:         
+        page_size:
           type: number
           example: 10
           description: Number of records per page
-        page:                  
+        page:
           type: number
           example: 1
           description: Current page number
@@ -275,15 +272,15 @@ components:
           description: Total number of pages
         total_items:
           type: number
-          example: 100        
+          example: 100
           description: Total number of records
         _links:
-          $ref: '#/components/schemas/Links'
+          $ref: "#/components/schemas/Links"
         _embedded:
-          $ref: '#/components/schemas/EndUserRouteEmbeddedObject'
+          $ref: "#/components/schemas/EndUserRouteEmbeddedObject"
 
     ErrorResponse:
-      type: object    
+      type: object
       properties:
         msg:
           description: Error message
@@ -293,7 +290,7 @@ components:
           type: number
 
     ValidationErrorsResponse:
-      type: object    
+      type: object
       properties:
         status:
           description: Error status code
@@ -306,12 +303,12 @@ components:
           type: string
         invalid_parameters:
           items:
-            $ref: '#/components/schemas/DetailedInvalidParam'
+            $ref: "#/components/schemas/DetailedInvalidParam"
           description: Invalid parameters and their reason for failing
           type: array
 
     DetailedInvalidParam:
-      type: object    
+      type: object
       properties:
         name:
           type: string
