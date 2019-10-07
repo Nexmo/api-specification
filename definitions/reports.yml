@@ -884,7 +884,7 @@ components:
         - $ref: '#/components/schemas/number_insight_fields'
 
     IP-VOICE-LEG:
-      description: IP Voice Leg
+      description: IP Voice
       x-tab-id: ip-voice-call
       allOf:
         - $ref: '#/components/schemas/report_request'
@@ -1246,7 +1246,7 @@ components:
           $ref: '#/components/schemas/total_price'
 
     csv_ip_voice_leg:
-      description: IP Voice Leg
+      description: IP Voice
       x-tab-id: ip-voice-call
       type: object
       properties:
