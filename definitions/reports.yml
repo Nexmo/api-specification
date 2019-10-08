@@ -1,6 +1,6 @@
 openapi: "3.0.0"
 info:
-  version: 2.0.0
+  version: 2.0.1
   title: Nexmo Reports API
   description: >
     Nexmo's Reports API allows you to request a report of activity on your Nexmo account.<br>
@@ -43,7 +43,7 @@ paths:
                 - $ref: '#/components/schemas/VERIFY-API'
                 - $ref: '#/components/schemas/NUMBER-INSIGHT'
                 - $ref: '#/components/schemas/MESSAGES'
-                - $ref: '#/components/schemas/IP-VOICE-LEG'
+                - $ref: '#/components/schemas/IP-VOICE'
               discriminator:
                 propertyName: product
       responses:
@@ -245,7 +245,7 @@ components:
                     - $ref: '#/components/schemas/csv_messages_outbound'
                     - $ref: '#/components/schemas/csv_messages_inbound'
                     - $ref: '#/components/schemas/csv_ip_voice_leg'
-  
+
     400_json:
       description: Bad Request
       content:
@@ -367,7 +367,7 @@ components:
         - VERIFY-API
         - NUMBER-INSIGHT
         - MESSAGES
-        - IP-VOICE-LEG
+        - IP-VOICE
     product_sms:
       type: string
       example: "SMS"
@@ -385,7 +385,7 @@ components:
       example: "MESSAGES"
     product_ip_voice:
       type: string
-      example: "IP-VOICE-LEG"
+      example: "IP-VOICE"
     direction:
       type: string
       description: Direction of the request, either inbound or outbound.
@@ -883,7 +883,7 @@ components:
         - $ref: '#/components/schemas/report_request'
         - $ref: '#/components/schemas/number_insight_fields'
 
-    IP-VOICE-LEG:
+    IP-VOICE:
       description: IP Voice
       x-tab-id: ip-voice-call
       allOf:
