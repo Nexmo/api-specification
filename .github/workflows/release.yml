@@ -1,0 +1,14 @@
+on: release
+name: New release
+jobs:
+  addChangelog:
+    name: Add Changelog
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Add Changelog
+      uses: nexmo/github-actions/nexmo-changelog@master
+      env:
+        CHANGELOG_AUTH_TOKEN: ${{ secrets.CHANGELOG_AUTH_TOKEN }}
+        CHANGELOG_CATEGORY: API
+        CHANGELOG_SUBCATEGORY: N/A

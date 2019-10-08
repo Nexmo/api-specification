@@ -1,0 +1,19 @@
+on: push
+name: Commit Push
+jobs:
+  build:
+    name: nexmo/github-actions/submodule-auto-pr@master
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: nexmo/github-actions/submodule-auto-pr@master
+      uses: nexmo/github-actions/submodule-auto-pr@master
+      env:
+        GH_ADMIN_TOKEN: ${{ secrets.GH_ADMIN_TOKEN }}
+        PR_ACTIVE_BRANCH: master
+        PR_BRANCH_NAME: automated-oas-update
+        PR_SUBMODULE_PATH: _open_api/api_specs
+        PR_TARGET_BRANCH: master
+        PR_TARGET_ORG: nexmo
+        PR_TARGET_REPO: nexmo-developer
+        PR_TITLE: API Specification Update
