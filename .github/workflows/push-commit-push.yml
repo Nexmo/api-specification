@@ -1,5 +1,8 @@
-on: push
 name: Commit Push
+on:
+  push:
+    branches:
+      - master
 jobs:
   build:
     name: nexmo/github-actions/submodule-auto-pr@master

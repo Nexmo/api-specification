@@ -1,5 +1,8 @@
-on: push
 name: OpenAPI Release
+on:
+  push:
+    branches:
+      - master
 jobs:
   releaseOAS:
     name: Release OAS

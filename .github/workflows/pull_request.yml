@@ -1,5 +1,7 @@
-on: pull_request
 name: PR Edited
+on:
+  pull_request:
+    types: [opened, synchronize, labeled]
 jobs:
   createReviewApp:
     name: Create Review App
