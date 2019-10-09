@@ -1,6 +1,6 @@
 openapi: "3.0.0"
 info:
-  version: 2.0.1
+  version: 2.0.2
   title: Nexmo Reports API
   description: >
     Nexmo's Reports API allows you to request a report of activity on your Nexmo account.<br>
@@ -413,13 +413,19 @@ components:
     date_start:
       type: string
       format: date
-      description: "ISO 8601 formatted date for when reports should begin.<br>If unspecified, defaults to seven days ago."
-      example: "2017-12-24T00:00:00+0000"
+      description: >
+        ISO 8601 formatted date for when reports should begin. It filters on the time the API call was
+        received by Nexmo and corresponds to the field date_received (date_start for Voice) in the report file. It is
+        inclusive, i.e. the provided value is less than or equal to the value in the field date_received (date_start for
+        Voice) in the CDR.<br>If unspecified, defaults to seven days ago.
+      example: "2017-12-01T00:00:00+0000"
     date_end:
       type: string
       format: date
-      description: "ISO 8601 formatted date for when report should end.<br>If unspecified, defaults to the current time."
-      example: "2017-12-31T23:59:59+0000"
+      description: >
+        ISO 8601 formatted date for when report should end. It is exclusive, i.e. the provided value is strictly greater
+         than the value in the field date_received in the CDR. <br>If unspecified, defaults to the current time.
+      example: "2018-01-01T00:00:00+0000"
     client_ref:
       type: string
       description: Search for messages with this `client_ref`.
@@ -1002,6 +1008,8 @@ components:
           $ref: '#/components/schemas/country_name'
         date_received:
           $ref: '#/components/schemas/date'
+        date_finalized:
+          $ref: '#/components/schemas/date_finalized'
         latency:
           $ref: '#/components/schemas/latency'
         status:
