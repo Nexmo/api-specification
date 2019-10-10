@@ -623,7 +623,7 @@ components:
     uuid:
       type: string
       format: uuid
-      title: The UUID of the Leg
+      title: The UUID of the Call Leg
       example: 63f61863-4a51-4f6b-86e1-46edebcf9356
       description: >-
           The unique identifier for this call leg. The UUID is created when
