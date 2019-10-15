@@ -483,9 +483,6 @@ components:
       type: string
       example: CON-abc123
       description: Search only for Voice calls attached to this particular Conversation. This should include the "CON-" prefix.
-    trace_id:
-      type: string
-      description: Search only for Voice calls corresponding to this particular trace id.
     termination_status:
       type: string
       description: Search only for Voice calls with the specified termination status.
@@ -836,8 +833,6 @@ components:
           $ref: '#/components/schemas/product_ip_voice'
         conversation_id:
           $ref: '#/components/schemas/conversation_id'
-        trace_id:
-          $ref: '#/components/schemas/trace_id'
         termination_status:
           $ref: '#/components/schemas/termination_status'
 
