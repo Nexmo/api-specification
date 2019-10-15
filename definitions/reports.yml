@@ -43,7 +43,7 @@ paths:
                 - $ref: '#/components/schemas/VERIFY-API'
                 - $ref: '#/components/schemas/NUMBER-INSIGHT'
                 - $ref: '#/components/schemas/MESSAGES'
-                - $ref: '#/components/schemas/IP-VOICE'
+                - $ref: '#/components/schemas/CONVERSATIONS'
               discriminator:
                 propertyName: product
       responses:
@@ -194,7 +194,7 @@ components:
               - $ref: '#/components/schemas/verify_api_response'
               - $ref: '#/components/schemas/number_insight_response'
               - $ref: '#/components/schemas/messages_response'
-              - $ref: '#/components/schemas/conversations_ip_voice_response'
+              - $ref: '#/components/schemas/conversations_response'
 
     list_report_response:
       description: OK
@@ -222,7 +222,7 @@ components:
                     - $ref: '#/components/schemas/verify_api_response'
                     - $ref: '#/components/schemas/number_insight_response'
                     - $ref: '#/components/schemas/messages_response'
-                    - $ref: '#/components/schemas/conversations_ip_voice_response'
+                    - $ref: '#/components/schemas/conversations_response'
 
     csv_report_response:
       description: OK
@@ -367,7 +367,7 @@ components:
         - VERIFY-API
         - NUMBER-INSIGHT
         - MESSAGES
-        - IP-VOICE
+        - CONVERSATIONS
     product_sms:
       type: string
       example: "SMS"
@@ -385,7 +385,7 @@ components:
       example: "MESSAGES"
     product_conversations:
       type: string
-      example: "IP-VOICE"
+      example: "CONVERSATIONS"
     direction:
       type: string
       description: Direction of the request, either inbound or outbound.
@@ -479,6 +479,12 @@ components:
     application_id:
       type: string
       description: Search only for requests attached to a particular Application ID.
+    conversation_type:
+      type: string
+      description: Type of conversation request.
+      example: ip-voice
+      enum:
+        - ip-voice
     conversation_id:
       type: string
       example: CON-abc123
@@ -826,11 +832,13 @@ components:
         network:
           $ref: '#/components/schemas/network'
 
-    conversations_ip_voice_fields:
+    conversations_fields:
       type: object
       properties:
         product:
           $ref: '#/components/schemas/product_conversations'
+        type:
+          $ref: '#/components/schemas/conversation_type'
         conversation_id:
           $ref: '#/components/schemas/conversation_id'
         termination_status:
@@ -880,12 +888,12 @@ components:
         - $ref: '#/components/schemas/report_request'
         - $ref: '#/components/schemas/number_insight_fields'
 
-    IP-VOICE:
-      description: IP Voice
-      x-tab-id: ip-voice-call
+    CONVERSATIONS:
+      description: Conversations
+      x-tab-id: conversations
       allOf:
         - $ref: '#/components/schemas/report_request'
-        - $ref: '#/components/schemas/conversations_ip_voice_fields'
+        - $ref: '#/components/schemas/conversations_fields'
 
     MESSAGES:
       description: Messages
@@ -950,12 +958,12 @@ components:
         - $ref: '#/components/schemas/report_response'
         - $ref: '#/components/schemas/verify_api_fields'
 
-    conversations_ip_voice_response:
-      description: IP Voice Call
-      x-tab-id: ip-voice-call
+    conversations_response:
+      description: Conversations
+      x-tab-id: conversations
       allOf:
         - $ref: '#/components/schemas/report_response'
-        - $ref: '#/components/schemas/conversations_ip_voice_fields'
+        - $ref: '#/components/schemas/conversations_fields'
 
     messages_response:
       description: Messages
@@ -1239,8 +1247,8 @@ components:
           $ref: '#/components/schemas/total_price'
 
     csv_conversations_ip_voice:
-      description: IP Voice
-      x-tab-id: ip-voice-call
+      description: IP Voice Conversations
+      x-tab-id: conversations-ip-voice
       type: object
       properties:
         account_id:
