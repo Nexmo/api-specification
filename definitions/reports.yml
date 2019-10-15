@@ -518,7 +518,7 @@ components:
       type: string
       description: Id of the generated report file.
       example: "aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
-    url:
+    download_report:
       type: string
       description: URL pointing to the generated report.
       format: uri
@@ -549,11 +549,6 @@ components:
     items_count:
       type: integer
       description: The number of rows in the resulting file (when report has been completed).
-    self_link:
-      type: string
-      format: uri
-      description: URI of this document.
-      example: "https://api.nexmo.com/v2/reports/aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
     # csv fields
     message_id:
       type: string
@@ -922,10 +917,8 @@ components:
           $ref: '#/components/schemas/include_subaccounts'
         callback_url:
           $ref: '#/components/schemas/callback_url'
-        file_id:
-          $ref: '#/components/schemas/file_id'
-        url:
-          $ref: '#/components/schemas/url'
+        download_report:
+          $ref: '#/components/schemas/download_report'
         receive_time:
           $ref: '#/components/schemas/receive_time'
         start_time:
@@ -934,8 +927,6 @@ components:
           $ref: '#/components/schemas/_links'
         items_count:
           $ref: '#/components/schemas/items_count'
-        self_link:
-          $ref: '#/components/schemas/self_link'
 
     sms_response:
       description: SMS
