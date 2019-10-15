@@ -194,7 +194,7 @@ components:
               - $ref: '#/components/schemas/verify_api_response'
               - $ref: '#/components/schemas/number_insight_response'
               - $ref: '#/components/schemas/messages_response'
-              - $ref: '#/components/schemas/ip_voice_leg_response'
+              - $ref: '#/components/schemas/conversations_ip_voice_response'
 
     list_report_response:
       description: OK
@@ -222,7 +222,7 @@ components:
                     - $ref: '#/components/schemas/verify_api_response'
                     - $ref: '#/components/schemas/number_insight_response'
                     - $ref: '#/components/schemas/messages_response'
-                    - $ref: '#/components/schemas/ip_voice_leg_response'
+                    - $ref: '#/components/schemas/conversations_ip_voice_response'
 
     csv_report_response:
       description: OK
@@ -244,7 +244,7 @@ components:
                     - $ref: '#/components/schemas/csv_ni'
                     - $ref: '#/components/schemas/csv_messages_outbound'
                     - $ref: '#/components/schemas/csv_messages_inbound'
-                    - $ref: '#/components/schemas/csv_ip_voice_leg'
+                    - $ref: '#/components/schemas/csv_conversations_ip_voice'
 
     400_json:
       description: Bad Request
@@ -383,7 +383,7 @@ components:
     product_messages:
       type: string
       example: "MESSAGES"
-    product_ip_voice:
+    product_conversations:
       type: string
       example: "IP-VOICE"
     direction:
@@ -730,7 +730,7 @@ components:
       type: string
       description: Error code of the message.
       example: "1300"
-    ip_voice_user_id:
+    conversations_user_id:
       type: string
       description: User ID of the caller.
       example: "aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
@@ -826,11 +826,11 @@ components:
         network:
           $ref: '#/components/schemas/network'
 
-    ip_voice_leg_fields:
+    conversations_ip_voice_fields:
       type: object
       properties:
         product:
-          $ref: '#/components/schemas/product_ip_voice'
+          $ref: '#/components/schemas/product_conversations'
         conversation_id:
           $ref: '#/components/schemas/conversation_id'
         termination_status:
@@ -885,7 +885,7 @@ components:
       x-tab-id: ip-voice-call
       allOf:
         - $ref: '#/components/schemas/report_request'
-        - $ref: '#/components/schemas/ip_voice_leg_fields'
+        - $ref: '#/components/schemas/conversations_ip_voice_fields'
 
     MESSAGES:
       description: Messages
@@ -950,12 +950,12 @@ components:
         - $ref: '#/components/schemas/report_response'
         - $ref: '#/components/schemas/verify_api_fields'
 
-    ip_voice_leg_response:
+    conversations_ip_voice_response:
       description: IP Voice Call
       x-tab-id: ip-voice-call
       allOf:
         - $ref: '#/components/schemas/report_response'
-        - $ref: '#/components/schemas/ip_voice_leg_fields'
+        - $ref: '#/components/schemas/conversations_ip_voice_fields'
 
     messages_response:
       description: Messages
@@ -1238,7 +1238,7 @@ components:
         total_price:
           $ref: '#/components/schemas/total_price'
 
-    csv_ip_voice_leg:
+    csv_conversations_ip_voice:
       description: IP Voice
       x-tab-id: ip-voice-call
       type: object
@@ -1252,7 +1252,7 @@ components:
         conversation_id:
           $ref: '#/components/schemas/conversation_id'
         user_id:
-          $ref: '#/components/schemas/ip_voice_user_id'
+          $ref: '#/components/schemas/conversations_user_id'
         leg_id:
           $ref: '#/components/schemas/ip_voice_leg_id'
         date_start:
