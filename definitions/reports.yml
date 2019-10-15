@@ -48,7 +48,7 @@ paths:
                 propertyName: product
       responses:
         '200':
-          $ref: '#/components/responses/report_responses'
+          $ref: '#/components/responses/report_responses_create_report'
         '400':
           $ref: '#/components/responses/400_json'
         '401':
@@ -189,7 +189,19 @@ components:
         application/json:
           schema:
             oneOf:
-              - $ref: '#/components/schemas/sms_response'
+              - $ref: '#/components/schemas/sms_response_get_report'
+              - $ref: '#/components/schemas/voice_call_response'
+              - $ref: '#/components/schemas/verify_api_response'
+              - $ref: '#/components/schemas/number_insight_response'
+              - $ref: '#/components/schemas/messages_response'
+              - $ref: '#/components/schemas/conversations_response'
+    report_responses_create_report:
+      description: OK
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/sms_response_create_report'
               - $ref: '#/components/schemas/voice_call_response'
               - $ref: '#/components/schemas/verify_api_response'
               - $ref: '#/components/schemas/number_insight_response'
@@ -217,7 +229,7 @@ components:
                 items:
                   type: object
                   anyOf:
-                    - $ref: '#/components/schemas/sms_response'
+                    - $ref: '#/components/schemas/sms_response_get_report'
                     - $ref: '#/components/schemas/voice_call_response'
                     - $ref: '#/components/schemas/verify_api_response'
                     - $ref: '#/components/schemas/number_insight_response'
@@ -517,6 +529,17 @@ components:
         - FAILED
         - TRUNCATED
       example: SUCCESS
+    request_status_create_report:
+      type: string
+      description: Status of the request.
+      enum:
+        - PENDING
+        - PROCESSING
+        - SUCCESS
+        - ABORTED
+        - FAILED
+        - TRUNCATED
+      example: PENDING
     file_id:
       type: string
       description: Id of the generated report file.
@@ -550,6 +573,17 @@ components:
               format: uri
               description: URL pointing to the generated report.
               example: "https://api.nexmo.com/v3/media/aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
+    _links_create_report:
+      type: object
+      properties:
+        self:
+          type: object
+          properties:
+            href:
+              type: string
+              format: uri
+              description: URI of this document.
+              example: "https://api.nexmo.com/v2/reports/aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
     items_count:
       type: integer
       description: The number of rows in the resulting file (when report has been completed).
@@ -930,11 +964,44 @@ components:
         items_count:
           $ref: '#/components/schemas/items_count'
 
-    sms_response:
+    report_response_create_report:
+      type: object
+      properties:
+        request_id:
+          $ref: '#/components/schemas/request_id'
+        request_status:
+          $ref: '#/components/schemas/request_status_create_report'
+        product:
+          $ref: '#/components/schemas/product'
+        account_id:
+          $ref: '#/components/schemas/account_id'
+        date_start:
+          $ref: '#/components/schemas/date_start'
+        date_end:
+          $ref: '#/components/schemas/date_end'
+        include_subaccounts:
+          $ref: '#/components/schemas/include_subaccounts'
+        callback_url:
+          $ref: '#/components/schemas/callback_url'
+        receive_time:
+          $ref: '#/components/schemas/receive_time'
+        start_time:
+          $ref: '#/components/schemas/start_time'
+        _links:
+          $ref: '#/components/schemas/_links_create_report'
+
+    sms_response_get_report:
       description: SMS
       x-tab-id: SMS
       allOf:
         - $ref: '#/components/schemas/report_response'
+        - $ref: '#/components/schemas/sms_fields'
+
+    sms_response_create_report:
+      description: SMS
+      x-tab-id: SMS
+      allOf:
+        - $ref: '#/components/schemas/report_response_create_report'
         - $ref: '#/components/schemas/sms_fields'
 
     voice_call_response:
