@@ -190,11 +190,11 @@ components:
           schema:
             oneOf:
               - $ref: '#/components/schemas/sms_response_get_report'
-              - $ref: '#/components/schemas/voice_call_response'
-              - $ref: '#/components/schemas/verify_api_response'
-              - $ref: '#/components/schemas/number_insight_response'
-              - $ref: '#/components/schemas/messages_response'
-              - $ref: '#/components/schemas/conversations_response'
+              - $ref: '#/components/schemas/voice_call_response_get_report'
+              - $ref: '#/components/schemas/verify_api_response_get_report'
+              - $ref: '#/components/schemas/number_insight_response_get_report'
+              - $ref: '#/components/schemas/messages_response_get_report'
+              - $ref: '#/components/schemas/conversations_response_get_report'
     report_responses_create_report:
       description: OK
       content:
@@ -202,11 +202,11 @@ components:
           schema:
             oneOf:
               - $ref: '#/components/schemas/sms_response_create_report'
-              - $ref: '#/components/schemas/voice_call_response'
-              - $ref: '#/components/schemas/verify_api_response'
-              - $ref: '#/components/schemas/number_insight_response'
-              - $ref: '#/components/schemas/messages_response'
-              - $ref: '#/components/schemas/conversations_response'
+              - $ref: '#/components/schemas/voice_call_response_create_report'
+              - $ref: '#/components/schemas/verify_api_response_create_report'
+              - $ref: '#/components/schemas/number_insight_response_create_report'
+              - $ref: '#/components/schemas/messages_response_create_report'
+              - $ref: '#/components/schemas/conversations_response_create_report'
 
     list_report_response:
       description: OK
@@ -230,11 +230,11 @@ components:
                   type: object
                   anyOf:
                     - $ref: '#/components/schemas/sms_response_get_report'
-                    - $ref: '#/components/schemas/voice_call_response'
-                    - $ref: '#/components/schemas/verify_api_response'
-                    - $ref: '#/components/schemas/number_insight_response'
-                    - $ref: '#/components/schemas/messages_response'
-                    - $ref: '#/components/schemas/conversations_response'
+                    - $ref: '#/components/schemas/voice_call_response_get_report'
+                    - $ref: '#/components/schemas/verify_api_response_get_report'
+                    - $ref: '#/components/schemas/number_insight_response_get_report'
+                    - $ref: '#/components/schemas/messages_response_get_report'
+                    - $ref: '#/components/schemas/conversations_response_get_report'
 
     csv_report_response:
       description: OK
@@ -1004,39 +1004,74 @@ components:
         - $ref: '#/components/schemas/report_response_create_report'
         - $ref: '#/components/schemas/sms_fields'
 
-    voice_call_response:
+    voice_call_response_get_report:
       description: Voice Call
       x-tab-id: voice-call
       allOf:
         - $ref: '#/components/schemas/report_response'
         - $ref: '#/components/schemas/voice_call_fields'
 
-    number_insight_response:
+    voice_call_response_create_report:
+      description: Voice Call
+      x-tab-id: voice-call
+      allOf:
+        - $ref: '#/components/schemas/report_response_create_report'
+        - $ref: '#/components/schemas/voice_call_fields'
+
+    number_insight_response_get_report:
       description: Number Insight
       x-tab-id: number-insight
       allOf:
         - $ref: '#/components/schemas/report_response'
         - $ref: '#/components/schemas/number_insight_fields'
 
-    verify_api_response:
+    number_insight_response_create_report:
+      description: Number Insight
+      x-tab-id: number-insight
+      allOf:
+        - $ref: '#/components/schemas/report_response_create_report'
+        - $ref: '#/components/schemas/number_insight_fields'
+
+    verify_api_response_get_report:
       description: Verify
       x-tab-id: verify
       allOf:
         - $ref: '#/components/schemas/report_response'
         - $ref: '#/components/schemas/verify_api_fields'
 
-    conversations_response:
+    verify_api_response_create_report:
+      description: Verify
+      x-tab-id: verify
+      allOf:
+        - $ref: '#/components/schemas/report_response_create_report'
+        - $ref: '#/components/schemas/verify_api_fields'
+
+    conversations_response_get_report:
       description: Conversations
       x-tab-id: conversations
       allOf:
         - $ref: '#/components/schemas/report_response'
         - $ref: '#/components/schemas/conversations_fields'
 
-    messages_response:
+    conversations_response_create_report:
+      description: Conversations
+      x-tab-id: conversations
+      allOf:
+        - $ref: '#/components/schemas/report_response_create_report'
+        - $ref: '#/components/schemas/conversations_fields'
+
+    messages_response_get_report:
       description: Messages
       x-tab-id: messages
       allOf:
         - $ref: '#/components/schemas/report_response'
+        - $ref: '#/components/schemas/messages_fields'
+
+    messages_response_create_report:
+      description: Messages
+      x-tab-id: messages
+      allOf:
+        - $ref: '#/components/schemas/report_response_create_report'
         - $ref: '#/components/schemas/messages_fields'
 
     csv_sms_outbound:
