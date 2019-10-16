@@ -505,9 +505,9 @@ components:
       type: string
       description: Search only for Voice calls with the specified termination status.
       example: "0"
-    msisdn:
+    number:
       type: string
-      description: Search only request for the target msisdn.
+      description: Search only request for the target number.
       example: "441234567890"
     uuid:
       type: string
@@ -861,8 +861,8 @@ components:
       properties:
         product:
           $ref: '#/components/schemas/product_ni'
-        msisdn:
-          $ref: '#/components/schemas/msisdn'
+        number:
+          $ref: '#/components/schemas/number'
         network:
           $ref: '#/components/schemas/network'
 
