@@ -1,6 +1,6 @@
 openapi: "3.0.0"
 info:
-  version: 2.0.2
+  version: 2.0.3
   title: Nexmo Reports API
   description: >
     Nexmo's Reports API allows you to request a report of activity on your Nexmo account.<br>
