@@ -1,0 +1,527 @@
+---
+openapi: 3.0.0
+info:
+  version: "1.0"
+  title: CREC - Company Call Recording Service
+  description: Record company calls
+  contact:
+    name: "Company Call Call Recording API"
+    url: "https://businesssupport.vonage.com/contactus"
+  termsOfService: "https://www.vonage.com/business/legal-policy-center/business-cloud/tos"
+
+paths:
+  "/api/accounts/{account_id}/company_call_recordings":
+    get:
+      operationId: getCCRecordings
+      summary: Get company call recordings
+      description: Get company call recordings for an account
+      parameters:
+        - $ref: "#/components/parameters/AccountID"
+        - $ref: "#/components/parameters/Extension"
+        - $ref: "#/components/parameters/StartLte"
+        - $ref: "#/components/parameters/StartGte"
+        - $ref: "#/components/parameters/CallDirection"
+        - $ref: "#/components/parameters/CallerID"
+        - $ref: "#/components/parameters/Cnam"
+        - $ref: "#/components/parameters/Dnis"
+        - $ref: "#/components/parameters/DurationLte"
+        - $ref: "#/components/parameters/DurationGte"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RecordingsHalResponse"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+    delete:
+      operationId: deleteCCRecordings
+      summary: Delete multiple company call recordings
+      description: Delete multiple company call recordings for an account
+      parameters:
+        - $ref: "#/components/parameters/AccountID"
+        - $ref: "#/components/parameters/Extension"
+        - $ref: "#/components/parameters/StartLte"
+        - $ref: "#/components/parameters/StartGte"
+        - $ref: "#/components/parameters/CallDirection"
+        - $ref: "#/components/parameters/CallerID"
+        - $ref: "#/components/parameters/Cnam"
+        - $ref: "#/components/parameters/Dnis"
+        - $ref: "#/components/parameters/DurationLte"
+        - $ref: "#/components/parameters/DurationGte"
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: object
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+  "/api/accounts/{account_id}/company_call_recordings/export":
+    post:
+      operationId: createCCRExportJob
+      summary: Create an company call recording export job
+      description: Create an company call recording export job for an account
+      parameters:
+        - $ref: "#/components/parameters/AccountID"
+        - $ref: "#/components/parameters/Extension"
+        - $ref: "#/components/parameters/StartLte"
+        - $ref: "#/components/parameters/StartGte"
+        - $ref: "#/components/parameters/CallDirection"
+        - $ref: "#/components/parameters/CallerID"
+        - $ref: "#/components/parameters/Cnam"
+        - $ref: "#/components/parameters/Dnis"
+        - $ref: "#/components/parameters/DurationLte"
+        - $ref: "#/components/parameters/DurationGte"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateExportJobHalResponse"
+        "201":
+          description: Created
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+  "/api/accounts/{account_id}/company_call_recordings/jobs":
+    get:
+      operationId: getCCRExportJobs
+      summary: Get company call recording export jobs
+      description: Get company call recording export jobs for an account
+      parameters:
+        - $ref: "#/components/parameters/AccountID"
+        - $ref: "#/components/parameters/Status"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExportJobsHalResponse"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+  "/api/accounts/{account_id}/company_call_recordings/jobs/{job_id}":
+    get:
+      operationId: getCCRExportJob
+      summary: Get company call recording export job
+      description: Get a single company call recording export job for an account
+      parameters:
+        - $ref: "#/components/parameters/AccountID"
+        - $ref: "#/components/parameters/JobID"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExportJobHalResponse"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+  "/api/accounts/{account_id}/company_call_recordings/{recording_id}":
+    get:
+      operationId: getCCRecording
+      summary: Get company call recording
+      description: Get a single company call recording for an account
+      parameters:
+        - $ref: "#/components/parameters/AccountID"
+        - $ref: "#/components/parameters/RecordingID"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RecordingHalResponse"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+    delete:
+      operationId: deleteCCRecording
+      summary: Delete company call recording
+      description: Delete a single company call recording for an account
+      parameters:
+        - $ref: "#/components/parameters/AccountID"
+        - $ref: "#/components/parameters/RecordingID"
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: object
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+  "/api/audio/recording/{recording_id}":
+    get:
+      operationId: downloadCCR
+      summary: Download company call recording
+      description: Download an company call recording audio file for an account
+      parameters:
+        - $ref: "#/components/parameters/RecordingID"
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+servers:
+  - url: https://api.vonage.com/t/vbc.prod/ccr
+components:
+  parameters:
+    AccountID:
+      name: account_id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The account ID
+      example: 123456
+    JobID:
+      name: job_id
+      in: path
+      description: job_id
+      required: true
+      example: 7a688e12-99ee-4816-8385-b21b90583838
+      schema:
+        type: string
+    RecordingID:
+      name: recording_id
+      in: path
+      description: The recording ID
+      required: true
+      example: 123456
+      schema:
+        type: string
+    Extension:
+      name: extension
+      in: query
+      description: Filter records by extension number
+      required: false
+      example: 999
+      schema:
+        type: string
+    StartLte:
+      name: start:lte
+      in: query
+      description: Filter records by start date (less than or equal to)
+      example: 2019-01-01 00:00:00
+      required: false
+      schema:
+        type: string
+    StartGte:
+      name: start:gte
+      in: query
+      description: Filter records by start date (greater than or equal to)
+      example: 2019-01-01 00:00:00
+      required: false
+      schema:
+        type: string
+    CallDirection:
+      name: call_direction
+      in: query
+      description: Filter records by call direction
+      example: INBOUND
+      required: false
+      schema:
+        type: string
+        enum:
+          - INBOUND
+          - OUTBOUND
+          - INTRA_PBX
+    CallerID:
+      name: caller_id
+      in: query
+      description: Filter records by Caller ID
+      required: false
+      schema:
+        type: string
+    Cnam:
+      name: cnam
+      in: query
+      description: Filter records by CNAM
+      required: false
+      schema:
+        type: string
+    Dnis:
+      name: dnis
+      in: query
+      description: Filter records by CNAM
+      required: false
+      schema:
+        type: string
+    DurationLte:
+      name: duration:lte
+      in: query
+      description: Filter records by duration in milliseconds (less than or equal to)
+      required: false
+      schema:
+        type: string
+    DurationGte:
+      name: duration:gte
+      in: query
+      description: Filter records by duration in milliseconds (greater than or equal to)
+      required: false
+      schema:
+        type: string
+    Status:
+      name: status
+      in: query
+      description: status
+      required: false
+      schema:
+        type: string
+  schemas:
+    Pagination:
+      type: object
+      properties:
+        first:
+          $ref: "#/components/schemas/FirstHref"
+        prev:
+          $ref: "#/components/schemas/PrevHref"
+        self:
+          $ref: "#/components/schemas/SelfHref"
+        next:
+          $ref: "#/components/schemas/NextHref"
+        last:
+          $ref: "#/components/schemas/LastHref"
+    FirstHref:
+      type: object
+      properties:
+        href:
+          type: string
+          description: URL to the first page of records
+    PrevHref:
+      type: object
+      properties:
+        href:
+          type: string
+          description: URL to the previous page of records
+    SelfHref:
+      type: object
+      properties:
+        href:
+          type: string
+          description: URL to the current page of records
+    NextHref:
+      type: object
+      properties:
+        href:
+          type: string
+          description: URL to the next page of records
+    LastHref:
+      type: object
+      properties:
+        href:
+          type: string
+          description: URL to the last page of records
+    Recording:
+      type: object
+      properties:
+        call_direction:
+          type: string
+          description: Direction of the recorded call
+          example: "INBOUND"
+        caller_id:
+          type: string
+          description: Caller ID of the caller of the recorded call
+        cnam:
+          type: string
+          description: CNAM of the caller of the recorded call
+        dnis:
+          type: string
+          description: DNIS of the caller of the recorded call
+        duration:
+          type: integer
+          description: Duration of the recorded call in milliseconds
+          example: "60000"
+        end:
+          type: string
+          format: date-time
+          description: End time of the recorded call
+          example: "2019-01-01T00:00:00+0000"
+        extensions:
+          type: array
+          items:
+            type: string
+          description: Extensions associated with the call recording
+          example: "60000"
+        file_name:
+          type: string
+          description: File name of the call recording
+          example: "730048.11826465111463122315701.95a7584be856e34a582025d420c20d9d.1463122442148.mp3"
+        file_size_in_bytes:
+          type: integer
+          description: File size in bytes of the call recording
+          example: "100000"
+        id:
+          type: integer
+          description: Unique identifier of the call recording
+          example: 123456
+        rule_ids:
+          type: array
+          items:
+            type: integer
+        start:
+          type: string
+          format: date-time
+          description: Start time of the recorded call
+          example: "2019-01-01T00:00:00+0000"
+    RecordingHalResponse:
+      type: object
+      properties:
+        _embedded:
+          properties:
+            recording:
+              $ref: "#/components/schemas/Recording"
+        _links:
+          $ref: "#/components/schemas/Pagination"
+        page:
+          type: integer
+        page_size:
+          type: integer
+        total_items:
+          type: integer
+        total_pages:
+          type: integer
+    RecordingsHalResponse:
+      type: object
+      properties:
+        _embedded:
+          properties:
+            recordings:
+              type: array
+              items:
+                $ref: "#/components/schemas/Recording"
+        _links:
+          $ref: "#/components/schemas/Pagination"
+        page:
+          type: integer
+        page_size:
+          type: integer
+        total_items:
+          type: integer
+        total_pages:
+          type: integer
+    CreateExportJob:
+      type: object
+      properties:
+        job_id:
+          type: array
+          items:
+            type: string
+          description: Unique identifier of the created export jobs
+          example:
+            - afa725fb-d418-4eaf-b3f9-0e66396fafdc
+    CreateExportJobHalResponse:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            jobs:
+              $ref: "#/components/schemas/CreateExportJob"
+        _links:
+          $ref: "#/components/schemas/Pagination"
+        page:
+          type: integer
+        page_size:
+          type: integer
+        total_items:
+          type: integer
+        total_pages:
+          type: integer
+    ExportJob:
+      type: object
+      properties:
+        download_url:
+          type: string
+          description: URL to download the completed export job
+        files_completed:
+          type: integer
+          description: Number of files completed by the export job
+        files_total:
+          type: integer
+          description: Number of files included in the export job
+          example: 10
+        id:
+          type: string
+          description: Unique identifier of the export job
+          example: afa725fb-d418-4eaf-b3f9-0e66396fafdc
+        status:
+          type: string
+          description: Status of the export job
+          example: complete
+        valid_until:
+          type: string
+          format: date-time
+          description: Expiration time for the complete export job contents
+          example: 2019-01-01 00:00:00
+    ExportJobsHalResponse:
+      type: object
+      properties:
+        _embedded:
+          properties:
+            jobs:
+              type: array
+              items:
+                $ref: "#/components/schemas/ExportJob"
+        _links:
+          $ref: "#/components/schemas/Pagination"
+        page:
+          type: integer
+        page_size:
+          type: integer
+        total_items:
+          type: integer
+        total_pages:
+          type: integer
+    ExportJobHalResponse:
+      type: object
+      properties:
+        _embedded:
+          properties:
+            job:
+              $ref: "#/components/schemas/ExportJob"
+        _links:
+          $ref: "#/components/schemas/Pagination"
+        page:
+          type: integer
+        page_size:
+          type: integer
+        total_items:
+          type: integer
+        total_pages:
+          type: integer
