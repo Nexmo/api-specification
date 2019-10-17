@@ -75,7 +75,7 @@ paths:
                   - GET
                 event_url:
                   description: The webhook endpoint where call progress events are
-                    sent to. For more information about the values sent, see callback
+                    sent to. For more information about the values sent, see [Event webhook](/voice/voice-api/webhook-reference#event-webhook).
                   type: array
                   x-nexmo-developer-collection-description-shown: true
                   example: '["https://example.com/event"]'
