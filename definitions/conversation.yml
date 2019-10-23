@@ -2,7 +2,7 @@ openapi: 3.0.0
 servers:
   - url: 'https://api.nexmo.com/beta'
 info:
-  version: 1.7.2
+  version: 1.7.3
   title: Nexmo Conversation API
   description: 'The Nexmo Conversation API enables you to build conversation features where communication can take place across multiple mediums including IP Messaging, PSTN Voice, SMS and WebRTC Audio and Video. The context of the conversations is maintained though each communication event taking place within a conversation, no matter the medium.'
   contact:
@@ -28,6 +28,13 @@ paths:
         - conversation
       summary: List conversations
       description: >
+          <div class="Vlt-callout Vlt-callout--warning">
+          <i></i>
+          <div class="Vlt-callout__content">
+          <p><strong>This API endpoint is deprecated. Please use <a href="/api/conversation.v2#get-conversations">/beta2/conversations</a></strong>.<br />This endpoint will return a maximum of 100 items.</p>
+          </div>
+          </div>
+
           List all conversations associated with your application. 
           This endpoint required an admin JWT. To find all conversations for
           the currently logged in user, see [GET /users/:id/conversations](#getuserConversations)
@@ -228,6 +235,14 @@ paths:
                     $ref: '#/components/schemas/href_event'
     get:
       operationId: getEvents
+      description: >
+          <div class="Vlt-callout Vlt-callout--warning">
+          <i></i>
+          <div class="Vlt-callout__content">
+          <p><strong>This API endpoint is deprecated. Please use <a href="/api/conversation.v2#get-events">/beta2/events</a></strong><br />This endpoint will return a maximum of 100 items.</p>
+          </div>
+          </div>
+
       tags:
         - event
       summary: List events
@@ -269,6 +284,13 @@ paths:
       - $ref: '#/components/parameters/conversation_id'
     get:
       operationId: getMembers
+      description: >
+          <div class="Vlt-callout Vlt-callout--warning">
+          <i></i>
+          <div class="Vlt-callout__content">
+          <p><strong>This API endpoint is deprecated. Please use <a href="/api/conversation.v2#get-members">/beta2/members</a></strong><br />This endpoint will return a maximum of 100 items.</p>
+          </div>
+          </div>
       tags:
         - member
       summary: List members
@@ -402,6 +424,13 @@ paths:
   /users:
     get:
       operationId: getUsers
+      description: >
+          <div class="Vlt-callout Vlt-callout--warning">
+          <i></i>
+          <div class="Vlt-callout__content">
+          <strong>This API endpoint is deprecated. Please use <a href="/api/conversation.v2#get-users">/beta2/users</a><br />This endpoint will return a maximum of 100 items.</strong>
+          </div>
+          </div>
       tags:
         - user
       summary: List users
