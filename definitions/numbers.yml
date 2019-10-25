@@ -393,8 +393,9 @@ components:
           type: string
           example: inbound
         voiceCallbackType:
-          description:
-            Specify the [application capability](/application/overview#structure) of the webhook that inbound voice calls to this number call back on.
+          description: >-
+            Specify whether inbound voice calls on your number are handled by 
+            your Application configuration, or forwarded to a SIP or a telephone number.
             This must be used with the `voiceCallbackValue` parameter.
           type: string
           enum:
