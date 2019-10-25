@@ -248,8 +248,8 @@ paths:
     post:
       summary: Transfer balance
       description: >
-        Transfer positive balance between a primary account and one of its subaccounts.
-        Note that this will only work if the source account has a positive balance!
+        Transfer balance between a primary account and one of its subaccounts.
+        Note that balance_available_for_transfer = |account_balance - credit_limit| of the source account.
       tags: 
         - Transfers
       security:
