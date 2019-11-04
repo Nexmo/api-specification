@@ -1,6 +1,6 @@
 openapi: "3.0.0"
 info:
-  version: 2.0.3
+  version: 2.0.4
   title: Nexmo Reports API
   description: >
     Nexmo's Reports API allows you to request a report of activity on your Nexmo account.<br>
@@ -501,9 +501,9 @@ components:
       type: string
       example: CON-abc123
       description: Search only for Voice calls attached to this particular Conversation. This should include the "CON-" prefix.
-    termination_status:
+    status:
       type: string
-      description: Search only for Voice calls with the specified termination status.
+      description: Search only for conversation events with the specified event status.
       example: "0"
     number:
       type: string
@@ -780,7 +780,7 @@ components:
       example: "aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
     ip_voice_status:
       type: string
-      description: Status of the call.
+      description: Status of the conversation evnet.
       example: "0"
 
     report_request:
@@ -875,8 +875,8 @@ components:
           $ref: '#/components/schemas/conversation_type'
         conversation_id:
           $ref: '#/components/schemas/conversation_id'
-        termination_status:
-          $ref: '#/components/schemas/termination_status'
+        status:
+          $ref: '#/components/schemas/status'
 
     messages_fields:
       type: object
