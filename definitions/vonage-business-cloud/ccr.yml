@@ -8,6 +8,7 @@ info:
     name: "Company Call Call Recording API"
     url: "https://businesssupport.vonage.com/contactus"
   termsOfService: "https://www.vonage.com/business/legal-policy-center/business-cloud/tos"
+
 paths:
   "/api/accounts/{account_id}/company_call_recordings":
     get:
@@ -60,8 +61,6 @@ paths:
           description: Unauthorized
         "403":
           description: Forbidden
-        "404":
-          description: Not Found
   "/api/accounts/{account_id}/company_call_recordings/export":
     post:
       operationId: createCCRExportJob
@@ -91,13 +90,14 @@ paths:
           description: Forbidden
         "404":
           description: Not Found
-  "/api/accounts/{account_id}/company_call_recordings/jobs":
+  "/api/accounts/{account_id}/users/{user_id}/call_recordings/jobs":
     get:
       operationId: getCCRExportJobs
       summary: Get company call recording export jobs
       description: Get company call recording export jobs for an account
       parameters:
         - $ref: "#/components/parameters/AccountID"
+        - $ref: "#/components/parameters/UserID"
         - $ref: "#/components/parameters/Status"
       responses:
         "200":
@@ -112,13 +112,14 @@ paths:
           description: Forbidden
         "404":
           description: Not Found
-  "/api/accounts/{account_id}/company_call_recordings/jobs/{job_id}":
+  "/api/accounts/{account_id}/users/{user_id}/call_recordings/jobs/{job_id}":
     get:
       operationId: getCCRExportJob
       summary: Get company call recording export job
       description: Get a single company call recording export job for an account
       parameters:
         - $ref: "#/components/parameters/AccountID"
+        - $ref: "#/components/parameters/UserID"
         - $ref: "#/components/parameters/JobID"
       responses:
         "200":
@@ -198,6 +199,14 @@ components:
         type: string
       description: The account ID
       example: 123456
+    UserID:
+      name: user_id
+      in: path
+      description: The user ID
+      required: true
+      example: 123456
+      schema:
+        type: string
     JobID:
       name: job_id
       in: path
@@ -417,6 +426,34 @@ components:
           type: integer
         total_pages:
           type: integer
+    CreateExportJob:
+      type: object
+      properties:
+        job_id:
+          type: array
+          items:
+            type: string
+          description: Unique identifier of the created export jobs
+          example:
+            - afa725fb-d418-4eaf-b3f9-0e66396fafdc
+    CreateExportJobHalResponse:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            jobs:
+              $ref: "#/components/schemas/CreateExportJob"
+        _links:
+          $ref: "#/components/schemas/PaginationSingle"
+        page:
+          type: integer
+        page_size:
+          type: integer
+        total_items:
+          type: integer
+        total_pages:
+          type: integer
     ExportJob:
       type: object
       properties:
@@ -445,26 +482,6 @@ components:
           format: date-time
           description: Expiration time for the complete export job contents
           example: 2019-01-01 00:00:00
-    CreateExportJobHalResponse:
-      type: object
-      properties:
-        _embedded:
-          properties:
-            jobs:
-              type: array
-              items:
-                $ref: "#/components/schemas/ExportJob"
-          description: A list of job objects
-        _links:
-          $ref: "#/components/schemas/Pagination"
-        page:
-          type: integer
-        page_size:
-          type: integer
-        total_items:
-          type: integer
-        total_pages:
-          type: integer
     ExportJobsHalResponse:
       type: object
       properties:
