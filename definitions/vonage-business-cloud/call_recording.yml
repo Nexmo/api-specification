@@ -43,17 +43,17 @@ paths:
         - $ref: "#/components/parameters/StartGte"
         - $ref: "#/components/parameters/StartLte"
       responses:
-        200:
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/RecordingsHalResponse"
-        401:
+        "401":
           description: Unauthorized
-        403:
+        "403":
           description: Forbidden
-        404:
+        "404":
           description: Not Found
     delete:
       operationId: deleteCCRecordings
@@ -72,13 +72,13 @@ paths:
             schema:
               $ref: "#/components/schemas/Filters"
       responses:
-        204:
+        "204":
           description: No Content
-        401:
+        "401":
           description: Unauthorized
-        403:
+        "403":
           description: Forbidden
-        404:
+        "404":
           description: Not Found
 
   "/api/accounts/{account_id}/company_call_recordings/{recording_id}":
@@ -94,17 +94,17 @@ paths:
         - $ref: "#/components/parameters/AccountID"
         - $ref: "#/components/parameters/RecordingID"
       responses:
-        200:
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/RecordingHalResponse"
-        401:
+        "401":
           description: Unauthorized
-        403:
+        "403":
           description: Forbidden
-        404:
+        "404":
           description: Not Found
     delete:
       operationId: deleteCCRecording
@@ -118,13 +118,13 @@ paths:
         - $ref: "#/components/parameters/AccountID"
         - $ref: "#/components/parameters/RecordingID"
       responses:
-        204:
+        "204":
           description: No Content
-        401:
+        "401":
           description: Unauthorized
-        403:
+        "403":
           description: Forbidden
-        404:
+        "404":
           description: Not Found
   "/api/accounts/{account_id}/company_call_recordings/export":
     post:
@@ -144,17 +144,17 @@ paths:
             schema:
               $ref: "#/components/schemas/Filters"
       responses:
-        201:
+        "201":
           description: Created
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/CreateExportJobHalResponse"
-        401:
+        "401":
           description: Unauthorized
-        403:
+        "403":
           description: Forbidden
-        404:
+        "404":
           description: Not Found
   "/api/accounts/{account_id}/users/{user_id}/call_recordings":
     get:
@@ -182,17 +182,17 @@ paths:
         - $ref: "#/components/parameters/StartGte"
         - $ref: "#/components/parameters/StartLte"
       responses:
-        200:
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/RecordingsHalResponse"
-        401:
+        "401":
           description: Unauthorized
-        403:
+        "403":
           description: Forbidden
-        404:
+        "404":
           description: Not Found
     delete:
       operationId: DeleteODCRecordings
@@ -212,13 +212,13 @@ paths:
             schema:
               $ref: "#/components/schemas/Filters"
       responses:
-        204:
+        "204":
           description: No Content
-        401:
+        "401":
           description: Unauthorized
-        403:
+        "403":
           description: Forbidden
-        404:
+        "404":
           description: Not Found
   "/api/accounts/{account_id}/users/{user_id}/call_recordings/{recording_id}":
     get:
@@ -234,17 +234,17 @@ paths:
         - $ref: "#/components/parameters/UserID"
         - $ref: "#/components/parameters/RecordingID"
       responses:
-        200:
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/RecordingHalResponse"
-        401:
+        "401":
           description: Unauthorized
-        403:
+        "403":
           description: Forbidden
-        404:
+        "404":
           description: Not Found
     delete:
       operationId: deleteODCRecording
@@ -259,13 +259,13 @@ paths:
         - $ref: "#/components/parameters/UserID"
         - $ref: "#/components/parameters/RecordingID"
       responses:
-        204:
+        "204":
           description: No Content
-        401:
+        "401":
           description: Unauthorized
-        403:
+        "403":
           description: Forbidden
-        404:
+        "404":
           description: Not Found
   "/api/accounts/{account_id}/users/{user_id}/call_recordings/export":
     post:
@@ -286,17 +286,17 @@ paths:
             schema:
               $ref: "#/components/schemas/Filters"
       responses:
-        201:
+        "201":
           description: Created
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/CreateExportJobHalResponse"
-        401:
+        "401":
           description: Unauthorized
-        403:
+        "403":
           description: Forbidden
-        404:
+        "404":
           description: Not Found
   "/api/accounts/{account_id}/users/{user_id}/call_recordings/jobs":
     get:
@@ -312,17 +312,17 @@ paths:
         - $ref: "#/components/parameters/UserID"
         - $ref: "#/components/parameters/Status"
       responses:
-        200:
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ExportJobsHalResponse"
-        401:
+        "401":
           description: Unauthorized
-        403:
+        "403":
           description: Forbidden
-        404:
+        "404":
           description: Not Found
   "/api/accounts/{account_id}/users/{user_id}/call_recordings/jobs/{job_id}":
     get:
@@ -338,17 +338,17 @@ paths:
         - $ref: "#/components/parameters/UserID"
         - $ref: "#/components/parameters/JobID"
       responses:
-        200:
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ExportJobHalResponse"
-        401:
+        "401":
           description: Unauthorized
-        403:
+        "403":
           description: Forbidden
-        404:
+        "404":
           description: Not Found
   "/api/audio/recording/{recording_id}":
     get:
@@ -362,13 +362,13 @@ paths:
       parameters:
         - $ref: "#/components/parameters/RecordingID"
       responses:
-        200:
+        "200":
           description: OK
-        401:
+        "401":
           description: Unauthorized
-        403:
+        "403":
           description: Forbidden
-        404:
+        "404":
           description: Not Found
 servers:
   - url: https://api.vonage.com/t/vbc.prod/call_recording
