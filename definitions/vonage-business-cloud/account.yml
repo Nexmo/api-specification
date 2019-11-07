@@ -3,9 +3,9 @@ openapi: 3.0.0
 info:
   version: 1.11.8
   title: Account API
-  description: Retrieve information about accounts.
+  description: The Vonage Business Cloud Call Account API enables you to retrieve information about accounts.
   contact:
-    name: "Account API"
+    name: "Vonage Business Cloud Support"
     url: "https://businesssupport.vonage.com/contactus"
   termsOfService: "https://www.vonage.com/business/legal-policy-center/business-cloud/tos"
 
