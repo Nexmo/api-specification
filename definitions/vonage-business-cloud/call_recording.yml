@@ -2,194 +2,383 @@
 openapi: 3.0.0
 info:
   version: "1.0"
-  title: CREC - Company Call Recording Service
-  description: Record company calls
+  title: Call Recording API
+  description: The Vonage Business Cloud Call Recording API enables you to manage your company and on-demand call recordings.
   contact:
-    name: "Company Call Call Recording API"
+    name: "Vonage Business Cloud Support"
     url: "https://businesssupport.vonage.com/contactus"
   termsOfService: "https://www.vonage.com/business/legal-policy-center/business-cloud/tos"
-
+tags:
+  - name: company call recording
+    description: "Company Call Recording lets administrators schedule call recording rules and recording parameters for your entire office."
+  - name: on-demand call recording
+    description: "On-Demand Call Recording lets employees decide when to record calls. It’s a particularly useful phone recording system for businesses when you need to verify the details of a conversation or when it’s essential that you capture accurate notes"
+  - name: export job
+    description: "Export jobs let users download recordings in bulk based on search criteria. Export jobs are initiated from the corresponding company and on-demand call recording export endpoints."
+  - name: download
+    description: "Download audio files for company and on-demand call recordings."
 paths:
   "/api/accounts/{account_id}/company_call_recordings":
     get:
       operationId: getCCRecordings
       summary: Get company call recordings
       description: Get company call recordings for an account
+      tags:
+        - company call recording
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: "#/components/parameters/AccountID"
-        - $ref: "#/components/parameters/Extension"
-        - $ref: "#/components/parameters/StartLte"
-        - $ref: "#/components/parameters/StartGte"
         - $ref: "#/components/parameters/CallDirection"
+        - $ref: "#/components/parameters/CallID"
         - $ref: "#/components/parameters/CallerID"
         - $ref: "#/components/parameters/Cnam"
         - $ref: "#/components/parameters/Dnis"
-        - $ref: "#/components/parameters/DurationLte"
         - $ref: "#/components/parameters/DurationGte"
+        - $ref: "#/components/parameters/DurationLte"
+        - $ref: "#/components/parameters/Extension"
+        - $ref: "#/components/parameters/Order"
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+        - $ref: "#/components/parameters/StartGte"
+        - $ref: "#/components/parameters/StartLte"
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/RecordingsHalResponse"
-        "401":
+        401:
           description: Unauthorized
-        "403":
+        403:
           description: Forbidden
-        "404":
+        404:
           description: Not Found
     delete:
       operationId: deleteCCRecordings
       summary: Delete multiple company call recordings
       description: Delete multiple company call recordings for an account
+      tags:
+        - company call recording
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: "#/components/parameters/AccountID"
-        - $ref: "#/components/parameters/Extension"
-        - $ref: "#/components/parameters/StartLte"
-        - $ref: "#/components/parameters/StartGte"
-        - $ref: "#/components/parameters/CallDirection"
-        - $ref: "#/components/parameters/CallerID"
-        - $ref: "#/components/parameters/Cnam"
-        - $ref: "#/components/parameters/Dnis"
-        - $ref: "#/components/parameters/DurationLte"
-        - $ref: "#/components/parameters/DurationGte"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Filters"
       responses:
-        "204":
+        204:
           description: No Content
-        "401":
+        401:
           description: Unauthorized
-        "403":
+        403:
           description: Forbidden
-  "/api/accounts/{account_id}/company_call_recordings/export":
-    post:
-      operationId: createCCRExportJob
-      summary: Create an company call recording export job
-      description: Create an company call recording export job for an account
-      parameters:
-        - $ref: "#/components/parameters/AccountID"
-        - $ref: "#/components/parameters/Extension"
-        - $ref: "#/components/parameters/StartLte"
-        - $ref: "#/components/parameters/StartGte"
-        - $ref: "#/components/parameters/CallDirection"
-        - $ref: "#/components/parameters/CallerID"
-        - $ref: "#/components/parameters/Cnam"
-        - $ref: "#/components/parameters/Dnis"
-        - $ref: "#/components/parameters/DurationLte"
-        - $ref: "#/components/parameters/DurationGte"
-      responses:
-        "201":
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CreateExportJobHalResponse"
-        "401":
-          description: Unauthorized
-        "403":
-          description: Forbidden
-        "404":
+        404:
           description: Not Found
-  "/api/accounts/{account_id}/users/{user_id}/call_recordings/jobs":
-    get:
-      operationId: getCCRExportJobs
-      summary: Get company call recording export jobs
-      description: Get company call recording export jobs for an account
-      parameters:
-        - $ref: "#/components/parameters/AccountID"
-        - $ref: "#/components/parameters/UserID"
-        - $ref: "#/components/parameters/Status"
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ExportJobsHalResponse"
-        "401":
-          description: Unauthorized
-        "403":
-          description: Forbidden
-        "404":
-          description: Not Found
-  "/api/accounts/{account_id}/users/{user_id}/call_recordings/jobs/{job_id}":
-    get:
-      operationId: getCCRExportJob
-      summary: Get company call recording export job
-      description: Get a single company call recording export job for an account
-      parameters:
-        - $ref: "#/components/parameters/AccountID"
-        - $ref: "#/components/parameters/UserID"
-        - $ref: "#/components/parameters/JobID"
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ExportJobHalResponse"
-        "401":
-          description: Unauthorized
-        "403":
-          description: Forbidden
-        "404":
-          description: Not Found
+
   "/api/accounts/{account_id}/company_call_recordings/{recording_id}":
     get:
       operationId: getCCRecording
       summary: Get company call recording
       description: Get a single company call recording for an account
+      tags:
+        - company call recording
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: "#/components/parameters/AccountID"
         - $ref: "#/components/parameters/RecordingID"
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/RecordingHalResponse"
-        "401":
+        401:
           description: Unauthorized
-        "403":
+        403:
           description: Forbidden
-        "404":
+        404:
           description: Not Found
     delete:
       operationId: deleteCCRecording
       summary: Delete company call recording
       description: Delete a single company call recording for an account
+      tags:
+        - company call recording
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: "#/components/parameters/AccountID"
         - $ref: "#/components/parameters/RecordingID"
       responses:
-        "204":
+        204:
           description: No Content
-        "401":
+        401:
           description: Unauthorized
-        "403":
+        403:
           description: Forbidden
-        "404":
+        404:
+          description: Not Found
+  "/api/accounts/{account_id}/company_call_recordings/export":
+    post:
+      operationId: createCCRExportJob
+      summary: Create a company call recording export job
+      description: Create a company call recording export job for an account
+      tags:
+        - company call recording
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/AccountID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Filters"
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateExportJobHalResponse"
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+  "/api/accounts/{account_id}/users/{user_id}/call_recordings":
+    get:
+      operationId: getODCRecordings
+      summary: Get on-demand call recordings
+      description: Get on-demand call recordings for an account user
+      tags:
+        - on-demand call recording
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/AccountID"
+        - $ref: "#/components/parameters/UserID"
+        - $ref: "#/components/parameters/CallDirection"
+        - $ref: "#/components/parameters/CallID"
+        - $ref: "#/components/parameters/CallerID"
+        - $ref: "#/components/parameters/Cnam"
+        - $ref: "#/components/parameters/Dnis"
+        - $ref: "#/components/parameters/DurationGte"
+        - $ref: "#/components/parameters/DurationLte"
+        - $ref: "#/components/parameters/Extension"
+        - $ref: "#/components/parameters/Order"
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+        - $ref: "#/components/parameters/StartGte"
+        - $ref: "#/components/parameters/StartLte"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RecordingsHalResponse"
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+    delete:
+      operationId: DeleteODCRecordings
+      summary: Delete multiple on-demand call recordings
+      description: Delete multiple on-demand call recordings for an account user
+      tags:
+        - on-demand call recording
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/AccountID"
+        - $ref: "#/components/parameters/UserID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Filters"
+      responses:
+        204:
+          description: No Content
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+  "/api/accounts/{account_id}/users/{user_id}/call_recordings/{recording_id}":
+    get:
+      operationId: getODCRecording
+      summary: Get on-demand call recording
+      description: Get a single on-demand call recording for an account user
+      tags:
+        - on-demand call recording
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/AccountID"
+        - $ref: "#/components/parameters/UserID"
+        - $ref: "#/components/parameters/RecordingID"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RecordingHalResponse"
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+    delete:
+      operationId: deleteODCRecording
+      summary: Delete on-demand call recording
+      description: Delete a single on-demand call recording for an account user
+      tags:
+        - on-demand call recording
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/AccountID"
+        - $ref: "#/components/parameters/UserID"
+        - $ref: "#/components/parameters/RecordingID"
+      responses:
+        204:
+          description: No Content
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+  "/api/accounts/{account_id}/users/{user_id}/call_recordings/export":
+    post:
+      operationId: createODCRExportJob
+      summary: Create an on-demand call recording export job
+      description: Create an on-demand call recording export job for an account user
+      tags:
+        - on-demand call recording
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/AccountID"
+        - $ref: "#/components/parameters/UserID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Filters"
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateExportJobHalResponse"
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+  "/api/accounts/{account_id}/users/{user_id}/call_recordings/jobs":
+    get:
+      operationId: getCCRExportJobs
+      summary: Get call recording export jobs
+      description: Get call recording export jobs for an account user
+      tags:
+        - export job
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/AccountID"
+        - $ref: "#/components/parameters/UserID"
+        - $ref: "#/components/parameters/Status"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExportJobsHalResponse"
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+  "/api/accounts/{account_id}/users/{user_id}/call_recordings/jobs/{job_id}":
+    get:
+      operationId: getCCRExportJob
+      summary: Get call recording export job
+      description: Get a single call recording export job for an account user
+      tags:
+        - export job
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/AccountID"
+        - $ref: "#/components/parameters/UserID"
+        - $ref: "#/components/parameters/JobID"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExportJobHalResponse"
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
           description: Not Found
   "/api/audio/recording/{recording_id}":
     get:
       operationId: downloadCCR
-      summary: Download company call recording
-      description: Download an company call recording audio file for an account
+      summary: Download call recording
+      description: Download a call recording audio file
+      tags:
+        - download
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: "#/components/parameters/RecordingID"
       responses:
-        "200":
+        200:
           description: OK
-        "401":
+        401:
           description: Unauthorized
-        "403":
+        403:
           description: Forbidden
-        "404":
+        404:
           description: Not Found
 servers:
-  - url: https://api.vonage.com/t/vbc.prod/ccr
+  - url: https://api.vonage.com/t/vbc.prod/call_recording
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth
+
   parameters:
     AccountID:
       name: account_id
@@ -235,7 +424,7 @@ components:
       name: start:lte
       in: query
       description: Filter records by start date (less than or equal to)
-      example: 2019-01-01 00:00:00
+      example: "2019-01-01T00:00:00+0000"
       required: false
       schema:
         type: string
@@ -243,7 +432,7 @@ components:
       name: start:gte
       in: query
       description: Filter records by start date (greater than or equal to)
-      example: 2019-01-01 00:00:00
+      example: "2019-01-01T00:00:00+0000"
       required: false
       schema:
         type: string
@@ -266,6 +455,13 @@ components:
       required: false
       schema:
         type: string
+    CallID:
+      name: call_id
+      in: query
+      description: Filter records by Call ID
+      required: false
+      schema:
+        type: string
     Cnam:
       name: cnam
       in: query
@@ -276,7 +472,7 @@ components:
     Dnis:
       name: dnis
       in: query
-      description: Filter records by CNAM
+      description: Filter records by DNIS
       required: false
       schema:
         type: string
@@ -286,21 +482,48 @@ components:
       description: Filter records by duration in milliseconds (less than or equal to)
       required: false
       schema:
-        type: string
+        type: integer
     DurationGte:
       name: duration:gte
       in: query
       description: Filter records by duration in milliseconds (greater than or equal to)
       required: false
       schema:
-        type: string
+        type: integer
     Status:
       name: status
       in: query
-      description: status
+      description: Filter records by recording status
       required: false
       schema:
         type: string
+    Order:
+      name: order
+      in: query
+      description: Sort records by field value
+      required: false
+      schema:
+        type: string
+        default: start:DESC
+      example: start:DESC
+    Page:
+      name: page
+      in: query
+      description: Requested page number
+      required: false
+      schema:
+        type: integer
+        default: 1
+      example: 1
+    PageSize:
+      name: page_size
+      in: query
+      description: Requested page size
+      required: false
+      schema:
+        type: integer
+        default: 10
+      example: 10
   schemas:
     Pagination:
       type: object
@@ -359,6 +582,9 @@ components:
           type: string
           description: Direction of the recorded call
           example: "INBOUND"
+        call_id:
+          type: string
+          description: Call ID of the recorded call
         caller_id:
           type: string
           description: Caller ID of the caller of the recorded call
@@ -371,7 +597,7 @@ components:
         duration:
           type: integer
           description: Duration of the recorded call in milliseconds
-          example: "60000"
+          example: 60000
         end:
           type: string
           format: date-time
@@ -382,7 +608,7 @@ components:
           items:
             type: string
           description: Extensions associated with the call recording
-          example: "60000"
+          example: [999]
         file_name:
           type: string
           description: File name of the call recording
@@ -390,7 +616,7 @@ components:
         file_size_in_bytes:
           type: integer
           description: File size in bytes of the call recording
-          example: "100000"
+          example: 100000
         id:
           type: integer
           description: Unique identifier of the call recording
@@ -504,3 +730,43 @@ components:
           type: integer
     ExportJobHalResponse:
       $ref: "#/components/schemas/ExportJob"
+    Filters:
+      type: object
+      properties:
+        call_direction:
+          description: Filter records by call direction
+          example: INBOUND
+          type: string
+          enum:
+            - INBOUND
+            - OUTBOUND
+            - INTRA_PBX
+        caller_id:
+          description: Filter records by Caller ID
+          type: string
+        cnam:
+          description: Filter records by CNAM
+          type: string
+        dnis:
+          description: Filter records by DNIS
+          type: string
+        duration:gte:
+          description: Filter records by duration in milliseconds (greater than or equal to)
+          example: 60000
+          type: integer
+        duration:lte:
+          description: Filter records by duration in milliseconds (less than or equal to)
+          example: 60000
+          type: integer
+        extension:
+          description: Filter records by extension number
+          example: 999
+          type: string
+        start:gte:
+          description: Filter records by start date (greater than or equal to)
+          example: "2019-01-01 00:00:00"
+          type: string
+        start:lte:
+          description: Filter records by start date (less than or equal to)
+          example: "2019-01-01 00:00:00"
+          type: string
