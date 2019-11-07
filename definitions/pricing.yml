@@ -1,6 +1,6 @@
 openapi: 3.0.0
 servers:
-  - url: 'https://rest.nexmo.com'
+  - url: "https://rest.nexmo.com"
 info:
   version: "0.0.1"
   title: Pricing API
@@ -8,11 +8,11 @@ info:
     The API to retrieve pricing information.
 
     Please note the Pricing API is rate limited to one request per second.
-    
+
   contact:
     name: Nexmo DevRel
     email: devrel@nexmo.com
-    url: 'https://developer.nexmo.com/'
+    url: "https://developer.nexmo.com/"
 paths:
   /account/get-pricing/outbound/{type}:
     get:
@@ -49,18 +49,18 @@ paths:
           description: A two letter [country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). For example, `CA`.
           required: true
           schema:
-            type: string            
+            type: string
       responses:
-        '200':
+        "200":
           description: Pricing information for a specific country.
           content:
             application/json:
               schema:
-                  $ref: '#/components/schemas/PricingCountryResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-        '404':
-          $ref: '#/components/responses/NotFoundError'
+                $ref: "#/components/schemas/PricingCountryResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
   /account/get-full-pricing/outbound/{type}:
     get:
       summary: Retrieve outbound pricing for all countries.
@@ -91,16 +91,16 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Pricing response
           content:
             application/json:
               schema:
-                  $ref: '#/components/schemas/PricingCountriesResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-        '404':
-          $ref: '#/components/responses/NotFoundError'
+                $ref: "#/components/schemas/PricingCountriesResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
   /account/get-prefix-pricing/outbound/{type}:
     get:
       summary: Retrieve outbound pricing for a specific dialing prefix.
@@ -136,18 +136,18 @@ paths:
           description: "The numerical dialing prefix to look up pricing for. Examples include 44, 1 and so on."
           required: true
           schema:
-            type: string            
+            type: string
       responses:
-        '200':
+        "200":
           description: Pricing countries response
           content:
             application/json:
               schema:
-                  $ref: '#/components/schemas/PricingCountriesResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-        '404':
-          $ref: '#/components/responses/NotFoundError'
+                $ref: "#/components/schemas/PricingCountriesResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
 components:
   securitySchemes:
     basicAuth:
@@ -167,60 +167,60 @@ components:
             properties:
               currency:
                 type: string
-                example: 'EUR'
+                example: "EUR"
               code:
                 type: string
-                example: '401'
+                example: "401"
               error-code-label:
                 type: string
-                example: 'authentication failed'
+                example: "authentication failed"
     NotFoundError:
       description: The page you requested was not found
       content:
         text/html:
-          example: '404 - Page does not exist'
+          example: "404 - Page does not exist"
   schemas:
     PricingCountryResponse:
       properties:
         countryCode:
-          example: 'CA'
+          example: "CA"
           type: string
           description: >-
             Two letter country code.
         countryName:
           type: string
-          example: 'Canada'
+          example: "Canada"
           description: >-
-           Readable country name.
+            Readable country name.
         countryDisplayName:
           type: string
-          example: 'Canada'
+          example: "Canada"
           description: >-
-           Readable country name.
+            Readable country name.
         currency:
           type: string
-          example: 'EUR'
+          example: "EUR"
           description: >-
-           The currency that your account is being billed in (by default: Euros—EUR). Changeable via the Dashboard to US Dollars—USD.
+            The currency that your account is being billed in (by default: Euros—EUR). Changeable via the Dashboard to US Dollars—USD.
         defaultPrice:
           type: string
-          example: '0.00620000'
+          example: "0.00620000"
           description: >-
-           The default price.
+            The default price.
         dialingPrefix:
           type: string
-          example: '1'
+          example: "1"
           description: >-
-           The dialling prefix.
+            The dialling prefix.
         networks:
-          type: array   
-          description: An array of network objects 
+          type: array
+          description: An array of network objects
           items:
-            $ref: '#/components/schemas/NetworkObject'
+            $ref: "#/components/schemas/NetworkObject"
     PricingCountriesResponse:
       properties:
         count:
-          example: '243'
+          example: "243"
           type: string
           description: >-
             The number of countries retrieved.
@@ -229,40 +229,40 @@ components:
           description: >-
             A list of countries.
           items:
-            $ref: '#/components/schemas/CountryObject'
+            $ref: "#/components/schemas/CountryObject"
     CountryObject:
       type: object
       properties:
         countryName:
           type: string
-          example: 'Canada'
+          example: "Canada"
           description: >-
-           Readable country name.
+            Readable country name.
         countryDisplayName:
           type: string
-          example: 'Canada'
+          example: "Canada"
           description: >-
-           Readable country name.
+            Readable country name.
         currency:
           type: string
-          example: 'EUR'
+          example: "EUR"
           description: >-
-           The currency that your account is being billed in (by default: Euros—EUR). Changeable via the Dashboard to US Dollars—USD.
+            The currency that your account is being billed in (by default: Euros—EUR). Changeable via the Dashboard to US Dollars—USD.
         defaultPrice:
           type: string
-          example: '0.00620000'
+          example: "0.00620000"
           description: >-
-           The default price.
+            The default price.
         dialingPrefix:
           type: string
-          example: '1'
+          example: "1"
           description: >-
-           The dialling prefix.
+            The dialling prefix.
         networks:
-          type: array   
+          type: array
           description: An array of network objects
           items:
-            $ref: '#/components/schemas/NetworkObject'
+            $ref: "#/components/schemas/NetworkObject"
     NetworkObject:
       type: object
       properties:
@@ -270,7 +270,7 @@ components:
           type: string
           example: "mobile"
         price:
-          type: string 
+          type: string
           example: "0.00590000"
         currency:
           type: string
