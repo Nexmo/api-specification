@@ -201,7 +201,7 @@ components:
           type: string
           example: "EUR"
           description: >-
-            The currency that your account is being billed in (by default: Euros—EUR). Changeable via the Dashboard to US Dollars—USD.
+            The currency that your account is being billed in (by default `Euros—EUR`). Can change in the Dashboard to US Dollars—USD.
         defaultPrice:
           type: string
           example: "0.00620000"
@@ -247,7 +247,7 @@ components:
           type: string
           example: "EUR"
           description: >-
-            The currency that your account is being billed in (by default: Euros—EUR). Changeable via the Dashboard to US Dollars—USD.
+            The currency that your account is being billed in (by default `Euros—EUR`). Can change in the Dashboard to US Dollars—USD.
         defaultPrice:
           type: string
           example: "0.00620000"
