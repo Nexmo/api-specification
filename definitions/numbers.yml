@@ -32,13 +32,13 @@ paths:
       summary: List the numbers you own
       description: Retrieve all the inbound numbers associated with your Nexmo account.
       parameters:
+        - $ref: "#/components/parameters/application_id"
+        - $ref: "#/components/parameters/has_application"
         - $ref: "#/components/parameters/country"
-        - $ref: "#/components/parameters/index"
-        - $ref: "#/components/parameters/size"
         - $ref: "#/components/parameters/pattern"
         - $ref: "#/components/parameters/search_pattern"
-        - $ref: "#/components/parameters/has_application"
-        - $ref: "#/components/parameters/application_id"
+        - $ref: "#/components/parameters/size"
+        - $ref: "#/components/parameters/index"
       responses:
         "200":
           description: OK
@@ -258,7 +258,7 @@ components:
       name: country
       in: query
       required: true
-      description: The two character country code in ISO 3166-1 alpha-2 format
+      description: The two character country code to filter on (in ISO 3166-1 alpha-2 format)
       schema:
         type: string
       example: GB
