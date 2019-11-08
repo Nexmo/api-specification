@@ -32,6 +32,7 @@ paths:
       summary: List the numbers you own
       description: Retrieve all the inbound numbers associated with your Nexmo account.
       parameters:
+        - $ref: "#/components/parameters/country"
         - $ref: "#/components/parameters/index"
         - $ref: "#/components/parameters/size"
         - $ref: "#/components/parameters/pattern"
