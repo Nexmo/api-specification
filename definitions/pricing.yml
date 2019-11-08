@@ -297,7 +297,7 @@ components:
         type:
           type: string
           example: "mobile"
-          description: "TBD mobile description"
+          description: "The type of network: mobile or landline."
         price:
           type: string
           example: "0.00590000"
