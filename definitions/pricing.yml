@@ -1,6 +1,6 @@
 openapi: 3.0.0
 servers:
-# Added by API Auto Mocking Plugin
+  # Added by API Auto Mocking Plugin
   - description: SwaggerHub API Auto Mocking
     url: https://virtserver.swaggerhub.com/tbedford/Pricing/0.0.1
   - url: "https://rest.nexmo.com"
@@ -173,17 +173,17 @@ components:
       description: You made too many requests. The API is rate limited to one request per second.
       content:
         text/html:
-          schema: 
+          schema:
             type: string
           example: "429 - Too many requests"
     NotFoundError:
       description: The page you requested was not found
       content:
         text/html:
-          schema: 
+          schema:
             type: string
           example: "404 - Page does not exist"
-  
+
   parameters:
     api_key:
       name: api_key
@@ -191,7 +191,7 @@ components:
       description: Your Nexmo API key.
       required: true
       schema:
-        type: string  
+        type: string
     api_secret:
       name: api_secret
       in: query
@@ -297,22 +297,28 @@ components:
         type:
           type: string
           example: "mobile"
+          description: "TBD mobile description"
         price:
           type: string
           example: "0.00590000"
+          description: "The cost to send a message or make a call to this network"
         currency:
           type: string
           example: "EUR"
+          description: "The currency used for prices for this network."
         mcc:
           type: string
           example: "302"
+          description: "The [Mobile Country Code](https://en.wikipedia.org/wiki/Mobile_country_code) of the operator."
         mnc:
           type: string
           example: "530"
+          description: "The Mobile Network Code of the operator."
         networkCode:
           type: string
           example: "302530"
+          description: "The Mobile Country Code and Mobile Network Code combined to give a unique reference for the operator."
         networkName:
           type: string
           example: "Keewaytinook Okimakanak"
-  
+          description: "The company/organisational name of the operator."
