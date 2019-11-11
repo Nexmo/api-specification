@@ -1,8 +1,5 @@
 openapi: 3.0.0
 servers:
-  # Added by API Auto Mocking Plugin
-  - description: SwaggerHub API Auto Mocking
-    url: https://virtserver.swaggerhub.com/tbedford/Pricing/0.0.1
   - url: "https://rest.nexmo.com"
 info:
   version: "0.0.1"
