@@ -9,14 +9,12 @@ info:
     url: "https://businesssupport.vonage.com/contactus"
   termsOfService: "https://www.vonage.com/business/legal-policy-center/business-cloud/tos"
 tags:
-  - name: company call recording
+  - name: Company Call Recording
     description: "Company Call Recording lets administrators schedule call recording rules and recording parameters for your entire office."
-  - name: on-demand call recording
+  - name: On-Demand Call Recording
     description: "On-Demand Call Recording lets employees decide when to record calls. It’s a particularly useful phone recording system for businesses when you need to verify the details of a conversation or when it’s essential that you capture accurate notes"
-  - name: export job
+  - name: Export Job
     description: "Export jobs let users download recordings in bulk based on search criteria. Export jobs are initiated from the corresponding company and on-demand call recording export endpoints."
-  - name: download
-    description: "Download audio files for company and on-demand call recordings."
 paths:
   "/api/accounts/{account_id}/company_call_recordings":
     get:
@@ -350,26 +348,6 @@ paths:
           description: Forbidden
         "404":
           description: Not Found
-  "/api/audio/recording/{recording_id}":
-    get:
-      operationId: downloadCCR
-      summary: Download call recording
-      description: Download a call recording audio file
-      tags:
-        - download
-      security:
-        - bearerAuth: []
-      parameters:
-        - $ref: "#/components/parameters/RecordingID"
-      responses:
-        "200":
-          description: OK
-        "401":
-          description: Unauthorized
-        "403":
-          description: Forbidden
-        "404":
-          description: Not Found
 servers:
   - url: https://api.vonage.com/t/vbc.prod/call_recording
 components:
@@ -386,12 +364,12 @@ components:
       required: true
       schema:
         type: string
-      description: The account ID
+      description: The account ID. You can use 'self' to refer to the authenticated user's account.
       example: 123456
     UserID:
       name: user_id
       in: path
-      description: The user ID
+      description: The user ID. You can use 'self' to refer to the authenticated user.
       required: true
       example: 123456
       schema:
@@ -623,6 +601,7 @@ components:
           example: 123456
         rule_ids:
           type: array
+          description: Identifier of the call recording rule(s) that triggered the call recording
           items:
             type: integer
         start:
@@ -741,6 +720,9 @@ components:
             - INBOUND
             - OUTBOUND
             - INTRA_PBX
+        call_id:
+          description: Filter records by Call ID
+          type: string
         caller_id:
           description: Filter records by Caller ID
           type: string
