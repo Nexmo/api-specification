@@ -1,0 +1,654 @@
+openapi: 3.0.0
+servers:
+  - url: 'https://api.nexmo.com/beta2'
+info:
+  version: beta2
+  title: Nexmo Conversation API
+  description: 'The Nexmo Conversation API enables you to build conversation features where communication can take place across multiple mediums including IP Messaging, PSTN Voice, SMS and WebRTC Audio and Video. The context of the conversations is maintained though each communication event taking place within a conversation, no matter the medium.'
+  contact:
+    name: Nexmo DevRel
+    email: devrel@nexmo.com
+    url: 'https://developer.nexmo.com/'
+  x-label: Developer Preview
+paths:
+  "/conversations":
+    get:
+      operationId: get-conversations
+      tags:
+        - conversation
+      summary: List Conversations
+      description: |
+          Please note that not all data is available in the list endpoint. Once 
+          you've identified the conversation you need to work with, use the 
+          [GET /conversations/:id](#get-conversation) endpoint to fetch all of the conversation details
+      parameters:
+        - $ref: "#/components/parameters/page_size"
+        - $ref: "#/components/parameters/order"
+        - $ref: "#/components/parameters/cursor"
+        - $ref: "#/components/parameters/date_start"
+        - $ref: "#/components/parameters/date_end"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  page_size:
+                    type: integer
+                    example: 10
+                    description: The number of results returned on this page
+                  _embedded:
+                    type: object
+                    x-nexmo-developer-collection-description-shown: true
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          conversations:
+                            type: array
+                            description: List of conversations matching the provided filter
+                            items:
+                              $ref: "#/components/schemas/conversation_list"
+                  _links:
+                    type: object
+                    properties:
+                      first:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "https://api.nexmo.com/beta2/conversations?order=desc&page_size=10"
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "https://api.nexmo.com/beta2/conversations?order=desc&page_size=10&cursor=88b395c167da4d94e929705cbd63b82973771e7d390d274a58e301386d5762600a3ffd799bfb3fc5190c5a0d124cdd0fc72fe6e450506b18e4e2edf9fe84c7a0"
+                      next:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "https://api.nexmo.com/beta2/conversations?order=desc&page_size=10&cursor=88b395c167da4d94e929705cbd63b829a650e69a39197bfd4c949f4243f60dc4babb696afa404d2f44e7775e32b967f2a1a0bb8fb259c0999ba5a4e501eaab55"
+                      prev:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "https://api.nexmo.com/beta2/conversations?order=desc&page_size=10&cursor=069626a3de11d2ec900dff5042197bd75f1ce41dafc3f2b2481eb9151086e59aae9dba3e3a8858dc355232d499c310fbfbec43923ff657c0de8d49ffed9f7edb"
+
+  "/users":
+    get:
+      operationId: get-users
+      summary: List Users
+      parameters:
+        - $ref: "#/components/parameters/page_size"
+        - $ref: "#/components/parameters/order"
+        - $ref: "#/components/parameters/cursor"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  page_size:
+                    type: integer
+                    example: 10
+                    description: The number of results returned on this page
+                  _embedded:
+                    type: object
+                    x-nexmo-developer-collection-description-shown: true
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          users:
+                            type: array
+                            description: List of users matching the provided filter
+                            items:
+                              $ref: "#/components/schemas/user_list"
+                  _links:
+                    type: object
+                    properties:
+                      first:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "https://api.nexmo.com/beta2/users?order=desc&page_size=10"
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "https://api.nexmo.com/beta2/users?order=desc&page_size=10&cursor=88b395c167da4d94e929705cbd63b82973771e7d390d274a58e301386d5762600a3ffd799bfb3fc5190c5a0d124cdd0fc72fe6e450506b18e4e2edf9fe84c7a0"
+                      next:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "https://api.nexmo.com/beta2/users?order=desc&page_size=10&cursor=88b395c167da4d94e929705cbd63b829a650e69a39197bfd4c949f4243f60dc4babb696afa404d2f44e7775e32b967f2a1a0bb8fb259c0999ba5a4e501eaab55"
+                      prev:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "https://api.nexmo.com/beta2/users?order=desc&page_size=10&cursor=069626a3de11d2ec900dff5042197bd75f1ce41dafc3f2b2481eb9151086e59aae9dba3e3a8858dc355232d499c310fbfbec43923ff657c0de8d49ffed9f7edb"
+
+
+  "/conversations/{conversation_id}/members":
+    get:
+      operationId: get-members
+      tags:
+        - member
+      summary: List Members
+      parameters:
+        - $ref: "#/components/parameters/conversation_id_parameter"
+        - $ref: "#/components/parameters/page_size"
+        - $ref: "#/components/parameters/order"
+        - $ref: "#/components/parameters/cursor"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  page_size:
+                    type: integer
+                    example: 10
+                    description: The number of results returned on this page
+                  _embedded:
+                    type: object
+                    x-nexmo-developer-collection-description-shown: true
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          members:
+                            type: array
+                            description: List of members matching the provided filter
+                            items:
+                              $ref: "#/components/schemas/member_list"
+                  _links:
+                    type: object
+                    properties:
+                      first:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "https://api.nexmo.com/beta2/members?order=desc&page_size=10"
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "https://api.nexmo.com/beta2/members?order=desc&page_size=10&cursor=88b395c167da4d94e929705cbd63b82973771e7d390d274a58e301386d5762600a3ffd799bfb3fc5190c5a0d124cdd0fc72fe6e450506b18e4e2edf9fe84c7a0"
+                      next:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "https://api.nexmo.com/beta2/members?order=desc&page_size=10&cursor=88b395c167da4d94e929705cbd63b829a650e69a39197bfd4c949f4243f60dc4babb696afa404d2f44e7775e32b967f2a1a0bb8fb259c0999ba5a4e501eaab55"
+                      prev:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "https://api.nexmo.com/beta2/members?order=desc&page_size=10&cursor=069626a3de11d2ec900dff5042197bd75f1ce41dafc3f2b2481eb9151086e59aae9dba3e3a8858dc355232d499c310fbfbec43923ff657c0de8d49ffed9f7edb"
+
+  "/conversations/{conversation_id}/events":
+    get:
+      operationId: get-events
+      tags:
+        - event
+      summary: List Events
+      parameters:
+        - $ref: "#/components/parameters/conversation_id_parameter"
+        - $ref: "#/components/parameters/page_size"
+        - $ref: "#/components/parameters/order"
+        - $ref: "#/components/parameters/cursor"
+        - $ref: "#/components/parameters/start_id_parameter"
+        - $ref: "#/components/parameters/end_id_parameter"
+        - $ref: "#/components/parameters/event_type_parameter"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  page_size:
+                    type: integer
+                    example: 10
+                    description: The number of results returned on this page
+                  _embedded:
+                    type: object
+                    x-nexmo-developer-collection-description-shown: true
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          events:
+                            type: array
+                            description: List of events matching the provided filter
+                            items:
+                              $ref: "#/components/schemas/all_events"
+                  _links:
+                    type: object
+                    properties:
+                      first:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "https://api.nexmo.com/beta2/conversations/CON-92a44c64-7e4e-485f-a0c4-1f2adfc44625/events?page_size=10"
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "https://api.nexmo.com/beta2/conversations/CON-92a44c64-7e4e-485f-a0c4-1f2adfc44625/events?page_size=10&cursor=a30e3b7a3dcda1434f64bbb1a5fa489b"
+                      next:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "https://api.nexmo.com/beta2/conversations/CON-92a44c64-7e4e-485f-a0c4-1f2adfc44625/events?page_size=10&cursor=4db03d9254d1cdaecc7b1fc15b6bf1a81f3d3151191d784f1327893f8dc96416"
+                      prev:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "https://api.nexmo.com/beta2/conversations/CON-92a44c64-7e4e-485f-a0c4-1f2adfc44625/events?page_size=10&cursor=84963f79fd25785be9706bd38bfd30c264f71964fa4edc8d8b4dd5f30bbd9f7c"
+
+
+components:
+  parameters:
+    start_id_parameter:
+      name: start_id
+      in: query
+      schema:
+        type: string
+      example: 13
+      required: false
+      description: The ID to start returning events at
+
+    end_id_parameter:
+      name: end_id
+      in: query
+      schema:
+        type: string
+      example: 19
+      required: false
+      description: The ID to end returning events at
+
+    event_type_parameter:
+      name: event_type
+      in: query
+      schema:
+        type: string
+      example: text
+      required: false
+      description: The type of event to search for. Does not currently support custom events
+
+    event_id_parameter:
+      name: event_id
+      in: path
+      schema:
+        type: integer
+      example: 9
+      required: true
+      description: The ID of the event
+
+    member_id_parameter:
+      name: member_id
+      in: path
+      schema:
+        type: string
+      example: MEM-e46d9542-752a-4786-8f12-25a2e623a793
+      required: true
+      description: The ID of the member
+
+    user_id_parameter:
+      name: user_id
+      in: path
+      schema:
+        type: string
+      example: USR-e46d9542-752a-4786-8f12-25a2e623a793
+      required: true
+      description: The ID of the user
+
+    conversation_id_parameter:
+      name: conversation_id
+      in: path
+      schema:
+        type: string
+      example: CON-afe887d8-d587-4280-9aae-dfa4c9227d5e
+      required: true
+      description: The ID of the conversation
+
+    page_size:
+      name: page_size
+      in: query
+      description: The number of results returned per page
+      schema:
+        type: integer
+        default: 10
+      required: false
+    order:
+      name: order
+      in: query
+      description: Show the most (`desc`) / least (`asc`) recently created entries first
+      schema:
+        type: string
+        default: asc
+        enum:
+          - asc
+          - desc
+      required: false
+    cursor:
+      name: cursor
+      in: query
+      description: |
+        The cursor to start returning results from.
+
+        You are not expected to provide this manually, but to follow the url provided in `_links.next.href` in the response which contains a `cursor` value
+      schema:
+        type: string
+      required: false
+
+    date_start:
+      name: date_start
+      in: query
+      description: Search for conversations created after this ISO8601 date
+      schema:
+        type: string
+      required: false
+
+    date_end:
+      name: date_end
+      in: query
+      description: Search for conversations created before this ISO8601 date
+      schema:
+        type: string
+      required: false
+
+  schemas:
+    all_events:
+      anyOf:
+        - $ref: "#/components/schemas/text_event"
+        - $ref: "#/components/schemas/custom_event"
+        - $ref: "#/components/schemas/member_invited_event"
+        - $ref: "#/components/schemas/member_left_event"
+
+    text_event:
+      allOf:
+        - description: Text
+          x-tab-id: text-event
+          properties:
+            body:
+              type: object
+              description: The body of the `text` event
+              properties:
+                text:
+                  type: string
+                  description: The text sent in this event
+                  example: Hello World
+            type:
+              type: string
+              description: The event type (`text`)
+              example: text
+            conversation_id:
+              type: string
+              example: CON-92a44c64-7e4e-485f-a0c4-1f2adfc44625
+              description: The ID of the Conversation that the member belongs to
+        - $ref: "#/components/schemas/event"
+
+    custom_event:
+      allOf: 
+        - description: Custom
+          x-tab-id: custom-event
+          properties:
+            body:
+              type: object
+              description: The body of your `custom` event
+              example: {"my": "Custom Data"}
+            type:
+              type: string
+              description: The event type (`custom:<YOUR_IDENTIFIER>`)
+              example: "custom:my_event"
+        - $ref: "#/components/schemas/event"
+
+    member_invited_event:
+      allOf: 
+        - description: Member Invited
+          x-tab-id: member-invited
+          properties:
+            type:
+              type: string
+              description: The event type (`member:invited`)
+              example: "member:invited"
+        - $ref: "#/components/schemas/event"
+        - properties:
+            body:
+              $ref: "#/components/schemas/member"
+
+
+    member_left_event:
+      allOf: 
+        - description: Member Left
+          x-tab-id: member-left
+          properties:
+            type:
+              type: string
+              description: The event type (`member:left`)
+              example: "member:left"
+        - $ref: "#/components/schemas/event"
+        - properties:
+            body:
+              $ref: "#/components/schemas/member"
+
+    event:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 9
+          description: The ID of the event
+        from:
+          type: string
+          example: MEM-afe887d8-d587-4280-9aae-dfa4c9227d5e
+          description: The member ID of the sender
+        timestamp:
+          type: string
+          example: 2019-09-12T19:49:21.823Z
+          description: The time that the event happened
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: "https://api.nexmo.com/beta2/conversations/CON-92a44c64-7e4e-485f-a0c4-1f2adfc44625/events/9"
+
+    member_list:
+      type: object
+      properties:
+        id:
+          type: string
+          example: MEM-afe887d8-d587-4280-9aae-dfa4c9227d5e
+          description: Member ID
+        name:
+          type: string
+          example: ashley
+          description: The name of the User
+        display_name:
+          type: string
+          example: Ashley Arthur
+          description: The display name of the User
+        user_id:
+          type: string
+          example: USR-2c52f0ec-7a48-4b52-9d47-df47482b2b7e
+          description: The ID of the User
+        state:
+          type: string
+          description: The state that the member is in for this conversation
+          example: JOINED
+          enum:
+            - INVITED
+            - JOINED
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: https://api.nexmo.com/beta2/conversations/CON-92a44c64-7e4e-485f-a0c4-1f2adfc44625/members/MEM-e784d5d1-dff2-424a-9de7-bc34f1901177
+
+    member:
+      allOf:
+      - $ref: "#/components/schemas/member_list"
+      - type: object
+        properties:
+          timestamp:
+            type: object
+            properties:
+              invited:
+                type: string
+                example: '2019-09-03T18:40:24.324Z'
+                description: The time that an invitation was sent
+              joined:
+                type: string
+                example: '2019-09-12T16:27:07.450Z'
+                description: The time that the conversation was joined
+              left:
+                type: string
+                example: '2019-09-13T02:16:55.390Z'
+                description: The time that the member left the conversation
+          channel:
+            type: object
+            properties:
+              type:
+                type: string
+                example: app
+                description: The channel that the member joins with
+                enum:
+                  - app
+          initiator:
+            type: object
+            properties:
+              invited:
+                type: object
+                properties:
+                  is_system:
+                    type: boolean
+                    example: true
+              joined:
+                type: object
+                properties:
+                  is_system:
+                    type: boolean
+                    example: true
+          media:
+            type: object
+            description: The current media state for the member
+            properties:
+              audio_settings:
+                description: The current audio state for the member
+                type: object
+                properties:
+                  enabled:
+                    type: boolean
+                    example: false
+                    description: Is audio enabled?
+                  earmuffed:
+                    type: boolean
+                    example: false
+                    description: Can the member hear other participants?
+                  muted:
+                    type: boolean
+                    example: false
+                    description: Can the member speak to other participants?
+
+    conversation_list:
+      type: object
+      properties:
+        id:
+          type: string
+          example: CON-afe887d8-d587-4280-9aae-dfa4c9227d5e
+          description: The ID of the conversation
+        name:
+          $ref: "#/components/schemas/conversation_name"
+        display_name:
+          $ref: "#/components/schemas/conversation_display_name"
+        image_url:
+          $ref: "#/components/schemas/conversation_image_url"
+        timestamp:
+          type: object
+          properties:
+            created:
+              type: string
+              example: '2019-09-03T18:40:24.324Z'
+              description: The time that the conversation was created
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: "https://api.nexmo.com/beta2/conversations/CON-c4724477-72ac-438e-9fc0-1d3e2ff8728c"
+
+    conversation_id:
+      type: string
+      example: CON-c4724477-72ac-438e-9fc0-1d3e2ff8728c
+      description: Automatically generated conversation ID
+    conversation_name:
+      type: string
+      example: my-conversation
+      description: Your internal conversation name. Must be unique
+    conversation_display_name:
+      type: string
+      example: Conversation with Ashley
+      description: The public facing name of the conversation
+    conversation_image_url:
+      type: string
+      example: https://example.com/my-image.png
+      description: An image URL that you associate with the conversation
+
+    user_list:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/user_id"
+        name:
+          $ref: "#/components/schemas/user_name"
+        _links:
+          $ref: "#/components/schemas/user_links"
+
+    user_id:
+      type: string
+      description: The ID of the user
+      example: USR-e46d9542-752a-4786-8f12-25a2e623a793
+    user_name:
+      type: string
+      description: The name of the user
+      example: ashley
+    user_links:
+      type: object
+      properties:
+        self:
+          type: object
+          properties:
+            href:
+              type: string
+              example: https://api.nexmo.com/beta2/users/USR-e46d9542-752a-4786-8f12-25a2e623a793

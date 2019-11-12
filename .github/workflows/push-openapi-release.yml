@@ -1,0 +1,15 @@
+name: OpenAPI Release
+on:
+  push:
+    branches:
+      - master
+jobs:
+  releaseOAS:
+    name: Release OAS
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Release OAS
+      uses: nexmo/github-actions/openapi-release@master
+      env:
+        GH_ADMIN_TOKEN: ${{ secrets.GH_ADMIN_TOKEN }}

@@ -1,7 +1,7 @@
 ---
 openapi: 3.0.0
 info:
-  version: 1.2.1
+  version: 1.2.3
   title: Voice API
   description: The Voice API lets you create outbound calls, control in-progress calls
     and get information about historical calls. More information about the Voice API
@@ -75,7 +75,7 @@ paths:
                   - GET
                 event_url:
                   description: The webhook endpoint where call progress events are
-                    sent to. For more information about the values sent, see callback
+                    sent to. For more information about the values sent, see [Event webhook](/voice/voice-api/webhook-reference#event-webhook).
                   type: array
                   x-nexmo-developer-collection-description-shown: true
                   example: '["https://example.com/event"]'
@@ -391,7 +391,7 @@ paths:
       schema:
         type: string
       required: true
-      description: UUID of the Call
+      description: UUID of the Call Leg
       example: 63f61863-4a51-4f6b-86e1-46edebcf9356
     put:
       security:
@@ -465,7 +465,7 @@ paths:
       schema:
         type: string
       required: true
-      description: UUID of the Call
+      description: UUID of the Call Leg
       example: 63f61863-4a51-4f6b-86e1-46edebcf9356
     put:
       security:
@@ -538,7 +538,7 @@ paths:
       schema:
         type: string
       required: true
-      description: UUID of the Call
+      description: UUID of the Call Leg
       example: 63f61863-4a51-4f6b-86e1-46edebcf9356
     put:
       security:
@@ -623,7 +623,7 @@ components:
     uuid:
       type: string
       format: uuid
-      title: The UUID of the Call
+      title: The UUID of the Call Leg
       example: 63f61863-4a51-4f6b-86e1-46edebcf9356
       description: >-
           The unique identifier for this call leg. The UUID is created when

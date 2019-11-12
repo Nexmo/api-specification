@@ -3,7 +3,7 @@ servers:
   - url: 'https://api.nexmo.com/verify'
 info:
   title: Nexmo Verify API
-  version: 1.0.6
+  version: 1.0.7
   description: >-
     The Verify API helps you to implement 2FA (two-factor authentication) in your applications.
     This is useful for:
@@ -112,91 +112,50 @@ paths:
             By default, the SMS or text-to-speech (TTS) message is generated in
             the locale that matches the `number`. For example, the text message
             or TTS message for a `33*` number is sent in French. Use this
-            parameter to explicitly control the language, accent and gender used
-            for the Verify request.
+            parameter to explicitly control the language used for the Verify
+            request. A list of languages is available: <https://developer.nexmo.com/verify/guides/verify-languages>
           example: en-us
           schema:
             type: string
             default: en-us
             enum:
+              - ar-xa 
+              - cs-cz
+              - cy-cy
+              - cy-gb
+              - da-dk
               - de-de
+              - el-gr
               - en-au
               - en-gb
-              - en-us
               - en-in
+              - en-us
               - es-es
               - es-mx
               - es-us
+              - fi-fi
+              - fil-ph
               - fr-ca
               - fr-fr
+              - hi-in
+              - hu-hu
+              - id-id
               - is-is
               - it-it
               - ja-jp
               - ko-kr
+              - nb-no
               - nl-nl
               - pl-pl
-              - pt-pt
               - pt-br
+              - pt-pt
               - ro-ro
               - ru-ru
               - sv-se
               - tr-tr
+              - vi-vn
               - zh-cn
               - zh-tw
-            x-ms-enum:
-              values:
-                - value: de-de
-                  description: 'German, German (female / male)'
-                - value: en-au
-                  description: 'English, Australian (female / male)'
-                - value: en-gb
-                  description: 'English, UK (female / male)'
-                - value: en-us
-                  description: 'English, US (female / male)'
-                - value: en-in
-                  description: 'English, Indian (female)'
-                - value: es-es
-                  description: 'Spanish, Spanish (female / male)'
-                - value: es-mx
-                  description: 'Spanish, Mexican (female)'
-                - value: es-us
-                  description: 'Spanish, US (female / male)'
-                - value: fr-ca
-                  description: 'French, Canadian (female)'
-                - value: fr-fr
-                  description: 'French, French (female / male)'
-                - value: is-is
-                  description: 'Icelandic, Icelandic (female / male)'
-                - value: it-it
-                  description: 'Italian, Italian (female / male)'
-                - value: ja-jp
-                  description: 'Japanese, Japanese (female / male)'
-                - value: ko-kr
-                  description: 'Korean, Korean (female / male)'
-                - value: nl-nl
-                  description: 'Dutch, Netherlands (female / male)'
-                - value: pl-pl
-                  description: 'Polish, Polish (female / male)'
-                - value: pt-pt
-                  description: 'Portuguese, Portuguese (male)'
-                - value: pt-br
-                  description: 'Portuguese, Brazilian (female / male)'
-                - value: ro-ro
-                  description: 'Romanian, Romanian (female)'
-                - value: ru-ru
-                  description: 'Russian, Russian (female)'
-                - value: sv-se
-                  description: 'Swedish, Sweden (female)'
-                - value: tr-tr
-                  description: 'Turkish, Turkish (female)'
-                - value: zh-cn
-                  description: 'Chinese (Mandarin), Simplified Chinese (female / male)'
-                - value: zh-tw
-                  description: >-
-                    Chinese, Traditional. Text only. If you request Taiwanese
-                    (`zh-tw`), the text message will be sent in Traditional
-                    Chinese, but the voice call uses a female voice speaking
-                    English with a Chinese accent.
         - name: pin_expiry
           required: false
           in: query
@@ -243,6 +202,8 @@ paths:
               - 3
               - 4
               - 5
+              - 6
+              - 7
           example: 4
       responses:
         '200':

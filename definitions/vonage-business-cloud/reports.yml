@@ -1,0 +1,338 @@
+---
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Reports API
+  description: Retrieve call logs for your account.
+  contact:
+    name: "Report API"
+    url: "https://businesssupport.vonage.com/contactus"
+  termsOfService: "https://www.vonage.com/business/legal-policy-center/business-cloud/tos"
+
+servers:
+  - url: "https://api.vonage.com/t/vbc.prod/reports"
+paths:
+  "/accounts/{account_id}/call-logs":
+    get:
+      operationId: getCallLogs
+      summary: Retrieve call logs for your account
+      description: Retrieve call logs for your account
+      parameters:
+        - $ref: "#/components/parameters/AccountID"
+        - in: query
+          name: start:gte
+          required: true
+          description: "Filter records by start date (greater equal or equal to)"
+          schema:
+            type: string
+          example: "2019-01-01 00:00:00"
+        - in: query
+          name: start:lte
+          required: true
+          description: "Filter records by start date (less equal or equal to)"
+          schema:
+            type: string
+          example: "2019-01-01 00:00:00"
+        - in: query
+          name: end:gte
+          description: "Filter records by end date (greater equal or equal to)"
+          schema:
+            type: string
+          example: "2019-01-01 00:00:00"
+        - in: query
+          name: end:lte
+          description: "Filter records by end date (less equal or equal to)"
+          schema:
+            type: string
+          example: "2019-01-01 00:00:00"
+        - in: query
+          name: page_size
+          required: true
+          description: "Number of records per page"
+          schema:
+            type: number
+            default: 10
+          example: 10
+        - in: query
+          name: page
+          required: true
+          description: "Current page number"
+          schema:
+            type: number
+            default: 0
+          example: 10
+        - in: query
+          name: to
+          description: "Filter by called number"
+          schema:
+            type: string
+          example: 17325550100
+        - in: query
+          name: from
+          description: "Filter by source number"
+          schema:
+            type: string
+          example: 17325550100
+        - in: query
+          name: source_user
+          description: "Filter by source user"
+          schema:
+            type: string
+        - in: query
+          name: destination_user
+          description: "Filter by destination user"
+          schema:
+            type: string
+        - in: query
+          name: direction
+          description: "Filter by call direction."
+          schema:
+            type: string
+            enum:
+              - Inbound
+              - Outbound
+          example: Inbound
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CallLogsHalResponse"
+        "400":
+          description: Invalid parameters given
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorsResponse"
+      security:
+        - bearerAuth: []
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth
+
+  parameters:
+    AccountID:
+      in: path
+      name: account_id
+      required: true
+      schema:
+        type: string
+      description: The account ID
+      example: 123456
+
+  schemas:
+    FirstHref:
+      type: object
+      properties:
+        href:
+          type: string
+      description: URL to the first page of records
+    PrevHref:
+      type: object
+      properties:
+        href:
+          type: string
+      description: URL to the previous page of records
+    SelfHref:
+      type: object
+      properties:
+        href:
+          type: string
+      description: URL to the current page of records
+    NextHref:
+      type: object
+      properties:
+        href:
+          type: string
+      description: URL to the next page of records
+    LastHref:
+      type: object
+      properties:
+        href:
+          type: string
+      description: URL to the last page of records
+
+    Links:
+      type: object
+      properties:
+        first:
+          $ref: "#/components/schemas/FirstHref"
+        prev:
+          $ref: "#/components/schemas/PrevHref"
+        self:
+          $ref: "#/components/schemas/SelfHref"
+        next:
+          $ref: "#/components/schemas/NextHref"
+
+    CallLogsHalResponse:
+      type: object
+      properties:
+        page_size:
+          type: number
+          example: 10
+          description: Number of records per page
+        page:
+          type: number
+          example: 1
+          description: Current page number
+        total_pages:
+          type: number
+          example: 10
+          description: Total number of pages
+        total_items:
+          type: number
+          example: 100
+          description: Total number of records
+        _links:
+          $ref: "#/components/schemas/Links"
+        _embedded:
+          $ref: "#/components/schemas/CallLogsEmbeddedObject"
+
+    CallLogsEmbeddedObject:
+      type: object
+      properties:
+        call_logs:
+          items:
+            $ref: "#/components/schemas/CallLog"
+          type: array
+
+    CallLog:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the call
+          example: f27b937d-6dde-441a-9595-006e7302eac1
+        in_network:
+          type: boolean
+          description: Indicates if call was on/off network
+          example: true
+        international:
+          type: boolean
+          description: Indicates if call was international
+          example: false
+        from:
+          type: string
+          description: Source number of the call
+          example: 17325550100
+        to:
+          type: string
+          description: Destination number of the call
+          example: 17325550100
+        direction:
+          type: string
+          description: Direction of the call
+          example: "Inbound"
+        length:
+          type: number
+          description: Duration of the call in seconds
+          example: 60
+        start:
+          type: string
+          description: Start time of the call
+          example: "2019-01-01 00:00:00"
+        end:
+          type: string
+          description: End time of the call
+          example: "2019-01-01 00:00:00"
+        charge:
+          type: number
+          description: Amount charged for the call
+          example: 0
+        rate:
+          type: number
+          description: Rate charged for the call
+          example: 0
+        destination_device_name:
+          type: string
+          description: Name of the destination device of the call
+          example: "Smith"
+        destination_user_full_name:
+          type: string
+          description: Full name of the destination user of the call
+          example: "John Smith"
+        destination_user:
+          type: string
+          description: Destination user of the call
+          example: "JSmith"
+        destination_sip_id:
+          type: string
+          description: SIP ID of the destination device of the call
+          example: "VH1111111"
+        destination_extension:
+          type: number
+          description: Destination extension of the call
+          example: 1000
+
+        source_device_name:
+          type: string
+          description: Name of the source device of the call
+          example: "Smith"
+        source_user_full_name:
+          type: string
+          description: Full name of the source user of the call
+          example: "John Smith"
+        source_user:
+          type: string
+          description: Source user of the call
+          example: "JSmith"
+        source_sip_id:
+          type: string
+          description: SIP ID of the source device of the call
+          example: "VH1111111"
+        source_extension:
+          type: number
+          description: Source extension of the call
+          example: 1000
+
+        result:
+          type: string
+          description: Result of the call
+          example: Answered
+        recorded:
+          type: boolean
+          description: Indicates if call was recorded
+          example: true
+
+    ErrorResponse:
+      type: object
+      properties:
+        msg:
+          description: Error message
+          type: string
+        status:
+          description: Http Response Code
+          type: number
+
+    ValidationErrorsResponse:
+      type: object
+      properties:
+        status:
+          description: Error status code
+          type: number
+        title:
+          description: Error title
+          type: string
+        instance:
+          description: Error Track ID
+          type: string
+        invalid_parameters:
+          items:
+            $ref: "#/components/schemas/DetailedInvalidParam"
+          description: Invalid parameters and their reason for failing
+          type: array
+
+    DetailedInvalidParam:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Invalid property name
+        reason:
+          type: string
+          description: Invalid property reason

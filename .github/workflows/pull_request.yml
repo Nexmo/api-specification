@@ -1,0 +1,16 @@
+name: PR Edited
+on:
+  pull_request:
+    types: [opened, synchronize, labeled]
+jobs:
+  createReviewApp:
+    name: Create Review App
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Create Review App
+      uses: docker://mheap/github-action-pr-heroku-review-app
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        HEROKU_APPLICATION_ID: ${{ secrets.HEROKU_APPLICATION_ID }}
+        HEROKU_AUTH_TOKEN: ${{ secrets.HEROKU_AUTH_TOKEN }}
