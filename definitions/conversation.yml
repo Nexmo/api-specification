@@ -724,7 +724,8 @@ components:
       items: 
         type: string
         format: url
-        example: '["https://example.com/event"]'
+      example: '["https://example.com/event"]'
+      x-nexmo-developer-collection-description-shown: true
       description: The webhook endpoint where recording progress events are sent to.
     event_method:
       type: string
