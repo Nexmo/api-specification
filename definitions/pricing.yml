@@ -168,18 +168,8 @@ components:
                     example: "Is required"
     TooManyRequestsError:
       description: You made too many requests. The API is rate limited to one request per second.
-      content:
-        text/html:
-          schema:
-            type: string
-          example: "429 - Too many requests"
     NotFoundError:
       description: The page you requested was not found
-      content:
-        text/html:
-          schema:
-            type: string
-          example: "404 - Page does not exist"
 
   parameters:
     api_key:
