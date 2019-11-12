@@ -720,9 +720,11 @@ components:
         - start
         - stop
     event_url:
-      type: string
-      format: url
-      example: 'https://example.com/event'
+      type: array
+      items: 
+        type: string
+        format: url
+        example: '["https://example.com/event"]'
       description: The webhook endpoint where recording progress events are sent to.
     event_method:
       type: string
