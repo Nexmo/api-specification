@@ -3,7 +3,10 @@ openapi: 3.0.0
 info:
   version: 1.11.8
   title: Extension API
-  description: The Vonage Business Cloud Call Extension API enables you to retrieve information about extensions.
+  description: |
+    The Vonage Business Cloud Extension API enables you to retrieve information about extensions.
+
+    Your application must subscribe to the Provisioning API suite to use this API.
   contact:
     name: "Vonage Business Cloud Support"
     url: "https://businesssupport.vonage.com/contactus"

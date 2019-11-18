@@ -3,7 +3,10 @@ openapi: 3.0.0
 info:
   version: "1.0"
   title: Call Recording API
-  description: The Vonage Business Cloud Call Recording API enables you to manage your company and on-demand call recordings.
+  description: |
+    The Vonage Business Cloud Call Recording API enables you to manage your company and on-demand call recordings.
+
+    Your application must subscribe to the CallRecording API suite to use this API.
   contact:
     name: "Vonage Business Cloud Support"
     url: "https://businesssupport.vonage.com/contactus"
@@ -53,32 +56,6 @@ paths:
           description: Forbidden
         "404":
           description: Not Found
-    delete:
-      operationId: deleteCCRecordings
-      summary: Delete multiple company call recordings
-      description: Delete multiple company call recordings for an account
-      tags:
-        - company call recording
-      security:
-        - bearerAuth: []
-      parameters:
-        - $ref: "#/components/parameters/AccountID"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Filters"
-      responses:
-        "204":
-          description: No Content
-        "401":
-          description: Unauthorized
-        "403":
-          description: Forbidden
-        "404":
-          description: Not Found
-
   "/api/accounts/{account_id}/company_call_recordings/{recording_id}":
     get:
       operationId: getCCRecording
@@ -186,32 +163,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RecordingsHalResponse"
-        "401":
-          description: Unauthorized
-        "403":
-          description: Forbidden
-        "404":
-          description: Not Found
-    delete:
-      operationId: DeleteODCRecordings
-      summary: Delete multiple on-demand call recordings
-      description: Delete multiple on-demand call recordings for an account user
-      tags:
-        - on-demand call recording
-      security:
-        - bearerAuth: []
-      parameters:
-        - $ref: "#/components/parameters/AccountID"
-        - $ref: "#/components/parameters/UserID"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Filters"
-      responses:
-        "204":
-          description: No Content
         "401":
           description: Unauthorized
         "403":
@@ -572,6 +523,9 @@ components:
         dnis:
           type: string
           description: DNIS of the caller of the recorded call
+        download_url:
+          type: string
+          description: URL to download the recording. This URL requires authorization with your OAuth token.
         duration:
           type: integer
           description: Duration of the recorded call in milliseconds
@@ -666,7 +620,7 @@ components:
           $ref: "#/components/schemas/PaginationSingle"
         download_url:
           type: string
-          description: URL to download the completed export job
+          description: URL to download the completed export job. This URL requires authorization with your OAuth token.
         files_completed:
           type: integer
           description: Number of files completed by the export job

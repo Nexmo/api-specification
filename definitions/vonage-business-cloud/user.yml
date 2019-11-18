@@ -3,7 +3,10 @@ openapi: 3.0.0
 info:
   version: 1.11.8
   title: User API
-  description: The Vonage Business Cloud Call User API enables you to retrieve information about users.
+  description: |
+    The Vonage Business Cloud User API enables you to retrieve information about users.
+
+    Your application must subscribe to the Provisioning API suite to use this API.
   contact:
     name: "Vonage Business Cloud Support"
     url: "https://businesssupport.vonage.com/contactus"

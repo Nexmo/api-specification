@@ -1,6 +1,9 @@
 openapi: 3.0.0
 info:
-  description: Vonage Integration Suite
+  description: |
+    The Vonage Integration Suite API enables call control and webhooks for call events.
+
+    Your application must subscribe to the VonageIntegrationSuite API suite to use this API.
   version: 1.0.1
   title: Vonage Integration Suite
   contact:
@@ -13,7 +16,8 @@ tags:
   - name: Calls
   - name: Events
   - name: Webhooks
-    description: Webhooks are external URLs which subscribe to receive events via HTTP POST for a
+    description:
+      Webhooks are external URLs which subscribe to receive events via HTTP POST for a
       specified set of events.
 servers:
   - url: "https://api.vonage.com/t/vbc.prod/vis/v1"
@@ -32,18 +36,19 @@ paths:
               schema:
                 $ref: "#/components/schemas/User"
         "400":
-          description: 'Bad Request: The client should not repeat the request without
-            modifications'
+          description:
+            "Bad Request: The client should not repeat the request without
+            modifications"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
         "401":
-          description: 'Unauthorized: Invalid access token'
+          description: "Unauthorized: Invalid access token"
         "403":
-          description: 'Forbidden: The user has no rights to access the resource(s)'
+          description: "Forbidden: The user has no rights to access the resource(s)"
         "408":
-          description: 'Timeout: The client may repeat the request without modifications'
+          description: "Timeout: The client may repeat the request without modifications"
         "422":
           description: Validation Error
           content:
@@ -70,18 +75,19 @@ paths:
               schema:
                 $ref: "#/components/schemas/Account"
         "400":
-          description: 'Bad Request: The client should not repeat the request without
-            modifications'
+          description:
+            "Bad Request: The client should not repeat the request without
+            modifications"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
         "401":
-          description: 'Unauthorized: Invalid access token'
+          description: "Unauthorized: Invalid access token"
         "403":
-          description: 'Forbidden: The user has no rights to access the resource(s)'
+          description: "Forbidden: The user has no rights to access the resource(s)"
         "408":
-          description: 'Timeout: The client may repeat the request without modifications'
+          description: "Timeout: The client may repeat the request without modifications"
         "422":
           description: Validation Error
           content:
@@ -117,18 +123,19 @@ paths:
                 items:
                   $ref: "#/components/schemas/Call"
         "400":
-          description: 'Bad Request: The client should not repeat the request without
-            modifications'
+          description:
+            "Bad Request: The client should not repeat the request without
+            modifications"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
         "401":
-          description: 'Unauthorized: Invalid access token'
+          description: "Unauthorized: Invalid access token"
         "403":
-          description: 'Forbidden: The user has no rights to access the resource(s)'
+          description: "Forbidden: The user has no rights to access the resource(s)"
         "408":
-          description: 'Timeout: The client may repeat the request without modifications'
+          description: "Timeout: The client may repeat the request without modifications"
         "422":
           description: Validation Error
           content:
@@ -184,7 +191,7 @@ paths:
               - REMOTE_HELD
         - in: query
           name: offset
-          description: 'Page number of calls to return'
+          description: "Page number of calls to return"
           schema:
             type: integer
             format: int64
@@ -205,7 +212,7 @@ paths:
               - ASC
         - in: query
           name: sort
-          description: 'Sort calls by property'
+          description: "Sort calls by property"
           schema:
             type: string
       responses:
@@ -218,18 +225,19 @@ paths:
                 items:
                   $ref: "#/components/schemas/Call"
         "400":
-          description: 'Bad Request: The client should not repeat the request without
-            modifications'
+          description:
+            "Bad Request: The client should not repeat the request without
+            modifications"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
         "401":
-          description: 'Unauthorized: Invalid access token'
+          description: "Unauthorized: Invalid access token"
         "403":
-          description: 'Forbidden: The user has no rights to access the resource(s)'
+          description: "Forbidden: The user has no rights to access the resource(s)"
         "408":
-          description: 'Timeout: The client may repeat the request without modifications'
+          description: "Timeout: The client may repeat the request without modifications"
         "422":
           description: Validation Error
           content:
@@ -291,18 +299,19 @@ paths:
               schema:
                 $ref: "#/components/schemas/EventsCount"
         "400":
-          description: 'Bad Request: The client should not repeat the request without
-            modifications'
+          description:
+            "Bad Request: The client should not repeat the request without
+            modifications"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
         "401":
-          description: 'Unauthorized: Invalid access token'
+          description: "Unauthorized: Invalid access token"
         "403":
-          description: 'Forbidden: The user has no rights to access the resource(s)'
+          description: "Forbidden: The user has no rights to access the resource(s)"
         "408":
-          description: 'Timeout: The client may repeat the request without modifications'
+          description: "Timeout: The client may repeat the request without modifications"
         "422":
           description: Validation Error
           content:
@@ -338,18 +347,19 @@ paths:
                 items:
                   $ref: "#/components/schemas/Call"
         "400":
-          description: 'Bad Request: The client should not repeat the request without
-            modifications'
+          description:
+            "Bad Request: The client should not repeat the request without
+            modifications"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
         "401":
-          description: 'Unauthorized: Invalid access token'
+          description: "Unauthorized: Invalid access token"
         "403":
-          description: 'Forbidden: The user has no rights to access the resource(s)'
+          description: "Forbidden: The user has no rights to access the resource(s)"
         "408":
-          description: 'Timeout: The client may repeat the request without modifications'
+          description: "Timeout: The client may repeat the request without modifications"
         "422":
           description: Validation Error
           content:
@@ -384,18 +394,19 @@ paths:
                 items:
                   $ref: "#/components/schemas/Call"
         "400":
-          description: 'Bad Request: The client should not repeat the request without
-            modifications'
+          description:
+            "Bad Request: The client should not repeat the request without
+            modifications"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
         "401":
-          description: 'Unauthorized: Invalid access token'
+          description: "Unauthorized: Invalid access token"
         "403":
-          description: 'Forbidden: The user has no rights to access the resource(s)'
+          description: "Forbidden: The user has no rights to access the resource(s)"
         "408":
-          description: 'Timeout: The client may repeat the request without modifications'
+          description: "Timeout: The client may repeat the request without modifications"
         "422":
           description: Validation Error
           content:
@@ -429,18 +440,19 @@ paths:
               schema:
                 $ref: "#/components/schemas/Call"
         "400":
-          description: 'Bad Request: The client should not repeat the request without
-            modifications'
+          description:
+            "Bad Request: The client should not repeat the request without
+            modifications"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
         "401":
-          description: 'Unauthorized: Invalid access token'
+          description: "Unauthorized: Invalid access token"
         "403":
-          description: 'Forbidden: The user has no rights to access the resource(s)'
+          description: "Forbidden: The user has no rights to access the resource(s)"
         "408":
-          description: 'Timeout: The client may repeat the request without modifications'
+          description: "Timeout: The client may repeat the request without modifications"
         "422":
           description: Validation Error
           content:
@@ -474,18 +486,19 @@ paths:
               schema:
                 $ref: "#/components/schemas/Call"
         "400":
-          description: 'Bad Request: The client should not repeat the request without
-            modifications'
+          description:
+            "Bad Request: The client should not repeat the request without
+            modifications"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
         "401":
-          description: 'Unauthorized: Invalid access token'
+          description: "Unauthorized: Invalid access token"
         "403":
-          description: 'Forbidden: The user has no rights to access the resource(s)'
+          description: "Forbidden: The user has no rights to access the resource(s)"
         "408":
-          description: 'Timeout: The client may repeat the request without modifications'
+          description: "Timeout: The client may repeat the request without modifications"
         "422":
           description: Validation Error
           content:
@@ -518,18 +531,19 @@ paths:
               schema:
                 $ref: "#/components/schemas/Call"
         "400":
-          description: 'Bad Request: The client should not repeat the request without
-            modifications'
+          description:
+            "Bad Request: The client should not repeat the request without
+            modifications"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
         "401":
-          description: 'Unauthorized: Invalid access token'
+          description: "Unauthorized: Invalid access token"
         "403":
-          description: 'Forbidden: The user has no rights to access the resource(s)'
+          description: "Forbidden: The user has no rights to access the resource(s)"
         "408":
-          description: 'Timeout: The client may repeat the request without modifications'
+          description: "Timeout: The client may repeat the request without modifications"
         "422":
           description: Validation Error
           content:
@@ -563,18 +577,19 @@ paths:
               schema:
                 $ref: "#/components/schemas/Call"
         "400":
-          description: 'Bad Request: The client should not repeat the request without
-            modifications'
+          description:
+            "Bad Request: The client should not repeat the request without
+            modifications"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
         "401":
-          description: 'Unauthorized: Invalid access token'
+          description: "Unauthorized: Invalid access token"
         "403":
-          description: 'Forbidden: The user has no rights to access the resource(s)'
+          description: "Forbidden: The user has no rights to access the resource(s)"
         "408":
-          description: 'Timeout: The client may repeat the request without modifications'
+          description: "Timeout: The client may repeat the request without modifications"
         "422":
           description: Validation Error
           content:
@@ -615,18 +630,19 @@ paths:
               schema:
                 $ref: "#/components/schemas/Call"
         "400":
-          description: 'Bad Request: The client should not repeat the request without
-            modifications'
+          description:
+            "Bad Request: The client should not repeat the request without
+            modifications"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
         "401":
-          description: 'Unauthorized: Invalid access token'
+          description: "Unauthorized: Invalid access token"
         "403":
-          description: 'Forbidden: The user has no rights to access the resource(s)'
+          description: "Forbidden: The user has no rights to access the resource(s)"
         "408":
-          description: 'Timeout: The client may repeat the request without modifications'
+          description: "Timeout: The client may repeat the request without modifications"
         "422":
           description: Validation Error
           content:
@@ -687,10 +703,10 @@ paths:
               - ACTIVE
               - HELD
               - REMOTE_HELD
-              - DETACHED  
-              - REJECTED  
-              - CANCELLED 
-              - ANSWERED  
+              - DETACHED
+              - REJECTED
+              - CANCELLED
+              - ANSWERED
               - MISSED
         - in: query
           name: offset
@@ -715,7 +731,7 @@ paths:
               - ASC
         - in: query
           name: sort
-          description: 'Sort events by property'
+          description: "Sort events by property"
           schema:
             type: string
       responses:
@@ -728,18 +744,19 @@ paths:
                 items:
                   $ref: "#/components/schemas/Event"
         "400":
-          description: 'Bad Request: The client should not repeat the request without
-            modifications'
+          description:
+            "Bad Request: The client should not repeat the request without
+            modifications"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
         "401":
-          description: 'Unauthorized: Invalid access token'
+          description: "Unauthorized: Invalid access token"
         "403":
-          description: 'Forbidden: The user has no rights to access the resource(s)'
+          description: "Forbidden: The user has no rights to access the resource(s)"
         "408":
-          description: 'Timeout: The client may repeat the request without modifications'
+          description: "Timeout: The client may repeat the request without modifications"
         "422":
           description: Validation Error
           content:
@@ -800,18 +817,19 @@ paths:
               schema:
                 $ref: "#/components/schemas/EventsCount"
         "400":
-          description: 'Bad Request: The client should not repeat the request without
-            modifications'
+          description:
+            "Bad Request: The client should not repeat the request without
+            modifications"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
         "401":
-          description: 'Unauthorized: Invalid access token'
+          description: "Unauthorized: Invalid access token"
         "403":
-          description: 'Forbidden: The user has no rights to access the resource(s)'
+          description: "Forbidden: The user has no rights to access the resource(s)"
         "408":
-          description: 'Timeout: The client may repeat the request without modifications'
+          description: "Timeout: The client may repeat the request without modifications"
         "422":
           description: Validation Error
           content:
@@ -847,18 +865,19 @@ paths:
                 items:
                   $ref: "#/components/schemas/Event"
         "400":
-          description: 'Bad Request: The client should not repeat the request without
-            modifications'
+          description:
+            "Bad Request: The client should not repeat the request without
+            modifications"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
         "401":
-          description: 'Unauthorized: Invalid access token'
+          description: "Unauthorized: Invalid access token"
         "403":
-          description: 'Forbidden: The user has no rights to access the resource(s)'
+          description: "Forbidden: The user has no rights to access the resource(s)"
         "408":
-          description: 'Timeout: The client may repeat the request without modifications'
+          description: "Timeout: The client may repeat the request without modifications"
         "422":
           description: Validation Error
           content:
@@ -892,18 +911,19 @@ paths:
               schema:
                 $ref: "#/components/schemas/Webhook"
         "400":
-          description: 'Bad Request: The client should not repeat the request without
-            modifications'
+          description:
+            "Bad Request: The client should not repeat the request without
+            modifications"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
         "401":
-          description: 'Unauthorized: Invalid access token'
+          description: "Unauthorized: Invalid access token"
         "403":
-          description: 'Forbidden: The user has no rights to access the resource(s)'
+          description: "Forbidden: The user has no rights to access the resource(s)"
         "408":
-          description: 'Timeout: The client may repeat the request without modifications'
+          description: "Timeout: The client may repeat the request without modifications"
         "422":
           description: Validation Error
           content:
@@ -931,18 +951,19 @@ paths:
                 items:
                   $ref: "#/components/schemas/Webhook"
         "400":
-          description: 'Bad Request: The client should not repeat the request without
-            modifications'
+          description:
+            "Bad Request: The client should not repeat the request without
+            modifications"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
         "401":
-          description: 'Unauthorized: Invalid access token'
+          description: "Unauthorized: Invalid access token"
         "403":
-          description: 'Forbidden: The user has no rights to access the resource(s)'
+          description: "Forbidden: The user has no rights to access the resource(s)"
         "408":
-          description: 'Timeout: The client may repeat the request without modifications'
+          description: "Timeout: The client may repeat the request without modifications"
         "422":
           description: Validation Error
           content:
@@ -976,18 +997,19 @@ paths:
               schema:
                 $ref: "#/components/schemas/Webhook"
         "400":
-          description: 'Bad Request: The client should not repeat the request without
-            modifications'
+          description:
+            "Bad Request: The client should not repeat the request without
+            modifications"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
         "401":
-          description: 'Unauthorized: Invalid access token'
+          description: "Unauthorized: Invalid access token"
         "403":
-          description: 'Forbidden: The user has no rights to access the resource(s)'
+          description: "Forbidden: The user has no rights to access the resource(s)"
         "408":
-          description: 'Timeout: The client may repeat the request without modifications'
+          description: "Timeout: The client may repeat the request without modifications"
         "422":
           description: Validation Error
           content:
@@ -1016,18 +1038,19 @@ paths:
         "204":
           description: Successful
         "400":
-          description: 'Bad Request: The client should not repeat the request without
-            modifications'
+          description:
+            "Bad Request: The client should not repeat the request without
+            modifications"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
         "401":
-          description: 'Unauthorized: Invalid access token'
+          description: "Unauthorized: Invalid access token"
         "403":
-          description: 'Forbidden: The user has no rights to access the resource(s)'
+          description: "Forbidden: The user has no rights to access the resource(s)"
         "408":
-          description: 'Timeout: The client may repeat the request without modifications'
+          description: "Timeout: The client may repeat the request without modifications"
         "422":
           description: Validation Error
           content:
@@ -1061,18 +1084,19 @@ paths:
               schema:
                 $ref: "#/components/schemas/Webhook"
         "400":
-          description: 'Bad Request: The client should not repeat the request without
-            modifications'
+          description:
+            "Bad Request: The client should not repeat the request without
+            modifications"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
         "401":
-          description: 'Unauthorized: Invalid access token'
+          description: "Unauthorized: Invalid access token"
         "403":
-          description: 'Forbidden: The user has no rights to access the resource(s)'
+          description: "Forbidden: The user has no rights to access the resource(s)"
         "408":
-          description: 'Timeout: The client may repeat the request without modifications'
+          description: "Timeout: The client may repeat the request without modifications"
         "422":
           description: Validation Error
           content:
@@ -1298,7 +1322,7 @@ components:
           description: Destination URL for events
         events:
           type: array
-          example: 
+          example:
             - CALL
           description: Events to subscribe to the webhook
           items:
@@ -1351,7 +1375,7 @@ components:
             - PAUSED
         events:
           type: array
-          example: 
+          example:
             - CALL
           description: Subscribed events for the webhook
           items:
