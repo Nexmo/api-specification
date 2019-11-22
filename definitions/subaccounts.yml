@@ -634,6 +634,7 @@ components:
         use_primary_account_balance:
           type: boolean
           example: false
+          default: true
     ModifySubaccountRequest:
       type: object
       properties:
