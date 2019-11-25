@@ -1,6 +1,6 @@
 openapi: 3.0.0
 servers:
-  - url: 'https://api.nexmo.com/verify'
+  - url: "https://api.nexmo.com/verify"
 info:
   title: Nexmo Verify API
   version: 1.0.7
@@ -19,18 +19,18 @@ info:
   contact:
     name: Nexmo DevRel
     email: devrel@nexmo.com
-    url: 'https://developer.nexmo.com/'
-  termsOfService: 'https://www.nexmo.com/terms-of-use'
+    url: "https://developer.nexmo.com/"
+  termsOfService: "https://www.nexmo.com/terms-of-use"
   license:
     name: The MIT License (MIT)
-    url: 'https://opensource.org/licenses/MIT'
+    url: "https://opensource.org/licenses/MIT"
 externalDocs:
   description: "More information on the Verify product on our Developer Portal"
-  url: 'https://developer.nexmo.com/verify'
+  url: "https://developer.nexmo.com/verify"
 security:
   - apiKey: []
 paths:
-  '/{format}':
+  "/{format}":
     get:
       operationId: verifyRequest
       summary: Verify Request
@@ -47,10 +47,9 @@ paths:
 
         3. Use the `request_id` field in the response for the Verify check.
 
-
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/api_secret'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/api_secret"
         - name: number
           required: true
           in: query
@@ -60,7 +59,7 @@ paths:
             [E.164](https://en.wikipedia.org/wiki/E.164) format.
           schema:
             type: string
-          example: '447700900000'
+          example: "447700900000"
         - name: country
           required: false
           in: query
@@ -119,7 +118,7 @@ paths:
             type: string
             default: en-us
             enum:
-              - ar-xa 
+              - ar-xa
               - cs-cz
               - cy-cy
               - cy-gb
@@ -177,7 +176,7 @@ paths:
           in: query
           description: >-
             Specifies the wait time in seconds between attempts to deliver the
-            verification code. 
+            verification code.
           schema:
             type: integer
             minimum: 60
@@ -206,20 +205,20 @@ paths:
               - 7
           example: 4
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 oneOf:
-                  - $ref: '#/components/schemas/requestResponse'
-                  - $ref: '#/components/schemas/requestErrorResponse'
+                  - $ref: "#/components/schemas/requestResponse"
+                  - $ref: "#/components/schemas/requestErrorResponse"
             text/xml:
               schema:
                 oneOf:
-                  - $ref: '#/components/schemas/requestResponse'
-                  - $ref: '#/components/schemas/requestErrorResponse'
-  '/check/{format}':
+                  - $ref: "#/components/schemas/requestResponse"
+                  - $ref: "#/components/schemas/requestErrorResponse"
+  "/check/{format}":
     get:
       description: >-
         Use Verify check to confirm that the PIN you received from your user matches the one sent by
@@ -232,8 +231,8 @@ paths:
       operationId: verifyCheck
       summary: Verify Check
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/api_secret'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/api_secret"
         - name: request_id
           required: true
           in: query
@@ -252,7 +251,7 @@ paths:
             type: string
             minLength: 4
             maxLength: 6
-          example: '1234'
+          example: "1234"
         - name: ip_address
           required: false
           in: query
@@ -263,20 +262,20 @@ paths:
             type: string
           example: 123.0.0.255
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 oneOf:
-                  - $ref: '#/components/schemas/checkResponse'
-                  - $ref: '#/components/schemas/checkErrorResponse'
+                  - $ref: "#/components/schemas/checkResponse"
+                  - $ref: "#/components/schemas/checkErrorResponse"
             text/xml:
               schema:
                 oneOf:
-                  - $ref: '#/components/schemas/checkResponse'
-                  - $ref: '#/components/schemas/checkErrorResponse'
-  '/search/{format}':
+                  - $ref: "#/components/schemas/checkResponse"
+                  - $ref: "#/components/schemas/checkErrorResponse"
+  "/search/{format}":
     get:
       description: >-
         Use Verify search to check the status of past or current verification requests:
@@ -289,8 +288,8 @@ paths:
       operationId: verifySearch
       summary: Verify Search
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/api_secret'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/api_secret"
         - name: request_id
           required: false
           in: query
@@ -313,20 +312,20 @@ paths:
           style: form
           explode: true
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 oneOf:
-                  - $ref: '#/components/schemas/searchResponse'
-                  - $ref: '#/components/schemas/searchErrorResponse'
+                  - $ref: "#/components/schemas/searchResponse"
+                  - $ref: "#/components/schemas/searchErrorResponse"
             text/xml:
               schema:
                 oneOf:
-                  - $ref: '#/components/schemas/searchResponse'
-                  - $ref: '#/components/schemas/searchErrorResponse'
-  '/control/{format}':
+                  - $ref: "#/components/schemas/searchResponse"
+                  - $ref: "#/components/schemas/searchErrorResponse"
+  "/control/{format}":
     get:
       description: |-
         Control the progress of your Verify requests. To cancel an existing Verify request, or to trigger the next verification event:
@@ -338,12 +337,12 @@ paths:
       operationId: verifyControl
       summary: Verify Control
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/api_secret'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/api_secret"
         - name: request_id
           required: true
           in: query
-          description: 'The `request_id` you received in the response to the Verify request.'
+          description: "The `request_id` you received in the response to the Verify request."
           schema:
             type: string
           example: abcdef012345...
@@ -367,19 +366,19 @@ paths:
                   description: advance the request to the next part of the process.
           example: cancel
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 oneOf:
-                  - $ref: '#/components/schemas/controlResponse'
-                  - $ref: '#/components/schemas/controlErrorResponse'
+                  - $ref: "#/components/schemas/controlResponse"
+                  - $ref: "#/components/schemas/controlErrorResponse"
             text/xml:
               schema:
                 oneOf:
-                  - $ref: '#/components/schemas/controlResponse'
-                  - $ref: '#/components/schemas/controlErrorResponse'
+                  - $ref: "#/components/schemas/controlResponse"
+                  - $ref: "#/components/schemas/controlErrorResponse"
 components:
   parameters:
     format:
@@ -428,7 +427,7 @@ components:
           example: abcdef012345...
         status:
           type: string
-          example: '0'
+          example: "0"
     requestErrorResponse:
       type: object
       description: Error
@@ -440,29 +439,29 @@ components:
           description: >-
             The unique ID of the Verify request. This may be blank in an error situation
           maxLength: 32
-          example: abcdef012345...
+          example: ""
         status:
           type: string
-          example: '2'
+          example: "2"
           enum:
-            - '0'
-            - '1'
-            - '2'
-            - '3'
-            - '4'
-            - '5'
-            - '6'
-            - '7'
-            - '8'
-            - '9'
-            - '10'
-            - '15'
-            - '16'
-            - '17'
-            - '18'
-            - '19'
-            - '20'
-            - '101'
+            - "0"
+            - "1"
+            - "2"
+            - "3"
+            - "4"
+            - "5"
+            - "6"
+            - "7"
+            - "8"
+            - "9"
+            - "10"
+            - "15"
+            - "16"
+            - "17"
+            - "18"
+            - "19"
+            - "20"
+            - "101"
           description: |
             Code | Text | Description
             -- | -- | --
@@ -486,8 +485,8 @@ components:
             101 | No request found | There are no matching verify requests.
         error_text:
           type: string
-          description: 'If `status` is non-zero, this explains the error encountered.'
-          example: 'Your request is incomplete and missing the mandatory parameter `number`'
+          description: "If `status` is non-zero, this explains the error encountered."
+          example: "Your request is incomplete and missing the mandatory parameter `number`"
     checkResponse:
       type: object
       description: Success
@@ -507,17 +506,17 @@ components:
           description: >-
             A value of `0` indicates that your user entered the correct code. If
             it is non-zero, check the `error_text`.
-          example: '0'
+          example: "0"
         price:
           type: string
           description: The cost incurred for this request.
-          example: '0.10000000'
+          example: "0.10000000"
         currency:
           type: string
           description: The currency code.
           example: EUR
         estimated_price_messages_sent:
-          $ref: '#/components/schemas/estimated_price_messages_sent'
+          $ref: "#/components/schemas/estimated_price_messages_sent"
       xml:
         name: verify_response
     checkErrorResponse:
@@ -532,25 +531,25 @@ components:
           example: abcdef012345...
         status:
           type: string
-          example: '16'
+          example: "16"
           enum:
-            - '0'
-            - '1'
-            - '2'
-            - '3'
-            - '4'
-            - '5'
-            - '6'
-            - '7'
-            - '8'
-            - '9'
-            - '10'
-            - '15'
-            - '16'
-            - '17'
-            - '18'
-            - '19'
-            - '101'
+            - "0"
+            - "1"
+            - "2"
+            - "3"
+            - "4"
+            - "5"
+            - "6"
+            - "7"
+            - "8"
+            - "9"
+            - "10"
+            - "15"
+            - "16"
+            - "17"
+            - "18"
+            - "19"
+            - "101"
           description: |
             Code | Text | Description
             -- | -- | --
@@ -613,11 +612,11 @@ components:
         number:
           type: string
           description: The phone number this verification request was used for.
-          example: '447700900000'
+          example: "447700900000"
         price:
           type: string
           description: The cost incurred for this verification request.
-          example: '0.10000000'
+          example: "0.10000000"
         currency:
           type: string
           description: The currency code.
@@ -631,25 +630,25 @@ components:
           type: string
           description: >-
             The date and time the verification request was submitted, in the following format YYYY-MM-DD HH:MM:SS.
-          example: '2020-01-01 12:00:00'
+          example: "2020-01-01 12:00:00"
         date_finalized:
           type: string
           description: >-
             The date and time the verification request was completed. This
             response parameter is in the following format YYYY-MM-DD HH:MM:SS.
-          example: '2020-01-01 12:00:00'
+          example: "2020-01-01 12:00:00"
         first_event_date:
           type: string
           description: >-
             The time the first verification attempt was made, in the
             following format YYYY-MM-DD HH:MM:SS.
-          example: '2020-01-01 12:00:00'
+          example: "2020-01-01 12:00:00"
         last_event_date:
           type: string
           description: >-
             The time the last verification attempt was made, in the
             following format YYYY-MM-DD HH:MM:SS.
-          example: '2020-01-01 12:00:00'
+          example: "2020-01-01 12:00:00"
         checks:
           type: array
           xml:
@@ -663,7 +662,7 @@ components:
               date_received:
                 type: string
                 description: The date and time this check was received (in the format YYYY-MM-DD HH:MM:SS)
-                example: '2020-01-01 12:00:00'
+                example: "2020-01-01 12:00:00"
               code:
                 type: string
                 description: The code supplied with this check request
@@ -695,7 +694,7 @@ components:
               id:
                 type: string
         estimated_price_messages_sent:
-          $ref: '#/components/schemas/estimated_price_messages_sent'
+          $ref: "#/components/schemas/estimated_price_messages_sent"
     searchErrorResponse:
       xml:
         name: verify_request
@@ -716,7 +715,7 @@ components:
             - FAILED
             - EXPIRED
             - CANCELLED
-            - '101'
+            - "101"
           description: |
             Code | Description
             -- | --
@@ -738,7 +737,7 @@ components:
       properties:
         status:
           type: string
-          example: '0'
+          example: "0"
           description: |
             `cmd` | Code | Description
             -- | -- | --
@@ -758,24 +757,24 @@ components:
       properties:
         status:
           type: string
-          example: '6'
+          example: "6"
           enum:
-            - '1'
-            - '2'
-            - '3'
-            - '4'
-            - '5'
-            - '6'
-            - '7'
-            - '8'
-            - '9'
-            - '10'
-            - '15'
-            - '16'
-            - '17'
-            - '18'
-            - '19'
-            - '101'
+            - "1"
+            - "2"
+            - "3"
+            - "4"
+            - "5"
+            - "6"
+            - "7"
+            - "8"
+            - "9"
+            - "10"
+            - "15"
+            - "16"
+            - "17"
+            - "18"
+            - "19"
+            - "101"
           description: |
             Code | Text | Description
             -- | -- | --
