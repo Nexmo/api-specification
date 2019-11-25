@@ -1,14 +1,14 @@
 openapi: 3.0.0
 servers:
-  - url: 'https://api.nexmo.com/beta2'
+  - url: "https://api.nexmo.com/beta2"
 info:
   version: beta2
   title: Nexmo Conversation API
-  description: 'The Nexmo Conversation API enables you to build conversation features where communication can take place across multiple mediums including IP Messaging, PSTN Voice, SMS and WebRTC Audio and Video. The context of the conversations is maintained though each communication event taking place within a conversation, no matter the medium.'
+  description: "The Nexmo Conversation API enables you to build conversation features where communication can take place across multiple mediums including IP Messaging, PSTN Voice, SMS and WebRTC Audio and Video. The context of the conversations is maintained though each communication event taking place within a conversation, no matter the medium."
   contact:
     name: Nexmo DevRel
     email: devrel@nexmo.com
-    url: 'https://developer.nexmo.com/'
+    url: "https://developer.nexmo.com/"
   x-label: Developer Preview
 paths:
   "/conversations":
@@ -18,9 +18,9 @@ paths:
         - conversation
       summary: List Conversations
       description: |
-          Please note that not all data is available in the list endpoint. Once 
-          you've identified the conversation you need to work with, use the 
-          [GET /conversations/:id](#get-conversation) endpoint to fetch all of the conversation details
+        Please note that not all data is available in the list endpoint. Once 
+        you've identified the conversation you need to work with, use the 
+        [GET /conversations/:id](#get-conversation) endpoint to fetch all of the conversation details
       parameters:
         - $ref: "#/components/parameters/page_size"
         - $ref: "#/components/parameters/order"
@@ -28,7 +28,7 @@ paths:
         - $ref: "#/components/parameters/date_start"
         - $ref: "#/components/parameters/date_end"
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
@@ -38,6 +38,8 @@ paths:
                     type: integer
                     example: 10
                     description: The number of results returned on this page
+                    maximum: 100
+                    default: 10
                   _embedded:
                     type: object
                     x-nexmo-developer-collection-description-shown: true
@@ -87,7 +89,7 @@ paths:
         - $ref: "#/components/parameters/order"
         - $ref: "#/components/parameters/cursor"
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
@@ -137,7 +139,6 @@ paths:
                             type: string
                             example: "https://api.nexmo.com/beta2/users?order=desc&page_size=10&cursor=069626a3de11d2ec900dff5042197bd75f1ce41dafc3f2b2481eb9151086e59aae9dba3e3a8858dc355232d499c310fbfbec43923ff657c0de8d49ffed9f7edb"
 
-
   "/conversations/{conversation_id}/members":
     get:
       operationId: get-members
@@ -150,7 +151,7 @@ paths:
         - $ref: "#/components/parameters/order"
         - $ref: "#/components/parameters/cursor"
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
@@ -215,7 +216,7 @@ paths:
         - $ref: "#/components/parameters/end_id_parameter"
         - $ref: "#/components/parameters/event_type_parameter"
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
@@ -264,7 +265,6 @@ paths:
                           href:
                             type: string
                             example: "https://api.nexmo.com/beta2/conversations/CON-92a44c64-7e4e-485f-a0c4-1f2adfc44625/events?page_size=10&cursor=84963f79fd25785be9706bd38bfd30c264f71964fa4edc8d8b4dd5f30bbd9f7c"
-
 
 components:
   parameters:
@@ -409,14 +409,14 @@ components:
         - $ref: "#/components/schemas/event"
 
     custom_event:
-      allOf: 
+      allOf:
         - description: Custom
           x-tab-id: custom-event
           properties:
             body:
               type: object
               description: The body of your `custom` event
-              example: {"my": "Custom Data"}
+              example: { "my": "Custom Data" }
             type:
               type: string
               description: The event type (`custom:<YOUR_IDENTIFIER>`)
@@ -424,7 +424,7 @@ components:
         - $ref: "#/components/schemas/event"
 
     member_invited_event:
-      allOf: 
+      allOf:
         - description: Member Invited
           x-tab-id: member-invited
           properties:
@@ -437,9 +437,8 @@ components:
             body:
               $ref: "#/components/schemas/member"
 
-
     member_left_event:
-      allOf: 
+      allOf:
         - description: Member Left
           x-tab-id: member-left
           properties:
@@ -515,68 +514,68 @@ components:
 
     member:
       allOf:
-      - $ref: "#/components/schemas/member_list"
-      - type: object
-        properties:
-          timestamp:
-            type: object
-            properties:
-              invited:
-                type: string
-                example: '2019-09-03T18:40:24.324Z'
-                description: The time that an invitation was sent
-              joined:
-                type: string
-                example: '2019-09-12T16:27:07.450Z'
-                description: The time that the conversation was joined
-              left:
-                type: string
-                example: '2019-09-13T02:16:55.390Z'
-                description: The time that the member left the conversation
-          channel:
-            type: object
-            properties:
-              type:
-                type: string
-                example: app
-                description: The channel that the member joins with
-                enum:
-                  - app
-          initiator:
-            type: object
-            properties:
-              invited:
-                type: object
-                properties:
-                  is_system:
-                    type: boolean
-                    example: true
-              joined:
-                type: object
-                properties:
-                  is_system:
-                    type: boolean
-                    example: true
-          media:
-            type: object
-            description: The current media state for the member
-            properties:
-              audio_settings:
-                description: The current audio state for the member
-                type: object
-                properties:
-                  enabled:
-                    type: boolean
-                    example: false
-                    description: Is audio enabled?
-                  earmuffed:
-                    type: boolean
-                    example: false
-                    description: Can the member hear other participants?
-                  muted:
-                    type: boolean
-                    example: false
-                    description: Can the member speak to other participants?
+        - $ref: "#/components/schemas/member_list"
+        - type: object
+          properties:
+            timestamp:
+              type: object
+              properties:
+                invited:
+                  type: string
+                  example: "2019-09-03T18:40:24.324Z"
+                  description: The time that an invitation was sent
+                joined:
+                  type: string
+                  example: "2019-09-12T16:27:07.450Z"
+                  description: The time that the conversation was joined
+                left:
+                  type: string
+                  example: "2019-09-13T02:16:55.390Z"
+                  description: The time that the member left the conversation
+            channel:
+              type: object
+              properties:
+                type:
+                  type: string
+                  example: app
+                  description: The channel that the member joins with
+                  enum:
+                    - app
+            initiator:
+              type: object
+              properties:
+                invited:
+                  type: object
+                  properties:
+                    is_system:
+                      type: boolean
+                      example: true
+                joined:
+                  type: object
+                  properties:
+                    is_system:
+                      type: boolean
+                      example: true
+            media:
+              type: object
+              description: The current media state for the member
+              properties:
+                audio_settings:
+                  description: The current audio state for the member
+                  type: object
+                  properties:
+                    enabled:
+                      type: boolean
+                      example: false
+                      description: Is audio enabled?
+                    earmuffed:
+                      type: boolean
+                      example: false
+                      description: Can the member hear other participants?
+                    muted:
+                      type: boolean
+                      example: false
+                      description: Can the member speak to other participants?
 
     conversation_list:
       type: object
@@ -596,7 +595,7 @@ components:
           properties:
             created:
               type: string
-              example: '2019-09-03T18:40:24.324Z'
+              example: "2019-09-03T18:40:24.324Z"
               description: The time that the conversation was created
         _links:
           type: object
