@@ -37,7 +37,7 @@ paths:
                   page_size:
                     type: integer
                     example: 10
-                    description: The number of results returned on this page
+                    description: The number of results returned on this page. The default value is `10`. The maximum value is `100`.
                     maximum: 100
                     default: 10
                   _embedded:
@@ -225,7 +225,9 @@ paths:
                   page_size:
                     type: integer
                     example: 10
-                    description: The number of results returned on this page
+                    default: 10
+                    maximum: 100
+                    description: The number of results returned on this page.  The default value is `10`. The maximum value is `100`.
                   _embedded:
                     type: object
                     x-nexmo-developer-collection-description-shown: true
