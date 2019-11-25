@@ -37,9 +37,7 @@ paths:
                   page_size:
                     type: integer
                     example: 10
-                    description: The number of results returned on this page. The default value is `10`. The maximum value is `100`.
-                    maximum: 100
-                    default: 10
+                    description: The number of results returned on this page.
                   _embedded:
                     type: object
                     x-nexmo-developer-collection-description-shown: true
@@ -225,9 +223,7 @@ paths:
                   page_size:
                     type: integer
                     example: 10
-                    default: 10
-                    maximum: 100
-                    description: The number of results returned on this page.  The default value is `10`. The maximum value is `100`.
+                    description: The number of results returned on this page.
                   _embedded:
                     type: object
                     x-nexmo-developer-collection-description-shown: true
@@ -336,10 +332,11 @@ components:
     page_size:
       name: page_size
       in: query
-      description: The number of results returned per page
+      description: The number of results returned per page.   The default value is `10`. The maximum value is `100`.
       schema:
         type: integer
         default: 10
+        maximum: 100
       required: false
     order:
       name: order
