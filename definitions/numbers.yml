@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Numbers API
-  version: 1.0.13
+  version: 1.0.14
   description: >-
     The Numbers API enables you to manage your existing numbers and buy new virtual numbers for
     use with Nexmo's APIs. Further information is here: <https://developer.nexmo.com/numbers/overview>
@@ -363,9 +363,12 @@ components:
           description: The two character country code in ISO 3166-1 alpha-2 format
         msisdn:
           type: string
-
           example: "447700900000"
           description: An available inbound virtual number.
+        target_api_key:
+          type: string
+          example: "abc123"
+          description: If api_key is one of a partner account, the API key of one of its subaccounts the operation should be acted on
       required:
         - country
         - msisdn
