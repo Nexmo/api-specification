@@ -209,6 +209,92 @@ paths:
           description: OK
           content:
             application/json:
+              examples:
+                success:
+                  summary: Request was started
+                  value:
+                    request_id: abcdef0123456789abcdef0123456789
+                    status: "0"
+
+                throttled:  
+                  summary: Request limit exceeded
+                  value:
+                    status: "1"
+                    error_text: Throttled
+
+                missing-param:
+                  summary: Missing a parameter
+                  value:
+                    status: "2"
+                    error_text: Missing api_key
+                
+                invalid-param:
+                  summary: Invalid parameter
+                  value: 
+                    status: "3"
+                    error_text: Invalid value for number
+
+                invalid-creds:
+                  summary: Invalid credentials
+                  value: 
+                    status: "4"
+                    error_text: Invalid credentials were provided 
+
+                internal-error:
+                  summary: Internal Error
+                  value: 
+                    status: "5"
+                    error_text: Internal Error
+
+                cannot-process:
+                  summary: Unable to process message
+                  value: 
+                    status: "6"
+                    error_text: The Nexmo platform was unable to process this message for the following reason: The request could not be routed.
+
+                blacklist:
+                  summary: Blacklisted number
+                  value:
+                    status: "7"
+                    error_text: The number you are trying to verify is blacklisted for verification. 
+
+                account-disabled:
+                  summary: Account is barred
+                  value: 
+                    status: "8"
+                    error_text: The api_key you supplied is for an account that has been barred from submitting messages. 
+
+                quota-exceeded:
+                  summary: Quota exceeded
+                  value: 
+                    status: "9"
+                    error_text: Partner quota exceeded 
+
+                concurrent:
+                  summary: Concurrent verifications
+                  value: 
+                    request_id: abcdef0123456789abcdef0123456789
+                    status: "10"
+                    error_text: Concurrent verifications to the same number are not allowed 
+
+                rejected:
+                  summary: Rejected
+                  value: 
+                    status: "15"
+                    error_text: The destination number is not in a supported network 
+
+                incorrect-code:
+                  summary: PIN code is incorrect
+                  value: 
+                    status: "16"
+                    error_text: The code inserted does not match the expected value 
+
+                too-many-fails:
+                  summary: Too many incorrect codes
+                  value: 
+                    status: "17"
+                    error_text: The wrong code was provided too many times 
+
               schema:
                 oneOf:
                   - $ref: "#/components/schemas/requestResponse"
