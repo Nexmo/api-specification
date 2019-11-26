@@ -250,7 +250,7 @@ paths:
                   summary: Unable to process message
                   value: 
                     status: "6"
-                    error_text: The Nexmo platform was unable to process this message for the following reason: The request could not be routed.
+                    error_text: "The Nexmo platform was unable to process this message for the following reason: The request could not be routed."
 
                 blacklist:
                   summary: Blacklisted number
