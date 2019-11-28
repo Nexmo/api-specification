@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
-  title: Nexmo Message Search API
-  version: 1.0.2
+  title: Message Search API
+  version: 1.0.3
   description: >-
     The Messages API lets you retrieve messages you have sent via the SMS API by
     ID, as well as retrieve details of messages that were rejected.
