@@ -270,8 +270,8 @@ components:
           example: 'text'
         keyword:
           type: string
-          description: The first word in the message body. This is typically used with short codes.
-          example: Hello
+          description: The first word in the message body. Converted to upper case.
+          example: HELLO
         message-timestamp:
           description: The time when Nexmo started to push this Delivery Receipt to your webhook endpoint.
           type: string
