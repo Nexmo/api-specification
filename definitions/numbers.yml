@@ -368,7 +368,7 @@ components:
         target_api_key:
           type: string
           example: "1a2345b7"
-          description: If api_key is one of a partner account, the API key of one of its subaccounts the operation should be acted on
+          description: If you’d like to perform an action on a subaccount, provide the `api_key` of that account here. If you’d like to perform an action on your own account, you do not need to provide this field.
       required:
         - country
         - msisdn
