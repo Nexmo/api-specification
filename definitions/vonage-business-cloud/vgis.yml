@@ -1085,8 +1085,6 @@ paths:
           description: Bad Gateway
       x-auth-type: Application & Application User
       x-throttling-tier: Unlimited
-servers:
-  - url: https://api.vonage.com/vgis
 components:
   schemas:
     Error:
