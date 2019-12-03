@@ -15,6 +15,8 @@ tags:
   - name: Webhooks
     description: Webhooks are external URLs which subscribe to receive events via HTTP POST for a
       specified set of events.
+servers:
+  - url: "https://api.vonage.com/t/vbc.prod/vis/v1"
 paths:
   /self:
     get:
