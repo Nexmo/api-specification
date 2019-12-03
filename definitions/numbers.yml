@@ -367,7 +367,7 @@ components:
           description: An available inbound virtual number.
         target_api_key:
           type: string
-          example: "abc123"
+          example: "1a2345b7"
           description: If api_key is one of a partner account, the API key of one of its subaccounts the operation should be acted on
       required:
         - country
