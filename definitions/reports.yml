@@ -1,6 +1,6 @@
 openapi: "3.0.0"
 info:
-  version: 2.0.7
+  version: 2.0.8
   title: Nexmo Reports API
   description: >
     Nexmo's Reports API allows you to request a report of activity on your Nexmo account.<br>
@@ -81,19 +81,19 @@ paths:
             type: string
           example: SUCCESS, FAILED
         - name: date_from
-          description: Date from which the list of reports will be queried.
+          description: ISO-8601 extended time zone offset or ISO-8601 UTC zone offset formatted date from which the list of reports will be queried. Format yyyy-mm-ddThh:mm:ss[.sss]±hh:mm or yyyy-mm-ddThh:mm:ss[.sss]Z
           in: query
           schema:
             type: string
             format: date
-          example: "2019-06-28T00:00:00+0000"
+          example: "2019-06-28T00:00:00-00:00"
         - name: date_to
-          description: Date until which the list of reports will be queried.
+          description: ISO-8601 extended time zone offset or ISO-8601 UTC zone offset formatted date until which the list of reports will be queried. Format yyyy-mm-ddThh:mm:ss[.sss]±hh:mm or yyyy-mm-ddThh:mm:ss[.sss]Z
           in: query
           schema:
             type: string
             format: date
-          example: "2019-06-28T23:59:59+0000"
+          example: "2019-06-28T23:59:59-00:00"
       responses:
         '200':
           $ref: '#/components/responses/list_report_response'
@@ -426,18 +426,18 @@ components:
       type: string
       format: date
       description: >
-        ISO 8601 formatted date with a time zone time offset (format YYYY-MM-DDTHH:mm:ss±hhmm) for when reports should begin. It filters on the time the API call was
-        received by Nexmo and corresponds to the field date_received (date_start for Voice) in the report file. It is
-        inclusive, i.e. the provided value is less than or equal to the value in the field date_received (date_start for
-        Voice) in the CDR.<br>If unspecified, defaults to seven days ago.
-      example: "2017-12-01T00:00:00+0000"
+        ISO-8601 extended time zone offset or ISO-8601 UTC zone offset formatted date (format yyyy-mm-ddThh:mm:ss[.sss]±hh:mm or yyyy-mm-ddThh:mm:ss[.sss]Z) for when reports 
+        should begin. It filters on the time the API call was received by Nexmo and corresponds to the field date_received (date_start for Voice) in the report file. It is
+        inclusive, i.e. the provided value is less than or equal to the value in the field date_received (date_start for Voice) in the CDR.<br>If unspecified, defaults 
+        to seven days ago.
+      example: "2017-12-01T00:00:00+00:00"
     date_end:
       type: string
       format: date
       description: >
-        ISO 8601 formatted date with a time zone time offset (format YYYY-MM-DDTHH:mm:ss±hhmm) for when report should end. It is exclusive, i.e. the provided value is strictly greater
-         than the value in the field date_received in the CDR. <br>If unspecified, defaults to the current time.
-      example: "2018-01-01T00:00:00+0000"
+        ISO-8601 extended time zone offset or ISO-8601 UTC zone offset formatted date (format yyyy-mm-ddThh:mm:ss[.sss]±hh:mm or yyyy-mm-ddThh:mm:ss[.sss]Z) for when report should end. 
+        It is exclusive, i.e. the provided value is strictly greater than the value in the field date_received in the CDR. <br>If unspecified, defaults to the current time.
+      example: "2018-01-01T00:00:00+00:00"
     client_ref:
       type: string
       description: Search for messages with this `client_ref`.
