@@ -22,9 +22,9 @@ paths:
           in: query
           schema:
             type: string
-            example: assending
+            example: ascending
             enum:
-              - assending
+              - ascending
               - descending
             default: descending
         - name: page_index
