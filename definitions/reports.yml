@@ -294,7 +294,7 @@ components:
               instance:
                 type: string
                 example: f94b4e56604e07e5e5ad5a7228618f81
-    401:
+    "401":
       description: Unauthorized
       content:
         application/json:
@@ -312,7 +312,7 @@ components:
               instance:
                 type: string
                 example: f94b4e56604e07e5e5ad5a7228618f81
-    403:
+    "403":
       description: Forbidden
       content:
         application/json:
@@ -330,7 +330,7 @@ components:
               instance:
                 type: string
                 example: f94b4e56604e07e5e5ad5a7228618f81
-    404:
+    "404":
       description: Not found
       content:
         application/json:
@@ -348,7 +348,7 @@ components:
               instance:
                 type: string
                 example: f94b4e56604e07e5e5ad5a7228618f81
-    422:
+    "422":
       description: Unprocessable entity
       content:
         application/json:
