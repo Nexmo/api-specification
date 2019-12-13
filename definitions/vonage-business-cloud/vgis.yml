@@ -1352,15 +1352,15 @@ components:
       properties:
         id:
           type: string
-          example: 123456
+          example: 184094
           description: Unique identifier for the webhook
         userId:
           type: string
-          example: 123456
+          example: 522078
           description: Unique identifier of the user
         accountId:
           type: string
-          example: 123456
+          example: 257073
           description: Unique identifier of the account
         url:
           type: string
@@ -1440,11 +1440,11 @@ components:
       properties:
         id:
           type: integer
-          example: 123456
+          example: 522078
           description: Unique identifier of the user
         accountId:
           type: integer
-          example: 123456
+          example: 257073
           description: Unique identifier of the user's account
         acountLabel:
           type: string
@@ -1513,7 +1513,7 @@ components:
       properties:
         id:
           type: integer
-          example: 123456
+          example: 257073
           description: Unique identifier of the account
         name:
           type: string

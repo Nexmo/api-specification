@@ -40,7 +40,7 @@ paths:
           schema:
             type: number
           description: Filter by location id
-          example: 123456
+          example: 145214
         - in: query
           name: phone_number
           required: false
@@ -122,7 +122,7 @@ components:
       required: true
       schema:
         type: string
-      description: The account ID
+      description: The Vonage Business Cloud account ID
 
   schemas:
     FirstHref:
@@ -206,11 +206,11 @@ components:
         handset_name:
           type: string
           description: Name of the handset
-          example: "line1-VH1234567"
+          example: "line1-VH6370927"
         sip_id:
           type: string
           description: SIP identifier of the handset
-          example: "VH1234567"
+          example: "VH16370927"
 
     EndUserRoute:
       type: object
@@ -224,7 +224,7 @@ components:
         location_id:
           type: number
           description: Unique identifier of the assigned location
-          example: 123456
+          example: 145214
         vtt_enabled:
           type: boolean
           description: Voicemail transcription status of the location
