@@ -529,6 +529,7 @@ components:
           description: Identifier of the call recording rule(s) that triggered the call recording
           items:
             type: integer
+          example: [1989, 2012, 449]
         start:
           type: string
           format: date-time
