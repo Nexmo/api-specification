@@ -154,7 +154,7 @@ components:
         status:
           type: string
           example: delivered
-          description: The status of the message. The `read` message status is only available for `messenger` and `whatsapp`.
+          description: The status of the message. The `read` message status is available for `messenger`, `whatsapp` and `viber`.
           enum:
             - submitted
             - delivered
@@ -215,10 +215,13 @@ components:
                 - messenger
                 - mms
                 - whatsapp
+                - viber_service_msg
             id:
               type: string
-              description: The ID of the recipient.
-              example: '0123456678901234'
+              description: |
+                **Messenger** or **Viber**: 
+              The ID of the recipient.
+              example: '01234567'
             number:
               type: string
               minLength: 1
@@ -240,6 +243,7 @@ components:
                 - messenger
                 - mms
                 - whatsapp
+                - viber_service_msg
             id:
               type: string
               description: The ID of the sender.
@@ -250,7 +254,7 @@ components:
               maxLength: 50
               example: '447700900000'
               description: |
-                **WhatsApp** or **MMS**: 
+                **WhatsApp** or **MMS** or **Viber**:
                 The phone number of the message sender in the [E.164](https://en.wikipedia.org/wiki/E.164) format.
         timestamp:
           type: string
@@ -268,7 +272,7 @@ components:
                   description: |
                     The type of message being received. 
                     **whatsapp** and **messenger** supports `text`, `image`, `audio`, `video`, `file` and `location`. WhatsApp maximum inbound size is 64mb.
-                    **mms** supports `image`. 
+                    **mms** supports `image`. **viber** supports `text`.
                   example: 'text'
                   enum:
                     - text
@@ -489,8 +493,6 @@ components:
             The URL of the image attachment. 
 
             **messenger** and **mms** supports .jpg, .jpeg, .png and .gif.
-
-            **viber_service_msg** supports .jpg .jpeg, and .png.
 
             **whatsapp** supports .jpg .jpeg, and .png.
           minLength: 10
