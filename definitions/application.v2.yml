@@ -166,7 +166,7 @@ paths:
                       description: "Specify `vbc` capability to enable zero-rated calls for VBC number programmability service applications. This must be an empty object."
                       x-nexmo-developer-collection-description-shown: true                                   
       responses:
-        '200':
+        '201':
           description: Success
           content:
             application/json:
