@@ -1,6 +1,6 @@
 openapi: "3.0.0"
 info:
-  version: 0.3.4
+  version: 0.3.5
   title: Messages API
   description: 'The Messaging API is a new API that consolidates all messaging channels. It encapsulates a user (developer) from having to use multiple APIs to interact with our various channels such as SMS, MMS, Viber, Facebook Messenger, etc. The API normalises information across all channels to abstracted to, from and content. This API is currently in Beta.'
   contact:
@@ -218,10 +218,10 @@ components:
                 - viber_service_msg
             id:
               type: string
+              example: '01234567'
               description: |
                 **Messenger** or **Viber**: 
-              The ID of the recipient.
-              example: '01234567'
+                The ID of the recipient.
             number:
               type: string
               minLength: 1
@@ -272,7 +272,8 @@ components:
                   description: |
                     The type of message being received. 
                     **whatsapp** and **messenger** supports `text`, `image`, `audio`, `video`, `file` and `location`. WhatsApp maximum inbound size is 64mb.
-                    **mms** supports `image`. **viber** supports `text`.
+                    **mms** supports `image`.
+                    **viber** supports `text`.
                   example: 'text'
                   enum:
                     - text
@@ -378,7 +379,7 @@ components:
 
                 **Messenger**: supports `text`, `image`, `audio`, `video` and `file`.
 
-                **Viber Service Messages**: supports `image` and `text` and `custom`.
+                **Viber Service Messages**: supports `image`, `text` and `custom`.
 
                 **WhatsApp**: supports `template`, `text`, `image`, `audio`, `file`, `video` and `custom`. Maximum outbound media size is 64mb.
 
@@ -494,7 +495,7 @@ components:
 
             **messenger** and **mms** supports .jpg, .jpeg, .png and .gif.
 
-            **whatsapp** supports .jpg .jpeg, and .png.
+            **whatsapp** and **viber_service_msg** supports .jpg .jpeg, and .png.
           minLength: 10
           maxLength: 2000
           example: 'https://example.com/image.jpg'
