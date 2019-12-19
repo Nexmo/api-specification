@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Numbers API
-  version: 1.0.14
+  version: 1.0.15
   description: >-
     The Numbers API enables you to manage your existing numbers and buy new virtual numbers for
     use with Nexmo's APIs. Further information is here: <https://developer.nexmo.com/numbers/overview>
@@ -34,7 +34,11 @@ paths:
       parameters:
         - $ref: "#/components/parameters/application_id"
         - $ref: "#/components/parameters/has_application"
-        - $ref: "#/components/parameters/country"
+        - name: country
+          required: false
+          in: query
+          schema:
+            $ref: "#/components/schemas/country" 
         - $ref: "#/components/parameters/pattern"
         - $ref: "#/components/parameters/search_pattern"
         - $ref: "#/components/parameters/size"
@@ -260,8 +264,7 @@ components:
       required: true
       description: The two character country code to filter on (in ISO 3166-1 alpha-2 format)
       schema:
-        type: string
-      example: GB
+        $ref: "#/components/schemas/country"
     type:
       name: type
       in: query
@@ -284,13 +287,17 @@ components:
       example: "447700900000"
 
   schemas:
-    number:
+    country:
+      type: string
+      minLength: 2
+      maxLength: 2
+      example: GB
+      description: The two character country code in ISO 3166-1 alpha-2 format
+    ownednumber:
       type: object
       properties:
         country:
-          type: string
-          example: GB
-          description: The two character country code in ISO 3166-1 alpha-2 format
+          $ref: '#/components/schemas/country'
         msisdn:
           type: string
           example: "447700900000"
@@ -327,6 +334,29 @@ components:
           type: string
           example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
           description: A SIP URI, telephone number or Application ID
+    availablenumber:
+      type: object
+      properties:
+        country:
+          $ref: '#/components/schemas/country'
+        msisdn:
+          type: string
+          example: "447700900000"
+          description: An available inbound virtual number.
+        type:
+          type: string
+          example: mobile-lvn
+          description: "The type of number: `landline`, `landline-toll-free` or `mobile-lvn`"
+        cost:
+          type: string
+          example: 1.25
+          description: The monthly rental cost for this number, in Euros
+        features:
+          type: array
+          items:
+            type: string
+          example: [VOICE, SMS]
+          description: "The capabilities of the number: `SMS` or `VOICE` or `SMS,VOICE`"
     inbound-numbers:
       type: object
       properties:
@@ -338,7 +368,7 @@ components:
           type: array
           description: A paginated array of numbers and their details
           items:
-            $ref: "#/components/schemas/number"
+            $ref: "#/components/schemas/ownednumber"
     available-numbers:
       type: object
       xml:
@@ -352,15 +382,13 @@ components:
           type: array
           description: A paginated array of available numbers and their details.
           items:
-            $ref: "#/components/schemas/number"
+            $ref: "#/components/schemas/availablenumber"
 
     number-details:
       type: object
       properties:
         country:
-          type: string
-          example: GB
-          description: The two character country code in ISO 3166-1 alpha-2 format
+          $ref: '#/components/schemas/country'
         msisdn:
           type: string
           example: "447700900000"
@@ -377,9 +405,7 @@ components:
       type: object
       properties:
         country:
-          type: string
-          example: GB
-          description: The two character country code in ISO 3166-1 alpha-2 format
+          $ref: '#/components/schemas/country'
         msisdn:
           type: string
           example: "447700900000"
