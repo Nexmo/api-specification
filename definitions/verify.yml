@@ -3,7 +3,7 @@ servers:
   - url: "https://api.nexmo.com/verify"
 info:
   title: Nexmo Verify API
-  version: 1.0.8
+  version: 1.0.9
   description: >-
     The Verify API helps you to implement 2FA (two-factor authentication) in your applications.
     This is useful for:
@@ -352,7 +352,9 @@ paths:
           description: >-
             The command to execute, depending on whether you want to cancel 
             the verification process, or advance to the next verification event.
-            You must wait at least 30 seconds before cancelling a Verify request.
+            Cancellation is only possible 30 seconds after the start of the
+            verification request and before the second event (either TTS or SMS)
+            has taken place.
           schema:
             type: string
             enum:
