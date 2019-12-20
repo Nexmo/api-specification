@@ -451,6 +451,63 @@ paths:
           description: OK
           content:
             application/json:
+              examples:
+
+                success:
+                  summary: The request was found
+                  value:
+                    request_id: abcdef0123456789abcdef0123456789
+                    account_id: abcdef01
+                    number: 447700900000
+                    sender_id: verify
+                    date_submitted: 2020-01-01 12:00:00
+                    date_finalized: 2020-01-01 12:00:00
+                    checks: [{date_received: 2020-01-01 12:00:00, code: 1111, status: INVALID, ip_address: ""},{date_received: 2020-01-01 12:02:00, code: 1234, status: VALID, ip_address: ""}]
+                    first_event_date: 2020-01-01 12:00:00
+                    last_event_date: 2020-01-01 12:00:00
+                    price: 0.1000000
+                    currency: EUR
+                    status: SUCCESS
+                    estimated_price_messages_sent: 0.06660000
+                    events: [{id: 0A00000012345678, type: sms}, {id: 0A00000012345679, type: sms}]
+
+                throttled:
+                  summary: Request limit exceeded
+                  value:
+                    status: "1"
+                    error_text: Throttled
+
+                missing-param:
+                  summary: Missing a parameter
+                  value:
+                    status: "2"
+                    error_text: Missing api_key
+
+                invalid-param:
+                  summary: Invalid parameter
+                  value:
+                    status: "3"
+                    error_text: "Invalid value for param: request_id"
+
+                invalid-creds:
+                  summary: Invalid credentials
+                  value:
+                    status: "4"
+                    error_text: Bad credentials
+
+                internal-error:
+                  summary: Internal Error
+                  value:
+                    status: "5"
+                    error_text: Internal Error
+
+                not-found:
+                  summary: Request not found (this also occurs immediately after completion, wait 60 seconds and try again)
+                  value:
+                    status: "101"
+                    error_text: No response found
+
+
               schema:
                 oneOf:
                   - $ref: "#/components/schemas/searchResponse"
@@ -507,6 +564,68 @@ paths:
           description: OK
           content:
             application/json:
+              examples:
+
+                success-cancel:
+                  summary: The request has been cancelled
+                  value:
+                    status: 0
+                    command: cancel
+
+                success-trigger:
+                  summary: The next event has been triggered
+                  value:
+                    status: 0
+                    command: trigger_next_event
+
+                throttled:
+                  summary: Request limit exceeded
+                  value:
+                    status: "1"
+                    error_text: Throttled
+
+                missing-param:
+                  summary: Missing a parameter
+                  value:
+                    status: "2"
+                    error_text: Missing api_key
+
+                invalid-param:
+                  summary: Invalid parameter
+                  value:
+                    status: "3"
+                    error_text: "Invalid value for param: request_id"
+
+                invalid-creds:
+                  summary: Invalid credentials
+                  value:
+                    status: "4"
+                    error_text: Bad credentials
+
+                internal-error:
+                  summary: Internal Error
+                  value:
+                    status: "5"
+                    error_text: Internal Error
+
+                cancel-early:
+                  summary: Cancellation requested less than 30 seconds into the request
+                  value:
+                    status: "19"
+                    error_text: "Verification request ['abcdef0123456789abcdef0123456789'] can't be cancelled within the first 30 seconds."
+
+                cancel-late:
+                  summary: Cancellation requested after too many retry attempts
+                  value:
+                    status: "19"
+                    error_text: "Verification request  ['abcdef0123456789abcdef0123456789'] can't be cancelled now. Too many attempts to re-deliver have already been made."
+
+                trigger-end:
+                  summary: No more events to trigger
+                  value:
+                    status: "19"
+                    error_text: "No more events are left to execute for the request ['abcdef0123456789abcdef0123456789']"
+
               schema:
                 oneOf:
                   - $ref: "#/components/schemas/controlResponse"
