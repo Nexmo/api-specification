@@ -85,7 +85,7 @@ paths:
           required: false
           in: query
           description: >-
-            An 11-character alphanumeric string that represents the [identity of the sender](https://developer.nexmo.com/messaging/sms/guides/custom-sender-id) 
+            An 11-character alphanumeric string that represents the [identity of the sender](https://developer.nexmo.com/messaging/sms/guides/custom-sender-id)
             of the verification request. Depending on the destination of the phone number you are sending the verification SMS to,
             restrictions might apply.
           schema:
@@ -216,7 +216,7 @@ paths:
                     request_id: abcdef0123456789abcdef0123456789
                     status: "0"
 
-                throttled:  
+                throttled:
                   summary: Request limit exceeded
                   value:
                     status: "1"
@@ -227,28 +227,28 @@ paths:
                   value:
                     status: "2"
                     error_text: Missing api_key
-                
+
                 invalid-param:
                   summary: Invalid parameter
-                  value: 
+                  value:
                     status: "3"
                     error_text: Invalid value for number
 
                 invalid-creds:
                   summary: Invalid credentials
-                  value: 
+                  value:
                     status: "4"
-                    error_text: Invalid credentials were provided 
+                    error_text: Invalid credentials were provided
 
                 internal-error:
                   summary: Internal Error
-                  value: 
+                  value:
                     status: "5"
                     error_text: Internal Error
 
                 cannot-process:
                   summary: Unable to process message
-                  value: 
+                  value:
                     status: "6"
                     error_text: "The Nexmo platform was unable to process this message for the following reason: The request could not be routed."
 
@@ -256,44 +256,32 @@ paths:
                   summary: Blacklisted number
                   value:
                     status: "7"
-                    error_text: The number you are trying to verify is blacklisted for verification. 
+                    error_text: The number you are trying to verify is blacklisted for verification.
 
                 account-disabled:
                   summary: Account is barred
-                  value: 
+                  value:
                     status: "8"
-                    error_text: The api_key you supplied is for an account that has been barred from submitting messages. 
+                    error_text: The api_key you supplied is for an account that has been barred from submitting messages.
 
                 quota-exceeded:
                   summary: Quota exceeded
-                  value: 
+                  value:
                     status: "9"
-                    error_text: Partner quota exceeded 
+                    error_text: Partner quota exceeded
 
                 concurrent:
                   summary: Concurrent verifications
-                  value: 
+                  value:
                     request_id: abcdef0123456789abcdef0123456789
                     status: "10"
-                    error_text: Concurrent verifications to the same number are not allowed 
+                    error_text: Concurrent verifications to the same number are not allowed
 
                 rejected:
                   summary: Rejected
-                  value: 
+                  value:
                     status: "15"
-                    error_text: The destination number is not in a supported network 
-
-                incorrect-code:
-                  summary: PIN code is incorrect
-                  value: 
-                    status: "16"
-                    error_text: The code inserted does not match the expected value 
-
-                too-many-fails:
-                  summary: Too many incorrect codes
-                  value: 
-                    status: "17"
-                    error_text: The wrong code was provided too many times 
+                    error_text: The destination number is not in a supported network
 
               schema:
                 oneOf:
@@ -304,6 +292,7 @@ paths:
                 oneOf:
                   - $ref: "#/components/schemas/requestResponse"
                   - $ref: "#/components/schemas/requestErrorResponse"
+
   "/check/{format}":
     get:
       description: >-
@@ -328,7 +317,7 @@ paths:
           schema:
             type: string
             maxLength: 32
-          example: abcdef012345...
+          example: abcdef0123456789abcdef0123456789
         - name: code
           required: true
           in: query
@@ -351,6 +340,66 @@ paths:
           description: OK
           content:
             application/json:
+              examples:
+
+                success:
+                  summary: The supplied code is correct for this request. Verification successful.
+                  value:
+                    request_id: abcdef0123456789abcdef0123456789
+                    event_id: "0A00000012345678"
+                    status: 0
+                    price: "0.10000000"
+                    currency: EUR
+                    estimated_price_messages_sent: "0.03330000"
+
+                throttled:
+                  summary: Request limit exceeded
+                  value:
+                    status: "1"
+                    error_text: Throttled
+
+                missing-param:
+                  summary: Missing a parameter
+                  value:
+                    status: "2"
+                    error_text: Missing api_key
+
+                invalid-param:
+                  summary: Invalid parameter
+                  value:
+                    status: "3"
+                    error_text: "Invalid value for param: request_id"
+
+                invalid-creds:
+                  summary: Invalid credentials
+                  value:
+                    status: "4"
+                    error_text: Bad credentials
+
+                internal-error:
+                  summary: Internal Error
+                  value:
+                    status: "5"
+                    error_text: Internal Error
+
+                unknown-requestid:
+                  summary: "This request_id is unknown or inactive"
+                  value:
+                    status: "6"
+                    error_text: "The Nexmo platform was unable to process this message for the following reason: Request 'abcdef0123456789abcdef0123456789' was not found or it has been verified already."
+
+                incorrect-code:
+                  summary: PIN code is incorrect
+                  value:
+                    status: "16"
+                    error_text: The code inserted does not match the expected value
+
+                too-many-fails:
+                  summary: Too many incorrect codes
+                  value:
+                    status: "17"
+                    error_text: The wrong code was provided too many times. Request terminated
+
               schema:
                 oneOf:
                   - $ref: "#/components/schemas/checkResponse"
@@ -360,6 +409,7 @@ paths:
                 oneOf:
                   - $ref: "#/components/schemas/checkResponse"
                   - $ref: "#/components/schemas/checkErrorResponse"
+
   "/search/{format}":
     get:
       description: >-
@@ -381,7 +431,7 @@ paths:
           description: The `request_id` you received in the Verify Request Response.
           schema:
             type: string
-          example: abcdef012345...
+          example: abcdef0123456789abcdef0123456789
         - name: request_ids
           required: false
           in: query
@@ -392,7 +442,7 @@ paths:
             type: array
             items:
               type: string
-              example: abcdef012345...
+              example: abcdef0123456789abcdef0123456789
             maxItems: 10
           style: form
           explode: true
@@ -430,12 +480,12 @@ paths:
           description: "The `request_id` you received in the response to the Verify request."
           schema:
             type: string
-          example: abcdef012345...
+          example: abcdef0123456789abcdef0123456789
         - name: cmd
           required: true
           in: query
           description: >-
-            The command to execute, depending on whether you want to cancel 
+            The command to execute, depending on whether you want to cancel
             the verification process, or advance to the next verification event.
             Cancellation is only possible 30 seconds after the start of the
             verification request and before the second event (either TTS or SMS)
@@ -511,7 +561,7 @@ components:
             The unique ID of the Verify request. You need this
             `request_id` for the Verify check.
           maxLength: 32
-          example: abcdef012345...
+          example: abcdef0123456789abcdef0123456789
         status:
           type: string
           example: "0"
@@ -543,8 +593,6 @@ components:
             - "9"
             - "10"
             - "15"
-            - "16"
-            - "17"
             - "18"
             - "19"
             - "20"
@@ -562,10 +610,8 @@ components:
             7 | The number you are trying to verify is blacklisted for verification. |
             8 | The api_key you supplied is for an account that has been barred from submitting messages. |
             9 | Partner quota exceeded | Your account does not have sufficient credit to process this request.
-            10 | Concurrent verifications to the same number are not allowed | 
+            10 | Concurrent verifications to the same number are not allowed |
             15 | The destination number is not in a supported network | The request has been rejected. Find out more about this error in the [Knowledge Base](https://help.nexmo.com/hc/en-us/articles/360018406532-Verify-On-demand-Service-to-High-Risk-Countries)
-            16 | The code inserted does not match the expected value |
-            17 | The wrong code was provided too many times | You can run Verify check on a specific `request_id` up to three times unless a new verification code is generated. If you check a request more than three times, it is set to FAILED and you cannot check it again.
             18 | Too many request_ids provided | You added more than the maximum ten `request_id`s to your request.
             19 | No more events are left to execute for this request |
             20 | This account does not support the parameter: pin_code. | Only certain accounts have the ability to set the `pin_code`. Please contact your account manager for more information.
@@ -583,7 +629,7 @@ components:
           description: >-
             The `request_id` that you received in the response to the Verify request and
             used in the Verify check request.
-          example: abcdef012345...
+          example: abcdef0123456789abcdef0123456789
         event_id:
           type: string
           description: The ID of the verification event, such as an SMS or TTS call.
@@ -615,7 +661,7 @@ components:
           description: >-
             The `request_id` that you received in the response to the Verify request and
             used in the Verify check request.
-          example: abcdef012345...
+          example: abcdef0123456789abcdef0123456789
         status:
           type: string
           example: "16"
@@ -627,11 +673,6 @@ components:
             - "4"
             - "5"
             - "6"
-            - "7"
-            - "8"
-            - "9"
-            - "10"
-            - "15"
             - "16"
             - "17"
             - "18"
@@ -647,11 +688,6 @@ components:
             4 | Invalid credentials were provided | The supplied API key or secret in the request is either invalid or disabled.
             5 | Internal Error | An error occurred processing this request in the Cloud Communications Platform.
             6 | The Nexmo platform was unable to process this message for the following reason: `$reason` | The request could not be routed.
-            7 | The number you are trying to verify is blacklisted for verification. |
-            8 | The api_key you supplied is for an account that has been barred from submitting messages. |
-            9 | Partner quota exceeded | Your account does not have sufficient credit to process this request.
-            10 | Concurrent verifications to the same number are not allowed | 
-            15 | The destination number is not in a supported network | The request has been rejected. Find out more about this error in the [Knowledge Base](https://help.nexmo.com/hc/en-us/articles/360018406532-Verify-On-demand-Service-to-High-Risk-Countries)
             16 | The code inserted does not match the expected value |
             17 | The wrong code was provided too many times | You can run Verify check on a specific `request_id` up to three times unless a new verification code is generated. If you check a request more than three times, it is set to FAILED and you cannot check it again.
             18 | Too many request_ids provided | You added more than the maximum ten `request_id`s to your request.
@@ -674,7 +710,7 @@ components:
           description: >-
             The `request_id` that you received in the response to the Verify request and
             used in the Verify search request.
-          example: abcdef012345...
+          example: abcdef0123456789abcdef0123456789
         account_id:
           type: string
           description: The Nexmo account ID the request was for.
@@ -793,7 +829,7 @@ components:
           description: >-
             The `request_id` that you received in the response to the Verify request and
             used in the Verify search request. May be empty in an error situation.
-          example: abcdef012345...
+          example: abcdef0123456789abcdef0123456789
         status:
           type: string
           example: "IN PROGRESS"
@@ -875,7 +911,7 @@ components:
             7 | The number you are trying to verify is blacklisted for verification. |
             8 | The api_key you supplied is for an account that has been barred from submitting messages. |
             9 | Partner quota exceeded | Your account does not have sufficient credit to process this request.
-            10 | Concurrent verifications to the same number are not allowed | 
+            10 | Concurrent verifications to the same number are not allowed |
             15 | The destination number is not in a supported network | The request has been rejected. Find out more about this error in the [Knowledge Base](https://help.nexmo.com/hc/en-us/articles/360018406532-Verify-On-demand-Service-to-High-Risk-Countries)
             16 | The code inserted does not match the expected value |
             17 | The wrong code was provided too many times | You can run Verify check on a specific `request_id` up to three times unless a new verification code is generated. If you check a request more than three times, it is set to FAILED and you cannot check it again.
