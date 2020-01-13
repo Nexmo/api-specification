@@ -2,7 +2,7 @@ openapi: 3.0.0
 servers:
   - url: 'https://api.nexmo.com/beta'
 info:
-  version: 1.7.4
+  version: 1.7.5
   title: Nexmo Conversation API
   description: 'The Nexmo Conversation API enables you to build conversation features where communication can take place across multiple mediums including IP Messaging, PSTN Voice, SMS and WebRTC Audio and Video. The context of the conversations is maintained though each communication event taking place within a conversation, no matter the medium.'
   contact:
@@ -1215,15 +1215,15 @@ security:
   - bearerAuth: []
 
 tags:
-  - name: Conversation
+  - name: conversation
     description: A conversation is a shared core component that Nexmo APIs rely on. Conversations happen over multiple mediums and and can have associated Users through Memberships.
-  - name: User
+  - name: user
     description: 'The concept of a user exists in Nexmo APIs, you can associate one with a user in your own application if you choose. A user can have multiple memberships to conversations and can communicate with other users through various different mediums.'
-  - name: Member
+  - name: member
     description: Memberships connect users with conversations. Each membership has one conversation and one user however a user can have many memberships to conversations just as conversations can have many members.
-  - name: Event
+  - name: event
     description: 'Events are actions that occur within a conversation. Examples of this includes: Text events from members, or invite events from users'
-  - name: Leg
+  - name: leg
     description: 'A leg can be a video call, IP call, or PSTN call that users participate in using multiple platforms. With this endpoint you can retrieve the details about all of the legs that took place in your application.'
-  - name: Rtc
+  - name: rtc
     description: Rtc actions. Any rtc action related (like starting a new rtc connection).

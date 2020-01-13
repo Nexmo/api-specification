@@ -1,9 +1,12 @@
-extends: spectral:oas3
-rules: 
-  operation-tags: false
+extends: spectral:oas
+rules:
+  example-value-or-externalValue: false
+  oas3-unused-components-schema: false # needed by inter-file references e.g. Voice API
+  oas3-valid-content-schema-example: false
+  oas3-valid-oas-content-example: false
+  oas3-valid-oas-parameter-example: false
+  oas3-valid-parameter-schema-example: false
+  oas3-valid-schema-example: false
+  openapi-tags: false
   operation-description: false
-  valid-example-in-schemas: false
-  valid-schema-example-in-content: false
-  valid-schema-example-in-parameters: false
-  valid-oas-example-in-content: false
-  valid-oas-example-in-parameters: false
+  operation-tags: false
