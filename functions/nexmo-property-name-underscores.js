@@ -1,8 +1,10 @@
 // use with "$.paths.*.*.parameters.*"
 
 module.exports = (targetVal) => {
-    // more types of data structure will also be passed in here in future
-    return test_field(targetVal.name);
+    if(typeof targetVal == "string") {
+        // it's the field name
+        return test_field(targetVal);
+    }
 }
 
 function test_field(field) {

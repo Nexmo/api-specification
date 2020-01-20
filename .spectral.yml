@@ -15,7 +15,14 @@ rules:
   nexmo-property-name-underscores:
     severity: warn
     recommended: true
-    given: "$.paths.*.*.parameters.*"
+    given: "$.paths.*.*.parameters.*.name"
+    then:
+      function: "nexmo-property-name-underscores"
+
+  nexmo-response-property-name-underscores:
+    severity: warn
+    recommended: true
+    given: "$..components.schemas.*.properties[*]~"
     then:
       function: "nexmo-property-name-underscores"
 
