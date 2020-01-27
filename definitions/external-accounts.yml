@@ -38,9 +38,9 @@ paths:
                 access_token:
                   type: string
                   example: "myAccessToken"
-                  description: It is a Facebook Page token. There ways how to obtain the token
+                  description: This is the Facebook Page token. You can obtain the token using one of the following methods:
                     <ul>
-                    <li>Use our tool to link a page to your Nexmo account[https://messenger.nexmo.com](https://messenger.nexmo.com)</li>
+                    <li>Use our tool to link a page to your Nexmo account [https://messenger.nexmo.com](https://messenger.nexmo.com)</li>
                     <li>Following the official [token reference](https://developers.facebook.com/docs/pages/access-tokens/)</li>
                     </ul>
                 name:
@@ -54,7 +54,7 @@ paths:
                   example: ["optionalApplicationId"]
                   minItems: 0
                   maxItems: 1
-                  description: It should contain a list of application IDs which should be linked to the account.
+                  description: Contains a list of application IDs which are linked to the account.
                     <ul>
                     <li>There is just one application allowed per an account.</li>
                     <li>The application type must be type "messages".</li>
