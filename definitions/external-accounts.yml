@@ -40,7 +40,7 @@ paths:
                   example: "myAccessToken"
                   description: It is a Facebook Page token. There ways how to obtain the token
                     <ul>
-                    <li>Use our tool to link a page to your Nexmo account[https://static.nexmo.com/messenger/](https://static.nexmo.com/messenger/)</li>
+                    <li>Use our tool to link a page to your Nexmo account[https://messenger.nexmo.com](https://messenger.nexmo.com)</li>
                     <li>Following the official [token reference](https://developers.facebook.com/docs/pages/access-tokens/)</li>
                     </ul>
                 name:
