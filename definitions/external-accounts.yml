@@ -38,7 +38,7 @@ paths:
                 access_token:
                   type: string
                   example: "myAccessToken"
-                  description: This is the Facebook Page token. You can obtain the token using one of the following methods:
+                  description: This is the Facebook Page token. You can obtain the token using one of the following methods
                     <ul>
                     <li>Use our tool to link a page to your Nexmo account [https://messenger.nexmo.com](https://messenger.nexmo.com)</li>
                     <li>Following the official [token reference](https://developers.facebook.com/docs/pages/access-tokens/)</li>
