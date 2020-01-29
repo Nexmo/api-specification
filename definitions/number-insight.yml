@@ -220,7 +220,7 @@ components:
           xml:
             name: remainingBalance
         request_price:
-          type: number
+          type: string
           description: "If there is an internal lookup error, the `refund_price` will reflect the lookup price. If `cnam` is requested for a non-US number the `refund_price` will reflect the `cnam` price. If both of these conditions occur, `refund_price` is the sum of the lookup price and `cnam` price."
           example: "0.01500000"
           xml:
@@ -368,11 +368,11 @@ components:
               xml:
                 x-text: true # see https://github.com/OAI/OpenAPI-Specification/issues/630
         request_price:
-          type: number
+          type: string
           description: "If there is an internal lookup error, the `refund_price` will reflect the lookup price. If `cnam` is requested for a non-US number the `refund_price` will reflect the `cnam` price. If both of these conditions occur, `refund_price` is the sum of the lookup price and `cnam` price."
           example: "0.01500000"
         remaining_balance:
-          type: number
+          type: string
           description: "Your account balance in EUR after this request. Not returned with Number Insight Advanced Async API."
           example: "1.23456789"
         current_carrier:
@@ -533,11 +533,11 @@ components:
               xml:
                 x-text: true # see https://github.com/OAI/OpenAPI-Specification/issues/630
         request_price:
-          type: number
+          type: string
           description: "If there is an internal lookup error, the `refund_price` will reflect the lookup price. If `cnam` is requested for a non-US number the `refund_price` will reflect the `cnam` price. If both of these conditions occur, `refund_price` is the sum of the lookup price and `cnam` price."
           example: "0.01500000"
         remaining_balance:
-          type: number
+          type: string
           description: "Your account balance in EUR after this request. Not returned with Number Insight Advanced Async API."
           example: "1.23456789"
         current_carrier:
@@ -712,11 +712,11 @@ components:
         - type: object
           properties:
             request_price:
-              type: number
+              type: string
               description: "The amount in EUR charged to your account."
               example: "0.04000000"
             refund_price:
-              type: number
+              type: string
               description: "If there is an internal lookup error, the `refund_price` will reflect the lookup price. If `cnam` is requested for a non-US number the `refund_price` will reflect the `cnam` price. If both of these conditions occur, `refund_price` is the sum of the lookup price and `cnam` price."
               example: "0.01500000"
             remaining_balance:
@@ -804,15 +804,15 @@ components:
           description: "The numeric prefix for the country that `number` is registered in."
           example: "44"
         request_price:
-          type: number
+          type: string
           description: "The amount in EUR charged to your account."
           example: "0.04000000"
         refund_price:
-          type: number
+          type: string
           description: "If there is an internal lookup error, the `refund_price` will reflect the lookup price. If `cnam` is requested for a non-US number the `refund_price` will reflect the `cnam` price. If both of these conditions occur, `refund_price` is the sum of the lookup price and `cnam` price."
           example: "0.01500000"
         remaining_balance:
-          type: number
+          type: string
           description: "Your account balance in EUR after this request. Not returned with Number Insight Advanced Async API."
           example: "1.23456789"
         current_carrier:
@@ -847,7 +847,7 @@ components:
             - 0
             - 1
             - 2
-          example: "0"
+          example: 0
         lookup_outcome_message:
           type: string
           description: "Shows if all information about a phone number has been returned."
@@ -1019,7 +1019,7 @@ components:
         roaming_network_code:
           type: string
           description: "If `number` is `roaming`, this is the id of the carrier network `number` is roaming in."
-          example: 12345
+          example: "12345"
           xml:
             attribute: true
         roaming_network_name:
