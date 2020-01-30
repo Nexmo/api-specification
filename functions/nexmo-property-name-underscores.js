@@ -18,10 +18,4 @@ function test_field(field) {
     if (/[-]/.test(field)) {
         return [{message: "Property names must use underscores, not hyphens (found " + field + ")"}];
     }
-
-    // multiple underscores?
-    if (field.split("_").length > 2) {
-        return [{message: "Property names may not have more than one underscore (found " + field + ")"}];
-    }
-
 };
