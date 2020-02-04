@@ -460,11 +460,11 @@ paths:
                     account_id: abcdef01
                     number: 447700900000
                     sender_id: verify
-                    date_submitted: 2020-01-01 12:00:00
-                    date_finalized: 2020-01-01 12:00:00
-                    checks: [{date_received: 2020-01-01 12:00:00, code: 1111, status: INVALID, ip_address: ""},{date_received: 2020-01-01 12:02:00, code: 1234, status: VALID, ip_address: ""}]
-                    first_event_date: 2020-01-01 12:00:00
-                    last_event_date: 2020-01-01 12:00:00
+                    date_submitted: "2020-01-01 12:00:00"
+                    date_finalized: "2020-01-01 12:00:00"
+                    checks: [{date_received: "2020-01-01 12:00:00", code: 1111, status: INVALID, ip_address: ""},{date_received: "2020-01-01 12:02:00", code: 1234, status: VALID, ip_address: ""}]
+                    first_event_date: "2020-01-01 12:00:00"
+                    last_event_date: "2020-01-01 12:00:00"
                     price: 0.1000000
                     currency: EUR
                     status: SUCCESS
