@@ -3,7 +3,7 @@ servers:
   - url: "https://api.nexmo.com/verify"
 info:
   title: Nexmo Verify API
-  version: 1.0.9
+  version: 1.0.10
   description: >-
     The Verify API helps you to implement 2FA (two-factor authentication) in your applications.
     This is useful for:
@@ -256,8 +256,7 @@ paths:
           required: false
           in: query
           description: >-
-            The IP address used by your user when they entered the verification code. Nexmo
-            uses this information to identify fraud and spam. This ultimately benefits all Nexmo customers.
+            (This field is no longer used)
           schema:
             type: string
           example: 123.0.0.255
@@ -676,7 +675,7 @@ components:
                   - INVALID
               ip_address:
                 type: string
-                description: The IP address, if available
+                description: The IP address, if available (this field is no longer used).
                 example: 123.0.0.255
         events:
           type: array
