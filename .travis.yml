@@ -1,7 +1,12 @@
-language: node_js
-node_js:
-  - "10"
+language: ruby
+cache:
+  bundler: true
 before_script:
+  - gem update --system 3.0.3
+  - gem update bundler
+  - nvm install
   - npm install -g @stoplight/spectral@5.0.0
+install: bundle install --deployment --path vendor/bundle
 script:
   - bin/validate-specs.sh
+  - bin/check-rendering.sh
