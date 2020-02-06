@@ -26,3 +26,13 @@ rules:
     then:
       function: "nexmo-property-name-underscores"
 
+  # Require 3-part Semantic Versions as the spec versions
+  semver:
+    severity: error
+    recommended: true
+    message: Specs should follow semantic versioning. {{value}} is not a valid version.
+    given: $.info.version
+    then:
+      function: pattern
+      functionOptions:
+        match: "^([0-9]+.[0-9]+.[0-9]+)$"
