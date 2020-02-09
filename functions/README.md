@@ -1,5 +1,6 @@
 # Functions
 
-These functions are for our [spectral](https://github.com/stoplightio/spectral) rules.
+These functions are for our [spectral](https://github.com/stoplightio/spectral) rules. Please name and describe your function here so we can keep track of what we have.
 
-**nexmo-property-name-underscores** checks our property names against the API standards. Basically: maximum one underscore, no hyphens, no CamelCase
+_this list is empty because we're not using any custom functions yet_
+

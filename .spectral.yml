@@ -12,17 +12,25 @@ rules:
   operation-description: false
   operation-tags: false
 
-  nexmo-property-name-underscores:
+  # Check field names meet api standards
+  property-names:
     severity: warn
+    message: "Invalid property name: {{value}} (expected: lowercase with underscores)"
     recommended: true
     given: "$.paths.*.*.parameters.*.name"
     then:
-      function: "nexmo-property-name-underscores"
+      function: pattern
+      functionOptions:
+        match: "^[a-z_]+$"
 
-  nexmo-response-property-name-underscores:
+  # Check response field names meet api standards
+  response-property-names:
     severity: warn
+    message: "Invalid response property name: {{property}} (expected: lowercase with underscores)"
     recommended: true
     given: "$..components.schemas.*.properties[*]~"
     then:
-      function: "nexmo-property-name-underscores"
+      function: pattern
+      functionOptions:
+        match: "^[a-z_]+$"
 
