@@ -1,7 +1,7 @@
 ---
 openapi: 3.0.0
 info:
-  version: 1.2.3
+  version: 1.2.4
   title: Voice API
   description: The Voice API lets you create outbound calls, control in-progress calls
     and get information about historical calls. More information about the Voice API
@@ -11,9 +11,9 @@ info:
     email: devrel@nexmo.com
     url: 'https://developer.nexmo.com/'
 servers:
-- url: https://api.nexmo.com/v1
+- url: https://api.nexmo.com/v1/calls
 paths:
-  "/calls":
+  "/":
     post:
       security:
       - bearerAuth: []
@@ -271,7 +271,7 @@ paths:
                               $ref: '#/components/schemas/end_time'
                             network:
                               $ref: '#/components/schemas/network'
-  "/calls/{uuid}":
+  "/{uuid}":
     parameters:
     - in: path
       name: uuid
@@ -384,7 +384,7 @@ paths:
           description: Unauthorized
         '404':
           description: Not Found
-  "/calls/{uuid}/stream":
+  "/{uuid}/stream":
     parameters:
     - in: path
       name: uuid
@@ -458,7 +458,7 @@ paths:
                     example: Stream stopped
                   uuid:
                     $ref: '#/components/schemas/uuid'
-  "/calls/{uuid}/talk":
+  "/{uuid}/talk":
     parameters:
     - in: path
       name: uuid
@@ -531,7 +531,7 @@ paths:
                     example: Talk stopped
                   uuid:
                     $ref: '#/components/schemas/uuid'
-  "/calls/{uuid}/dtmf":
+  "/{uuid}/dtmf":
     parameters:
     - in: path
       name: uuid
