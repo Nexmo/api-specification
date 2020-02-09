@@ -1,7 +1,7 @@
 ---
 openapi: 3.0.0
 info:
-  version: 1.0.1
+  version: 1.0.2
   title: Voice API BETA
   description: |
       This is the *beta* version of the Voice API. Calls created with v2 must be managed
@@ -16,18 +16,18 @@ info:
     email: devrel@nexmo.com
     url: 'https://developer.nexmo.com/'
 servers:
-- url: https://api.nexmo.com/v2
+- url: https://api.nexmo.com/v2/calls
 paths:
-  "/calls":
+  "/":
     post:
       security:
         - bearerAuth: []
       summary: 
-        "$ref": "voice.yml#/paths/~1calls/post/summary"
+        "$ref": "voice.yml#/paths/~1/post/summary"
       description:
-        "$ref": "voice.yml#/paths/~1calls/post/description"
+        "$ref": "voice.yml#/paths/~1/post/description"
       operationId:
-        "$ref": "voice.yml#/paths/~1calls/post/operationId"
+        "$ref": "voice.yml#/paths/~1/post/operationId"
       requestBody:
         description: Call Details
         content:
@@ -50,21 +50,21 @@ paths:
                 from:
                   "$ref": "voice.yml#/components/schemas/EndpointPhone"
                 ncco:
-                  "$ref": "voice.yml#/paths/~1calls/post/requestBody/content/application~1json/schema/properties/ncco"
+                  "$ref": "voice.yml#/paths/~1/post/requestBody/content/application~1json/schema/properties/ncco"
                 answer_url:
-                  "$ref": "voice.yml#/paths/~1calls/post/requestBody/content/application~1json/schema/properties/answer_url"
+                  "$ref": "voice.yml#/paths/~1/post/requestBody/content/application~1json/schema/properties/answer_url"
                 answer_method:
-                  "$ref": "voice.yml#/paths/~1calls/post/requestBody/content/application~1json/schema/properties/answer_method"
+                  "$ref": "voice.yml#/paths/~1/post/requestBody/content/application~1json/schema/properties/answer_method"
                 event_url:
-                  "$ref": "voice.yml#/paths/~1calls/post/requestBody/content/application~1json/schema/properties/event_url"
+                  "$ref": "voice.yml#/paths/~1/post/requestBody/content/application~1json/schema/properties/event_url"
                 event_method:
-                  "$ref": "voice.yml#/paths/~1calls/post/requestBody/content/application~1json/schema/properties/event_method"
+                  "$ref": "voice.yml#/paths/~1/post/requestBody/content/application~1json/schema/properties/event_method"
                 machine_detection:
-                  "$ref": "voice.yml#/paths/~1calls/post/requestBody/content/application~1json/schema/properties/machine_detection"
+                  "$ref": "voice.yml#/paths/~1/post/requestBody/content/application~1json/schema/properties/machine_detection"
                 length_timer:
-                  "$ref": "voice.yml#/paths/~1calls/post/requestBody/content/application~1json/schema/properties/length_timer"
+                  "$ref": "voice.yml#/paths/~1/post/requestBody/content/application~1json/schema/properties/length_timer"
                 ringing_timer:
-                  "$ref": "voice.yml#/paths/~1calls/post/requestBody/content/application~1json/schema/properties/ringing_timer"
+                  "$ref": "voice.yml#/paths/~1/post/requestBody/content/application~1json/schema/properties/ringing_timer"
       responses:
         '202':
           description: Accepted
