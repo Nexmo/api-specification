@@ -1,7 +1,7 @@
 ---
 openapi: "3.0.0"
 info:
-  version: 2.0.4
+  version: 2.0.5
   title: "Application API"
   description: |
     Nexmo provides an Application API to allow management of your Nexmo Applications.
@@ -12,11 +12,11 @@ info:
     url: 'https://developer.nexmo.com/'
     email: devrel@nexmo.com
 servers:
-  - url: https://api.nexmo.com
+  - url: https://api.nexmo.com/v2/applications
 security:
   - basicAuth: []
 paths:
-  /v2/applications:
+  /:
     post:
       summary: Create an application
       operationId: createApplication
@@ -295,7 +295,7 @@ paths:
         '406':
           $ref: 'common/common_errors.yml#/components/responses/InvalidAcceptHeader'
 
-  /v2/applications/{id}:
+  /{id}:
     parameters:
       - name: id
         in: path
