@@ -1,7 +1,7 @@
 ---
 openapi: "3.0.0"
 info:
-  version: 1.0.3
+  version: 1.0.4
   title: "Redact API"
   description: Nexmo provides [Redact API](https://developer.nexmo.com/redact/overview) to help organisations meet their privacy compliance obligations. Redact API allows you to redact private information on demand, allowing you to meet your own compliance needs.
   contact:
@@ -9,9 +9,9 @@ info:
     email: devrel@nexmo.com
     url: "https://developer.nexmo.com/"
 servers:
-  - url: https://api.nexmo.com
+  - url: https://api.nexmo.com/v1/redact
 paths:
-  /v1/redact/transaction:
+  /transaction:
     post:
       summary: Redact a specific message
       operationId: redact-message
