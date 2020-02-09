@@ -1,8 +1,8 @@
 openapi: 3.0.0
 servers:
-  - url: "https://rest.nexmo.com"
+  - url: "https://rest.nexmo.com/account"
 info:
-  version: "0.0.1"
+  version: "0.0.2"
   title: Pricing API
   description: >-
     The API to retrieve pricing information.
@@ -14,7 +14,7 @@ info:
     email: devrel@nexmo.com
     url: "https://developer.nexmo.com/"
 paths:
-  /account/get-pricing/outbound/{type}:
+  /get-pricing/outbound/{type}:
     get:
       summary: Retrieve outbound pricing for a specific country.
       operationId: retrievePricingCountry
@@ -49,7 +49,7 @@ paths:
           $ref: "#/components/responses/NotFoundError"
         "429":
           $ref: "#/components/responses/TooManyRequestsError"
-  /account/get-full-pricing/outbound/{type}:
+  /get-full-pricing/outbound/{type}:
     get:
       summary: Retrieve outbound pricing for all countries.
       operationId: retrievePricingAllCountries
@@ -79,7 +79,7 @@ paths:
         "429":
           $ref: "#/components/responses/TooManyRequestsError"
 
-  /account/get-prefix-pricing/outbound/{type}:
+  /get-prefix-pricing/outbound/{type}:
     get:
       summary: Retrieve outbound pricing for a specific dialing prefix.
       operationId: retrievePrefixPricing
