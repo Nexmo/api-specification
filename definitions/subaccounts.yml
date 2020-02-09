@@ -1,8 +1,8 @@
 openapi: 3.0.0
 servers:
-  - url: 'https://api.nexmo.com'
+  - url: 'https://api.nexmo.com/accounts'
 info:
-  version: 1.0.4
+  version: 1.0.5
   title: Subaccounts API
   description: >-
     The Nexmo Subaccounts API enables you to create subaccounts under your primary account. Subaccounts facilitate differential product configuration, reporting, and billing. The Subaccounts API is released initially with restricted availability. You can read more about the API in the [Subaccounts documentation](/account/subaccounts/overview).
@@ -11,7 +11,7 @@ info:
     email: devrel@nexmo.com
     url: 'https://developer.nexmo.com/'
 paths:
-  /accounts/{api_key}/subaccounts:
+  /{api_key}/subaccounts:
     post:
       summary: Create subaccount
       operationId: createSubAccount
@@ -78,7 +78,7 @@ paths:
           $ref: '#/components/responses/ForbiddenError'
         '404':
           $ref: '#/components/responses/NotFoundError'
-  /accounts/{api_key}/subaccounts/{subaccount_key}:
+  /{api_key}/subaccounts/{subaccount_key}:
     get:
       summary: Retrieve a subaccount
       operationId: retrieveSubaccount
@@ -157,7 +157,7 @@ paths:
           $ref: '#/components/responses/NotFoundError'
         '422':
           $ref: '#/components/responses/UnprocessableEntityError'
-  /accounts/{api_key}/credit-transfers:
+  /{api_key}/credit-transfers:
     post:
       summary: Transfer credit
       operationId: transferCredit
@@ -244,7 +244,7 @@ paths:
           $ref: '#/components/responses/ForbiddenError'
         '404':
           $ref: '#/components/responses/NotFoundError'
-  /accounts/{api_key}/balance-transfers:
+  /{api_key}/balance-transfers:
     post:
       summary: Transfer balance
       description: >
