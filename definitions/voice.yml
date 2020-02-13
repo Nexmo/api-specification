@@ -1,7 +1,7 @@
 ---
 openapi: 3.0.0
 info:
-  version: 1.2.4
+  version: 1.2.5
   title: Voice API
   description: The Voice API lets you create outbound calls, control in-progress calls
     and get information about historical calls. More information about the Voice API
@@ -587,7 +587,7 @@ components:
       title: 'The Network ID of the destination '
       example: '65512'
     start_time:
-      description: 'The time the call started in the following format: `YYYY-MM-DD HH:MM:SS`. For example, `2020-01-01 12:00:00`.'
+      description: 'The time the call started in the following format: `YYYY-MM-DD HH:MM:SS`. For example, `2020-01-01 12:00:00`. This is only sent if `status` is `completed`.'
       type: string
       format: timestamp
       title: 'The Start Time of the call '
