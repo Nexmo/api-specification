@@ -1,5 +1,4 @@
 extends: spectral:oas
-functions: [nexmo-property-name-underscores]
 rules:
   example-value-or-externalValue: false
   oas3-unused-components-schema: false # needed by inter-file references e.g. Voice API
