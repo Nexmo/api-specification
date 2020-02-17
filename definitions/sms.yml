@@ -205,7 +205,7 @@ components:
         message-count:
           type: string
           description: The amount of messages in the request
-          example: 1
+          example: "1"
         messages:
           type: array
           items:
