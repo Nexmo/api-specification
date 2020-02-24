@@ -3,7 +3,7 @@ servers:
   - url: "https://api.nexmo.com/verify"
 info:
   title: Nexmo Verify API
-  version: 1.0.11
+  version: 1.1.0
   description: >-
     The Verify API helps you to implement 2FA (two-factor authentication) in your applications.
     This is useful for:
