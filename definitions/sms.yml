@@ -406,12 +406,28 @@ components:
           example: '2001011400'
         err-code:
           type: string
-          description: The status of the request. Will be a non `0` value if there has been an error. See the [Delivery Receipt documentation](https://developer.nexmo.com/messaging/sms/guides/delivery-receipts#dlr-error-codes) for more details
+          description: The status of the request. Will be a non `0` value if there has been an error, or if the status is unknown. See the [Delivery Receipt documentation](https://developer.nexmo.com/messaging/sms/guides/delivery-receipts#dlr-error-codes) for more details
           example: '0'
+        api-key:
+          type: string
+          description: The API key that sent the SMS. This is useful when multiple accounts are sending webhooks to the same endpoint.
+          example: 'abcd1234'
         message-timestamp:
           description: The time when Nexmo started to push this Delivery Receipt to your webhook endpoint.
           type: string
           example: 2020-01-01 12:00:00
+        timestamp:
+          type: string
+          example: 1582650446
+          description: A timestamp in Unix (seconds since the epoch) format. _Only included if you have signatures enabled_
+        nonce:
+          type: string
+          example: ec11dd3e-1e7f-4db5-9467-82b02cd223b9
+          description: A random string to be used when calculating the signature. _Only included if you have signatures enabled_
+        sig:
+          type: string
+          example: 1A20E4E2069B609FDA6CECA9DE18D5CAFE99720DDB628BD6BE8B19942A336E1C
+          description: The signature to enable verification of the source of this webhook. Please see the [developer documentation for validating signatures](https://developer.nexmo.com/concepts/guides/signing-messages) for more information, or use one of our published SDKs. _Only included if you have signatures enabled_
 
 x-errors:
   "1":
