@@ -402,7 +402,7 @@ components:
             - unknown
         scts:
           type: string
-          description: When the DLR was recieved from the carrier in the following format `YYMMDDHHMM`. For example, `2001011400` is at `2020-01-01 14:00`
+          description: When the DLR was received from the carrier in the following format `YYMMDDHHMM`. For example, `2001011400` is at `2020-01-01 14:00`
           example: '2001011400'
         err-code:
           type: string
