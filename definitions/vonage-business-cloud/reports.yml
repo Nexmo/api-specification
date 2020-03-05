@@ -183,7 +183,7 @@ components:
           type: number
           example: 1
           description: Current page number
-        total_pages:
+        total_page:
           type: number
           example: 10
           description: Total number of pages
