@@ -464,10 +464,8 @@ paths:
               schema:
                 type: object
                 properties:
-                  name:
-                    $ref: '#/components/schemas/name_user'
-                  display_name:
-                    $ref: '#/components/schemas/display_name_user'
+                  user_id:
+                    $ref: '#/components/schemas/user_id'
                   href:
                     $ref: '#/components/schemas/href_user'
       requestBody:
