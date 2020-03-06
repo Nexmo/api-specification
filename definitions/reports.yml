@@ -1,11 +1,15 @@
 openapi: "3.0.0"
 info:
-  version: 2.0.8
+  version: 2.1.0
   title: Nexmo Reports API
-  description: >
-    Nexmo's Reports API allows you to request a report of activity on your Nexmo account.<br>
-    On average the Reports API takes 5 - 10 minutes to generate 1 million records. Nexmo recommends requesting only reports of up to a maximum of 20 million records, by setting the start and end dates accordingly.<br>
-    Reports are generated as CSV files compressed in zip archives.
+  description: |
+    Nexmo's Reports API allows you to request a report of activity on your Nexmo account.
+
+    Depending on your query pattern, you can choose from one of the two versions of Reports API: asynchronous and synchronous. Asynchronous version is optimized for infrequent and large data queries (from several records to tens of millions). Synchronous version is optimized for frequent and periodic retrievals of small batches of data records (from one record to tens of thousand per query).
+
+    Only synchronous version supports retrival of data records by message/record ID.
+
+    Nexmo recommends to limit asynchronous queries to a maximum of 20 million records, by setting the start and end dates accordingly. On average, the asynchronous Reports API takes 5 - 10 minutes to generate 1 million records.
   contact:
     name: Nexmo.com
     email: devrel@nexmo.com
@@ -22,10 +26,200 @@ info:
 servers:
   - url: https://api.nexmo.com
 paths:
+  "/v2/reports/records":
+    get:
+      operationId: get-records
+      summary: Load records synchronously
+      description: Fetch usage data synchronously
+      security:
+        - bearerAuth: []
+        - basicAuth: []
+      parameters:
+        - name: account_id
+          description: The account for which the list of reports will be queried.
+          in: query
+          schema:
+            type: string
+            minLength: 8
+            maxLength: 8
+          example: abcd1234
+          required: true
+        - name: product
+          description: The product to return records for
+          in: query
+          schema:
+            type: string
+            enum:
+              - SMS
+              - VOICE-CALL
+              - VERIFY-API
+              - NUMBER-INSIGHT
+              - MESSAGES
+              - CONVERSATIONS
+          example: SMS
+          required: true
+        - name: direction
+          description: Direction of the request, either inbound or outbound.
+          in: query
+          schema:
+            type: string
+            enum:
+              - inbound
+              - outbound
+          example: inbound
+          required: true
+        - name: message_id
+          description: |
+              The ID of the request.
+
+              If you provide this, you must not provide `date_start` or `date_end`
+          in: query
+          schema:
+            type: string
+          example: inbound
+        - name: date_start
+          schema:
+            type: string
+            format: date
+          description: |
+            ISO-8601 extended time zone offset or ISO-8601 UTC zone offset formatted date (format `yyyy-mm-ddThh:mm:ss[.sss]±hh:mm` or `yyyy-mm-ddThh:mm:ss[.sss]Z`) for when reports should begin. 
+
+            It filters on the time the API call was received by Nexmo and corresponds to the field date_received (date_start for Voice) in the report file. It is inclusive, i.e. the provided value is less than or equal to the value in the field date_received (date_start for Voice) in the CDR.
+
+              If you provide this, you must provide `date_end` and must not provide `message_id`
+            to seven days ago.
+          example: "2017-12-01T00:00:00+0000"
+          in: query
+        - name: date_end
+          schema:
+            type: string
+            format: date
+          description: |
+            **Must be within 1 hour of `date_start`**
+
+            ISO-8601 extended time zone offset or ISO-8601 UTC zone offset formatted date (format `yyyy-mm-ddThh:mm:ss[.sss]±hh:mm` or `yyyy-mm-ddThh:mm:ss[.sss]Z`) for when report should end.
+
+            It is exclusive, i.e. the provided value is strictly greater than the value in the field date_received in the CDR.
+
+              If you provide this, you must provide `date_start` and must not provide `message_id`
+          example: "2018-01-01T00:00:00+0000"
+          in: query
+        - name: include_message
+          description: Include the message contents in the records
+          in: query
+          schema:
+            type: string
+            default: false
+            enum:
+              - true
+              - false
+          example: true
+        - name: type
+          description: "The event type to search for. Only used for `type: CONVERSATIONS`"
+          in: query
+          schema:
+            type: string
+            default: false
+            enum:
+              - ip-voice
+              - custom-event
+          example: ip-voice
+        - name: status
+          description: "The SMS status to search for. Only used for `type: SMS`"
+          in: query
+          schema:
+            type: string
+            default: false
+            enum:
+              - delivered
+              - expired
+              - failed
+              - rejected
+              - accepted
+              - buffered
+              - unknown
+              - deleted
+          example: delivered
+      responses:
+        '200':
+          $ref: '#/components/responses/json_record_response'
+        '403':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                properties:
+                  title:
+                    type: string
+                    example: 'Forbidden'
+                  detail:
+                    type: string
+                    example: "User not authorized to query the requested data"
+                  instance:
+                    $ref: '#/components/schemas/instance'
+
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - description: "Missing parameter"
+                    properties:
+                      title:
+                        type: string
+                        example: 'Unprocessable entity'
+                      invalid_parameters:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            reason: 
+                              type: string
+                              example: "Missing required parameter"
+                            name: 
+                              type: string
+                              example: "date_end"
+                      instance:
+                        $ref: '#/components/schemas/instance'
+
+                  - description: "Invalid Product"
+                    properties:
+                      title:
+                        type: string
+                        example: 'Unprocessable entity'
+                      invalid_parameters:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            reason: 
+                              type: string
+                              example: "Could not resolve product name. Please use one of the following values [CONVERSATIONS, MESSAGES, NUMBER-INSIGHT, SMS, VERIFY-API, VERIFY-SDK, VOICE-CALL]"
+                            name: 
+                              type: string
+                              example: "product"
+                      instance:
+                        $ref: '#/components/schemas/instance'
+
+                  - description: "Invalid filter"
+                    properties:
+                      type:
+                        type: string
+                        example: 'https://developer.nexmo.com/api-errors/reports#invalid-filter'
+                      title:
+                        type: string
+                        example: 'Invalid filter'
+                      detail:
+                        type: string
+                        example: "When using message_id, the following parameters are not supported: [date_start, date_end]"
+                      instance:
+                        $ref: '#/components/schemas/instance'
+
   "/v2/reports":
     post:
-      operationId: create-report
-      summary: Create a report
+      operationId: create-async-report
+      summary: Create an asynchronous report
       description: Request a report on your account activity
       security:
         - bearerAuth: []
@@ -65,15 +259,7 @@ paths:
         - bearerAuth: []
         - basicAuth: []
       parameters:
-        - name: account_id
-          description: The account for which the list of reports will be queried.
-          in: query
-          schema:
-            type: string
-            minLength: 8
-            maxLength: 8
-          example: abcd1234
-          required: true
+        - $ref: "#/components/parameters/account_id"
         - name: status
           description: List of statuses of reports to list, comma separated. Statuses can be one of PENDING, PROCESSING, SUCCESS, ABORTED, FAILED, TRUNCATED.
           in: query
@@ -182,6 +368,18 @@ components:
       type: http
       scheme: basic
 
+  parameters:
+    account_id:
+      name: account_id
+      description: The account for which the list of reports will be queried.
+      in: query
+      schema:
+        type: string
+        minLength: 8
+        maxLength: 8
+      example: abcd1234
+      required: true
+
   responses:
     report_responses:
       description: OK
@@ -235,6 +433,113 @@ components:
                     - $ref: '#/components/schemas/number_insight_response_get_report'
                     - $ref: '#/components/schemas/messages_response_get_report'
                     - $ref: '#/components/schemas/conversations_response_get_report'
+
+    json_record_response:
+      description: OK
+      content:
+        "application/json":
+          schema:
+            oneOf:
+              - allOf:
+                - $ref: '#/components/schemas/report_response_top_level'
+                - description: SMS (Outbound)
+                  type: object
+                  properties:
+                    include_message:
+                      type: boolean
+                      description: Include the text of messages in the report.
+                      example: "true"
+                    records:
+                      type: array
+                      description: Records in JSON format
+                      items:
+                        $ref: '#/components/schemas/json_sms_outbound'
+
+              - allOf:
+                - $ref: '#/components/schemas/report_response_top_level'
+                - description: SMS (Inbound)
+                  type: object
+                  properties:
+                    include_message:
+                      type: boolean
+                      description: Include the text of messages in the report.
+                      example: "true"
+                    records:
+                      type: array
+                      description: Records in JSON format
+                      items:
+                        $ref: '#/components/schemas/json_sms_inbound'
+
+              - allOf:
+                - $ref: '#/components/schemas/report_response_top_level'
+                - description: Voice Call
+                  x-tab-id: voice-call
+                  type: object
+                  properties:
+                    records:
+                      type: array
+                      description: Records in JSON format
+                      items:
+                        $ref: '#/components/schemas/csv_voice'
+
+              - allOf:
+                - $ref: '#/components/schemas/report_response_top_level'
+                - description: Verify
+                  type: object
+                  properties:
+                    records:
+                      type: array
+                      description: Records in JSON format
+                      items:
+                        $ref: '#/components/schemas/csv_verify'
+
+              - allOf:
+                - $ref: '#/components/schemas/report_response_top_level'
+                - description: Number Insight
+                  type: object
+                  properties:
+                    records:
+                      type: array
+                      description: Records in JSON format
+                      items:
+                        $ref: '#/components/schemas/csv_ni'
+
+              - allOf:
+                - $ref: '#/components/schemas/report_response_top_level'
+                - description: Messages (Outbound)
+                  type: object
+                  properties:
+                    include_message:
+                      type: boolean
+                      description: Include the text of messages in the report.
+                      example: "true"
+                    records:
+                      type: array
+                      description: Records in JSON format
+                      items:
+                        $ref: '#/components/schemas/csv_messages_outbound'
+
+              - allOf:
+                - $ref: '#/components/schemas/report_response_top_level'
+                - description: Messages (Inbound)
+                  type: object
+                  properties:
+                    records:
+                      type: array
+                      description: Records in JSON format
+                      items:
+                        $ref: '#/components/schemas/csv_messages_inbound'
+
+              - allOf:
+                - $ref: '#/components/schemas/report_response_top_level'
+                - description: IP Voice
+                  type: object
+                  properties:
+                    records:
+                      type: array
+                      description: Records in JSON format
+                      items:
+                        $ref: '#/components/schemas/csv_conversations_ip_voice'
 
     csv_report_response:
       description: OK
@@ -368,6 +673,49 @@ components:
                 example: f94b4e56604e07e5e5ad5a7228618f81
 
   schemas:
+    # Response partials
+    report_response_top_level:
+      type: object
+      properties:
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: "https://api.nexmo.com/v2/reports/records?product=SMS&direction=outbound&date_start=2020-03-05T13%3A00%3A00Z&date_end=2020-03-05T14%0A00%3A00Z&account_id=abcdef01"
+        request_id:
+          $ref: '#/components/schemas/request_id'
+        request_status:
+          $ref: '#/components/schemas/request_status'
+        received_at:
+          $ref: '#/components/schemas/receive_time'
+        price:
+          $ref: '#/components/schemas/price'
+        currency:
+          $ref: '#/components/schemas/currency'
+        direction:
+          $ref: '#/components/schemas/direction'
+        product:
+          $ref: '#/components/schemas/product'
+        account_id:
+          $ref: '#/components/schemas/account_id'
+        date_start:
+          $ref: '#/components/schemas/date_start'
+        date_end:
+          $ref: '#/components/schemas/date_end'
+        include_message:
+          type: boolean
+          description: Include the text of messages in the report.
+          example: "false"
+          default: false
+        items_count:
+          type: integer
+          description: The number of returned records
+          example: 2
+
     # request fields
     product:
       type: string
@@ -513,7 +861,11 @@ components:
       type: string
       description: Search only messages with the specified uuid.
       example: "441234567890"
+
     # response fields
+    instance:
+      type: string
+      example: f94b4e56604e07e5e5ad5a7228618f81
     request_id:
       type: string
       description: UUID of the request.
@@ -1073,6 +1425,96 @@ components:
       allOf:
         - $ref: '#/components/schemas/report_response_create_report'
         - $ref: '#/components/schemas/messages_fields'
+
+    json_sms_outbound_with_body:
+      allOf:
+        - $ref: '#/components/schemas/json_sms_outbound'
+        - properties:
+            message_body:
+              $ref: '#/components/schemas/message_body'
+
+    json_sms_outbound:
+      description: Outbound SMS
+      x-tab-id: outbound-sms
+      type: object
+      properties:
+        account_id:
+          $ref: '#/components/schemas/account_id'
+        message_id:
+          $ref: '#/components/schemas/message_id'
+        client_ref:
+          $ref: '#/components/schemas/client_ref'
+        direction:
+          $ref: '#/components/schemas/direction'
+        from:
+          $ref: '#/components/schemas/from'
+        to:
+          $ref: '#/components/schemas/to'
+        network:
+          $ref: '#/components/schemas/network'
+        network_name:
+          $ref: '#/components/schemas/network_name'
+        country:
+          $ref: '#/components/schemas/country'
+        country_name:
+          $ref: '#/components/schemas/country_name'
+        date_received:
+          $ref: '#/components/schemas/date'
+        date_finalized:
+          $ref: '#/components/schemas/date_finalized'
+        latency:
+          $ref: '#/components/schemas/latency'
+        status:
+          $ref: '#/components/schemas/sms_status'
+        error_code:
+          $ref: '#/components/schemas/error_code'
+        error_code_description:
+          $ref: '#/components/schemas/error_code_description'
+        currency:
+          $ref: '#/components/schemas/currency'
+        total_price:
+          $ref: '#/components/schemas/price'
+
+    json_sms_inbound_with_body:
+      allOf:
+        - $ref: '#/components/schemas/json_sms_inbound'
+        - properties:
+            message_body:
+              $ref: '#/components/schemas/message_body'
+
+    json_sms_inbound:
+      description: Inbound SMS
+      x-tab-id: inbound-sms
+      type: object
+      properties:
+        account_id:
+          $ref: '#/components/schemas/account_id'
+        message_id:
+          $ref: '#/components/schemas/message_id'
+        direction:
+          allOf:
+            - $ref: '#/components/schemas/direction'
+            - example: inbound
+        from:
+          $ref: '#/components/schemas/from'
+        to:
+          $ref: '#/components/schemas/to'
+        network:
+          $ref: '#/components/schemas/network'
+        network_name:
+          $ref: '#/components/schemas/network_name'
+        country:
+          $ref: '#/components/schemas/country'
+        country_name:
+          $ref: '#/components/schemas/country_name'
+        date_received:
+          $ref: '#/components/schemas/date'
+        currency:
+          $ref: '#/components/schemas/currency'
+        total_price:
+          $ref: '#/components/schemas/price'
+
+
 
     csv_sms_outbound:
       description: Outbound SMS
