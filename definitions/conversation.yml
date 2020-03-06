@@ -811,7 +811,7 @@ components:
     href_user:
       type: string
       format: url
-      example: 'https://api.nexmo.com/beta/converations/USR-63f61863-4a51-4f6b-86e1-46edebio0391'
+      example: 'https://api.nexmo.com/beta/users/USR-63f61863-4a51-4f6b-86e1-46edebio0391'
       description: A link towards a user included in Conversation API
     href_event:
       type: string
