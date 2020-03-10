@@ -1,6 +1,6 @@
 openapi: "3.0.0"
 info:
-  version: 1.0.5
+  version: 1.0.6
   title: SMS API
   description: With the Nexmo SMS API you can send SMS from your account and lookup messages both messages that you've sent as well as messages sent to your virtual numbers. Numbers are specified in E.164 format. More SMS API documentation is at <https://developer.nexmo.com/messaging/sms/overview>
   contact:
@@ -242,7 +242,12 @@ components:
         - type
         - keyword
         - message-timestamp
+        - api-key
       properties:
+        api-key:
+          type: string
+          description: The Nexmo API Key of the receiving account.
+          example: 'abcd1234'
         msisdn:
           type: string
           description: The phone number that this inbound message was sent from. Numbers are specified in E.164 format.
