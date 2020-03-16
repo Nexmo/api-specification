@@ -1,5 +1,6 @@
 # API Specifications
 
+<img src="https://developer.nexmo.com/assets/images/Vonage_Nexmo.svg" height="48px" alt="Nexmo is now known as Vonage" />
 
 Provides [OpenAPI Specification (v3)](https://github.com/OAI/OpenAPI-Specification) definitions for Nexmo APIs.
 
