@@ -1,6 +1,6 @@
 openapi: "3.0.0"
 info:
-  version: 1.0.6
+  version: 1.0.7
   title: SMS API
   description: With the Nexmo SMS API you can send SMS from your account and lookup messages both messages that you've sent as well as messages sent to your virtual numbers. Numbers are specified in E.164 format. More SMS API documentation is at <https://developer.nexmo.com/messaging/sms/overview>
   contact:
@@ -101,13 +101,13 @@ components:
           description: Your API secret. Required unless `sig` is provided
           example: abcdef0123456789
           type: string
-          minLength: 16
-          maxLength: 16
+          minLength: 6
+          maxLength: 32
         sig:
           description: The hash of the request parameters in alphabetical order, a timestamp and the signature secret. See [Signing Requests](/concepts/guides/signing-messages) for more details.
           type: string
           minLength: 16
-          maxLength: 16
+          maxLength: 60
         from:
           description: The name or number the message should be sent from. Alphanumeric senderID's are not supported in all countries, see [Global Messaging](https://developer.nexmo.com/messaging/sms/guides/global-messaging#country-specific-features) for more details. If alphanumeric, spaces will be ignored. Numbers are specified in E.164 format.
           type: string
