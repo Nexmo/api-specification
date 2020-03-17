@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Numbers API
-  version: 1.0.15
+  version: 1.0.16
   description: >-
     The Numbers API enables you to manage your existing numbers and buy new virtual numbers for
     use with Nexmo's APIs. Further information is here: <https://developer.nexmo.com/numbers/overview>
@@ -226,7 +226,7 @@ components:
         The strategy you want to use for matching:
 
 
-        * `0` - Search for numbers that start with `pattern`
+        * `0` - Search for numbers that start with `pattern` (Note: all numbers are in E.164 format, so the starting pattern includes the country code, such as 1 for USA)
         * `1` - Search for numbers that contain `pattern`
         * `2` - Search for numbers that end with `pattern`
       schema:
