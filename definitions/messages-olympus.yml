@@ -491,7 +491,7 @@ components:
         url:
           type: string
           description: |
-            The URL of the image attachment. 
+            The URL of the image attachment. The image file is available for 48 hours after it is created. 
 
             **messenger** and **mms** supports .jpg, .jpeg, .png and .gif.
 
@@ -511,7 +511,7 @@ components:
         url:
           type: string
           description: |
-            The URL of the audio attachment.
+            The URL of the audio attachment. The audio file is available for 48 hours after it is created.
 
             **messenger** supports .mp3.
 
@@ -539,7 +539,7 @@ components:
         url:
           type: string
           description: |
-            The URL of the video attachment.
+            The URL of the video attachment. The video file is available for 48 hours after it is created.
 
             **messenger** and **whatsapp** supports .mp4.
           minLength: 10
@@ -557,7 +557,7 @@ components:
         url:
           type: string
           description: |
-            The URL of the file attachment.
+            The URL of the file attachment. The file is available for 48 hours after it is created.
 
             **messenger** supports a wide range of attachments including .zip, .csv and .pdf.
 
