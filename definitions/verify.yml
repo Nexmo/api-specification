@@ -344,7 +344,7 @@ paths:
                   value:
                     request_id: abcdef0123456789abcdef0123456789
                     event_id: "0A00000012345678"
-                    status: 0
+                    status: "0"
                     price: "0.10000000"
                     currency: EUR
                     estimated_price_messages_sent: "0.03330000"
@@ -459,17 +459,17 @@ paths:
                   value:
                     request_id: abcdef0123456789abcdef0123456789
                     account_id: abcdef01
-                    number: 447700900000
+                    number: "447700900000"
                     sender_id: verify
                     date_submitted: "2020-01-01 12:00:00"
                     date_finalized: "2020-01-01 12:00:00"
-                    checks: [{date_received: "2020-01-01 12:00:00", code: 1111, status: INVALID, ip_address: ""},{date_received: "2020-01-01 12:02:00", code: 1234, status: VALID, ip_address: ""}]
+                    checks: [{date_received: "2020-01-01 12:00:00", code: "1111", status: INVALID, ip_address: ""},{date_received: "2020-01-01 12:02:00", code: "1234", status: VALID, ip_address: ""}]
                     first_event_date: "2020-01-01 12:00:00"
                     last_event_date: "2020-01-01 12:00:00"
-                    price: 0.1000000
+                    price: "0.1000000"
                     currency: EUR
                     status: SUCCESS
-                    estimated_price_messages_sent: 0.06660000
+                    estimated_price_messages_sent: "0.06660000"
                     events: [{id: 0A00000012345678, type: sms}, {id: 0A00000012345679, type: sms}]
 
                 throttled:
@@ -579,13 +579,13 @@ paths:
                 success-cancel:
                   summary: The request has been cancelled
                   value:
-                    status: 0
+                    status: "0"
                     command: cancel
 
                 success-trigger:
                   summary: The next event has been triggered
                   value:
-                    status: 0
+                    status: "0"
                     command: trigger_next_event
 
                 throttled:
@@ -1009,9 +1009,9 @@ components:
           type: string
           description: The `cmd` you sent in the request.
           enum:
-            - cancel
-            - trigger_next_event
-          example: cancel
+            - "cancel"
+            - "trigger_next_event"
+          example: "cancel"
     controlErrorResponse:
       type: object
       description: Error
@@ -1022,6 +1022,7 @@ components:
           type: string
           example: "6"
           enum:
+            - "0"
             - "1"
             - "2"
             - "3"
@@ -1049,4 +1050,4 @@ components:
         error_text:
           type: string
           description: If the `status` is non-zero, this explains the error encountered.
-          example: The requestId 'abcdef0123456789abcdef' does not exist or its no longer active.
+          example: "The requestId 'abcdef0123456789abcdef' does not exist or its no longer active."
