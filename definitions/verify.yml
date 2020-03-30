@@ -27,8 +27,6 @@ info:
 externalDocs:
   description: "More information on the Verify product on our Developer Portal"
   url: "https://developer.nexmo.com/verify"
-security:
-  - apiKey: []
 paths:
   "/{format}":
     post:
@@ -47,6 +45,8 @@ paths:
 
         3. Use the `request_id` field in the response for the Verify check.
 
+
+        *Note that this endpoint is available by `GET` request as well as `POST`.*
       parameters:
         - $ref: "#/components/parameters/format"
       requestBody:
@@ -56,15 +56,15 @@ paths:
             schema:
               type: object
               required:
+                - api_key
                 - api_secret
                 - number
                 - brand
               properties:
+                api_key:
+                  $ref: "#/components/schemas/api_key"
                 api_secret:
-                  type: string
-                  description: >-
-                    You can find your API secret in your Nexmo account [developer
-                    dashboard](https://dashboard.nexmo.com)
+                  $ref: "#/components/schemas/api_secret"
                 number:
                   type: string
                   description: >-
@@ -291,6 +291,9 @@ paths:
         1. Send the verification `code` that your user supplied, with the corresponding `request_id` from the Verify request.
 
         2. Check the `status` of the response to determine if the code the user supplied matches the one sent by Nexmo.
+
+
+        *Note that this endpoint is available by `GET` request as well as `POST`.*
       operationId: verifyCheck
       summary: Verify Check
       parameters:
@@ -302,15 +305,15 @@ paths:
             schema:
               type: object
               required:
+                - api_key
                 - api_secret
                 - request_id
                 - code
               properties:
+                api_key:
+                  $ref: "#/components/schemas/api_key"
                 api_secret:
-                  type: string
-                  description: >-
-                    You can find your API secret in your Nexmo account [developer
-                    dashboard](https://dashboard.nexmo.com)
+                  $ref: "#/components/schemas/api_secret"
                 request_id:
                   description: >-
                     The Verify request to check. This is the
@@ -414,10 +417,14 @@ paths:
         verification requests you are interested in.
 
         2. Use the `status` of each verification request in the `checks` array of the response object to determine the outcome.
+
+
+        *Note that this endpoint is available by `POST` request as well as `GET`.*
       operationId: verifySearch
       summary: Verify Search
       parameters:
         - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/api_key"
         - $ref: "#/components/parameters/api_secret"
         - name: request_id
           required: false
@@ -521,6 +528,9 @@ paths:
         1. Send a Verify control request with the appropriate command (`cmd`) for what you want to achieve.
 
         2. Check the `status` in the response.
+
+
+        *Note that this endpoint is available by `GET` request as well as `POST`.*
       operationId: verifyControl
       summary: Verify Control
       parameters:
@@ -532,15 +542,15 @@ paths:
             schema:
               type: object
               required:
+                - api_key
                 - api_secret
                 - request_id
                 - cmd
               properties:
+                api_key:
+                  $ref: "#/components/schemas/api_key"
                 api_secret:
-                  type: string
-                  description: >-
-                    You can find your API secret in your Nexmo account [developer
-                    dashboard](https://dashboard.nexmo.com)
+                  $ref: "#/components/schemas/api_secret"
                 request_id:
                   description: "The `request_id` you received in the response to the Verify request."
                   type: string
@@ -648,16 +658,36 @@ components:
           - json
           - xml
       example: json
+
+    api_key:
+      name: api_key
+      required: true
+      in: query
+      schema:
+        $ref: "#/components/schemas/api_key"
+
     api_secret:
       name: api_secret
       required: true
       in: query
-      description: >-
-        You can find your API secret in your Nexmo account [developer
-        dashboard](https://dashboard.nexmo.com)
       schema:
-        type: string
+        $ref: "#/components/schemas/api_secret"
+
   schemas:
+    api_key:
+      type: string
+      description: >-
+        You can find your API key in your [account
+        dashboard](https://dashboard.nexmo.com)
+      example: "abcd1234"
+
+    api_secret:
+      type: string
+      description: >-
+        You can find your API secret in your [account
+        dashboard](https://dashboard.nexmo.com)
+      example: "Sup3rS3cr3t!!"
+
     estimated_price_messages_sent:
       type: string
       description: |
@@ -680,9 +710,10 @@ components:
             The unique ID of the Verify request. You need this
             `request_id` for the Verify check.
           maxLength: 32
-          example: abcdef0123456789abcdef0123456789
+          example: "abcdef0123456789abcdef0123456789"
         status:
           type: string
+          description: "Indicates the outcome of the request; zero is success"
           example: "0"
     requestErrorResponse:
       type: object
@@ -898,7 +929,7 @@ components:
               code:
                 type: string
                 description: The code supplied with this check request
-                example: 987654
+                example: "987654"
               status:
                 type: string
                 enum:
@@ -1019,11 +1050,3 @@ components:
           type: string
           description: If the `status` is non-zero, this explains the error encountered.
           example: The requestId 'abcdef0123456789abcdef' does not exist or its no longer active.
-  securitySchemes:
-    apiKey:
-      type: apiKey
-      name: api_key
-      in: query
-      description: >-
-        You can find your API key in your Nexmo account [developer
-        dashboard](https://dashboard.nexmo.com/)
