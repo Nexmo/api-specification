@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Numbers API
-  version: 1.0.16
+  version: 1.0.17
   description: >-
     The Numbers API enables you to manage your existing numbers and buy new virtual numbers for
     use with Nexmo's APIs. Further information is here: <https://developer.nexmo.com/numbers/overview>
@@ -316,7 +316,7 @@ components:
           type: array
           items:
             type: string
-          example: [VOICE, SMS]
+          example: ["VOICE", "SMS"]
           description: "The capabilities of the number: `SMS` or `VOICE` or `SMS,VOICE`"
         messagesCallbackType:
           type: string
@@ -349,7 +349,7 @@ components:
           description: "The type of number: `landline`, `landline-toll-free` or `mobile-lvn`"
         cost:
           type: string
-          example: 1.25
+          example: "1.25"
           description: The monthly rental cost for this number, in Euros
         features:
           type: array
@@ -410,6 +410,10 @@ components:
           type: string
           example: "447700900000"
           description: An available inbound virtual number.
+        app_id:
+          type: string
+          description: The application that will handle inbound traffic to this number.
+          example: "aaaaaaaa-bbbb-cccc-dddd-0123456789abc"
         moHttpUrl:
           description: >-
             An URL-encoded URI to the webhook endpoint that handles inbound
@@ -423,20 +427,23 @@ components:
           type: string
           example: inbound
         voiceCallbackType:
-          description: >-
-            Specify whether inbound voice calls on your number are handled by 
-            your Application configuration, or forwarded to a SIP or a telephone number.
-            This must be used with the `voiceCallbackValue` parameter.
+          description: |
+            Specify whether inbound voice calls on your number are forwarded
+            to a SIP or a telephone number.  This must be used with the 
+            `voiceCallbackValue` parameter. If set, `sip` or `tel` are
+            prioritized over the Voice capability in your application.
+
+            *Note: The `app` value is deprecated and will be removed in future.*
           type: string
           enum:
             - sip
             - tel
             - app
-          example: app
+          example: "tel"
         voiceCallbackValue:
           description: >-
-            A SIP URI, telephone number or Application ID. Must be used
-            with the `voiceCallbackType` parameter.
+            A SIP URI or telephone number. Must be used with the
+            `voiceCallbackType` parameter.
           type: string
           example: "447700900000"
         voiceStatusCallback:
@@ -444,18 +451,20 @@ components:
           type: string
           example: "https://example.com/webhooks/status"
         messagesCallbackType:
-          description: >-
-            <strong>DEPRECATED</strong> - We recommend that you use `voiceCallbackType` instead.
+          description: |
+            <strong>DEPRECATED</strong> - We recommend that you use `app_id` instead.
+
             Specifies the Messages webhook type (always `app`) associated with this
             number and must be used with the `messagesCallbackValue` parameter.
           type: string
           enum:
             - app
-          example: app
+          example: "app"
           deprecated: true
         messagesCallbackValue:
-          description: >-
-            <strong>DEPRECATED</strong> - We recommend that you use `voiceCallbackValue` instead.
+          description: |
+            <strong>DEPRECATED</strong> - We recommend that you use `app_id` instead.
+
             Specifies the application of ID of your Messages application.
             It must be used with the `messagesCallbackType` parameter.
           type: string
