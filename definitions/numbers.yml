@@ -243,10 +243,10 @@ components:
       in: query
       description: |
         Set this optional field to `true` to restrict your results to numbers
-        associated with an application (any application). Set to `false` to
-        find all numbers not associated with any application. Omit the field
+        associated with an Application (any Application). Set to `false` to
+        find all numbers not associated with any Application. Omit the field
         to avoid filtering on whether or not the number is assigned to an
-        application.
+        Application.
       schema:
         type: boolean
       example: false
@@ -254,7 +254,7 @@ components:
       name: application_id
       required: false
       in: query
-      description: The application that you want to return the numbers for.
+      description: The Application that you want to return the numbers for.
       schema:
         type: string
       example: "aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
@@ -325,7 +325,7 @@ components:
         messagesCallbackValue:
           type: string
           example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
-          description: A Nexmo Application ID
+          description: An Application ID
         voiceCallbackType:
           type: string
           example: app
@@ -412,7 +412,7 @@ components:
           description: An available inbound virtual number.
         app_id:
           type: string
-          description: The application that will handle inbound traffic to this number.
+          description: The Application that will handle inbound traffic to this number.
           example: "aaaaaaaa-bbbb-cccc-dddd-0123456789abc"
         moHttpUrl:
           description: >-
@@ -431,7 +431,7 @@ components:
             Specify whether inbound voice calls on your number are forwarded
             to a SIP or a telephone number.  This must be used with the 
             `voiceCallbackValue` parameter. If set, `sip` or `tel` are
-            prioritized over the Voice capability in your application.
+            prioritized over the Voice capability in your Application.
 
             *Note: The `app` value is deprecated and will be removed in future.*
           type: string
@@ -465,7 +465,7 @@ components:
           description: |
             <strong>DEPRECATED</strong> - We recommend that you use `app_id` instead.
 
-            Specifies the application of ID of your Messages application.
+            Specifies the Application ID of your Messages application.
             It must be used with the `messagesCallbackType` parameter.
           type: string
           example: "aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
