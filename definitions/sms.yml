@@ -1,6 +1,6 @@
 openapi: "3.0.0"
 info:
-  version: 1.0.7
+  version: 1.0.8
   title: SMS API
   description: With the Nexmo SMS API you can send SMS from your account and lookup messages both messages that you've sent as well as messages sent to your virtual numbers. Numbers are specified in E.164 format. More SMS API documentation is at <https://developer.nexmo.com/messaging/sms/overview>
   contact:
@@ -15,7 +15,6 @@ paths:
       operationId: send-an-sms
       summary: Send an SMS
       description: Send an outbound SMS from your Nexmo account
-      x-code-example-path: messaging.sms.send
       parameters:
         - name: format
           description: The format of the response
@@ -40,10 +39,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SMS'
+                oneOf:
+                  - $ref: '#/components/schemas/SMS'
+                  - $ref: '#/components/schemas/Error'
             text/xml:
               schema:
-                $ref: '#/components/schemas/MessageXmlWrapper'
+                oneOf:
+                  - $ref: '#/components/schemas/SMSXml'
+                  - $ref: '#/components/schemas/ErrorXml'
 
       callbacks:
         delivery-receipt:
@@ -51,7 +54,6 @@ paths:
             post:
               summary: Delivery Receipt
               operationId: delivery-receipt
-              x-example-path: '/webhooks/delivery-receipt'
               description: The following are parameters sent in as a [delivery receipt](https://developer.nexmo.com/messaging/sms/guides/delivery-receipts) callback. You can subscribe to [webhooks](https://developer.nexmo.com/concepts/guides/webhooks) to receive notification when the delivery status of an SMS that you have sent with Nexmo changes.
               requestBody:
                 required: true
@@ -118,7 +120,7 @@ components:
           minLength: 7
           maxLength: 15
           pattern: '\d{7,15}'
-          example: 447700900000
+          example: "447700900000"
         text:
           description: The body of the message being sent. If your message contains characters that can be encoded according to the GSM Standard and Extended tables then you can set the `type` to `text`. If your message contains characters outside this range, then you will need to set the `type` to `unicode`.
           type: string
@@ -170,11 +172,11 @@ components:
         body:
           description: '**Advanced**: Hex encoded binary data. Depends on `type` parameter having the value `binary`.'
           type: string
-          example: 0011223344556677
+          example: "0011223344556677"
         udh:
           description: '**Advanced**: Your custom Hex encoded [User Data Header](https://en.wikipedia.org/wiki/User_Data_Header). Depends on `type` parameter having the value `binary`.'
           type: string
-          example: 06050415811581
+          example: "06050415811581"
         protocol-id:
           description: '**Advanced**: The value of the [protocol identifier](https://en.wikipedia.org/wiki/GSM_03.40#Protocol_Identifier) to use. Ensure that the value is aligned with `udh`.'
           type: integer
@@ -190,7 +192,7 @@ components:
         validity:
           description: '**Advanced**: The availability for an SMS in milliseconds. Depends on `type` parameter having the value `wappush`.'
           type: string
-          example: 300000
+          example: "300000"
         client-ref:
           description: '**Advanced**: You can optionally include your own reference of up to 40 characters.'
           type: string
@@ -200,6 +202,7 @@ components:
           type: string
           example: customer1234
     Error:
+      description: Error
       type: object
       properties:
         message-count:
@@ -210,8 +213,20 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ErrorMessage'
+    ErrorXml:
+      type: object
+      description: Error
+      xml:
+        name: mt-submission-response
+      properties:
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorMessage'
     ErrorMessage:
       type: object
+      xml:
+        name: message
       properties:
         status:
           type: string
@@ -222,12 +237,23 @@ components:
           description: The description of the error
           example: 'Missing to param'
     SMS:
+      description: Message sent
       type: object
       properties:
         message-count:
           type: string
           description: The amount of messages in the request
           example: '1'
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+    SMSXml:
+      type: object
+      description: Message sent
+      xml:
+        name: mt-submission-response
+      properties:
         messages:
           type: array
           items:
@@ -345,26 +371,14 @@ components:
           type: string
           description: The ID of the network of the recipient
           example: '12345'
+        client-ref:
+          description: If a `client-ref` was included when sending the SMS, this field will be included and hold the value that was sent.
+          type: string
+          example: my-personal-reference
         account-ref:
           type: string
           description: '**Advanced**: An optional string used to identify separate accounts using the SMS endpoint for billing purposes. To use this feature, please email [support@nexmo.com](mailto:support@nexmo.com)'
           example: customer1234
-    MessageXmlWrapper:
-      type: object
-      xml:
-        name: mt-submission-response
-      properties:
-        messages:
-          x-skip-response-description: true
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-          properties:
-            count:
-              type: integer
-              example: 1
-              xml:
-                attribute: true
     DeliveryReceipt:
       type: object
       properties:
@@ -412,13 +426,17 @@ components:
           type: string
           description: The API key that sent the SMS. This is useful when multiple accounts are sending webhooks to the same endpoint.
           example: 'abcd1234'
+        client-ref:
+          type: string
+          description: If the `client-ref` is set when the SMS is sent, it will be included in the delivery receipt
+          example: my-personal-reference
         message-timestamp:
           description: The time when Nexmo started to push this Delivery Receipt to your webhook endpoint.
           type: string
           example: 2020-01-01 12:00:00
         timestamp:
           type: string
-          example: 1582650446
+          example: "1582650446"
           description: A timestamp in Unix (seconds since the epoch) format. _Only included if you have signatures enabled_
         nonce:
           type: string
