@@ -68,7 +68,7 @@ paths:
               - outbound
           example: inbound
           required: true
-        - name: message_id
+        - name: id
           description: |
               The ID of the request.
 
