@@ -117,6 +117,10 @@ components:
           type: string
           description: The UUID of the call leg that the event relates to
           example: CON-f972836a-550f-45fa-956c-12a2ab5b7d22
+        client_ref:
+          type: string
+          description: The client reference number that the event relates to. This is returned for outbound IP calls instead of a UUID.
+          example: client-ref
         status:
           type: string
           example: started
