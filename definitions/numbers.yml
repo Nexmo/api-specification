@@ -58,16 +58,10 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  error-code:
-                    type: string
-                    description: A code relating to this error
-                    example: "401"
-                  error-code-label:
-                    type: string
-                    description: Words describing the error that occurred
-                    example: authentication failed
+                $ref: "#/components/schemas/unauthorized"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/unauthorized"
 
   "/number/search":
     get:
@@ -110,6 +104,13 @@ paths:
                 $ref: "#/components/schemas/available-numbers"
         "401":
           description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/unauthorized"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/unauthorized"
   "/number/buy":
     post:
       operationId: buyANumber
@@ -134,6 +135,22 @@ paths:
                 $ref: "#/components/schemas/response"
         "401":
           description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/unauthorized"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/unauthorized"
+        "420":
+          description: Action failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/response420"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/response420"
   "/number/cancel":
     post:
       operationId: cancelANumber
@@ -158,6 +175,13 @@ paths:
                 $ref: "#/components/schemas/response"
         "401":
           description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/unauthorized"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/unauthorized"
   "/number/update":
     post:
       operationId: updateANumber
@@ -182,6 +206,14 @@ paths:
                 $ref: "#/components/schemas/response"
         "401":
           description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/unauthorized"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/unauthorized"
+
 components:
   securitySchemes:
     apiKey:
@@ -488,3 +520,25 @@ components:
           type: string
           example: success
           description: The status code description
+    unauthorized:
+      type: object
+      properties:
+        error-code:
+          type: string
+          example: "401"
+          description: The status code of the response. `200` indicates a successful request.
+        error-code-label:
+          type: string
+          example: "authentication failed"
+          description: The status code description
+    response420:
+      type: object
+      properties:
+        error-code:
+          type: string
+          example: "420"
+          description: The status code of the response. `200` indicates a successful request.
+        error-code-label:
+          type: string
+          example: "Numbers from this country can be requested from the Dashboard (https://dashboard.nexmo.com/buy-numbers) as they require a valid local address to be provided before being purchased."
+          description: More detail about what happened. For example you may need to request the number via the dashboard, or you may already own this number.
