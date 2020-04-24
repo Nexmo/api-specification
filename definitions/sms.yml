@@ -255,9 +255,17 @@ components:
         name: mt-submission-response
       properties:
         messages:
+          x-skip-response-description: true
           type: array
           items:
-            $ref: '#/components/schemas/Message'
+            $ref: "#/components/schemas/Message"
+          properties:
+            count:
+              type: integer
+              example: 1
+              xml:
+                attribute: true
+
     InboundMessage:
       type: object
       required:
