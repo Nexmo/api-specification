@@ -384,6 +384,8 @@ paths:
           description: Unauthorized
         '404':
           description: Not Found
+        '429':
+          description: Too Many Requests
   "/{uuid}/stream":
     parameters:
     - in: path
