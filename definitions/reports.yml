@@ -1,9 +1,9 @@
 openapi: "3.0.0"
 info:
-  version: 2.1.1
+  version: 2.1.2
   title: Nexmo Reports API
   description: |
-    Nexmo's Reports API allows you to request a report of activity on your Nexmo account.
+    [Nexmo's Reports API](/reports/overview) allows you to request a report of activity on your Nexmo account.
 
     Depending on your query pattern, you can choose from one of the two versions of Reports API: asynchronous and synchronous. Asynchronous version is optimized for infrequent and large data queries (from several records to tens of millions). Synchronous version is optimized for frequent and periodic retrievals of small batches of data records (from one record to tens of thousand per query).
 
