@@ -1,9 +1,9 @@
-openapi: 3.0.0
+openapi: 3.0.3
 servers:
   - url: "https://api.nexmo.com/verify"
 info:
   title: Nexmo Verify API
-  version: 1.1.0
+  version: 1.1.1
   description: >-
     The Verify API helps you to implement 2FA (two-factor authentication) in your applications.
     This is useful for:
@@ -645,6 +645,156 @@ paths:
                 oneOf:
                   - $ref: "#/components/schemas/controlResponse"
                   - $ref: "#/components/schemas/controlErrorResponse"
+  '/psd2/{format}':
+    post:
+      operationId: verifyRequestWithPSD2
+      summary: PSD2 (Payment Services Directive 2) Request
+      description: >-
+        Use Verify request to generate and send a PIN to your user to authorize a payment:
+
+        1. Create a request to send a verification code to your user.
+
+        2. Check the `status` field in the response to ensure that your request
+        was successful (zero is success).
+
+        3. Use the `request_id` field in the response for the Verify check.
+
+        (Please note that XML format is not supported for the Payment Services Directive endpoint at this time.)
+
+      parameters:
+        - $ref: "#/components/parameters/format"
+
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - api_key
+              properties:
+                api_key:
+                  $ref: "#/components/schemas/api_key"
+                api_secret:
+                  $ref: "#/components/schemas/api_secret"
+                number:
+                  type: string
+                  description: >-
+                    The mobile or landline phone number to verify. Unless you are
+                    setting `country` explicitly, this number must be in
+                    [E.164](https://en.wikipedia.org/wiki/E.164) format.
+                  example: "447700900000"
+                country:
+                  description: >-
+                    If you do not provide `number` in international format or you are not
+                    sure if `number` is correctly formatted, specify the two-character country
+                    code in `country`. Verify will then format the number for you.
+                  type: string
+                  example: GB
+                payee:
+                  description: >-
+                    An alphanumeric string to indicate to the user the name of the recipient
+                    that they are confirming a payment to.
+                  type: string
+                  maxLength: 18
+                  example: Acme Inc
+                amount:
+                  description: >-
+                    The decimal amount of the payment to be confirmed, in Euros
+                  type: number
+                  format: float
+                  example: '48.00'
+                code_length:
+                  description: The length of the verification code.
+                  type: integer
+                  enum:
+                    - 4
+                    - 6
+                  default: 4
+                  example: 6
+                lg:
+                  description: >-
+                    By default, the SMS or text-to-speech (TTS) message is generated in
+                    the locale that matches the `number`. For example, the text message
+                    or TTS message for a `33*` number is sent in French. Use this
+                    parameter to explicitly control the language used.
+
+                    *Note: Voice calls in English for `bg-bg`, `ee-et`, `ga-ie`, `lv-lv`, `lt-lt`, `mt-mt`, `sk-sk`, `sk-si`
+                  example: es-es
+                  type: string
+                  default: en-gb
+                  enum:
+                    - en-gb
+                    - bg-bg
+                    - cs-cz
+                    - da-dk
+                    - de-de
+                    - ee-et
+                    - el-gr
+                    - es-es
+                    - fi-fi
+                    - fr-fr
+                    - ga-ie
+                    - hu-hu
+                    - it-it
+                    - lv-lv
+                    - lt-lt
+                    - mt-mt
+                    - nl-nl
+                    - pl-pl
+                    - sk-sk
+                    - sl-si
+                    - sv-se
+                pin_expiry:
+                  description: >-
+                    How long the generated verification code is valid for, in seconds.
+                    When you specify both `pin_expiry` and `next_event_wait` then
+                    `pin_expiry` must be an integer multiple of `next_event_wait`
+                    otherwise `pin_expiry` is defaulted to equal next_event_wait. See
+                    [changing the event
+                    timings](https://developer.nexmo.com/verify/guides/changing-default-timings).
+                  type: integer
+                  minimum: 60
+                  maximum: 3600
+                  default: 300
+                  example: 240
+                next_event_wait:
+                  description: >-
+                    Specifies the wait time in seconds between attempts to deliver the
+                    verification code.
+                  type: integer
+                  minimum: 60
+                  maximum: 900
+                  default: 300
+                  example: 120
+                workflow_id:
+                  description: >-
+                    Selects the predefined sequence of SMS and TTS (Text To Speech)
+                    actions to use in order to convey the PIN to your user. For example,
+                    an id of 1 identifies the workflow SMS - TTS - TTS. For a list of
+                    all workflows and their associated ids, please visit the [developer
+                    portal](https://developer.nexmo.com/verify/guides/workflows-and-events).
+                  type: integer
+                  default: 1
+                  enum:
+                    - 1
+                    - 2
+                    - 3
+                    - 4
+                    - 5
+                    - 6
+                    - 7
+                  example: 4
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/requestResponse'
+                  - $ref: '#/components/schemas/requestErrorResponse'
 components:
   parameters:
     format:
