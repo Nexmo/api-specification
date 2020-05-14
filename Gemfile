@@ -1,3 +1,3 @@
 source 'https://rubygems.org'
 
-gem 'nexmo-oas-renderer', '~> 0.7.1'
+gem 'nexmo-oas-renderer', '~> 0.11.1'
