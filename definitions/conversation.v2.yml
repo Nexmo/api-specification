@@ -9,7 +9,7 @@ info:
     name: Nexmo DevRel
     email: devrel@nexmo.com
     url: "https://developer.nexmo.com/"
-  x-label: Developer Preview
+  x-label: Beta
 paths:
   "/conversations":
     get:
