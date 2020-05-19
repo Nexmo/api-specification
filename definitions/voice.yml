@@ -831,54 +831,99 @@ components:
       type: string
       default: Kimberly
       enum:
-      - Salli
-      - Joey
-      - Naja
-      - Mads
-      - Marlene
-      - Hans
-      - Nicole
-      - Russell
+      - Aditi
+      - Agnieszka
+      - Alva
       - Amy
+      - Astrid
+      - Bianca
       - Brian
-      - Emma
-      - Geraint
-      - Gwyneth
-      - Raveena
+      - Carla
+      - Carmen
+      - Carmit
+      - Catarina
+      - Celine
+      - Cem
+      - Chantal
       - Chipmunk
+      - Conchita
+      - Cristiano
+      - Damayanti
+      - Dora
+      - Emma
+      - Empar
+      - Enrique
       - Eric
+      - Ewa
+      - Felipe
+      - Filiz
+      - Geraint
+      - Giorgio
+      - Gwyneth
+      - Hans
+      - Henrik
+      - Ines
+      - Ioana
+      - Iveta
       - Ivy
+      - Jacek
+      - Jan
       - Jennifer
+      - Joana
+      - Joanna
+      - Joey
+      - Jordi
       - Justin
+      - Kanya
+      - Karl
       - Kendra
       - Kimberly
-      - Conchita
-      - Enrique
-      - Penelope
-      - Miguel
-      - Chantal
-      - Celine
-      - Mathieu
-      - Dora
-      - Karl
-      - Carla
-      - Giorgio
+      - Laila
+      - Laura
+      - Lea
+      - Lekha
       - Liv
       - Lotte
-      - Ruben
-      - Agnieszka
-      - Jacek
-      - Ewa
-      - Jan
+      - Lucia
+      - Luciana
+      - Mads
+      - Maged
       - Maja
-      - Vitoria
-      - Ricardo
-      - Cristiano
-      - Ines
-      - Carmen
+      - Mariska
+      - Marlene
+      - Mathieu
+      - Matthew
       - Maxim
-      - Tatyana
-      - Astrid
-      - Filiz
+      - Mei-Jia
+      - Melina
+      - Mia
+      - Miguel
+      - Miren
       - Mizuki
+      - Montserrat
+      - Naja
+      - Nicole
+      - Nikos
+      - Nora
+      - Oskar
+      - Penelope
+      - Raveena
+      - Ricardo
+      - Ruben
+      - Russell
+      - Salli
+      - Satu
       - Seoyeon
+      - Sin-Ji
+      - Sora
+      - Takumi
+      - Tarik
+      - Tatyana
+      - Tessa
+      - Tian-Tian
+      - Vicki
+      - Vitoria
+      - Yelda
+      - Zeina
+      - Zhiyu
+      - Zuzana
