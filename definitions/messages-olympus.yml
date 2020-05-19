@@ -465,7 +465,13 @@ components:
               example: 'ticket_update'
         whatsapp:
           type: object
-          properties:            
+          properties:
+            policy:
+              description: 'Please note that WhatsApp deprecated `fallback` policy in January 2020. Use of the fallback policy will result in a 1020 error in the status callback'
+              type: string
+              example: 'deterministic'
+              enum:
+                - deterministic
             locale:
               description: 'We are using the industry standard, BCP 47, for locales. So in your API call to the /messages API you will need to put “en-GB” and this will refer to the “en_GB” template for WhatsApp. A full list of the possible locales is available on [developers.facebook.com](https://developers.facebook.com/docs/whatsapp/message-templates/creation#translations).'
               type: string
