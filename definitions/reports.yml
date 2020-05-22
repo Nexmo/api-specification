@@ -1157,6 +1157,7 @@ components:
 
     sms_fields:
       description: SMS
+      x-tab-id: SMS
       type: object
       properties:
         product:
@@ -1184,6 +1185,7 @@ components:
 
     voice_call_fields:
       description: Voice Call
+      x-tab-id: voice-call
       type: object
       properties:
         product:
@@ -1201,6 +1203,7 @@ components:
 
     verify_api_fields:
       description: Verify
+      x-tab-id: verify
       type: object
       properties:
         product:
@@ -1212,6 +1215,7 @@ components:
 
     number_insight_fields:
       description: Number Insight
+      x-tab-id: number-insight
       type: object
       properties:
         product:
@@ -1223,6 +1227,7 @@ components:
 
     conversations_fields:
       description: Conversations
+      x-tab-id: conversations
       type: object
       properties:
         product:
@@ -1236,6 +1241,7 @@ components:
 
     messages_fields:
       description: Messages
+      x-tab-id: messages
       type: object
       properties:
         product:
