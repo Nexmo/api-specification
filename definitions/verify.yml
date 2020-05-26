@@ -672,6 +672,10 @@ paths:
               type: object
               required:
                 - api_key
+                - api_secret
+                - number
+                - payee
+                - amount
               properties:
                 api_key:
                   $ref: "#/components/schemas/api_key"
