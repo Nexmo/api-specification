@@ -28,7 +28,6 @@ paths:
               required:
                 - to
                 - from
-                - event_url
               properties:
                 to:
                   type: array
@@ -74,7 +73,10 @@ paths:
                   - POST
                   - GET
                 event_url:
-                  description: The webhook endpoint where call progress events are
+                  description: |
+                    **Required** unless `event_url` provided at the application level, see [Create an Application](/api/application.v2#createApplication)
+
+                    The webhook endpoint where call progress events are
                     sent to. For more information about the values sent, see [Event webhook](/voice/voice-api/webhook-reference#event-webhook).
                   type: array
                   x-nexmo-developer-collection-description-shown: true
