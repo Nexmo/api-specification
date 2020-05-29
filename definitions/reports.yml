@@ -1,6 +1,6 @@
 openapi: "3.0.0"
 info:
-  version: 2.1.4
+  version: 2.1.5
   title: Nexmo Reports API
   description: |
     [Nexmo's Reports API](/reports/overview) allows you to request a report of activity on your Nexmo account.
@@ -94,7 +94,7 @@ paths:
             type: string
             format: date
           description: |
-            **Must be within 1 hour of `date_start`**
+            **Must be no more than 24 hours later than `date_start`**
 
             ISO-8601 extended time zone offset or ISO-8601 UTC zone offset formatted date (format `yyyy-mm-ddThh:mm:ss[.sss]±hh:mm` or `yyyy-mm-ddThh:mm:ss[.sss]Z`) for when report should end.
 
