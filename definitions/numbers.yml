@@ -58,10 +58,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/unauthorized"
+                $ref: "#/components/schemas/account-unauthorized"
             text/xml:
               schema:
-                $ref: "#/components/schemas/unauthorized"
+                $ref: "#/components/schemas/account-unauthorized"
 
   "/number/search":
     get:
@@ -107,10 +107,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/unauthorized"
+                $ref: "#/components/schemas/account-unauthorized"
             text/xml:
               schema:
-                $ref: "#/components/schemas/unauthorized"
+                $ref: "#/components/schemas/account-unauthorized"
+
   "/number/buy":
     post:
       operationId: buyANumber
@@ -395,6 +396,8 @@ components:
           description: "The capabilities of the number: `SMS` or `VOICE` or `SMS,VOICE` or `SMS,MMS` or `VOICE,MMS` or `SMS,MMS,VOICE`"
     inbound-numbers:
       type: object
+      xml:
+        name: inbound-numbers
       properties:
         count:
           type: integer
@@ -511,6 +514,8 @@ components:
         - msisdn
     response:
       type: object
+      xml:
+        name: response
       properties:
         error-code:
           type: string
@@ -522,6 +527,21 @@ components:
           description: The status code description
     unauthorized:
       type: object
+      xml:
+        name: response
+      properties:
+        error-code:
+          type: string
+          example: "401"
+          description: The status code of the response. `200` indicates a successful request.
+        error-code-label:
+          type: string
+          example: "authentication failed"
+          description: The status code description
+    account-unauthorized:
+      type: object
+      xml:
+        name: inbound-numbers 
       properties:
         error-code:
           type: string
@@ -533,6 +553,8 @@ components:
           description: The status code description
     response420:
       type: object
+      xml:
+        name: response
       properties:
         error-code:
           type: string
