@@ -1,7 +1,7 @@
 ---
 openapi: 3.0.0
 info:
-  version: 1.2.7
+  version: 1.2.8
   title: Voice API
   description: The Voice API lets you create outbound calls, control in-progress calls
     and get information about historical calls. More information about the Voice API
@@ -74,10 +74,12 @@ paths:
                   - GET
                 event_url:
                   description: |
-                    **Required** unless `event_url` provided at the application level, see [Create an Application](/api/application.v2#createApplication)
+                    **Required** unless `event_url` is configured at the application
+                    level, see [Create an Application](/api/application.v2#createApplication)
 
                     The webhook endpoint where call progress events are
-                    sent to. For more information about the values sent, see [Event webhook](/voice/voice-api/webhook-reference#event-webhook).
+                    sent to. For more information about the values sent, see
+                    [Event webhook](/voice/voice-api/webhook-reference#event-webhook).
                   type: array
                   x-nexmo-developer-collection-description-shown: true
                   example: '["https://example.com/event"]'
