@@ -7,9 +7,71 @@ jobs:
     name: Create Review App
     runs-on: ubuntu-latest
     steps:
-    - name: Create Review App
-      uses: mheap/github-action-pr-heroku-review-app@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        HEROKU_PIPELINE_ID: ${{ secrets.HEROKU_PIPELINE_ID }}
-        HEROKU_API_TOKEN: ${{ secrets.HEROKU_API_TOKEN }}
+      - name: Create Review App
+        uses: mheap/github-action-pr-heroku-review-app@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HEROKU_PIPELINE_ID: ${{ secrets.HEROKU_PIPELINE_ID }}
+          HEROKU_API_TOKEN: ${{ secrets.HEROKU_API_TOKEN }}
+  check-version-bump:
+    name: Check Version Bump
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if version bumps should be skipped
+        uses: actions/github-script@v1
+        id: skip_check
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          result-encoding: string
+          script: |
+            const pr = await github.issues.get({
+              issue_number: context.issue.number,
+              owner: context.issue.owner,
+              repo: context.issue.repo
+            })
+            const skipVersion = pr.data.labels.filter((l) => l.name == 'skip-version-check');
+            return skipVersion.length ? 'skip' : 'execute'
+      - run: echo "Skipping version check"
+        if: steps.skip_check.outputs.result == 'skip'
+      - name: Check version changes
+        uses: actions/github-script@v1
+        id: diff_changes
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          result-encoding: string
+          script: |
+            const {data: pr} = await github.pulls.get({
+              pull_number: context.issue.number,
+              owner: context.issue.owner,
+              repo: context.issue.repo,
+            });
+
+            const changes = await github.repos.compareCommits({
+              owner: context.issue.owner,
+              repo: context.issue.repo,
+              head: pr.head.sha,
+              base: pr.base.sha,
+              mediaType: {
+                format: ["diff"]
+              }
+            });
+
+            const definitions = changes.data.files.filter(f => {
+              return f.filename.includes("definitions/") && f.filename.endsWith('.yml')
+            });
+
+            const lines = definitions.map((f)=> f.patch).join("\n").split("\n");
+
+            const versions = lines.filter((l) => l.includes("+  version"));
+
+            if (versions.length == 0) {
+              console.log("No version change detected and the skip-version label was not added");
+              process.exit(1);
+            }
+
+            if (versions.length > 1) {
+              console.log("Multiple specification versions changed in a single PR");
+              process.exit(1);
+            }
+
+        if: steps.skip_check.outputs.result == 'execute'
