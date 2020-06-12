@@ -1,4 +1,6 @@
 extends: spectral:oas
+functions:
+  [objectRequiredProperties, operationOrdering, requiredPropertyExample]
 rules:
   example-value-or-externalValue: false
   oas3-unused-components-schema: false # needed by inter-file references e.g. Voice API
@@ -10,6 +12,10 @@ rules:
   openapi-tags: false
   operation-description: false
   operation-tags: false
+
+  # OperationId related linting
+  operation-operationId: "error"
+  operation-operationId-unique: "error"
 
   # Check field names meet api standards
   property-names:
@@ -43,3 +49,42 @@ rules:
       function: pattern
       functionOptions:
         match: "^([0-9]+.[0-9]+.[0-9]+)$"
+
+  # We always require a summary
+  operation-required-fields:
+    severity: error
+    message: Missing {{property}}at {{path}}
+    given: $.paths.*[get,post,patch,put,delete]
+    then:
+      - field: "summary"
+        function: truthy
+
+  # Any required objects must also have a required child parameter
+  required-object-params:
+    severity: error
+    given: $.paths.*.[post].requestBody.content.*.[?(@.required)]
+    then:
+      function: objectRequiredProperties
+
+  # Order for endpoints should bet GET, POST, PATCH, PUT, DELETE
+  endpoint-verb-order:
+    severity: error
+    given: $.paths[?(@.get || @.post || @.patch || @.put || @.delete)]
+    then:
+      function: operationOrdering
+
+  # Array objects should not have an example, but delegate to the object properties
+  array-object-example:
+    severity: error
+    message: Did not expect {{property}}at {{path}}. Define 'example' data on each property in the object instead
+    given: $.paths.*.*.requestBody..[?(@.items)][?(@.type == 'object')]
+    then:
+      - field: "example"
+        function: falsy
+
+  # All required properties must have an example
+  required-property-example:
+    severity: error
+    given: $..[?(@.type == 'object' && @.required)]
+    then:
+      - function: requiredPropertyExample
