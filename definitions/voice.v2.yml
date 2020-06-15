@@ -29,7 +29,7 @@ paths:
       operationId:
         "$ref": "voice.yml#/paths/~1/post/operationId"
       requestBody:
-        "$ref": "#/components/requestBodies/CreateCall"
+        "$ref": "#/components/requestBodies/CreateCallRequestBody"
       responses:
         '202':
           description: Accepted
@@ -65,15 +65,15 @@ components:
       bearerFormat: JWT
 
   requestBodies:
-    CreateCall:
+    CreateCallRequestBody:
       description: Call Details
       content:
         application/json:
           schema:
-            "$ref": "#/components/schemas/CreateCall"
+            "$ref": "#/components/schemas/CreateCallRequestV2"
 
   schemas:
-    CreateCall:
+    CreateCallRequestV2:
       required:
         - to
         - from
