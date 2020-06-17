@@ -216,40 +216,6 @@ paths:
                         $ref: '#/components/schemas/instance'
 
   "/v2/reports":
-    post:
-      operationId: create-async-report
-      summary: Create an asynchronous report
-      description: Request a report on your account activity
-      security:
-        - bearerAuth: []
-        - basicAuth: []
-      requestBody:
-        description: >
-          The parameters of the JSON body will be used to create and filter the report.<br>
-          The value of the `product` field will define which product the report will be created for and which parameters are accepted.
-        content:
-          application/json:
-            schema:
-              oneOf:
-                - $ref: '#/components/schemas/SMS'
-                - $ref: '#/components/schemas/VOICE-CALL'
-                - $ref: '#/components/schemas/VERIFY-API'
-                - $ref: '#/components/schemas/NUMBER-INSIGHT'
-                - $ref: '#/components/schemas/MESSAGES'
-                - $ref: '#/components/schemas/CONVERSATIONS'
-              discriminator:
-                propertyName: product
-      responses:
-        '200':
-          $ref: '#/components/responses/report_responses_create_report'
-        '400':
-          $ref: '#/components/responses/400_json'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '422':
-          $ref: '#/components/responses/422'
     get:
       operationId: list-reports
       summary: List reports
@@ -286,6 +252,40 @@ paths:
           $ref: '#/components/responses/400_params'
         '401':
           $ref: '#/components/responses/401'
+    post:
+      operationId: create-async-report
+      summary: Create an asynchronous report
+      description: Request a report on your account activity
+      security:
+        - bearerAuth: []
+        - basicAuth: []
+      requestBody:
+        description: >
+          The parameters of the JSON body will be used to create and filter the report.<br>
+          The value of the `product` field will define which product the report will be created for and which parameters are accepted.
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/SMS'
+                - $ref: '#/components/schemas/VOICE-CALL'
+                - $ref: '#/components/schemas/VERIFY-API'
+                - $ref: '#/components/schemas/NUMBER-INSIGHT'
+                - $ref: '#/components/schemas/MESSAGES'
+                - $ref: '#/components/schemas/CONVERSATIONS'
+              discriminator:
+                propertyName: product
+      responses:
+        '200':
+          $ref: '#/components/responses/report_responses_create_report'
+        '400':
+          $ref: '#/components/responses/400_json'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '422':
+          $ref: '#/components/responses/422'
   "/v2/reports/{report_id}":
     get:
       operationId: get-report
