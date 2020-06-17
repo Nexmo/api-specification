@@ -88,3 +88,15 @@ rules:
     given: $..[?(@.type == 'object' && @.required)]
     then:
       - function: requiredPropertyExample
+
+# VBC
+except:
+  # VGIS Exceptions - We don't know what the example should look like
+  "definitions/vonage-business-cloud/vgis.yml#/components/schemas/Event":
+    - required-property-example
+  "definitions/vonage-business-cloud/vgis.yml#/components/schemas/Call":
+    - required-property-example
+  "definitions/vonage-business-cloud/vgis.yml#/components/schemas/CallCreate":
+    - required-property-example
+  "definitions/vonage-business-cloud/vgis.yml#/components/schemas/CallTransfer":
+    - required-property-example

@@ -101,53 +101,6 @@ paths:
       x-auth-type: Application & Application User
       x-throttling-tier: Unlimited
   /self/calls:
-    post:
-      tags:
-        - Calls
-      summary: Place a call
-      operationId: createCall
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/CallCreate"
-        description: Place call parameters
-        required: true
-      responses:
-        "201":
-          description: Successful
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Call"
-        "400":
-          description:
-            "Bad Request: The client should not repeat the request without
-            modifications"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-        "401":
-          description: "Unauthorized: Invalid access token"
-        "403":
-          description: "Forbidden: The user has no rights to access the resource(s)"
-        "408":
-          description: "Timeout: The client may repeat the request without modifications"
-        "422":
-          description: Validation Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-        "500":
-          description: Internal Server Error
-        "502":
-          description: Bad Gateway
-      x-auth-type: Application & Application User
-      x-throttling-tier: Unlimited
     get:
       tags:
         - Calls
@@ -250,6 +203,54 @@ paths:
           description: Bad Gateway
       x-auth-type: Application & Application User
       x-throttling-tier: Unlimited
+    post:
+      tags:
+        - Calls
+      summary: Place a call
+      operationId: createCall
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CallCreate"
+        description: Place call parameters
+        required: true
+      responses:
+        "201":
+          description: Successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Call"
+        "400":
+          description:
+            "Bad Request: The client should not repeat the request without
+            modifications"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: "Unauthorized: Invalid access token"
+        "403":
+          description: "Forbidden: The user has no rights to access the resource(s)"
+        "408":
+          description: "Timeout: The client may repeat the request without modifications"
+        "422":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal Server Error
+        "502":
+          description: Bad Gateway
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+
   /self/calls/count:
     get:
       tags:
@@ -891,25 +892,20 @@ paths:
       x-auth-type: Application & Application User
       x-throttling-tier: Unlimited
   /self/webhooks:
-    post:
+    get:
       tags:
         - Webhooks
-      summary: Create a new webhook subscription
-      operationId: createWebhook
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/WebhookCreate"
-        description: Webhook create parameters
-        required: true
+      summary: List web hooks
+      operationId: listWebhooks
       responses:
-        "201":
+        "200":
           description: Successful
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Webhook"
+                type: array
+                items:
+                  $ref: "#/components/schemas/Webhook"
         "400":
           description:
             "Bad Request: The client should not repeat the request without
@@ -936,20 +932,25 @@ paths:
           description: Bad Gateway
       x-auth-type: Application & Application User
       x-throttling-tier: Unlimited
-    get:
+    post:
       tags:
         - Webhooks
-      summary: List web hooks
-      operationId: listWebhooks
+      summary: Create a new webhook subscription
+      operationId: createWebhook
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WebhookCreate"
+        description: Webhook create parameters
+        required: true
       responses:
-        "200":
+        "201":
           description: Successful
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Webhook"
+                $ref: "#/components/schemas/Webhook"
         "400":
           description:
             "Bad Request: The client should not repeat the request without
