@@ -12,16 +12,6 @@ info:
   x-label: Beta
 paths:
   /conversations:
-    post:
-      operationId: createConversation
-      tags:
-        - conversation
-      summary: Create a conversation
-      responses:
-        '200':
-          $ref: '#/components/responses/ConversationLite'
-      requestBody:
-        $ref: '#/components/requestBodies/Conversation'
     get:
       operationId: listConversations
       tags:
@@ -89,6 +79,16 @@ paths:
                   - record_index
                   - _links
                   - _embedded
+    post:
+      operationId: createConversation
+      tags:
+        - conversation
+      summary: Create a conversation
+      responses:
+        '200':
+          $ref: '#/components/responses/ConversationLite'
+      requestBody:
+        $ref: '#/components/requestBodies/Conversation'
   '/conversations/{conversation_id}':
     parameters:
       - $ref: '#/components/parameters/conversation_id'
@@ -195,6 +195,28 @@ paths:
   '/conversations/{conversation_id}/events':
     parameters:
       - $ref: '#/components/parameters/conversation_id'
+    get:
+      operationId: getEvents
+      description: >
+          <div class="Vlt-callout Vlt-callout--warning">
+          <i></i>
+          <div class="Vlt-callout__content">
+          <p><strong>This API endpoint is deprecated. Please use <a href="/api/conversation.v2#get-events">/beta2/events</a></strong><br />This endpoint will return a maximum of 100 items.</p>
+          </div>
+          </div>
+
+      tags:
+        - event
+      summary: List events
+      responses:
+        '200':
+          description: Retrieve Events Response Payload Object
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/event_retrieved'
     post:
       operationId: createEvent
       tags:
@@ -233,28 +255,6 @@ paths:
                     $ref: '#/components/schemas/timestamp_res_event'
                   href:
                     $ref: '#/components/schemas/href_event'
-    get:
-      operationId: getEvents
-      description: >
-          <div class="Vlt-callout Vlt-callout--warning">
-          <i></i>
-          <div class="Vlt-callout__content">
-          <p><strong>This API endpoint is deprecated. Please use <a href="/api/conversation.v2#get-events">/beta2/events</a></strong><br />This endpoint will return a maximum of 100 items.</p>
-          </div>
-          </div>
-
-      tags:
-        - event
-      summary: List events
-      responses:
-        '200':
-          description: Retrieve Events Response Payload Object
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/event_retrieved'
   '/conversations/{conversation_id}/events/{event_id}':
     parameters:
       - $ref: '#/components/parameters/conversation_id'
@@ -613,8 +613,6 @@ paths:
                         properties:
                           href:
                             type: string
-                        required:
-                          - href
                     required:
                       - self
                   _embedded:
@@ -890,11 +888,13 @@ components:
       minimum: 1
       maximum: 100
       default: 10
+      example: 50
     record_index:
       type: number
       description: 'Return `page_size` amount of conversations from this index in the response. That is, if your request returns 300 conversations, set `record_index` to 5 in order to return conversations 50 to 59. The default value is 0. That is, the first `page_size` calls.'
       default: 0
       minimum: 0
+      example: 0
     timestamp:
       type: string
       example: '2020-01-01T14:00:00.00Z'
