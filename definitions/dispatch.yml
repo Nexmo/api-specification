@@ -183,6 +183,8 @@ components:
       properties:
         content:
           type: object
+          required:
+            - type
           properties:
             type:
               description: |
