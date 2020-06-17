@@ -17,6 +17,87 @@ security:
   - basicAuth: []
 paths:
   /:
+    get:
+      operationId: listApplication
+      summary: List available applications
+      parameters:
+        - name: page_size
+          in: query
+          description: The number of applications per page
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: The current page number (starts at 1)
+          schema:
+            type: integer
+
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  page_size:
+                    type: integer
+                    example: 10
+                    description: The number of applications per page
+                  page:
+                    type: integer
+                    example: 1
+                    description: The current page number (starts at 1)
+                  total_items:
+                    type: integer
+                    example: 6
+                    description: The total number of applications
+                  total_pages:
+                    type: integer
+                    example: 1
+                    description: The total number of pages returned
+                  _embedded:
+                    type: object
+                    description: A list of applications matching your existing filters
+                    properties:
+                      applications:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ApplicationResponse'
+        '400':
+          description: Invalid Request
+          content:
+            application/json:
+              schema:
+                properties:
+                  type:
+                    type: string
+                    example: 'https://developer.nexmo.com/api-errors/application#list-validation'
+                  title:
+                    type: string
+                    example: Bad Request
+                  detail:
+                    type: string
+                    example: The request failed due to validation errors
+                  invalid_parameters:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: page_size
+                        reason:
+                          type: string
+                          example: must be between 1 and 100
+                  instance:
+                    $ref: 'common/common_errors.yml#/components/fields/instance'
+        '401':
+          $ref: 'common/common_errors.yml#/components/responses/BadCredentialsError'
+        '405':
+          $ref: 'common/common_errors.yml#/components/responses/InvalidRequestMethod'
+        '406':
+          $ref: 'common/common_errors.yml#/components/responses/InvalidAcceptHeader'
+
     post:
       summary: Create an application
       operationId: createApplication
@@ -213,87 +294,6 @@ paths:
           $ref: 'common/common_errors.yml#/components/responses/InvalidAcceptHeader'
         '415':
           $ref: 'common/common_errors.yml#/components/responses/UnsupportedContentTypeHeader'
-
-    get:
-      operationId: listApplication
-      summary: List available applications
-      parameters:
-        - name: page_size
-          in: query
-          description: The number of applications per page
-          schema:
-            type: integer
-        - name: page
-          in: query
-          description: The current page number (starts at 1)
-          schema:
-            type: integer
-
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                properties:
-                  page_size:
-                    type: integer
-                    example: 10
-                    description: The number of applications per page
-                  page:
-                    type: integer
-                    example: 1
-                    description: The current page number (starts at 1)
-                  total_items:
-                    type: integer
-                    example: 6
-                    description: The total number of applications
-                  total_pages:
-                    type: integer
-                    example: 1
-                    description: The total number of pages returned
-                  _embedded:
-                    type: object
-                    description: A list of applications matching your existing filters
-                    properties:
-                      applications:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/ApplicationResponse'
-        '400':
-          description: Invalid Request
-          content:
-            application/json:
-              schema:
-                properties:
-                  type:
-                    type: string
-                    example: 'https://developer.nexmo.com/api-errors/application#list-validation'
-                  title:
-                    type: string
-                    example: Bad Request
-                  detail:
-                    type: string
-                    example: The request failed due to validation errors
-                  invalid_parameters:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        name:
-                          type: string
-                          example: page_size
-                        reason:
-                          type: string
-                          example: must be between 1 and 100
-                  instance:
-                    $ref: 'common/common_errors.yml#/components/fields/instance'
-        '401':
-          $ref: 'common/common_errors.yml#/components/responses/BadCredentialsError'
-        '405':
-          $ref: 'common/common_errors.yml#/components/responses/InvalidRequestMethod'
-        '406':
-          $ref: 'common/common_errors.yml#/components/responses/InvalidAcceptHeader'
 
   /{id}:
     parameters:
