@@ -69,9 +69,4 @@ jobs:
               process.exit(1);
             }
 
-            if (versions.length > 1) {
-              console.log("Multiple specification versions changed in a single PR");
-              process.exit(1);
-            }
-
         if: steps.skip_check.outputs.result == 'execute'
