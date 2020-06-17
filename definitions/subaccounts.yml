@@ -12,6 +12,35 @@ info:
     url: 'https://developer.nexmo.com/'
 paths:
   /{api_key}/subaccounts:
+    get:
+      summary: Retrieve list of subaccounts
+      operationId: retrieveSubaccountsList
+      description: >
+        Get the information of all the subaccounts owned by the primary account.
+      tags:
+        - Subaccount Management
+      security:
+        - basicAuth: []
+      parameters:
+        - name: api_key
+          in: path
+          description: ID of the primary account
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Subaccounts response
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/SubaccountsAllResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
     post:
       summary: Create subaccount
       operationId: createSubAccount
@@ -49,35 +78,6 @@ paths:
           $ref: '#/components/responses/NotFoundError'
         '422':
           $ref: '#/components/responses/UnprocessableEntityError'
-    get:
-      summary: Retrieve list of subaccounts
-      operationId: retrieveSubaccountsList
-      description: >
-        Get the information of all the subaccounts owned by the primary account.
-      tags:
-        - Subaccount Management
-      security:
-        - basicAuth: []
-      parameters:
-        - name: api_key
-          in: path
-          description: ID of the primary account
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Subaccounts response
-          content:
-            application/json:
-              schema:
-                  $ref: '#/components/schemas/SubaccountsAllResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-        '403':
-          $ref: '#/components/responses/ForbiddenError'
-        '404':
-          $ref: '#/components/responses/NotFoundError'
   /{api_key}/subaccounts/{subaccount_key}:
     get:
       summary: Retrieve a subaccount
@@ -158,43 +158,6 @@ paths:
         '422':
           $ref: '#/components/responses/UnprocessableEntityError'
   /{api_key}/credit-transfers:
-    post:
-      summary: Transfer credit
-      operationId: transferCredit
-      description: >
-        Transfer credit limit between a primary account and one of its subaccounts.
-      tags: 
-        - Transfers
-      security:
-        - basicAuth: []
-      parameters:
-        - name: api_key
-          in: path
-          description: ID of the primary account
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TransferBalanceOrCreditRequest'
-      responses:
-        '200':
-          description: Credit transfer response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TransferCreditResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-        '403':
-          $ref: '#/components/responses/ForbiddenError'
-        '404':
-          $ref: '#/components/responses/NotFoundError'
-        '422':
-          $ref: '#/components/responses/UnprocessableEntityError'
     get:
       summary: Retrieve list of credit transfers
       operationId: retrieveCreditTransfers
@@ -244,17 +207,15 @@ paths:
           $ref: '#/components/responses/ForbiddenError'
         '404':
           $ref: '#/components/responses/NotFoundError'
-  /{api_key}/balance-transfers:
     post:
-      summary: Transfer balance
+      summary: Transfer credit
+      operationId: transferCredit
       description: >
-        Transfer balance between a primary account and one of its subaccounts.
-        Note that balance_available_for_transfer = |account_balance - credit_limit| of the source account.
+        Transfer credit limit between a primary account and one of its subaccounts.
       tags: 
         - Transfers
       security:
         - basicAuth: []
-      operationId: transferBalance
       parameters:
         - name: api_key
           in: path
@@ -270,11 +231,11 @@ paths:
               $ref: '#/components/schemas/TransferBalanceOrCreditRequest'
       responses:
         '200':
-          description: Balance transfer response
+          description: Credit transfer response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TransferBalanceResponse'
+                $ref: '#/components/schemas/TransferCreditResponse'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '403':
@@ -283,6 +244,7 @@ paths:
           $ref: '#/components/responses/NotFoundError'
         '422':
           $ref: '#/components/responses/UnprocessableEntityError'
+  /{api_key}/balance-transfers:
     get:
       summary: Retrieve list of balance transfers
       operationId: retrieveBalanceTransfers
@@ -332,6 +294,44 @@ paths:
           $ref: '#/components/responses/ForbiddenError'
         '404':
           $ref: '#/components/responses/NotFoundError'
+    post:
+      summary: Transfer balance
+      description: >
+        Transfer balance between a primary account and one of its subaccounts.
+        Note that balance_available_for_transfer = |account_balance - credit_limit| of the source account.
+      tags: 
+        - Transfers
+      security:
+        - basicAuth: []
+      operationId: transferBalance
+      parameters:
+        - name: api_key
+          in: path
+          description: ID of the primary account
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferBalanceOrCreditRequest'
+      responses:
+        '200':
+          description: Balance transfer response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferBalanceResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError' 
 tags:
   - name: Subaccount Management
     description: This section shows how you can create, retrieve and modify subaccounts of a primary account.
