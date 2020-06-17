@@ -247,6 +247,7 @@ components:
         id:
           type: string
           description: The transaction ID to redact
+          example: 209ab3c7536542b91e8b5aef032f6861
         product:
           type: string
           example: sms
