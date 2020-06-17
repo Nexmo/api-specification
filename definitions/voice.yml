@@ -14,25 +14,6 @@ servers:
 - url: https://api.nexmo.com/v1/calls
 paths:
   "/":
-    post:
-      security:
-      - bearerAuth: []
-      summary: Create an outbound call
-      description: Create an outbound Call
-      operationId: createCall
-      requestBody:
-        description: Call Details
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/CreateCallRequest"
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/CreateCallResponse"
     get:
       security:
       - bearerAuth: []
@@ -107,6 +88,25 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/GetCallsResponse"
+    post:
+      security:
+      - bearerAuth: []
+      summary: Create an outbound call
+      description: Create an outbound Call
+      operationId: createCall
+      requestBody:
+        description: Call Details
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/CreateCallRequest"
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/CreateCallResponse"
   "/{uuid}":
     parameters:
     - in: path
