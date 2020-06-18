@@ -3,6 +3,15 @@ info:
   title: Message Search API
   version: 1.0.4
   description: >-
+
+    <div class="Vlt-callout Vlt-callout--critical">
+    <i></i>
+    <div class="Vlt-callout__content">
+      <h4>The Message Search API is deprecated</h4>
+      Please use the <a href="/reports/overview">Reports API</a> instead. See the <a href="/reports/guides/migrate-from-sms-message-search">Migrating from the SMS Message Search API guide</a> to get started.
+    </div>
+    </div>
+
     The Messages API lets you retrieve messages you have sent via the SMS API by
     ID, as well as retrieve details of messages that were rejected.
   contact:
