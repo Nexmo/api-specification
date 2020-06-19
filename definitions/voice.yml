@@ -1,7 +1,7 @@
 ---
 openapi: 3.0.0
 info:
-  version: 1.2.9
+  version: 1.2.10
   title: Voice API
   description:
     The Voice API lets you create outbound calls, control in-progress calls
@@ -692,35 +692,29 @@ components:
       example: CON-f972836a-550f-45fa-956c-12a2ab5b7d22
       description: The unique identifier for the conversation this call leg is part of.
     from:
-      type: array
+      type: object
       description: The endpoint you called from. Possible values are the same as `to`.
-      title: The number or address that has been called
-      items:
-        type: object
-        properties:
-          type:
-            type: string
-            title: The type of Endpoint that made the call
-            example: phone
-          number:
-            type: string
-            title: The number that made the call
-            example: "447700900001"
+      properties:
+        type:
+          type: string
+          title: The type of Endpoint that made the call
+          example: phone
+        number:
+          type: string
+          title: The number that made the call
+          example: '447700900001'
     to:
-      type: array
+      type: object
       description: The single or mixed collection of endpoint types you connected to
-      title: The number or address to call
-      items:
-        type: object
-        properties:
-          type:
-            type: string
-            title: The Type of Endpoint Called
-            example: phone
-          number:
-            type: string
-            title: The number of the endpoint called
-            example: "447700900000"
+      properties:
+        type:
+          type: string
+          title: The Type of Endpoint Called
+          example: phone
+        number:
+          type: string
+          title: The number of the endpoint called
+          example: '447700900000'
     status:
       type: string
       title: The State of the call
