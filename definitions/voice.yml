@@ -845,7 +845,7 @@ components:
           format: uuid
           example: CON-171b3991-49b0-4dfa-badd-2bc6e68b57b4
         to:
-          $ref: "#/components/schemas/from"
+          $ref: "#/components/schemas/to"
         from:
           $ref: "#/components/schemas/from"
         uuid:
