@@ -1,7 +1,7 @@
 ---
 openapi: "3.0.0"
 info:
-  version: "v2"
+  version: 2.0.0
   title: "Number Pools"
   contact:
     name: Nexmo
@@ -123,35 +123,35 @@ paths:
                           href:
                             type: string
                             description: Link to the current page
-                            example: /v1/pools/<pool_id>/numbers
+                            example: /v2/pools/custom_user_pool_id/numbers
                       next:
                         type: object
                         properties:
                           href:
                             type: string
                             description: Link to the next available page
-                            example: /v1/pools/<pool_id>/numbers?page=<page_id+1>
+                            example: /v2/pools/custom_user_pool_id/numbers?page=2
                       previous:
                         type: object
                         properties:
                           href:
                             type: string
                             description: Link to the previous available page
-                            example: /v1/pools/<pool_id>/numbers?page=<page_id-1>
+                            example: /v2/pools/custom_user_pool_id/numbers?page=1
                       first:
                         type: object
                         properties:
                           href:
                             type: string
                             description: Link to the first available page
-                            example: /v1/pools/<pool_id>/numbers?page=1
+                            example: /v2/pools/custom_user_pool_id/numbers?page=1
                       last:
                         type: object
                         properties:
                           href:
                             type: string
                             description: Link to the last available page
-                            example: /v1/pools/<pool_id>/numbers?page=<count_of_pages>
+                            example: /v2/pools/custom_user_pool_id/numbers?page=10
                   _embedded:
                     type: object
                     properties:
@@ -241,6 +241,16 @@ components:
     basicAuth:
       type: http
       scheme: basic
+    apiKey:
+      type: apiKey
+      name: api_key
+      in: query
+      description: 'You can find your API key in your [account overview](https://dashboard.nexmo.com/account-overview)'
+    apiSecret:
+      type: apiKey
+      name: api_secret
+      in: query
+      description: 'You can find your API secret in your [account overview](https://dashboard.nexmo.com/account-overview)'
   responses:
     ##############################
     # Pool Management - Responses
@@ -268,7 +278,7 @@ components:
                       href:
                         type: string
                         description: Link to the current pool
-                        example: /v1/pools/<pool_id>
+                        example: /v2/pools/custom_user_pool_id
 
     ListPoolsResponse:
       description: "Success"
@@ -289,35 +299,35 @@ components:
                       href:
                         type: string
                         description: Link to the current page
-                        example: /v1/pools?page=<page_id>
+                        example: /v2/pools?page=3
                   next:
                     type: object
                     properties:
                       href:
                         type: string
                         description: Link to the next available page
-                        example: /v1/pools?page=<page_id+1>
+                        example: /v2/pools?page=4
                   previous:
                     type: object
                     properties:
                       href:
                         type: string
                         description: Link to the previous available page
-                        example: /v1/pools?page=<page_id-1>
+                        example: /v2/pools?page=2
                   first:
                     type: object
                     properties:
                       href:
                         type: string
                         description: Link to the first available page
-                        example: /v1/pools?page=1
+                        example: /v2/pools?page=1
                   last:
                     type: object
                     properties:
                       href:
                         type: string
                         description: Link to the last available page
-                        example: /v1/pools?page=<count_of_pages>
+                        example: /v2/pools?page=10
               _embedded:
                 type: object
                 properties:
@@ -345,7 +355,7 @@ components:
                                   href:
                                     type: string
                                     description: Link to the current pool
-                                    example: /v1/pools/<pool_id>
+                                    example: /v2/pools/custom_user_pool_id
 
     ################################
     # Number Management - Responses
@@ -373,7 +383,7 @@ components:
                       href:
                         type: string
                         description: Link to the numbers in the current pool
-                        example: /v1/pools/<pool_id>/numbers
+                        example: /v2/pools/custom_user_pool_id/numbers
 
     AddOrDeleteNumberInPoolResponsePartialSuccess:
       x-expand-response: false
@@ -597,7 +607,7 @@ components:
      description: Page offset
      example: 11
      schema:
-       type: string
+       type: integer
 
     pageSize:
      name: page_size
@@ -605,7 +615,7 @@ components:
      description: Items per page
      example: 10
      schema:
-       type: string
+       type: integer
 
   schemas:
     instance:
