@@ -43,6 +43,20 @@ And check your file (for example `verify.yml`):
 
 This runs the same checks that we use in the build that runs when you open a pull request.
 
+In addition to semantic linting, we use [Prettier](https://prettier.io/) to enforce consistent formatting.
+
+To run prettier locally:
+
+```
+npm install -g prettier
+prettier --list-different definitions/**/*.yml
+```
+
+You can auto-format your specifications with the following command, but we recommend installing a Prettier plugin in your IDE to format on save:
+
+```
+prettier --write definitions/**/*.yml
+```
 
 ## Contributing
 
