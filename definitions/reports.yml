@@ -1,6 +1,6 @@
 openapi: "3.0.0"
 info:
-  version: 2.1.5
+  version: 2.1.6
   title: Nexmo Reports API
   description: |
     [Nexmo's Reports API](/reports/overview) allows you to request a report of activity on your Nexmo account.
@@ -541,7 +541,7 @@ components:
                           $ref: "#/components/schemas/csv_conversations_ip_voice"
 
     csv_report_response:
-      description: OK
+      description: Zip file containing CSV files
       content:
         "application/octet-stream":
           schema:
