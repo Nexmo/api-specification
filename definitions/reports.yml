@@ -13,16 +13,16 @@ info:
   contact:
     name: Nexmo.com
     email: devrel@nexmo.com
-    url: 'https://developer.nexmo.com/'
+    url: "https://developer.nexmo.com/"
     x-twitter: Nexmo
   x-label: Beta
-  termsOfService: 'https://www.nexmo.com/terms-of-use'
+  termsOfService: "https://www.nexmo.com/terms-of-use"
   license:
     name: The MIT License (MIT)
-    url: 'https://opensource.org/licenses/MIT'
+    url: "https://opensource.org/licenses/MIT"
   x-logo:
-    url: 'https://twitter.com/Nexmo/profile_image?size=original'
-  x-apiClientRegistration: 'https://dashboard.nexmo.com/sign-up'
+    url: "https://twitter.com/Nexmo/profile_image?size=original"
+  x-apiClientRegistration: "https://dashboard.nexmo.com/sign-up"
 servers:
   - url: https://api.nexmo.com
 paths:
@@ -70,9 +70,9 @@ paths:
           required: true
         - name: id
           description: |
-              The ID of the request.
+            The ID of the request.
 
-              If you provide this, you must not provide `date_start` or `date_end`
+            If you provide this, you must not provide `date_start` or `date_end`
           in: query
           schema:
             type: string
@@ -140,9 +140,9 @@ paths:
               - deleted
           example: delivered
       responses:
-        '200':
-          $ref: '#/components/responses/json_record_response'
-        '403':
+        "200":
+          $ref: "#/components/responses/json_record_response"
+        "403":
           description: Unprocessable entity
           content:
             application/json:
@@ -150,14 +150,14 @@ paths:
                 properties:
                   title:
                     type: string
-                    example: 'Forbidden'
+                    example: "Forbidden"
                   detail:
                     type: string
                     example: "User not authorized to query the requested data"
                   instance:
-                    $ref: '#/components/schemas/instance'
+                    $ref: "#/components/schemas/instance"
 
-        '422':
+        "422":
           description: Unprocessable entity
           content:
             application/json:
@@ -167,53 +167,53 @@ paths:
                     properties:
                       title:
                         type: string
-                        example: 'Unprocessable entity'
+                        example: "Unprocessable entity"
                       invalid_parameters:
                         type: array
                         items:
                           type: object
                           properties:
-                            reason: 
+                            reason:
                               type: string
                               example: "Missing required parameter"
-                            name: 
+                            name:
                               type: string
                               example: "date_end"
                       instance:
-                        $ref: '#/components/schemas/instance'
+                        $ref: "#/components/schemas/instance"
 
                   - description: "Invalid Product"
                     properties:
                       title:
                         type: string
-                        example: 'Unprocessable entity'
+                        example: "Unprocessable entity"
                       invalid_parameters:
                         type: array
                         items:
                           type: object
                           properties:
-                            reason: 
+                            reason:
                               type: string
                               example: "Could not resolve product name. Please use one of the following values [CONVERSATIONS, MESSAGES, NUMBER-INSIGHT, SMS, VERIFY-API, VERIFY-SDK, VOICE-CALL]"
-                            name: 
+                            name:
                               type: string
                               example: "product"
                       instance:
-                        $ref: '#/components/schemas/instance'
+                        $ref: "#/components/schemas/instance"
 
                   - description: "Invalid filter"
                     properties:
                       type:
                         type: string
-                        example: 'https://developer.nexmo.com/api-errors/reports#invalid-filter'
+                        example: "https://developer.nexmo.com/api-errors/reports#invalid-filter"
                       title:
                         type: string
-                        example: 'Invalid filter'
+                        example: "Invalid filter"
                       detail:
                         type: string
                         example: "When using message_id, the following parameters are not supported: [date_start, date_end]"
                       instance:
-                        $ref: '#/components/schemas/instance'
+                        $ref: "#/components/schemas/instance"
 
   "/v2/reports":
     get:
@@ -246,12 +246,12 @@ paths:
             format: date
           example: "2019-06-28T23:59:59-00:00"
       responses:
-        '200':
-          $ref: '#/components/responses/list_report_response'
-        '400':
-          $ref: '#/components/responses/400_params'
-        '401':
-          $ref: '#/components/responses/401'
+        "200":
+          $ref: "#/components/responses/list_report_response"
+        "400":
+          $ref: "#/components/responses/400_params"
+        "401":
+          $ref: "#/components/responses/401"
     post:
       operationId: create-async-report
       summary: Create an asynchronous report
@@ -267,25 +267,25 @@ paths:
           application/json:
             schema:
               oneOf:
-                - $ref: '#/components/schemas/SMS'
-                - $ref: '#/components/schemas/VOICE-CALL'
-                - $ref: '#/components/schemas/VERIFY-API'
-                - $ref: '#/components/schemas/NUMBER-INSIGHT'
-                - $ref: '#/components/schemas/MESSAGES'
-                - $ref: '#/components/schemas/CONVERSATIONS'
+                - $ref: "#/components/schemas/SMS"
+                - $ref: "#/components/schemas/VOICE-CALL"
+                - $ref: "#/components/schemas/VERIFY-API"
+                - $ref: "#/components/schemas/NUMBER-INSIGHT"
+                - $ref: "#/components/schemas/MESSAGES"
+                - $ref: "#/components/schemas/CONVERSATIONS"
               discriminator:
                 propertyName: product
       responses:
-        '200':
-          $ref: '#/components/responses/report_responses_create_report'
-        '400':
-          $ref: '#/components/responses/400_json'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '422':
-          $ref: '#/components/responses/422'
+        "200":
+          $ref: "#/components/responses/report_responses_create_report"
+        "400":
+          $ref: "#/components/responses/400_json"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "422":
+          $ref: "#/components/responses/422"
   "/v2/reports/{report_id}":
     get:
       operationId: get-report
@@ -303,12 +303,12 @@ paths:
           description: UUID of the report
           required: true
       responses:
-        '200':
-          $ref: '#/components/responses/report_responses'
-        '401':
-          $ref: '#/components/responses/401'
-        '404':
-          $ref: '#/components/responses/404'
+        "200":
+          $ref: "#/components/responses/report_responses"
+        "401":
+          $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
     delete:
       operationId: cancel-report
       security:
@@ -325,12 +325,12 @@ paths:
           description: UUID of the report
           required: true
       responses:
-        '200':
-          $ref: '#/components/responses/report_responses'
-        '401':
-          $ref: '#/components/responses/401'
-        '404':
-          $ref: '#/components/responses/404'
+        "200":
+          $ref: "#/components/responses/report_responses"
+        "401":
+          $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
   "/v3/media/{file_id}":
     get:
       operationId: download-report
@@ -351,12 +351,12 @@ paths:
           description: UUID of the file.
           required: true
       responses:
-        '200':
-          $ref: '#/components/responses/csv_report_response'
-        '401':
-          $ref: '#/components/responses/401'
-        '404':
-          $ref: '#/components/responses/404'
+        "200":
+          $ref: "#/components/responses/csv_report_response"
+        "401":
+          $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
 components:
   securitySchemes:
     bearerAuth:
@@ -386,24 +386,24 @@ components:
         application/json:
           schema:
             oneOf:
-              - $ref: '#/components/schemas/sms_response_get_report'
-              - $ref: '#/components/schemas/voice_call_response_get_report'
-              - $ref: '#/components/schemas/verify_api_response_get_report'
-              - $ref: '#/components/schemas/number_insight_response_get_report'
-              - $ref: '#/components/schemas/messages_response_get_report'
-              - $ref: '#/components/schemas/conversations_response_get_report'
+              - $ref: "#/components/schemas/sms_response_get_report"
+              - $ref: "#/components/schemas/voice_call_response_get_report"
+              - $ref: "#/components/schemas/verify_api_response_get_report"
+              - $ref: "#/components/schemas/number_insight_response_get_report"
+              - $ref: "#/components/schemas/messages_response_get_report"
+              - $ref: "#/components/schemas/conversations_response_get_report"
     report_responses_create_report:
       description: OK
       content:
         application/json:
           schema:
             oneOf:
-              - $ref: '#/components/schemas/sms_response_create_report'
-              - $ref: '#/components/schemas/voice_call_response_create_report'
-              - $ref: '#/components/schemas/verify_api_response_create_report'
-              - $ref: '#/components/schemas/number_insight_response_create_report'
-              - $ref: '#/components/schemas/messages_response_create_report'
-              - $ref: '#/components/schemas/conversations_response_create_report'
+              - $ref: "#/components/schemas/sms_response_create_report"
+              - $ref: "#/components/schemas/voice_call_response_create_report"
+              - $ref: "#/components/schemas/verify_api_response_create_report"
+              - $ref: "#/components/schemas/number_insight_response_create_report"
+              - $ref: "#/components/schemas/messages_response_create_report"
+              - $ref: "#/components/schemas/conversations_response_create_report"
 
     list_report_response:
       description: OK
@@ -426,12 +426,12 @@ components:
                 items:
                   type: object
                   anyOf:
-                    - $ref: '#/components/schemas/sms_response_get_report'
-                    - $ref: '#/components/schemas/voice_call_response_get_report'
-                    - $ref: '#/components/schemas/verify_api_response_get_report'
-                    - $ref: '#/components/schemas/number_insight_response_get_report'
-                    - $ref: '#/components/schemas/messages_response_get_report'
-                    - $ref: '#/components/schemas/conversations_response_get_report'
+                    - $ref: "#/components/schemas/sms_response_get_report"
+                    - $ref: "#/components/schemas/voice_call_response_get_report"
+                    - $ref: "#/components/schemas/verify_api_response_get_report"
+                    - $ref: "#/components/schemas/number_insight_response_get_report"
+                    - $ref: "#/components/schemas/messages_response_get_report"
+                    - $ref: "#/components/schemas/conversations_response_get_report"
 
     json_record_response:
       description: OK
@@ -440,105 +440,105 @@ components:
           schema:
             oneOf:
               - allOf:
-                - $ref: '#/components/schemas/report_response_top_level'
-                - description: SMS (Outbound)
-                  type: object
-                  properties:
-                    include_message:
-                      type: boolean
-                      description: Include the text of messages in the report.
-                      example: "true"
-                    records:
-                      type: array
-                      description: Records in JSON format
-                      items:
-                        $ref: '#/components/schemas/json_sms_outbound'
+                  - $ref: "#/components/schemas/report_response_top_level"
+                  - description: SMS (Outbound)
+                    type: object
+                    properties:
+                      include_message:
+                        type: boolean
+                        description: Include the text of messages in the report.
+                        example: "true"
+                      records:
+                        type: array
+                        description: Records in JSON format
+                        items:
+                          $ref: "#/components/schemas/json_sms_outbound"
 
               - allOf:
-                - $ref: '#/components/schemas/report_response_top_level'
-                - description: SMS (Inbound)
-                  type: object
-                  properties:
-                    include_message:
-                      type: boolean
-                      description: Include the text of messages in the report.
-                      example: "true"
-                    records:
-                      type: array
-                      description: Records in JSON format
-                      items:
-                        $ref: '#/components/schemas/json_sms_inbound'
+                  - $ref: "#/components/schemas/report_response_top_level"
+                  - description: SMS (Inbound)
+                    type: object
+                    properties:
+                      include_message:
+                        type: boolean
+                        description: Include the text of messages in the report.
+                        example: "true"
+                      records:
+                        type: array
+                        description: Records in JSON format
+                        items:
+                          $ref: "#/components/schemas/json_sms_inbound"
 
               - allOf:
-                - $ref: '#/components/schemas/report_response_top_level'
-                - description: Voice Call
-                  x-tab-id: voice-call
-                  type: object
-                  properties:
-                    records:
-                      type: array
-                      description: Records in JSON format
-                      items:
-                        $ref: '#/components/schemas/csv_voice'
+                  - $ref: "#/components/schemas/report_response_top_level"
+                  - description: Voice Call
+                    x-tab-id: voice-call
+                    type: object
+                    properties:
+                      records:
+                        type: array
+                        description: Records in JSON format
+                        items:
+                          $ref: "#/components/schemas/csv_voice"
 
               - allOf:
-                - $ref: '#/components/schemas/report_response_top_level'
-                - description: Verify
-                  type: object
-                  properties:
-                    records:
-                      type: array
-                      description: Records in JSON format
-                      items:
-                        $ref: '#/components/schemas/csv_verify'
+                  - $ref: "#/components/schemas/report_response_top_level"
+                  - description: Verify
+                    type: object
+                    properties:
+                      records:
+                        type: array
+                        description: Records in JSON format
+                        items:
+                          $ref: "#/components/schemas/csv_verify"
 
               - allOf:
-                - $ref: '#/components/schemas/report_response_top_level'
-                - description: Number Insight
-                  type: object
-                  properties:
-                    records:
-                      type: array
-                      description: Records in JSON format
-                      items:
-                        $ref: '#/components/schemas/csv_ni'
+                  - $ref: "#/components/schemas/report_response_top_level"
+                  - description: Number Insight
+                    type: object
+                    properties:
+                      records:
+                        type: array
+                        description: Records in JSON format
+                        items:
+                          $ref: "#/components/schemas/csv_ni"
 
               - allOf:
-                - $ref: '#/components/schemas/report_response_top_level'
-                - description: Messages (Outbound)
-                  type: object
-                  properties:
-                    include_message:
-                      type: boolean
-                      description: Include the text of messages in the report.
-                      example: "true"
-                    records:
-                      type: array
-                      description: Records in JSON format
-                      items:
-                        $ref: '#/components/schemas/csv_messages_outbound'
+                  - $ref: "#/components/schemas/report_response_top_level"
+                  - description: Messages (Outbound)
+                    type: object
+                    properties:
+                      include_message:
+                        type: boolean
+                        description: Include the text of messages in the report.
+                        example: "true"
+                      records:
+                        type: array
+                        description: Records in JSON format
+                        items:
+                          $ref: "#/components/schemas/csv_messages_outbound"
 
               - allOf:
-                - $ref: '#/components/schemas/report_response_top_level'
-                - description: Messages (Inbound)
-                  type: object
-                  properties:
-                    records:
-                      type: array
-                      description: Records in JSON format
-                      items:
-                        $ref: '#/components/schemas/csv_messages_inbound'
+                  - $ref: "#/components/schemas/report_response_top_level"
+                  - description: Messages (Inbound)
+                    type: object
+                    properties:
+                      records:
+                        type: array
+                        description: Records in JSON format
+                        items:
+                          $ref: "#/components/schemas/csv_messages_inbound"
 
               - allOf:
-                - $ref: '#/components/schemas/report_response_top_level'
-                - description: IP Voice
-                  type: object
-                  properties:
-                    records:
-                      type: array
-                      description: Records in JSON format
-                      items:
-                        $ref: '#/components/schemas/csv_conversations_ip_voice'
+                  - $ref: "#/components/schemas/report_response_top_level"
+                  - description: IP Voice
+                    type: object
+                    properties:
+                      records:
+                        type: array
+                        description: Records in JSON format
+                        items:
+                          $ref: "#/components/schemas/csv_conversations_ip_voice"
 
     csv_report_response:
       description: OK
@@ -553,14 +553,14 @@ components:
                 items:
                   type: object
                   anyOf:
-                    - $ref: '#/components/schemas/csv_sms_outbound'
-                    - $ref: '#/components/schemas/csv_sms_inbound'
-                    - $ref: '#/components/schemas/csv_voice'
-                    - $ref: '#/components/schemas/csv_verify'
-                    - $ref: '#/components/schemas/csv_ni'
-                    - $ref: '#/components/schemas/csv_messages_outbound'
-                    - $ref: '#/components/schemas/csv_messages_inbound'
-                    - $ref: '#/components/schemas/csv_conversations_ip_voice'
+                    - $ref: "#/components/schemas/csv_sms_outbound"
+                    - $ref: "#/components/schemas/csv_sms_inbound"
+                    - $ref: "#/components/schemas/csv_voice"
+                    - $ref: "#/components/schemas/csv_verify"
+                    - $ref: "#/components/schemas/csv_ni"
+                    - $ref: "#/components/schemas/csv_messages_outbound"
+                    - $ref: "#/components/schemas/csv_messages_inbound"
+                    - $ref: "#/components/schemas/csv_conversations_ip_voice"
 
     400_json:
       description: Bad Request
@@ -570,13 +570,13 @@ components:
             properties:
               type:
                 type: string
-                example: 'https://developer.nexmo.com/api-errors#invalid-json'
+                example: "https://developer.nexmo.com/api-errors#invalid-json"
               title:
                 type: string
-                example: 'Malformed JSON'
+                example: "Malformed JSON"
               detail:
                 type: string
-                example: 'Malformed JSON payload.'
+                example: "Malformed JSON payload."
               instance:
                 type: string
                 example: f94b4e56604e07e5e5ad5a7228618f81
@@ -588,13 +588,13 @@ components:
             properties:
               type:
                 type: string
-                example: 'https://developer.nexmo.com/api-errors/reports#invalid-request-parameters'
+                example: "https://developer.nexmo.com/api-errors/reports#invalid-request-parameters"
               title:
                 type: string
-                example: 'Invalid request parameter'
+                example: "Invalid request parameter"
               detail:
                 type: string
-                example: 'Invalid request parameter.'
+                example: "Invalid request parameter."
               instance:
                 type: string
                 example: f94b4e56604e07e5e5ad5a7228618f81
@@ -606,13 +606,13 @@ components:
             properties:
               type:
                 type: string
-                example: 'https://developer.nexmo.com/api-errors#unauthorized'
+                example: "https://developer.nexmo.com/api-errors#unauthorized"
               title:
                 type: string
-                example: 'Unauthorized'
+                example: "Unauthorized"
               detail:
                 type: string
-                example: 'You did not provide correct credentials.'
+                example: "You did not provide correct credentials."
               instance:
                 type: string
                 example: f94b4e56604e07e5e5ad5a7228618f81
@@ -624,13 +624,13 @@ components:
             properties:
               type:
                 type: string
-                example: 'https://developer.nexmo.com/api-errors#forbidden'
+                example: "https://developer.nexmo.com/api-errors#forbidden"
               title:
                 type: string
-                example: 'Forbidden'
+                example: "Forbidden"
               detail:
                 type: string
-                example: 'User not authorized to query the requested data.'
+                example: "User not authorized to query the requested data."
               instance:
                 type: string
                 example: f94b4e56604e07e5e5ad5a7228618f81
@@ -642,13 +642,13 @@ components:
             properties:
               type:
                 type: string
-                example: 'https://developer.nexmo.com/api-errors#not-found'
+                example: "https://developer.nexmo.com/api-errors#not-found"
               title:
                 type: string
-                example: 'Invalid report ID'
+                example: "Invalid report ID"
               detail:
                 type: string
-                example: 'Report aaaaaaaa-bbbb-cccc-dddd-0123456789ab does not exist, or you do not have access.'
+                example: "Report aaaaaaaa-bbbb-cccc-dddd-0123456789ab does not exist, or you do not have access."
               instance:
                 type: string
                 example: f94b4e56604e07e5e5ad5a7228618f81
@@ -660,13 +660,13 @@ components:
             properties:
               type:
                 type: string
-                example: 'https://developer.nexmo.com/api-errors#not-found'
+                example: "https://developer.nexmo.com/api-errors#not-found"
               title:
                 type: string
-                example: 'Unprocessable entity'
+                example: "Unprocessable entity"
               detail:
                 type: string
-                example: 'Unprocessable entity.'
+                example: "Unprocessable entity."
               instance:
                 type: string
                 example: f94b4e56604e07e5e5ad5a7228618f81
@@ -686,25 +686,25 @@ components:
                   type: string
                   example: "https://api.nexmo.com/v2/reports/records?product=SMS&direction=outbound&date_start=2020-03-05T13%3A00%3A00Z&date_end=2020-03-05T14%0A00%3A00Z&account_id=abcdef01"
         request_id:
-          $ref: '#/components/schemas/request_id'
+          $ref: "#/components/schemas/request_id"
         request_status:
-          $ref: '#/components/schemas/request_status'
+          $ref: "#/components/schemas/request_status"
         received_at:
-          $ref: '#/components/schemas/receive_time'
+          $ref: "#/components/schemas/receive_time"
         price:
-          $ref: '#/components/schemas/price'
+          $ref: "#/components/schemas/price"
         currency:
-          $ref: '#/components/schemas/currency'
+          $ref: "#/components/schemas/currency"
         direction:
-          $ref: '#/components/schemas/direction'
+          $ref: "#/components/schemas/direction"
         product:
-          $ref: '#/components/schemas/product'
+          $ref: "#/components/schemas/product"
         account_id:
-          $ref: '#/components/schemas/account_id'
+          $ref: "#/components/schemas/account_id"
         date_start:
-          $ref: '#/components/schemas/date_start'
+          $ref: "#/components/schemas/date_start"
         date_end:
-          $ref: '#/components/schemas/date_end'
+          $ref: "#/components/schemas/date_end"
         include_message:
           type: boolean
           description: Include the text of messages in the report.
@@ -1138,17 +1138,17 @@ components:
       type: object
       properties:
         product:
-          $ref: '#/components/schemas/product'
+          $ref: "#/components/schemas/product"
         account_id:
-          $ref: '#/components/schemas/account_id'
+          $ref: "#/components/schemas/account_id"
         date_start:
-          $ref: '#/components/schemas/date_start'
+          $ref: "#/components/schemas/date_start"
         date_end:
-          $ref: '#/components/schemas/date_end'
+          $ref: "#/components/schemas/date_end"
         include_subaccounts:
-          $ref: '#/components/schemas/include_subaccounts'
+          $ref: "#/components/schemas/include_subaccounts"
         callback_url:
-          $ref: '#/components/schemas/callback_url'
+          $ref: "#/components/schemas/callback_url"
       required:
         - product
         - account_id
@@ -1161,23 +1161,23 @@ components:
       type: object
       properties:
         product:
-          $ref: '#/components/schemas/product_sms'
+          $ref: "#/components/schemas/product_sms"
         direction:
-          $ref: '#/components/schemas/direction'
+          $ref: "#/components/schemas/direction"
         status:
-          $ref: '#/components/schemas/sms_status'
+          $ref: "#/components/schemas/sms_status"
         client_ref:
-          $ref: '#/components/schemas/client_ref'
+          $ref: "#/components/schemas/client_ref"
         account_ref:
-          $ref: '#/components/schemas/account_ref'
+          $ref: "#/components/schemas/account_ref"
         include_message:
-          $ref: '#/components/schemas/include_message'
+          $ref: "#/components/schemas/include_message"
         network:
-          $ref: '#/components/schemas/network'
+          $ref: "#/components/schemas/network"
         from:
-          $ref: '#/components/schemas/from'
+          $ref: "#/components/schemas/from"
         to:
-          $ref: '#/components/schemas/to'
+          $ref: "#/components/schemas/to"
       required:
         - product
         - account_id
@@ -1189,17 +1189,17 @@ components:
       type: object
       properties:
         product:
-          $ref: '#/components/schemas/product_voice'
+          $ref: "#/components/schemas/product_voice"
         direction:
-          $ref: '#/components/schemas/direction'
+          $ref: "#/components/schemas/direction"
         network:
-          $ref: '#/components/schemas/network'
+          $ref: "#/components/schemas/network"
         from:
-          $ref: '#/components/schemas/from'
+          $ref: "#/components/schemas/from"
         to:
-          $ref: '#/components/schemas/to'
+          $ref: "#/components/schemas/to"
         status:
-          $ref: '#/components/schemas/voice_status'
+          $ref: "#/components/schemas/voice_status"
 
     verify_api_fields:
       description: Verify
@@ -1207,11 +1207,11 @@ components:
       type: object
       properties:
         product:
-          $ref: '#/components/schemas/product_verify'
+          $ref: "#/components/schemas/product_verify"
         to:
-          $ref: '#/components/schemas/to'
+          $ref: "#/components/schemas/to"
         network:
-          $ref: '#/components/schemas/network'
+          $ref: "#/components/schemas/network"
 
     number_insight_fields:
       description: Number Insight
@@ -1219,11 +1219,11 @@ components:
       type: object
       properties:
         product:
-          $ref: '#/components/schemas/product_ni'
+          $ref: "#/components/schemas/product_ni"
         number:
-          $ref: '#/components/schemas/number'
+          $ref: "#/components/schemas/number"
         network:
-          $ref: '#/components/schemas/network'
+          $ref: "#/components/schemas/network"
 
     conversations_fields:
       description: Conversations
@@ -1231,13 +1231,13 @@ components:
       type: object
       properties:
         product:
-          $ref: '#/components/schemas/product_conversations'
+          $ref: "#/components/schemas/product_conversations"
         type:
-          $ref: '#/components/schemas/conversation_type'
+          $ref: "#/components/schemas/conversation_type"
         conversation_id:
-          $ref: '#/components/schemas/conversation_id'
+          $ref: "#/components/schemas/conversation_id"
         status:
-          $ref: '#/components/schemas/status'
+          $ref: "#/components/schemas/status"
 
     messages_fields:
       description: Messages
@@ -1245,204 +1245,204 @@ components:
       type: object
       properties:
         product:
-          $ref: '#/components/schemas/product_messages'
+          $ref: "#/components/schemas/product_messages"
         direction:
-          $ref: '#/components/schemas/direction'
+          $ref: "#/components/schemas/direction"
         from:
-          $ref: '#/components/schemas/from'
+          $ref: "#/components/schemas/from"
         to:
-          $ref: '#/components/schemas/to'
+          $ref: "#/components/schemas/to"
         uuid:
-          $ref: '#/components/schemas/uuid'
+          $ref: "#/components/schemas/uuid"
         include_message:
-          $ref: '#/components/schemas/include_message'
+          $ref: "#/components/schemas/include_message"
 
     SMS:
       description: SMS
       x-tab-id: SMS
       allOf:
-        - $ref: '#/components/schemas/report_request'
-        - $ref: '#/components/schemas/sms_fields'
+        - $ref: "#/components/schemas/report_request"
+        - $ref: "#/components/schemas/sms_fields"
 
     VOICE-CALL:
       description: Voice Call
       x-tab-id: voice-call
       allOf:
-        - $ref: '#/components/schemas/report_request'
-        - $ref: '#/components/schemas/voice_call_fields'
+        - $ref: "#/components/schemas/report_request"
+        - $ref: "#/components/schemas/voice_call_fields"
 
     VERIFY-API:
       description: Verify
       x-tab-id: verify
       allOf:
-        - $ref: '#/components/schemas/report_request'
-        - $ref: '#/components/schemas/verify_api_fields'
+        - $ref: "#/components/schemas/report_request"
+        - $ref: "#/components/schemas/verify_api_fields"
 
     NUMBER-INSIGHT:
       description: Number Insight
       x-tab-id: number-insight
       allOf:
-        - $ref: '#/components/schemas/report_request'
-        - $ref: '#/components/schemas/number_insight_fields'
+        - $ref: "#/components/schemas/report_request"
+        - $ref: "#/components/schemas/number_insight_fields"
 
     CONVERSATIONS:
       description: Conversations
       x-tab-id: conversations
       allOf:
-        - $ref: '#/components/schemas/report_request'
-        - $ref: '#/components/schemas/conversations_fields'
+        - $ref: "#/components/schemas/report_request"
+        - $ref: "#/components/schemas/conversations_fields"
 
     MESSAGES:
       description: Messages
       x-tab-id: messages
       allOf:
-        - $ref: '#/components/schemas/report_request'
-        - $ref: '#/components/schemas/messages_fields'
+        - $ref: "#/components/schemas/report_request"
+        - $ref: "#/components/schemas/messages_fields"
 
     report_response:
       type: object
       properties:
         request_id:
-          $ref: '#/components/schemas/request_id'
+          $ref: "#/components/schemas/request_id"
         request_status:
-          $ref: '#/components/schemas/request_status'
+          $ref: "#/components/schemas/request_status"
         product:
-          $ref: '#/components/schemas/product'
+          $ref: "#/components/schemas/product"
         account_id:
-          $ref: '#/components/schemas/account_id'
+          $ref: "#/components/schemas/account_id"
         date_start:
-          $ref: '#/components/schemas/date_start'
+          $ref: "#/components/schemas/date_start"
         date_end:
-          $ref: '#/components/schemas/date_end'
+          $ref: "#/components/schemas/date_end"
         include_subaccounts:
-          $ref: '#/components/schemas/include_subaccounts'
+          $ref: "#/components/schemas/include_subaccounts"
         callback_url:
-          $ref: '#/components/schemas/callback_url'
+          $ref: "#/components/schemas/callback_url"
         receive_time:
-          $ref: '#/components/schemas/receive_time'
+          $ref: "#/components/schemas/receive_time"
         start_time:
-          $ref: '#/components/schemas/start_time'
+          $ref: "#/components/schemas/start_time"
         _links:
-          $ref: '#/components/schemas/_links'
+          $ref: "#/components/schemas/_links"
         items_count:
-          $ref: '#/components/schemas/items_count'
+          $ref: "#/components/schemas/items_count"
 
     report_response_create_report:
       type: object
       properties:
         request_id:
-          $ref: '#/components/schemas/request_id'
+          $ref: "#/components/schemas/request_id"
         request_status:
-          $ref: '#/components/schemas/request_status_create_report'
+          $ref: "#/components/schemas/request_status_create_report"
         product:
-          $ref: '#/components/schemas/product'
+          $ref: "#/components/schemas/product"
         account_id:
-          $ref: '#/components/schemas/account_id'
+          $ref: "#/components/schemas/account_id"
         date_start:
-          $ref: '#/components/schemas/date_start'
+          $ref: "#/components/schemas/date_start"
         date_end:
-          $ref: '#/components/schemas/date_end'
+          $ref: "#/components/schemas/date_end"
         include_subaccounts:
-          $ref: '#/components/schemas/include_subaccounts'
+          $ref: "#/components/schemas/include_subaccounts"
         callback_url:
-          $ref: '#/components/schemas/callback_url'
+          $ref: "#/components/schemas/callback_url"
         receive_time:
-          $ref: '#/components/schemas/receive_time'
+          $ref: "#/components/schemas/receive_time"
         start_time:
-          $ref: '#/components/schemas/start_time'
+          $ref: "#/components/schemas/start_time"
         _links:
-          $ref: '#/components/schemas/_links_create_report'
+          $ref: "#/components/schemas/_links_create_report"
 
     sms_response_get_report:
       description: SMS
       x-tab-id: SMS
       allOf:
-        - $ref: '#/components/schemas/report_response'
-        - $ref: '#/components/schemas/sms_fields'
+        - $ref: "#/components/schemas/report_response"
+        - $ref: "#/components/schemas/sms_fields"
 
     sms_response_create_report:
       description: SMS
       x-tab-id: SMS
       allOf:
-        - $ref: '#/components/schemas/report_response_create_report'
-        - $ref: '#/components/schemas/sms_fields'
+        - $ref: "#/components/schemas/report_response_create_report"
+        - $ref: "#/components/schemas/sms_fields"
 
     voice_call_response_get_report:
       description: Voice Call
       x-tab-id: voice-call
       allOf:
-        - $ref: '#/components/schemas/report_response'
-        - $ref: '#/components/schemas/voice_call_fields'
+        - $ref: "#/components/schemas/report_response"
+        - $ref: "#/components/schemas/voice_call_fields"
 
     voice_call_response_create_report:
       description: Voice Call
       x-tab-id: voice-call
       allOf:
-        - $ref: '#/components/schemas/report_response_create_report'
-        - $ref: '#/components/schemas/voice_call_fields'
+        - $ref: "#/components/schemas/report_response_create_report"
+        - $ref: "#/components/schemas/voice_call_fields"
 
     number_insight_response_get_report:
       description: Number Insight
       x-tab-id: number-insight
       allOf:
-        - $ref: '#/components/schemas/report_response'
-        - $ref: '#/components/schemas/number_insight_fields'
+        - $ref: "#/components/schemas/report_response"
+        - $ref: "#/components/schemas/number_insight_fields"
 
     number_insight_response_create_report:
       description: Number Insight
       x-tab-id: number-insight
       allOf:
-        - $ref: '#/components/schemas/report_response_create_report'
-        - $ref: '#/components/schemas/number_insight_fields'
+        - $ref: "#/components/schemas/report_response_create_report"
+        - $ref: "#/components/schemas/number_insight_fields"
 
     verify_api_response_get_report:
       description: Verify
       x-tab-id: verify
       allOf:
-        - $ref: '#/components/schemas/report_response'
-        - $ref: '#/components/schemas/verify_api_fields'
+        - $ref: "#/components/schemas/report_response"
+        - $ref: "#/components/schemas/verify_api_fields"
 
     verify_api_response_create_report:
       description: Verify
       x-tab-id: verify
       allOf:
-        - $ref: '#/components/schemas/report_response_create_report'
-        - $ref: '#/components/schemas/verify_api_fields'
+        - $ref: "#/components/schemas/report_response_create_report"
+        - $ref: "#/components/schemas/verify_api_fields"
 
     conversations_response_get_report:
       description: Conversations
       x-tab-id: conversations
       allOf:
-        - $ref: '#/components/schemas/report_response'
-        - $ref: '#/components/schemas/conversations_fields'
+        - $ref: "#/components/schemas/report_response"
+        - $ref: "#/components/schemas/conversations_fields"
 
     conversations_response_create_report:
       description: Conversations
       x-tab-id: conversations
       allOf:
-        - $ref: '#/components/schemas/report_response_create_report'
-        - $ref: '#/components/schemas/conversations_fields'
+        - $ref: "#/components/schemas/report_response_create_report"
+        - $ref: "#/components/schemas/conversations_fields"
 
     messages_response_get_report:
       description: Messages
       x-tab-id: messages
       allOf:
-        - $ref: '#/components/schemas/report_response'
-        - $ref: '#/components/schemas/messages_fields'
+        - $ref: "#/components/schemas/report_response"
+        - $ref: "#/components/schemas/messages_fields"
 
     messages_response_create_report:
       description: Messages
       x-tab-id: messages
       allOf:
-        - $ref: '#/components/schemas/report_response_create_report'
-        - $ref: '#/components/schemas/messages_fields'
+        - $ref: "#/components/schemas/report_response_create_report"
+        - $ref: "#/components/schemas/messages_fields"
 
     json_sms_outbound_with_body:
       allOf:
-        - $ref: '#/components/schemas/json_sms_outbound'
+        - $ref: "#/components/schemas/json_sms_outbound"
         - properties:
             message_body:
-              $ref: '#/components/schemas/message_body'
+              $ref: "#/components/schemas/message_body"
 
     json_sms_outbound:
       description: Outbound SMS
@@ -1450,48 +1450,48 @@ components:
       type: object
       properties:
         account_id:
-          $ref: '#/components/schemas/account_id'
+          $ref: "#/components/schemas/account_id"
         message_id:
-          $ref: '#/components/schemas/message_id'
+          $ref: "#/components/schemas/message_id"
         client_ref:
-          $ref: '#/components/schemas/client_ref'
+          $ref: "#/components/schemas/client_ref"
         direction:
-          $ref: '#/components/schemas/direction'
+          $ref: "#/components/schemas/direction"
         from:
-          $ref: '#/components/schemas/from'
+          $ref: "#/components/schemas/from"
         to:
-          $ref: '#/components/schemas/to'
+          $ref: "#/components/schemas/to"
         network:
-          $ref: '#/components/schemas/network'
+          $ref: "#/components/schemas/network"
         network_name:
-          $ref: '#/components/schemas/network_name'
+          $ref: "#/components/schemas/network_name"
         country:
-          $ref: '#/components/schemas/country'
+          $ref: "#/components/schemas/country"
         country_name:
-          $ref: '#/components/schemas/country_name'
+          $ref: "#/components/schemas/country_name"
         date_received:
-          $ref: '#/components/schemas/date'
+          $ref: "#/components/schemas/date"
         date_finalized:
-          $ref: '#/components/schemas/date_finalized'
+          $ref: "#/components/schemas/date_finalized"
         latency:
-          $ref: '#/components/schemas/latency'
+          $ref: "#/components/schemas/latency"
         status:
-          $ref: '#/components/schemas/sms_status'
+          $ref: "#/components/schemas/sms_status"
         error_code:
-          $ref: '#/components/schemas/error_code'
+          $ref: "#/components/schemas/error_code"
         error_code_description:
-          $ref: '#/components/schemas/error_code_description'
+          $ref: "#/components/schemas/error_code_description"
         currency:
-          $ref: '#/components/schemas/currency'
+          $ref: "#/components/schemas/currency"
         total_price:
-          $ref: '#/components/schemas/price'
+          $ref: "#/components/schemas/price"
 
     json_sms_inbound_with_body:
       allOf:
-        - $ref: '#/components/schemas/json_sms_inbound'
+        - $ref: "#/components/schemas/json_sms_inbound"
         - properties:
             message_body:
-              $ref: '#/components/schemas/message_body'
+              $ref: "#/components/schemas/message_body"
 
     json_sms_inbound:
       description: Inbound SMS
@@ -1499,33 +1499,31 @@ components:
       type: object
       properties:
         account_id:
-          $ref: '#/components/schemas/account_id'
+          $ref: "#/components/schemas/account_id"
         message_id:
-          $ref: '#/components/schemas/message_id'
+          $ref: "#/components/schemas/message_id"
         direction:
           allOf:
-            - $ref: '#/components/schemas/direction'
+            - $ref: "#/components/schemas/direction"
             - example: inbound
         from:
-          $ref: '#/components/schemas/from'
+          $ref: "#/components/schemas/from"
         to:
-          $ref: '#/components/schemas/to'
+          $ref: "#/components/schemas/to"
         network:
-          $ref: '#/components/schemas/network'
+          $ref: "#/components/schemas/network"
         network_name:
-          $ref: '#/components/schemas/network_name'
+          $ref: "#/components/schemas/network_name"
         country:
-          $ref: '#/components/schemas/country'
+          $ref: "#/components/schemas/country"
         country_name:
-          $ref: '#/components/schemas/country_name'
+          $ref: "#/components/schemas/country_name"
         date_received:
-          $ref: '#/components/schemas/date'
+          $ref: "#/components/schemas/date"
         currency:
-          $ref: '#/components/schemas/currency'
+          $ref: "#/components/schemas/currency"
         total_price:
-          $ref: '#/components/schemas/price'
-
-
+          $ref: "#/components/schemas/price"
 
     csv_sms_outbound:
       description: Outbound SMS
@@ -1533,43 +1531,43 @@ components:
       type: object
       properties:
         account_id:
-          $ref: '#/components/schemas/account_id'
+          $ref: "#/components/schemas/account_id"
         message_id:
-          $ref: '#/components/schemas/message_id'
+          $ref: "#/components/schemas/message_id"
         client_ref:
-          $ref: '#/components/schemas/client_ref'
+          $ref: "#/components/schemas/client_ref"
         direction:
-          $ref: '#/components/schemas/direction'
+          $ref: "#/components/schemas/direction"
         from:
-          $ref: '#/components/schemas/from'
+          $ref: "#/components/schemas/from"
         to:
-          $ref: '#/components/schemas/to'
+          $ref: "#/components/schemas/to"
         message_body:
-          $ref: '#/components/schemas/message_body'
+          $ref: "#/components/schemas/message_body"
         network:
-          $ref: '#/components/schemas/network'
+          $ref: "#/components/schemas/network"
         network_name:
-          $ref: '#/components/schemas/network_name'
+          $ref: "#/components/schemas/network_name"
         country:
-          $ref: '#/components/schemas/country'
+          $ref: "#/components/schemas/country"
         country_name:
-          $ref: '#/components/schemas/country_name'
+          $ref: "#/components/schemas/country_name"
         date_received:
-          $ref: '#/components/schemas/date'
+          $ref: "#/components/schemas/date"
         date_finalized:
-          $ref: '#/components/schemas/date_finalized'
+          $ref: "#/components/schemas/date_finalized"
         latency:
-          $ref: '#/components/schemas/latency'
+          $ref: "#/components/schemas/latency"
         status:
-          $ref: '#/components/schemas/sms_status'
+          $ref: "#/components/schemas/sms_status"
         error_code:
-          $ref: '#/components/schemas/error_code'
+          $ref: "#/components/schemas/error_code"
         error_code_description:
-          $ref: '#/components/schemas/error_code_description'
+          $ref: "#/components/schemas/error_code_description"
         currency:
-          $ref: '#/components/schemas/currency'
+          $ref: "#/components/schemas/currency"
         total_price:
-          $ref: '#/components/schemas/price'
+          $ref: "#/components/schemas/price"
 
     csv_sms_inbound:
       description: Inbound SMS
@@ -1577,31 +1575,31 @@ components:
       type: object
       properties:
         account_id:
-          $ref: '#/components/schemas/account_id'
+          $ref: "#/components/schemas/account_id"
         message_id:
-          $ref: '#/components/schemas/message_id'
+          $ref: "#/components/schemas/message_id"
         direction:
-          $ref: '#/components/schemas/direction'
+          $ref: "#/components/schemas/direction"
         from:
-          $ref: '#/components/schemas/from'
+          $ref: "#/components/schemas/from"
         to:
-          $ref: '#/components/schemas/to'
+          $ref: "#/components/schemas/to"
         message_body:
-          $ref: '#/components/schemas/message_body'
+          $ref: "#/components/schemas/message_body"
         network:
-          $ref: '#/components/schemas/network'
+          $ref: "#/components/schemas/network"
         network_name:
-          $ref: '#/components/schemas/network_name'
+          $ref: "#/components/schemas/network_name"
         country:
-          $ref: '#/components/schemas/country'
+          $ref: "#/components/schemas/country"
         country_name:
-          $ref: '#/components/schemas/country_name'
+          $ref: "#/components/schemas/country_name"
         date_received:
-          $ref: '#/components/schemas/date'
+          $ref: "#/components/schemas/date"
         currency:
-          $ref: '#/components/schemas/currency'
+          $ref: "#/components/schemas/currency"
         total_price:
-          $ref: '#/components/schemas/price'
+          $ref: "#/components/schemas/price"
 
     csv_voice:
       description: Voice Call
@@ -1609,39 +1607,39 @@ components:
       type: object
       properties:
         account_id:
-          $ref: '#/components/schemas/account_id'
+          $ref: "#/components/schemas/account_id"
         call_id:
-          $ref: '#/components/schemas/request_id'
+          $ref: "#/components/schemas/request_id"
         direction:
-          $ref: '#/components/schemas/direction'
+          $ref: "#/components/schemas/direction"
         from:
-          $ref: '#/components/schemas/from'
+          $ref: "#/components/schemas/from"
         to:
-          $ref: '#/components/schemas/to'
+          $ref: "#/components/schemas/to"
         network:
-          $ref: '#/components/schemas/network'
+          $ref: "#/components/schemas/network"
         network_name:
-          $ref: '#/components/schemas/network_name'
+          $ref: "#/components/schemas/network_name"
         country:
-          $ref: '#/components/schemas/country'
+          $ref: "#/components/schemas/country"
         country_name:
-          $ref: '#/components/schemas/country_name'
+          $ref: "#/components/schemas/country_name"
         date_start:
-          $ref: '#/components/schemas/call_start_date'
+          $ref: "#/components/schemas/call_start_date"
         date_end:
-          $ref: '#/components/schemas/call_end_date'
+          $ref: "#/components/schemas/call_end_date"
         duration:
-          $ref: '#/components/schemas/duration'
+          $ref: "#/components/schemas/duration"
         status:
-          $ref: '#/components/schemas/voice_status'
+          $ref: "#/components/schemas/voice_status"
         status_description:
-          $ref: '#/components/schemas/voice_status_description'
+          $ref: "#/components/schemas/voice_status_description"
         currency:
-          $ref: '#/components/schemas/currency'
+          $ref: "#/components/schemas/currency"
         price:
-          $ref: '#/components/schemas/price'
+          $ref: "#/components/schemas/price"
         total_price:
-          $ref: '#/components/schemas/total_price'
+          $ref: "#/components/schemas/total_price"
 
     csv_verify:
       description: Verify
@@ -1649,47 +1647,47 @@ components:
       type: object
       properties:
         account_id:
-          $ref: '#/components/schemas/account_id'
+          $ref: "#/components/schemas/account_id"
         request_id:
-          $ref: '#/components/schemas/request_id'
+          $ref: "#/components/schemas/request_id"
         from:
-          $ref: '#/components/schemas/from'
+          $ref: "#/components/schemas/from"
         to:
-          $ref: '#/components/schemas/to'
+          $ref: "#/components/schemas/to"
         locale:
-          $ref: '#/components/schemas/locale'
+          $ref: "#/components/schemas/locale"
         number_type:
-          $ref: '#/components/schemas/number_type'
+          $ref: "#/components/schemas/number_type"
         network:
-          $ref: '#/components/schemas/network'
+          $ref: "#/components/schemas/network"
         network_name:
-          $ref: '#/components/schemas/network_name'
+          $ref: "#/components/schemas/network_name"
         country:
-          $ref: '#/components/schemas/country'
+          $ref: "#/components/schemas/country"
         country_name:
-          $ref: '#/components/schemas/country_name'
+          $ref: "#/components/schemas/country_name"
         date_received:
-          $ref: '#/components/schemas/date'
+          $ref: "#/components/schemas/date"
         date_finalized:
-          $ref: '#/components/schemas/date_finalized'
+          $ref: "#/components/schemas/date_finalized"
         first_event_date:
-          $ref: '#/components/schemas/first_event_date'
+          $ref: "#/components/schemas/first_event_date"
         last_event_date:
-          $ref: '#/components/schemas/last_event_date'
+          $ref: "#/components/schemas/last_event_date"
         verify_status:
-          $ref: '#/components/schemas/verify_status'
+          $ref: "#/components/schemas/verify_status"
         sms_event_count:
-          $ref: '#/components/schemas/sms_event_count'
+          $ref: "#/components/schemas/sms_event_count"
         tts_event_count:
-          $ref: '#/components/schemas/tts_event_count'
+          $ref: "#/components/schemas/tts_event_count"
         currency:
-          $ref: '#/components/schemas/currency'
+          $ref: "#/components/schemas/currency"
         pricing_model:
-          $ref: '#/components/schemas/pricing_model'
+          $ref: "#/components/schemas/pricing_model"
         price:
-          $ref: '#/components/schemas/price'
+          $ref: "#/components/schemas/price"
         estimated_price:
-          $ref: '#/components/schemas/estimated_price'
+          $ref: "#/components/schemas/estimated_price"
 
     csv_ni:
       description: Number Insight
@@ -1697,43 +1695,43 @@ components:
       type: object
       properties:
         account_id:
-          $ref: '#/components/schemas/account_id'
+          $ref: "#/components/schemas/account_id"
         request_id:
-          $ref: '#/components/schemas/request_id'
+          $ref: "#/components/schemas/request_id"
         product_type:
-          $ref: '#/components/schemas/ni_product_type'
+          $ref: "#/components/schemas/ni_product_type"
         number:
-          $ref: '#/components/schemas/ni_number'
+          $ref: "#/components/schemas/ni_number"
         date_received:
-          $ref: '#/components/schemas/date'
+          $ref: "#/components/schemas/date"
         status:
-          $ref: '#/components/schemas/ni_status'
+          $ref: "#/components/schemas/ni_status"
         response_code:
-          $ref: '#/components/schemas/ni_response_code'
+          $ref: "#/components/schemas/ni_response_code"
         network:
-          $ref: '#/components/schemas/ni_network'
+          $ref: "#/components/schemas/ni_network"
         network_name:
-          $ref: '#/components/schemas/ni_network_name'
+          $ref: "#/components/schemas/ni_network_name"
         network_type:
-          $ref: '#/components/schemas/ni_network_type'
+          $ref: "#/components/schemas/ni_network_type"
         country:
-          $ref: '#/components/schemas/ni_country'
+          $ref: "#/components/schemas/ni_country"
         country_name:
-          $ref: '#/components/schemas/ni_country_name'
+          $ref: "#/components/schemas/ni_country_name"
         valid:
-          $ref: '#/components/schemas/ni_valid'
+          $ref: "#/components/schemas/ni_valid"
         ported:
-          $ref: '#/components/schemas/ni_ported'
+          $ref: "#/components/schemas/ni_ported"
         reachable:
-          $ref: '#/components/schemas/ni_reachable'
+          $ref: "#/components/schemas/ni_reachable"
         first_name:
-          $ref: '#/components/schemas/ni_first_name'
+          $ref: "#/components/schemas/ni_first_name"
         last_name:
-          $ref: '#/components/schemas/ni_last_name'
+          $ref: "#/components/schemas/ni_last_name"
         currency:
-          $ref: '#/components/schemas/currency'
+          $ref: "#/components/schemas/currency"
         total_price:
-          $ref: '#/components/schemas/total_price'
+          $ref: "#/components/schemas/total_price"
 
     csv_messages_outbound:
       description: Outbound Messages
@@ -1741,39 +1739,39 @@ components:
       type: object
       properties:
         account_id:
-          $ref: '#/components/schemas/account_id'
+          $ref: "#/components/schemas/account_id"
         message_id:
-          $ref: '#/components/schemas/message_id'
+          $ref: "#/components/schemas/message_id"
         client_ref:
-          $ref: '#/components/schemas/client_ref'
+          $ref: "#/components/schemas/client_ref"
         direction:
-          $ref: '#/components/schemas/direction'
+          $ref: "#/components/schemas/direction"
         from:
-          $ref: '#/components/schemas/from'
+          $ref: "#/components/schemas/from"
         to:
-          $ref: '#/components/schemas/to'
+          $ref: "#/components/schemas/to"
         message_body:
-          $ref: '#/components/schemas/message_body'
+          $ref: "#/components/schemas/message_body"
         country:
-          $ref: '#/components/schemas/country'
+          $ref: "#/components/schemas/country"
         country_name:
-          $ref: '#/components/schemas/country_name'
+          $ref: "#/components/schemas/country_name"
         provider:
-          $ref: '#/components/schemas/messages_provider'
+          $ref: "#/components/schemas/messages_provider"
         date_received:
-          $ref: '#/components/schemas/date'
+          $ref: "#/components/schemas/date"
         date_finalized:
-          $ref: '#/components/schemas/date_finalized'
+          $ref: "#/components/schemas/date_finalized"
         latency:
-          $ref: '#/components/schemas/latency'
+          $ref: "#/components/schemas/latency"
         status:
-          $ref: '#/components/schemas/messages_status'
+          $ref: "#/components/schemas/messages_status"
         error_code:
-          $ref: '#/components/schemas/messages_error_code'
+          $ref: "#/components/schemas/messages_error_code"
         currency:
-          $ref: '#/components/schemas/currency'
+          $ref: "#/components/schemas/currency"
         total_price:
-          $ref: '#/components/schemas/total_price'
+          $ref: "#/components/schemas/total_price"
 
     csv_messages_inbound:
       description: Inbound Messages
@@ -1781,25 +1779,25 @@ components:
       type: object
       properties:
         account_id:
-          $ref: '#/components/schemas/account_id'
+          $ref: "#/components/schemas/account_id"
         message_id:
-          $ref: '#/components/schemas/message_id'
+          $ref: "#/components/schemas/message_id"
         direction:
-          $ref: '#/components/schemas/direction'
+          $ref: "#/components/schemas/direction"
         from:
-          $ref: '#/components/schemas/from'
+          $ref: "#/components/schemas/from"
         to:
-          $ref: '#/components/schemas/to'
+          $ref: "#/components/schemas/to"
         message_body:
-          $ref: '#/components/schemas/message_body'
+          $ref: "#/components/schemas/message_body"
         provider:
-          $ref: '#/components/schemas/messages_provider'
+          $ref: "#/components/schemas/messages_provider"
         date_received:
-          $ref: '#/components/schemas/date'
+          $ref: "#/components/schemas/date"
         currency:
-          $ref: '#/components/schemas/currency'
+          $ref: "#/components/schemas/currency"
         total_price:
-          $ref: '#/components/schemas/total_price'
+          $ref: "#/components/schemas/total_price"
 
     csv_conversations_ip_voice:
       description: IP Voice Conversations
@@ -1807,31 +1805,31 @@ components:
       type: object
       properties:
         account_id:
-          $ref: '#/components/schemas/account_id'
+          $ref: "#/components/schemas/account_id"
         request_id:
-          $ref: '#/components/schemas/request_id'
+          $ref: "#/components/schemas/request_id"
         application_id:
-          $ref: '#/components/schemas/application_id'
+          $ref: "#/components/schemas/application_id"
         conversation_id:
-          $ref: '#/components/schemas/conversation_id'
+          $ref: "#/components/schemas/conversation_id"
         user_id:
-          $ref: '#/components/schemas/conversations_user_id'
+          $ref: "#/components/schemas/conversations_user_id"
         leg_id:
-          $ref: '#/components/schemas/ip_voice_leg_id'
+          $ref: "#/components/schemas/ip_voice_leg_id"
         date_start:
-          $ref: '#/components/schemas/call_start_date'
+          $ref: "#/components/schemas/call_start_date"
         date_end:
-          $ref: '#/components/schemas/call_end_date'
+          $ref: "#/components/schemas/call_end_date"
         duration:
-          $ref: '#/components/schemas/duration'
+          $ref: "#/components/schemas/duration"
         status:
-          $ref: '#/components/schemas/ip_voice_status'
+          $ref: "#/components/schemas/ip_voice_status"
         currency:
-          $ref: '#/components/schemas/currency'
+          $ref: "#/components/schemas/currency"
         price:
-          $ref: '#/components/schemas/price'
+          $ref: "#/components/schemas/price"
         total_price:
-          $ref: '#/components/schemas/total_price'
+          $ref: "#/components/schemas/total_price"
 
 x-errors:
   invalid-request-parameters:

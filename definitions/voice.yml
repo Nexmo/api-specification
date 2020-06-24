@@ -3,86 +3,87 @@ openapi: 3.0.0
 info:
   version: 1.2.9
   title: Voice API
-  description: The Voice API lets you create outbound calls, control in-progress calls
+  description:
+    The Voice API lets you create outbound calls, control in-progress calls
     and get information about historical calls. More information about the Voice API
     can be found at <https://developer.nexmo.com/voice/voice-api/overview>.
   contact:
     name: Nexmo DevRel
     email: devrel@nexmo.com
-    url: 'https://developer.nexmo.com/'
+    url: "https://developer.nexmo.com/"
 servers:
-- url: https://api.nexmo.com/v1/calls
+  - url: https://api.nexmo.com/v1/calls
 paths:
   "/":
     get:
       security:
-      - bearerAuth: []
+        - bearerAuth: []
       summary: Get details of your calls
       description: Get details of your calls
       operationId: getCalls
       parameters:
-      - name: status
-        in: query
-        description: Filter by call status
-        schema:
-          type: string
-          example: started
-          enum:
-          - started
-          - ringing
-          - answered
-          - machine
-          - completed
-          - busy
-          - cancelled
-          - failed
-          - rejected
-          - timeout
-          - unanswered
-      - name: date_start
-        in: query
-        description: Return the records that occurred after this point in time
-        schema:
-          type: string
-          format: date-time
-          example: 2016-11-14T07:45:14Z
-      - name: date_end
-        in: query
-        description: Return the records that occurred before this point in time
-        schema:
-          type: string
-          format: date-time
-          example: 2016-11-14T07:45:14Z
-      - name: page_size
-        in: query
-        description: Return this amount of records in the response
-        schema:
-          type: integer
-          maximum: 100
-          minimum: 1
-          default: 10
-      - name: record_index
-        in: query
-        description: Return calls from this index in the response
-        schema:
-          type: integer
-          default: 0
-      - name: order
-        in: query
-        description: Either ascending or  descending order.
-        schema:
-          type: string
-          default: asc
-          enum:
-          - asc
-          - desc
-      - name: conversation_uuid
-        in: query
-        description: Return all the records associated with a specific conversation.
-        schema:
-          $ref: '#/components/schemas/conversation_uuid'
+        - name: status
+          in: query
+          description: Filter by call status
+          schema:
+            type: string
+            example: started
+            enum:
+              - started
+              - ringing
+              - answered
+              - machine
+              - completed
+              - busy
+              - cancelled
+              - failed
+              - rejected
+              - timeout
+              - unanswered
+        - name: date_start
+          in: query
+          description: Return the records that occurred after this point in time
+          schema:
+            type: string
+            format: date-time
+            example: 2016-11-14T07:45:14Z
+        - name: date_end
+          in: query
+          description: Return the records that occurred before this point in time
+          schema:
+            type: string
+            format: date-time
+            example: 2016-11-14T07:45:14Z
+        - name: page_size
+          in: query
+          description: Return this amount of records in the response
+          schema:
+            type: integer
+            maximum: 100
+            minimum: 1
+            default: 10
+        - name: record_index
+          in: query
+          description: Return calls from this index in the response
+          schema:
+            type: integer
+            default: 0
+        - name: order
+          in: query
+          description: Either ascending or  descending order.
+          schema:
+            type: string
+            default: asc
+            enum:
+              - asc
+              - desc
+        - name: conversation_uuid
+          in: query
+          description: Return all the records associated with a specific conversation.
+          schema:
+            $ref: "#/components/schemas/conversation_uuid"
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
@@ -90,7 +91,7 @@ paths:
                 "$ref": "#/components/schemas/GetCallsResponse"
     post:
       security:
-      - bearerAuth: []
+        - bearerAuth: []
       summary: Create an outbound call
       description: Create an outbound Call
       operationId: createCall
@@ -101,7 +102,7 @@ paths:
             schema:
               "$ref": "#/components/schemas/CreateCallRequest"
       responses:
-        '201':
+        "201":
           description: Created
           content:
             application/json:
@@ -109,21 +110,21 @@ paths:
                 "$ref": "#/components/schemas/CreateCallResponse"
   "/{uuid}":
     parameters:
-    - in: path
-      name: uuid
-      schema:
-        type: string
-      required: true
-      description: UUID of the Call
-      example: 63f61863-4a51-4f6b-86e1-46edebcf9356
+      - in: path
+        name: uuid
+        schema:
+          type: string
+        required: true
+        description: UUID of the Call
+        example: 63f61863-4a51-4f6b-86e1-46edebcf9356
     get:
       security:
-      - bearerAuth: []
+        - bearerAuth: []
       summary: Get detail of a specific call
       description: Get detail of a specific call
       operationId: getCall
       responses:
-        '200':
+        "200":
           description: Ok
           content:
             application/json:
@@ -131,7 +132,7 @@ paths:
                 "$ref": "#/components/schemas/GetCallResponse"
     put:
       security:
-      - bearerAuth: []
+        - bearerAuth: []
       summary: Modify an in progress call
       description: Modify an in progress call
       operationId: updateCall
@@ -142,25 +143,25 @@ paths:
             schema:
               "$ref": "#/components/schemas/UpdateCallRequest"
       responses:
-        '204':
+        "204":
           description: No Content
-        '401':
+        "401":
           description: Unauthorized
-        '404':
+        "404":
           description: Not Found
 
   "/{uuid}/stream":
     parameters:
-    - in: path
-      name: uuid
-      schema:
-        type: string
-      required: true
-      description: UUID of the Call Leg
-      example: 63f61863-4a51-4f6b-86e1-46edebcf9356
+      - in: path
+        name: uuid
+        schema:
+          type: string
+        required: true
+        description: UUID of the Call Leg
+        example: 63f61863-4a51-4f6b-86e1-46edebcf9356
     put:
       security:
-      - bearerAuth: []
+        - bearerAuth: []
       summary: Play an audio file into a call
       description: Play an audio file into a call
       operationId: startStream
@@ -172,7 +173,7 @@ paths:
             schema:
               "$ref": "#/components/schemas/StartStreamRequest"
       responses:
-        '200':
+        "200":
           description: Ok
           content:
             application/json:
@@ -181,12 +182,12 @@ paths:
 
     delete:
       security:
-      - bearerAuth: []
+        - bearerAuth: []
       summary: Stop playing an audio file into a call
       description: Stop playing an audio file into a call
       operationId: stopStream
       responses:
-        '200':
+        "200":
           description: Ok
           content:
             application/json:
@@ -195,16 +196,16 @@ paths:
 
   "/{uuid}/talk":
     parameters:
-    - in: path
-      name: uuid
-      schema:
-        type: string
-      required: true
-      description: UUID of the Call Leg
-      example: 63f61863-4a51-4f6b-86e1-46edebcf9356
+      - in: path
+        name: uuid
+        schema:
+          type: string
+        required: true
+        description: UUID of the Call Leg
+        example: 63f61863-4a51-4f6b-86e1-46edebcf9356
     put:
       security:
-      - bearerAuth: []
+        - bearerAuth: []
       summary: Play text to speech into a call
       description: Play text to speech into a call
       operationId: startTalk
@@ -215,7 +216,7 @@ paths:
             schema:
               "$ref": "#/components/schemas/StartTalkRequest"
       responses:
-        '200':
+        "200":
           description: Ok
           content:
             application/json:
@@ -224,12 +225,12 @@ paths:
 
     delete:
       security:
-      - bearerAuth: []
+        - bearerAuth: []
       summary: Stop text to speech in a call
       description: Stop text to speech in a call
       operationId: stopTalk
       responses:
-        '200':
+        "200":
           description: Ok
           content:
             application/json:
@@ -238,16 +239,16 @@ paths:
 
   "/{uuid}/dtmf":
     parameters:
-    - in: path
-      name: uuid
-      schema:
-        type: string
-      required: true
-      description: UUID of the Call Leg
-      example: 63f61863-4a51-4f6b-86e1-46edebcf9356
+      - in: path
+        name: uuid
+        schema:
+          type: string
+        required: true
+        description: UUID of the Call Leg
+        example: 63f61863-4a51-4f6b-86e1-46edebcf9356
     put:
       security:
-      - bearerAuth: []
+        - bearerAuth: []
       summary: Play DTMF tones into a call
       description: Play DTMF tones into a call
       operationId: startDTMF
@@ -259,7 +260,7 @@ paths:
             schema:
               "$ref": "#/components/schemas/DTMFRequest"
       responses:
-        '200':
+        "200":
           description: Ok
           content:
             application/json:
@@ -304,7 +305,6 @@ components:
           example: "0.4"
           default: "0"
 
-
     StartStreamRequest:
       type: object
       required:
@@ -326,7 +326,6 @@ components:
           example: "0.4"
           default: "0"
 
-
     UpdateCallRequest:
       type: object
       required:
@@ -336,12 +335,12 @@ components:
           type: string
           example: mute
           enum:
-          - hangup
-          - mute
-          - unmute
-          - earmuff
-          - unearmuff
-          - transfer
+            - hangup
+            - mute
+            - unmute
+            - earmuff
+            - unearmuff
+            - transfer
           description: The action to apply to the in-progress call
         destination:
           type: object
@@ -353,7 +352,7 @@ components:
               example: ncco
               description: Always `ncco`
               x-nexmo-developer-collection-description-shown: true
-            url:                      
+            url:
               example: '["https://example.com/ncco.json"]'
               type: array
               items:
@@ -368,7 +367,6 @@ components:
               description: Can be used instead of `url` for the `transfer` action only.
               x-nexmo-developer-collection-description-shown: true
 
-
     CreateCallRequest:
       type: object
       required:
@@ -379,10 +377,10 @@ components:
           type: array
           items:
             oneOf:
-            - "$ref": "#/components/schemas/EndpointPhone"
-            - "$ref": "#/components/schemas/EndpointSip"
-            - "$ref": "#/components/schemas/EndpointWebsocket"
-            - "$ref": "#/components/schemas/EndpointVBCExtension"
+              - "$ref": "#/components/schemas/EndpointPhone"
+              - "$ref": "#/components/schemas/EndpointSip"
+              - "$ref": "#/components/schemas/EndpointWebsocket"
+              - "$ref": "#/components/schemas/EndpointVBCExtension"
         from:
           "$ref": "#/components/schemas/EndpointPhone"
         ncco:
@@ -393,12 +391,12 @@ components:
           type: array
           x-nexmo-developer-collection-description-shown: true
           example: |
-              [
-                {
-                  "action":"talk",
-                  "text": "Hello World"
-                }
-              ]
+            [
+              {
+                "action":"talk",
+                "text": "Hello World"
+              }
+            ]
           items:
             type: object
         answer_url:
@@ -416,8 +414,8 @@ components:
           type: string
           default: GET
           enum:
-          - POST
-          - GET
+            - POST
+            - GET
         event_url:
           description: |
             **Required** unless `event_url` is configured at the application
@@ -437,8 +435,8 @@ components:
           type: string
           default: POST
           enum:
-          - POST
-          - GET
+            - POST
+            - GET
         machine_detection:
           description: Configure the behavior when Nexmo detects that the
             call is answered by voicemail. If Continue Nexmo sends an HTTP
@@ -446,8 +444,8 @@ components:
             the call
           type: string
           enum:
-          - continue
-          - hangup
+            - continue
+            - hangup
           example: continue
         length_timer:
           description: Set the number of seconds that elapse before Nexmo
@@ -464,7 +462,6 @@ components:
           default: 60
           type: integer
 
-
     StopTalkResponse:
       type: object
       properties:
@@ -473,7 +470,7 @@ components:
           type: string
           example: Talk stopped
         uuid:
-          $ref: '#/components/schemas/uuid'
+          $ref: "#/components/schemas/uuid"
 
     StartTalkResponse:
       type: object
@@ -483,7 +480,7 @@ components:
           type: string
           example: Talk started
         uuid:
-          $ref: '#/components/schemas/uuid'
+          $ref: "#/components/schemas/uuid"
 
     DTMFResponse:
       type: object
@@ -493,8 +490,7 @@ components:
           type: string
           example: DTMF sent
         uuid:
-          $ref: '#/components/schemas/uuid'
-
+          $ref: "#/components/schemas/uuid"
 
     StopStreamResponse:
       type: object
@@ -504,7 +500,7 @@ components:
           type: string
           example: Stream stopped
         uuid:
-          $ref: '#/components/schemas/uuid'
+          $ref: "#/components/schemas/uuid"
 
     StartStreamResponse:
       type: object
@@ -514,8 +510,7 @@ components:
           type: string
           example: Stream started
         uuid:
-          $ref: '#/components/schemas/uuid'
-
+          $ref: "#/components/schemas/uuid"
 
     GetCallResponse:
       type: object
@@ -531,31 +526,29 @@ components:
                   title: Link to the object
                   example: "/calls?page_size=10&record_index=20&order=asc"
         uuid:
-          $ref: '#/components/schemas/uuid'
+          $ref: "#/components/schemas/uuid"
         conversation_uuid:
-          $ref: '#/components/schemas/conversation_uuid'
+          $ref: "#/components/schemas/conversation_uuid"
         to:
-          $ref: '#/components/schemas/to'
+          $ref: "#/components/schemas/to"
         from:
-          $ref: '#/components/schemas/from'
+          $ref: "#/components/schemas/from"
         status:
-          $ref: '#/components/schemas/status'
+          $ref: "#/components/schemas/status"
         direction:
-          $ref: '#/components/schemas/direction'
+          $ref: "#/components/schemas/direction"
         rate:
-          $ref: '#/components/schemas/rate'
+          $ref: "#/components/schemas/rate"
         price:
-          $ref: '#/components/schemas/price'
+          $ref: "#/components/schemas/price"
         duration:
-          $ref: '#/components/schemas/duration'
+          $ref: "#/components/schemas/duration"
         start_time:
-          $ref: '#/components/schemas/start_time'
+          $ref: "#/components/schemas/start_time"
         end_time:
-          $ref: '#/components/schemas/end_time'
+          $ref: "#/components/schemas/end_time"
         network:
-          $ref: '#/components/schemas/network'
-
-
+          $ref: "#/components/schemas/network"
 
     GetCallsResponse:
       type: object
@@ -584,9 +577,9 @@ components:
                   example: "/calls?page_size=10&record_index=20&order=asc"
         _embedded:
           description: >-
-              A list of call objects. See the
-              [get details of a specific call](#getCall)
-              response fields for a description of the nested objects
+            A list of call objects. See the
+            [get details of a specific call](#getCall)
+            response fields for a description of the nested objects
           type: object
           properties:
             calls:
@@ -605,94 +598,93 @@ components:
                             title: The Link to the Call Object
                             example: "/calls/63f61863-4a51-4f6b-86e1-46edebcf9356"
                   uuid:
-                    $ref: '#/components/schemas/uuid'
+                    $ref: "#/components/schemas/uuid"
                   conversation_uuid:
-                    $ref: '#/components/schemas/conversation_uuid'
+                    $ref: "#/components/schemas/conversation_uuid"
                   to:
-                    $ref: '#/components/schemas/to'
+                    $ref: "#/components/schemas/to"
                   from:
-                    $ref: '#/components/schemas/from'
+                    $ref: "#/components/schemas/from"
                   status:
-                    $ref: '#/components/schemas/status'
+                    $ref: "#/components/schemas/status"
                   direction:
-                    $ref: '#/components/schemas/direction'
+                    $ref: "#/components/schemas/direction"
                   rate:
-                    $ref: '#/components/schemas/rate'
+                    $ref: "#/components/schemas/rate"
                   price:
-                    $ref: '#/components/schemas/price'
+                    $ref: "#/components/schemas/price"
                   duration:
-                    $ref: '#/components/schemas/duration'
+                    $ref: "#/components/schemas/duration"
                   start_time:
-                    $ref: '#/components/schemas/start_time'
+                    $ref: "#/components/schemas/start_time"
                   end_time:
-                    $ref: '#/components/schemas/end_time'
+                    $ref: "#/components/schemas/end_time"
                   network:
-                    $ref: '#/components/schemas/network'
-
+                    $ref: "#/components/schemas/network"
 
     CreateCallResponse:
       type: object
       properties:
         uuid:
-          $ref: '#/components/schemas/uuid'
+          $ref: "#/components/schemas/uuid"
         status:
-          $ref: '#/components/schemas/status'
+          $ref: "#/components/schemas/status"
         direction:
-          $ref: '#/components/schemas/direction'
+          $ref: "#/components/schemas/direction"
         conversation_uuid:
-          $ref: '#/components/schemas/conversation_uuid'
+          $ref: "#/components/schemas/conversation_uuid"
 
     network:
       description: >-
-          The Mobile Country Code Mobile Network Code
-          ([MCCMNC](https://en.wikipedia.org/wiki/Mobile_country_code)) for
-          the carrier network used to make this call.
+        The Mobile Country Code Mobile Network Code
+        ([MCCMNC](https://en.wikipedia.org/wiki/Mobile_country_code)) for
+        the carrier network used to make this call.
       type: string
-      title: 'The Network ID of the destination '
-      example: '65512'
+      title: "The Network ID of the destination "
+      example: "65512"
     start_time:
-      description: 'The time the call started in the following format: `YYYY-MM-DD HH:MM:SS`. For example, `2020-01-01 12:00:00`. This is only sent if `status` is `completed`.'
+      description: "The time the call started in the following format: `YYYY-MM-DD HH:MM:SS`. For example, `2020-01-01 12:00:00`. This is only sent if `status` is `completed`."
       type: string
       format: timestamp
-      title: 'The Start Time of the call '
-      example: '2020-01-01 12:00:00'
+      title: "The Start Time of the call "
+      example: "2020-01-01 12:00:00"
     end_time:
-      description: 'The time the call started in the following format: `YYYY-MM-DD HH:MM:SS`. For xample, `2020-01-01 12:00:00`. This is only sent if `status` is `completed`.'
+      description: "The time the call started in the following format: `YYYY-MM-DD HH:MM:SS`. For xample, `2020-01-01 12:00:00`. This is only sent if `status` is `completed`."
       type: string
       format: timestamp
-      title: 'The End Time of the call '
-      example: '2020-01-01 12:00:00'
+      title: "The End Time of the call "
+      example: "2020-01-01 12:00:00"
     duration:
       description: The time elapsed for the call to take place in seconds. This is only sent if `status` is `completed`.
       type: string
-      title: 'The Duration of the call '
-      example: '60'
+      title: "The Duration of the call "
+      example: "60"
     price:
       description: The total price charged for this call. This is only sent if `status` is `completed`.
       type: string
-      title: 'The total price of the call '
-      example: '23.40'
+      title: "The total price of the call "
+      example: "23.40"
     rate:
       description: The price per minute for this call. This is only sent if `status` is `completed`.
       type: string
       title: The Price per minute of the called destination
-      example: '0.39'
+      example: "0.39"
     direction:
-     type: string
-     description: Possible values are `outbound` or `inbound`
-     example: outbound
-     enum:
-     - outbound
-     - inbound
+      type: string
+      description: Possible values are `outbound` or `inbound`
+      example: outbound
+      enum:
+        - outbound
+        - inbound
     uuid:
       type: string
       format: uuid
       title: The UUID of the Call Leg
       example: 63f61863-4a51-4f6b-86e1-46edebcf9356
       description: >-
-          The unique identifier for this call leg. The UUID is created when
-          your call request is accepted by Nexmo. You use the UUID in all
-          requests for individual live calls
+        The unique identifier for this call leg. The UUID is created when
+        your call request is accepted by Nexmo. You use the UUID in all
+        requests for individual live calls
     conversation_uuid:
       type: string
       format: uuid
@@ -704,31 +696,31 @@ components:
       description: The endpoint you called from. Possible values are the same as `to`.
       title: The number or address that has been called
       items:
-          type: object
-          properties:
-            type:
-              type: string
-              title: The type of Endpoint that made the call
-              example: phone
-            number:
-              type: string
-              title: The number that made the call
-              example: '447700900001'
+        type: object
+        properties:
+          type:
+            type: string
+            title: The type of Endpoint that made the call
+            example: phone
+          number:
+            type: string
+            title: The number that made the call
+            example: "447700900001"
     to:
       type: array
       description: The single or mixed collection of endpoint types you connected to
       title: The number or address to call
       items:
-          type: object
-          properties:
-            type:
-              type: string
-              title: The Type of Endpoint Called
-              example: phone
-            number:
-              type: string
-              title: The number of the endpoint called
-              example: '447700900000'
+        type: object
+        properties:
+          type:
+            type: string
+            title: The Type of Endpoint Called
+            example: phone
+          number:
+            type: string
+            title: The number of the endpoint called
+            example: "447700900000"
     status:
       type: string
       title: The State of the call
@@ -824,13 +816,13 @@ components:
           description: The type of connection. Must be `vbc`
         extension:
           type: string
-          example: '1234'         
+          example: "1234"
     AddressE164:
       description: The phone number to connect to
       type: string
       minLength: 7
       maxLength: 15
-      example: '14155550100'
+      example: "14155550100"
       pattern: "\\d{7,15}"
     AddressSip:
       description: The SIP URI to connect to
@@ -847,11 +839,11 @@ components:
     callEvent:
       type: object
       required:
-      - conversation_uuid
-      - to
-      - from
-      - uuid
-      - status
+        - conversation_uuid
+        - to
+        - from
+        - uuid
+        - status
       properties:
         conversation_uuid:
           description: The UUID of the Conversion that the event relates to
@@ -859,9 +851,9 @@ components:
           format: uuid
           example: CON-171b3991-49b0-4dfa-badd-2bc6e68b57b4
         to:
-          $ref: '#/components/schemas/from'
+          $ref: "#/components/schemas/from"
         from:
-          $ref: '#/components/schemas/from'
+          $ref: "#/components/schemas/from"
         uuid:
           description: The UUID of the call leg that the event relates to
           type: string
@@ -875,119 +867,119 @@ components:
           type: string
           example: started
           enum:
-          - started
-          - ringing
-          - answered
-          - machine
-          - completed
-          - timeout
-          - failed
-          - rejected
-          - cancelled
-          - busy
+            - started
+            - ringing
+            - answered
+            - machine
+            - completed
+            - timeout
+            - failed
+            - rejected
+            - cancelled
+            - busy
         direction:
           type: string
           enum:
-          - inbound
-          - outbound
+            - inbound
+            - outbound
     voice_name:
       description: The voice & language to use
       type: string
       default: Kimberly
       enum:
-      - Aditi
-      - Agnieszka
-      - Alva
-      - Amy
-      - Astrid
-      - Bianca
-      - Brian
-      - Carla
-      - Carmen
-      - Carmit
-      - Catarina
-      - Celine
-      - Cem
-      - Chantal
-      - Chipmunk
-      - Conchita
-      - Cristiano
-      - Damayanti
-      - Dora
-      - Emma
-      - Empar
-      - Enrique
-      - Eric
-      - Ewa
-      - Felipe
-      - Filiz
-      - Geraint
-      - Giorgio
-      - Gwyneth
-      - Hans
-      - Henrik
-      - Ines
-      - Ioana
-      - Iveta
-      - Ivy
-      - Jacek
-      - Jan
-      - Jennifer
-      - Joana
-      - Joanna
-      - Joey
-      - Jordi
-      - Justin
-      - Kanya
-      - Karl
-      - Kendra
-      - Kimberly
-      - Laila
-      - Laura
-      - Lea
-      - Lekha
-      - Liv
-      - Lotte
-      - Lucia
-      - Luciana
-      - Mads
-      - Maged
-      - Maja
-      - Mariska
-      - Marlene
-      - Mathieu
-      - Matthew
-      - Maxim
-      - Mei-Jia
-      - Melina
-      - Mia
-      - Miguel
-      - Miren
-      - Mizuki
-      - Montserrat
-      - Naja
-      - Nicole
-      - Nikos
-      - Nora
-      - Oskar
-      - Penelope
-      - Raveena
-      - Ricardo
-      - Ruben
-      - Russell
-      - Salli
-      - Satu
-      - Seoyeon
-      - Sin-Ji
-      - Sora
-      - Takumi
-      - Tarik
-      - Tatyana
-      - Tessa
-      - Tian-Tian
-      - Vicki
-      - Vitoria
-      - Yelda
-      - Zeina
-      - Zhiyu
-      - Zuzana
+        - Aditi
+        - Agnieszka
+        - Alva
+        - Amy
+        - Astrid
+        - Bianca
+        - Brian
+        - Carla
+        - Carmen
+        - Carmit
+        - Catarina
+        - Celine
+        - Cem
+        - Chantal
+        - Chipmunk
+        - Conchita
+        - Cristiano
+        - Damayanti
+        - Dora
+        - Emma
+        - Empar
+        - Enrique
+        - Eric
+        - Ewa
+        - Felipe
+        - Filiz
+        - Geraint
+        - Giorgio
+        - Gwyneth
+        - Hans
+        - Henrik
+        - Ines
+        - Ioana
+        - Iveta
+        - Ivy
+        - Jacek
+        - Jan
+        - Jennifer
+        - Joana
+        - Joanna
+        - Joey
+        - Jordi
+        - Justin
+        - Kanya
+        - Karl
+        - Kendra
+        - Kimberly
+        - Laila
+        - Laura
+        - Lea
+        - Lekha
+        - Liv
+        - Lotte
+        - Lucia
+        - Luciana
+        - Mads
+        - Maged
+        - Maja
+        - Mariska
+        - Marlene
+        - Mathieu
+        - Matthew
+        - Maxim
+        - Mei-Jia
+        - Melina
+        - Mia
+        - Miguel
+        - Miren
+        - Mizuki
+        - Montserrat
+        - Naja
+        - Nicole
+        - Nikos
+        - Nora
+        - Oskar
+        - Penelope
+        - Raveena
+        - Ricardo
+        - Ruben
+        - Russell
+        - Salli
+        - Satu
+        - Seoyeon
+        - Sin-Ji
+        - Sora
+        - Takumi
+        - Tarik
+        - Tatyana
+        - Tessa
+        - Tian-Tian
+        - Vicki
+        - Vitoria
+        - Yelda
+        - Zeina
+        - Zhiyu
+        - Zuzana

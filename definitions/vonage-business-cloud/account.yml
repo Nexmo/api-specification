@@ -5,7 +5,7 @@ info:
   title: Account API
   description: |
     The Vonage Business Cloud Account API enables you to retrieve information about accounts.
-    
+
     Your application must subscribe to the Provisioning API suite to use this API.
   contact:
     name: "Vonage Business Cloud Support"

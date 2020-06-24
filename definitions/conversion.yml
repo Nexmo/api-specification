@@ -19,19 +19,19 @@ info:
   contact:
     name: Nexmo.com
     email: devrel@nexmo.com
-    url: 'https://developer.nexmo.com/'
+    url: "https://developer.nexmo.com/"
     x-twitter: Nexmo
-  termsOfService: 'https://www.nexmo.com/terms-of-use'
+  termsOfService: "https://www.nexmo.com/terms-of-use"
   license:
     name: The MIT License (MIT)
-    url: 'https://opensource.org/licenses/MIT'
+    url: "https://opensource.org/licenses/MIT"
   x-logo:
-    url: 'https://twitter.com/Nexmo/profile_image?size=original'
-  x-apiClientRegistration: 'https://dashboard.nexmo.com/sign-up'
+    url: "https://twitter.com/Nexmo/profile_image?size=original"
+  x-apiClientRegistration: "https://dashboard.nexmo.com/sign-up"
 servers:
-  - url: 'https://api.nexmo.com/conversions'
+  - url: "https://api.nexmo.com/conversions"
 externalDocs:
-  url: 'https://developer.nexmo.com/api/conversion'
+  url: "https://developer.nexmo.com/api/conversion"
   x-sha1: 8ad8bc6b0c51af4ca458c13cfced6124783ab113
 security:
   - apiKey: []
@@ -56,19 +56,19 @@ paths:
       tags:
         - SMS Conversion
       parameters:
-        - $ref: '#/components/parameters/message-id'
-        - $ref: '#/components/parameters/delivered'
-        - $ref: '#/components/parameters/timestamp'
+        - $ref: "#/components/parameters/message-id"
+        - $ref: "#/components/parameters/delivered"
+        - $ref: "#/components/parameters/timestamp"
       responses:
-        '200':
+        "200":
           description: OK
-        '401':
+        "401":
           description: Wrong credentials
-        '402':
+        "402":
           description: Conversion has not been enabled for your account
-        '420':
+        "420":
           description: Invalid parameters
-        '423':
+        "423":
           description: Invalid parameters
   /voice:
     post:
@@ -82,19 +82,19 @@ paths:
       tags:
         - Voice Conversion
       parameters:
-        - $ref: '#/components/parameters/message-id'
-        - $ref: '#/components/parameters/delivered'
-        - $ref: '#/components/parameters/timestamp'
+        - $ref: "#/components/parameters/message-id"
+        - $ref: "#/components/parameters/delivered"
+        - $ref: "#/components/parameters/timestamp"
       responses:
-        '200':
+        "200":
           description: OK
-        '401':
+        "401":
           description: Wrong credentials
-        '402':
+        "402":
           description: Conversion has not been enabled for your account
-        '420':
+        "420":
           description: Invalid parameters
-        '423':
+        "423":
           description: Invalid parameters
 components:
   parameters:
@@ -140,7 +140,7 @@ components:
         request.
       schema:
         type: string
-      example: '2020-01-01 12:00:00'
+      example: "2020-01-01 12:00:00"
   securitySchemes:
     apiKey:
       type: apiKey

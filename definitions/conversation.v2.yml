@@ -657,4 +657,4 @@ tags:
   - name: member
     description: Memberships connect users with conversations. Each membership has one conversation and one user however a user can have many memberships to conversations just as conversations can have many members.
   - name: event
-    description: 'Events are actions that occur within a conversation. Examples of this includes: Text events from members, or invite events from users'
+    description: "Events are actions that occur within a conversation. Examples of this includes: Text events from members, or invite events from users"

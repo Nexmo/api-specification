@@ -6,7 +6,7 @@ info:
   contact:
     name: Nexmo DevRel
     email: devrel@nexmo.com
-    url: 'https://developer.nexmo.com/'
+    url: "https://developer.nexmo.com/"
 servers:
   - url: https://rest.nexmo.com/sms
 paths:
@@ -32,25 +32,25 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/NewMessage'
+              $ref: "#/components/schemas/NewMessage"
       responses:
-        '200':
+        "200":
           description: Success
           content:
             application/json:
               schema:
                 oneOf:
-                  - $ref: '#/components/schemas/SMS'
-                  - $ref: '#/components/schemas/Error'
+                  - $ref: "#/components/schemas/SMS"
+                  - $ref: "#/components/schemas/Error"
             text/xml:
               schema:
                 oneOf:
-                  - $ref: '#/components/schemas/SMSXml'
-                  - $ref: '#/components/schemas/ErrorXml'
+                  - $ref: "#/components/schemas/SMSXml"
+                  - $ref: "#/components/schemas/ErrorXml"
 
       callbacks:
         delivery-receipt:
-          '{$request.body#/callback}':
+          "{$request.body#/callback}":
             post:
               summary: Delivery Receipt
               operationId: delivery-receipt
@@ -60,17 +60,17 @@ paths:
                 content:
                   application/json:
                     schema:
-                      $ref: '#/components/schemas/DeliveryReceipt'
+                      $ref: "#/components/schemas/DeliveryReceipt"
               responses:
-                '200':
+                "200":
                   description: Your server returns this code if it accepts the callback
 x-webhooks:
   inbound-sms:
-    '{$request.body#/callback}':
+    "{$request.body#/callback}":
       post:
         summary: Inbound SMS
         operationId: inbound-sms
-        x-example-path: '/webhooks/inbound-sms'
+        x-example-path: "/webhooks/inbound-sms"
         description: |
           If you rent one or more virtual numbers from Nexmo, inbound messages to that number are sent to your [webhook endpoint](https://developer.nexmo.com/concepts/guides/webhooks).
 
@@ -80,9 +80,9 @@ x-webhooks:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InboundMessage'
+                $ref: "#/components/schemas/InboundMessage"
         responses:
-          '200':
+          "200":
             description: Your server returns this code if it accepts the callback
 
 components:
@@ -113,7 +113,7 @@ components:
         from:
           description: The name or number the message should be sent from. Alphanumeric senderID's are not supported in all countries, see [Global Messaging](https://developer.nexmo.com/messaging/sms/guides/global-messaging#country-specific-features) for more details. If alphanumeric, spaces will be ignored. Numbers are specified in E.164 format.
           type: string
-          example: 'AcmeInc'
+          example: "AcmeInc"
         to:
           description: The number that the message should be sent to. Numbers are specified in E.164 format.
           type: string
@@ -126,23 +126,23 @@ components:
           type: string
           example: Hello World!
         ttl:
-          description: '**Advanced**: The duration in milliseconds the delivery of an SMS will be attempted.§§ By default Nexmo attempt delivery for 72 hours, however the maximum effective value depends on the operator and is typically 24 - 48 hours. We recommend this value should be kept at its default or at least 30 minutes.'
+          description: "**Advanced**: The duration in milliseconds the delivery of an SMS will be attempted.§§ By default Nexmo attempt delivery for 72 hours, however the maximum effective value depends on the operator and is typically 24 - 48 hours. We recommend this value should be kept at its default or at least 30 minutes."
           type: integer
           example: 900000
           default: 259200000
           minimum: 20000
           maximum: 604800000
         status-report-req:
-          description: '**Advanced**: Boolean indicating if you like to receive a [Delivery Receipt](https://developer.nexmo.com/messaging/sms/building-blocks/receive-a-delivery-receipt).'
+          description: "**Advanced**: Boolean indicating if you like to receive a [Delivery Receipt](https://developer.nexmo.com/messaging/sms/building-blocks/receive-a-delivery-receipt)."
           type: boolean
           example: false
           default: true
         callback:
-          description: '**Advanced**: The webhook endpoint the delivery receipt for this sms is sent to. This parameter overrides the webhook endpoint you set in Dashboard.'
+          description: "**Advanced**: The webhook endpoint the delivery receipt for this sms is sent to. This parameter overrides the webhook endpoint you set in Dashboard."
           type: string
-          example: 'https://example.com/sms-dlr'
+          example: "https://example.com/sms-dlr"
         message-class:
-          description: '**Advanced**: The Data Coding Scheme value of the message'
+          description: "**Advanced**: The Data Coding Scheme value of the message"
           type: integer
           enum:
             - 0
@@ -150,7 +150,7 @@ components:
             - 2
             - 3
         type:
-          description: '**Advanced**: The format of the message body'
+          description: "**Advanced**: The format of the message body"
           type: string
           enum:
             - text
@@ -162,43 +162,43 @@ components:
           example: text
           default: text
         vcard:
-          description: '**Advanced**: A business card in [vCard format](https://en.wikipedia.org/wiki/VCard). Depends on `type` parameter having the value `vcard`.'
+          description: "**Advanced**: A business card in [vCard format](https://en.wikipedia.org/wiki/VCard). Depends on `type` parameter having the value `vcard`."
           type: string
           format: vcard
         vcal:
-          description: '**Advanced**: A calendar event in [vCal format](https://en.wikipedia.org/wiki/VCal). Depends on `type` parameter having the value `vcal`.'
+          description: "**Advanced**: A calendar event in [vCal format](https://en.wikipedia.org/wiki/VCal). Depends on `type` parameter having the value `vcal`."
           type: string
           format: vcal
         body:
-          description: '**Advanced**: Hex encoded binary data. Depends on `type` parameter having the value `binary`.'
+          description: "**Advanced**: Hex encoded binary data. Depends on `type` parameter having the value `binary`."
           type: string
           example: "0011223344556677"
         udh:
-          description: '**Advanced**: Your custom Hex encoded [User Data Header](https://en.wikipedia.org/wiki/User_Data_Header). Depends on `type` parameter having the value `binary`.'
+          description: "**Advanced**: Your custom Hex encoded [User Data Header](https://en.wikipedia.org/wiki/User_Data_Header). Depends on `type` parameter having the value `binary`."
           type: string
           example: "06050415811581"
         protocol-id:
-          description: '**Advanced**: The value of the [protocol identifier](https://en.wikipedia.org/wiki/GSM_03.40#Protocol_Identifier) to use. Ensure that the value is aligned with `udh`.'
+          description: "**Advanced**: The value of the [protocol identifier](https://en.wikipedia.org/wiki/GSM_03.40#Protocol_Identifier) to use. Ensure that the value is aligned with `udh`."
           type: integer
           example: 127
         title:
-          description: '**Advanced**: The title for a wappush SMS. Depends on `type` parameter having the value `wappush`.'
+          description: "**Advanced**: The title for a wappush SMS. Depends on `type` parameter having the value `wappush`."
           type: string
           example: Welcome
         url:
-          description: '**Advanced**: The URL of your website. Depends on `type` parameter having the value `wappush`.'
+          description: "**Advanced**: The URL of your website. Depends on `type` parameter having the value `wappush`."
           type: string
           example: https://example.com
         validity:
-          description: '**Advanced**: The availability for an SMS in milliseconds. Depends on `type` parameter having the value `wappush`.'
+          description: "**Advanced**: The availability for an SMS in milliseconds. Depends on `type` parameter having the value `wappush`."
           type: string
           example: "300000"
         client-ref:
-          description: '**Advanced**: You can optionally include your own reference of up to 40 characters.'
+          description: "**Advanced**: You can optionally include your own reference of up to 40 characters."
           type: string
           example: my-personal-reference
         account-ref:
-          description: '**Advanced**: An optional string used to identify separate accounts using the SMS endpoint for billing purposes. To use this feature, please email [support@nexmo.com](mailto:support@nexmo.com)'
+          description: "**Advanced**: An optional string used to identify separate accounts using the SMS endpoint for billing purposes. To use this feature, please email [support@nexmo.com](mailto:support@nexmo.com)"
           type: string
           example: customer1234
     Error:
@@ -212,7 +212,7 @@ components:
         messages:
           type: array
           items:
-            $ref: '#/components/schemas/ErrorMessage'
+            $ref: "#/components/schemas/ErrorMessage"
     ErrorXml:
       type: object
       description: Error
@@ -222,7 +222,7 @@ components:
         messages:
           type: array
           items:
-            $ref: '#/components/schemas/ErrorMessage'
+            $ref: "#/components/schemas/ErrorMessage"
     ErrorMessage:
       type: object
       xml:
@@ -231,11 +231,11 @@ components:
         status:
           type: string
           description: The error status of the message
-          example: '2'
+          example: "2"
         error-text:
           type: string
           description: The description of the error
-          example: 'Missing to param'
+          example: "Missing to param"
     SMS:
       description: Message sent
       type: object
@@ -243,11 +243,11 @@ components:
         message-count:
           type: string
           description: The amount of messages in the request
-          example: '1'
+          example: "1"
         messages:
           type: array
           items:
-            $ref: '#/components/schemas/Message'
+            $ref: "#/components/schemas/Message"
     SMSXml:
       type: object
       description: Message sent
@@ -281,15 +281,15 @@ components:
         api-key:
           type: string
           description: The Nexmo API Key of the receiving account.
-          example: 'abcd1234'
+          example: "abcd1234"
         msisdn:
           type: string
           description: The phone number that this inbound message was sent from. Numbers are specified in E.164 format.
-          example: '447700900001'
+          example: "447700900001"
         to:
           type: string
           description: The phone number the message was sent to. **This is your virtual number**. Numbers are specified in E.164 format.
-          example: '447700900000'
+          example: "447700900000"
         messageId:
           type: string
           description: The ID of the message
@@ -306,7 +306,7 @@ components:
               - `text` - standard text.
               - `unicode` - URLencoded   unicode  . This is valid for standard GSM, Arabic, Chinese, double-encoded characters and so on.
               - `binary` - a binary message.
-          example: 'text'
+          example: "text"
         keyword:
           type: string
           description: The first word in the message body. Converted to upper case.
@@ -326,19 +326,19 @@ components:
         concat:
           type: string
           description: True - if this is a concatenated message. This field does not exist if it is a single message
-          example: 'true'
+          example: "true"
         concat-ref:
           type: string
           description: The transaction reference. All parts of this message share this value.
-          example: '1'
+          example: "1"
         concat-total:
           type: string
           description: The number of parts in this concatenated message.
-          example: '3'
+          example: "3"
         concat-part:
           type: string
           description: The number of this part in the message. Counting starts at 1.
-          example: '2'
+          example: "2"
         data:
           type: string
           format: binary
@@ -352,7 +352,7 @@ components:
         to:
           type: string
           description: The number the message was sent to. Numbers are specified in E.164 format.
-          example: '447700900000'
+          example: "447700900000"
         message-id:
           type: string
           description: The ID of the message
@@ -362,30 +362,30 @@ components:
         status:
           type: string
           description: The status of the message. See [Troubleshooting Failed SMS](https://developer.nexmo.com/messaging/sms/guides/troubleshooting-sms).
-          example: '0'
+          example: "0"
         remaining-balance:
           type: string
           description: Your remaining balance
-          example: '3.14159265'
+          example: "3.14159265"
           xml:
             name: remainingBalance
         message-price:
           type: string
           description: The cost of the message
-          example: '0.03330000'
+          example: "0.03330000"
           xml:
             name: messagePrice
         network:
           type: string
           description: The ID of the network of the recipient
-          example: '12345'
+          example: "12345"
         client-ref:
           description: If a `client-ref` was included when sending the SMS, this field will be included and hold the value that was sent.
           type: string
           example: my-personal-reference
         account-ref:
           type: string
-          description: '**Advanced**: An optional string used to identify separate accounts using the SMS endpoint for billing purposes. To use this feature, please email [support@nexmo.com](mailto:support@nexmo.com)'
+          description: "**Advanced**: An optional string used to identify separate accounts using the SMS endpoint for billing purposes. To use this feature, please email [support@nexmo.com](mailto:support@nexmo.com)"
           example: customer1234
     DeliveryReceipt:
       type: object
@@ -393,7 +393,7 @@ components:
         msisdn:
           type: string
           description: The number the message was sent to. Numbers are specified in E.164 format.
-          example: '447700900000'
+          example: "447700900000"
         to:
           type: string
           description: The SenderID you set in `from` in your request.
@@ -401,19 +401,19 @@ components:
         network-code:
           type: string
           description: The Mobile Country Code Mobile Network Code (MCCMNC) of the carrier this phone number is registered with.
-          example: '12345'
+          example: "12345"
         messageId:
           type: string
           description: The Nexmo ID for this message.
-          example: '0A0000001234567B'
+          example: "0A0000001234567B"
         price:
           type: string
           description: The cost of the message
-          example: '0.03330000'
+          example: "0.03330000"
         status:
           type: string
           description: A code that explains where the message is in the delivery process.
-          example: 'delivered'
+          example: "delivered"
           x-possible-values:
             - delivered
             - expired
@@ -425,15 +425,15 @@ components:
         scts:
           type: string
           description: When the DLR was received from the carrier in the following format `YYMMDDHHMM`. For example, `2001011400` is at `2020-01-01 14:00`
-          example: '2001011400'
+          example: "2001011400"
         err-code:
           type: string
           description: The status of the request. Will be a non `0` value if there has been an error, or if the status is unknown. See the [Delivery Receipt documentation](https://developer.nexmo.com/messaging/sms/guides/delivery-receipts#dlr-error-codes) for more details
-          example: '0'
+          example: "0"
         api-key:
           type: string
           description: The API key that sent the SMS. This is useful when multiple accounts are sending webhooks to the same endpoint.
-          example: 'abcd1234'
+          example: "abcd1234"
         client-ref:
           type: string
           description: If the `client-ref` is set when the SMS is sent, it will be included in the delivery receipt
@@ -511,7 +511,6 @@ x-errors:
   "15":
     description: Invalid Sender Address. You are using a non-authorized sender ID in the `from` field.
     resolution: This is most commonly seen in North America, where a Nexmo long virtual number or short code is required.
-
 
   "22":
     description: Invalid Network Code. The network code supplied was either not recognized, or does not match the country of the destination address.

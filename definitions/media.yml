@@ -3,11 +3,11 @@ info:
   version: 1.0.2
   title: Media API
   description: The Media API can be used to query, download and delete media items such as audio files for use with other Nexmo APIs.
-  x-label: 'BETA'
+  x-label: "BETA"
   contact:
     name: Nexmo DevRel
     email: devrel@nexmo.com
-    url: 'https://developer.nexmo.com/'
+    url: "https://developer.nexmo.com/"
 servers:
   - url: https://api.nexmo.com/v3/media
 paths:
@@ -46,17 +46,17 @@ paths:
           in: query
           schema:
             type: string
-            example: '2020-01-01T14:00:00.000Z'
-            default: '1 week ago'
+            example: "2020-01-01T14:00:00.000Z"
+            default: "1 week ago"
           x-default-is-meta: true
         - name: end_time
           description: Retrieve results created on or before this timestamp.
           in: query
           schema:
             type: string
-            example: '2020-01-01T14:00:00.000Z'
+            example: "2020-01-01T14:00:00.000Z"
       responses:
-        '200':
+        "200":
           description: Successfully retrieved
           content:
             application/json:
@@ -81,21 +81,21 @@ paths:
                         properties:
                           href:
                             type: string
-                            default: ''
+                            default: ""
                             example: "/v3/media?page_size=20&account_id=abcd1234&order=descending"
                       first:
                         type: object
                         properties:
                           href:
                             type: string
-                            default: ''
+                            default: ""
                             example: "/v3/media?page_size=20&account_id=abcd1234&order=descending"
                       last:
                         type: object
                         properties:
                           href:
                             type: string
-                            default: ''
+                            default: ""
                             example: "/v3/media?page_size=20&account_id=abcd1234&order=descending"
                   count:
                     type: integer
@@ -120,7 +120,7 @@ paths:
       operationId: retrieve-a-media-item
       description: Retrieve information about a single media item
       responses:
-        '200':
+        "200":
           description: Successfully retrieved
           content:
             application/json:
@@ -143,29 +143,29 @@ paths:
                 metadata_primary:
                   description: A string containing metadata about the media file.
                   type: string
-                  example: 'foo,bar'
+                  example: "foo,bar"
                 metadata_secondary:
                   description: A string containing further metadata about the media file.
                   type: string
-                  example: '123'
+                  example: "123"
                 title:
                   description: A string containing a title for the media file.
                   type: string
-                  example: 'Very important recording'
+                  example: "Very important recording"
                 description:
                   description: A description of the media file.
                   type: string
-                  example: 'This is a very important recording. Do not delete.'
+                  example: "This is a very important recording. Do not delete."
                 mime_type:
                   description: The MIME type of the media file.
                   type: string
-                  example: 'audio/vnd.wave'
+                  example: "audio/vnd.wave"
                 max_downloads_allowed:
                   description: The maximum number of times the file may be downloaded. Unlimited when not provided.
                   type: integer
                   example: 100
       responses:
-        '204':
+        "204":
           description: Successfully updated
   /:id:
     delete:
@@ -173,7 +173,7 @@ paths:
       operationId: delete-a-media-item
       description: Delete a previously created media item by ID.
       responses:
-        '204':
+        "204":
           description: Successfully deleted
 components:
   schemas:

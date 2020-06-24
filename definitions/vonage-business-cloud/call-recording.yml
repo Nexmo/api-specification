@@ -397,7 +397,7 @@ components:
       name: cnam
       in: query
       description: Filter recordings by CNAM (Caller ID Name)
-      example: 'JOHN SMITH'
+      example: "JOHN SMITH"
       required: false
       schema:
         type: string
@@ -405,7 +405,7 @@ components:
       name: dnis
       in: query
       description: Filter recordings by DNIS (Dialed Number Identification Service)
-      example: '17325550100'
+      example: "17325550100"
       required: false
       schema:
         type: string
@@ -472,7 +472,7 @@ components:
                 href:
                   type: string
                   description: URL for the current recording
-                  example: 'https://api.vonage.com/t/vbc.prod/call_recording/api/accounts/549825/company_call_recordings/193228'
+                  example: "https://api.vonage.com/t/vbc.prod/call_recording/api/accounts/549825/company_call_recordings/193228"
         call_direction:
           type: string
           description: Direction of the recorded call
@@ -488,15 +488,15 @@ components:
         cnam:
           type: string
           description: CNAM (Caller ID Name) of the caller of the recorded call
-          example: 'JOHN SMITH'
+          example: "JOHN SMITH"
         dnis:
           type: string
           description: DNIS (Dialed Number Identification Service) of the caller of the recorded call
-          example: '17325550100'
+          example: "17325550100"
         download_url:
           type: string
           description: URL to download the recording. This URL requires authorization with your OAuth token.
-          example: 'https://api.vonage.com/t/vbc.prod/call_recording/api/audio/recording/193228'
+          example: "https://api.vonage.com/t/vbc.prod/call_recording/api/audio/recording/193228"
         duration:
           type: integer
           description: Duration of the recorded call in milliseconds
@@ -556,35 +556,35 @@ components:
                 href:
                   type: string
                   description: URL for the first page of recordings
-                  example: 'https://api.vonage.com/t/vbc.prod/call_recording/api/accounts/549825/company_call_recordings?page=0'
+                  example: "https://api.vonage.com/t/vbc.prod/call_recording/api/accounts/549825/company_call_recordings?page=0"
             prev:
               type: object
               properties:
                 href:
                   type: string
                   description: URL for the previous page of recordings
-                  example: 'https://api.vonage.com/t/vbc.prod/call_recording/api/accounts/549825/company_call_recordings?page=1'
+                  example: "https://api.vonage.com/t/vbc.prod/call_recording/api/accounts/549825/company_call_recordings?page=1"
             self:
               type: object
               properties:
                 href:
                   type: string
                   description: URL for the current page of recordings
-                  example: 'https://api.vonage.com/t/vbc.prod/call_recording/api/accounts/549825/company_call_recordings?page=2'
+                  example: "https://api.vonage.com/t/vbc.prod/call_recording/api/accounts/549825/company_call_recordings?page=2"
             next:
               type: object
               properties:
                 href:
                   type: string
                   description: URL for the next page of recordings
-                  example: 'https://api.vonage.com/t/vbc.prod/call_recording/api/accounts/549825/company_call_recordings?page=3'
+                  example: "https://api.vonage.com/t/vbc.prod/call_recording/api/accounts/549825/company_call_recordings?page=3"
             last:
               type: object
               properties:
                 href:
                   type: string
                   description: URL for the last page of recordings
-                  example: 'https://api.vonage.com/t/vbc.prod/call_recording/api/accounts/549825/company_call_recordings?page=4'
+                  example: "https://api.vonage.com/t/vbc.prod/call_recording/api/accounts/549825/company_call_recordings?page=4"
         page:
           type: integer
         page_size:
@@ -605,7 +605,7 @@ components:
                 href:
                   type: string
                   description: URL for the current recording
-                  example: 'https://api.vonage.com/t/vbc.prod/call_recording/api/accounts/549825/users/745249/call_recordings/193228'
+                  example: "https://api.vonage.com/t/vbc.prod/call_recording/api/accounts/549825/users/745249/call_recordings/193228"
         call_direction:
           type: string
           description: Direction of the recorded call
@@ -621,15 +621,15 @@ components:
         cnam:
           type: string
           description: CNAM (Caller ID Name) of the caller of the recorded call
-          example: 'JOHN SMITH'
+          example: "JOHN SMITH"
         dnis:
           type: string
           description: DNIS (Dialed Number Identification Service) of the caller of the recorded call
-          example: '17325550100'
+          example: "17325550100"
         download_url:
           type: string
           description: URL to download the recording. This URL requires authorization with your OAuth token.
-          example: 'https://api.vonage.com/t/vbc.prod/call_recording/api/audio/recording/193228'
+          example: "https://api.vonage.com/t/vbc.prod/call_recording/api/audio/recording/193228"
         duration:
           type: integer
           description: Duration of the recorded call in milliseconds
@@ -688,35 +688,35 @@ components:
                 href:
                   type: string
                   description: URL for the first page of recordings
-                  example: 'https://api.vonage.com/t/vbc.prod/call_recording/api/accounts/549825/users/745249/call_recordings?page=0'
+                  example: "https://api.vonage.com/t/vbc.prod/call_recording/api/accounts/549825/users/745249/call_recordings?page=0"
             prev:
               type: object
               properties:
                 href:
                   type: string
                   description: URL for the previous page of recordings
-                  example: 'https://api.vonage.com/t/vbc.prod/call_recording/api/accounts/549825/users/745249/call_recordings?page=1'
+                  example: "https://api.vonage.com/t/vbc.prod/call_recording/api/accounts/549825/users/745249/call_recordings?page=1"
             self:
               type: object
               properties:
                 href:
                   type: string
                   description: URL for the current page of recordings
-                  example: 'https://api.vonage.com/t/vbc.prod/call_recording/api/accounts/549825/users/745249/call_recordings?page=2'
+                  example: "https://api.vonage.com/t/vbc.prod/call_recording/api/accounts/549825/users/745249/call_recordings?page=2"
             next:
               type: object
               properties:
                 href:
                   type: string
                   description: URL for the next page of recordings
-                  example: 'https://api.vonage.com/t/vbc.prod/call_recording/api/accounts/549825/users/745249/call_recordings?page=3'
+                  example: "https://api.vonage.com/t/vbc.prod/call_recording/api/accounts/549825/users/745249/call_recordings?page=3"
             last:
               type: object
               properties:
                 href:
                   type: string
                   description: URL for the last page of recordings
-                  example: 'https://api.vonage.com/t/vbc.prod/call_recording/api/accounts/549825/users/745249/call_recordings?page=4'
+                  example: "https://api.vonage.com/t/vbc.prod/call_recording/api/accounts/549825/users/745249/call_recordings?page=4"
         page:
           type: integer
         page_size:
@@ -747,7 +747,7 @@ components:
                 href:
                   type: string
                   description: URL for the current export job
-                  example: 'https://api.vonage.com/t/vbc.prod/call_recording/api/accounts/549825/users/745249/call_recordings/jobs/5e667ef2-2860-4471-8813-320980a55c20'
+                  example: "https://api.vonage.com/t/vbc.prod/call_recording/api/accounts/549825/users/745249/call_recordings/jobs/5e667ef2-2860-4471-8813-320980a55c20"
         download_url:
           type: string
           description: URL to download the completed export job. This URL requires authorization with your OAuth token.
@@ -791,35 +791,35 @@ components:
                 href:
                   type: string
                   description: URL for the first page of export jobs
-                  example: 'https://api.vonage.com/t/vbc.prod/call_recording/api/accounts/549825/users/745249/call_recordings/jobs?page=0'
+                  example: "https://api.vonage.com/t/vbc.prod/call_recording/api/accounts/549825/users/745249/call_recordings/jobs?page=0"
             prev:
               type: object
               properties:
                 href:
                   type: string
                   description: URL for the previous page of export jobs
-                  example: 'https://api.vonage.com/t/vbc.prod/call_recording/api/accounts/549825/users/745249/call_recordings/jobs?page=1'
+                  example: "https://api.vonage.com/t/vbc.prod/call_recording/api/accounts/549825/users/745249/call_recordings/jobs?page=1"
             self:
               type: object
               properties:
                 href:
                   type: string
                   description: URL for the current page of export jobs
-                  example: 'https://api.vonage.com/t/vbc.prod/call_recording/api/accounts/549825/users/745249/call_recordings/jobs?page=2'
+                  example: "https://api.vonage.com/t/vbc.prod/call_recording/api/accounts/549825/users/745249/call_recordings/jobs?page=2"
             next:
               type: object
               properties:
                 href:
                   type: string
                   description: URL for the next page of export jobs
-                  example: 'https://api.vonage.com/t/vbc.prod/call_recording/api/accounts/549825/users/745249/call_recordings/jobs?page=3'
+                  example: "https://api.vonage.com/t/vbc.prod/call_recording/api/accounts/549825/users/745249/call_recordings/jobs?page=3"
             last:
               type: object
               properties:
                 href:
                   type: string
                   description: URL for the last page of export jobs
-                  example: 'https://api.vonage.com/t/vbc.prod/call_recording/api/accounts/549825/users/745249/call_recordings/jobs?page=4'
+                  example: "https://api.vonage.com/t/vbc.prod/call_recording/api/accounts/549825/users/745249/call_recordings/jobs?page=4"
         page:
           type: integer
         page_size:
@@ -852,11 +852,11 @@ components:
         cnam:
           description: Filter recordings by CNAM (Caller ID Name)
           type: string
-          example: 'JOHN SMITH'
+          example: "JOHN SMITH"
         dnis:
           description: Filter recordings by DNIS (Dialed Number Identification Service)
           type: string
-          example: '17325550100'
+          example: "17325550100"
         duration:gte:
           description: Filter recordings by duration in milliseconds (greater than or equal to)
           example: 60000

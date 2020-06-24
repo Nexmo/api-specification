@@ -16,19 +16,19 @@ info:
   contact:
     name: Nexmo.com
     email: devrel@nexmo.com
-    url: 'https://developer.nexmo.com/'
+    url: "https://developer.nexmo.com/"
     x-twitter: Nexmo
-  termsOfService: 'https://www.nexmo.com/terms-of-use'
+  termsOfService: "https://www.nexmo.com/terms-of-use"
   license:
     name: The MIT License (MIT)
-    url: 'https://opensource.org/licenses/MIT'
+    url: "https://opensource.org/licenses/MIT"
   x-logo:
-    url: 'https://twitter.com/Nexmo/profile_image?size=original'
-  x-apiClientRegistration: 'https://dashboard.nexmo.com/sign-up'
+    url: "https://twitter.com/Nexmo/profile_image?size=original"
+  x-apiClientRegistration: "https://dashboard.nexmo.com/sign-up"
 servers:
-  - url: 'https://api.nexmo.com/v1/applications'
+  - url: "https://api.nexmo.com/v1/applications"
 externalDocs:
-  url: 'https://developer.nexmo.com/api/developer/application'
+  url: "https://developer.nexmo.com/api/developer/application"
   x-sha1: d8836c374e2a7504bd2cd59e05fcee440f67cb44
 paths:
   /:
@@ -39,8 +39,8 @@ paths:
         associated with your account.
       operationId: retrieveApplications
       parameters:
-        - $ref: '#/components/parameters/apiKeyQueryString'
-        - $ref: '#/components/parameters/apiSecretQueryString'
+        - $ref: "#/components/parameters/apiKeyQueryString"
+        - $ref: "#/components/parameters/apiSecretQueryString"
         - name: page_size
           required: false
           in: query
@@ -60,12 +60,12 @@ paths:
             default: 0
           example: 0
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/applications'
+                $ref: "#/components/schemas/applications"
     post:
       summary: Create Application
       description: You use a `POST` request to create a new application.
@@ -82,9 +82,9 @@ paths:
                 - type
               properties:
                 api_key:
-                  $ref: '#/components/schemas/apiKey'
+                  $ref: "#/components/schemas/apiKey"
                 api_secret:
-                  $ref: '#/components/schemas/apiSecret'
+                  $ref: "#/components/schemas/apiSecret"
                 name:
                   description: The name of your application.
                   type: string
@@ -104,7 +104,7 @@ paths:
                     Object that governs this call. As soon as your user answers
                     a call Nexmo makes a request to `answer_url`. Required for inbound calls only.
                   type: string
-                  example: 'https://example.com/webhooks/answer'
+                  example: "https://example.com/webhooks/answer"
                 answer_method:
                   description: >-
                     The HTTP method used to make the request to `answer_url`.
@@ -116,11 +116,11 @@ paths:
                     Nexmo sends event information asynchronously to this URL
                     when status changes for `voice` applications. Always required for `voice` applications.
                   type: string
-                  example: 'https://example.com/webhooks/event'
+                  example: "https://example.com/webhooks/event"
                 event_method:
                   description: >-
                     The HTTP method used to send event information to `event_url`.
-                    The default value is `POST`. For `voice` type applications only. 
+                    The default value is `POST`. For `voice` type applications only.
                   type: string
                   example: POST
                 status_url:
@@ -128,7 +128,7 @@ paths:
                     Nexmo sends event information asynchronously to this URL
                     when status changes. Required for `messages` type applications only.
                   type: string
-                  example: 'https://example.com/webhooks/status'
+                  example: "https://example.com/webhooks/status"
                 status_method:
                   description: >-
                     The HTTP method used to send event information to `status_url`.
@@ -140,7 +140,7 @@ paths:
                     Nexmo sends a request to this URL when an inbound message
                     is received. Required for `messages` type applications only.
                   type: string
-                  example: 'https://example.com/webhooks/inbound'                  
+                  example: "https://example.com/webhooks/inbound"
                 inbound_method:
                   description: >-
                     The HTTP method used to send event information to `inbound_url`.
@@ -148,35 +148,35 @@ paths:
                   type: string
                   example: POST
       responses:
-        '201':
+        "201":
           description: Created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/applicationCreated'
+                $ref: "#/components/schemas/applicationCreated"
 
-  '/{app_id}':
+  "/{app_id}":
     get:
       summary: Retrieve Application
       description: You use a `GET` request to retrieve details about a single application.
       operationId: retrieveApplication
       parameters:
-        - $ref: '#/components/parameters/apiKeyQueryString'
-        - $ref: '#/components/parameters/apiSecretQueryString'
-        - $ref: '#/components/parameters/app_id'
+        - $ref: "#/components/parameters/apiKeyQueryString"
+        - $ref: "#/components/parameters/apiSecretQueryString"
+        - $ref: "#/components/parameters/app_id"
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/application'
+                $ref: "#/components/schemas/application"
     put:
       summary: Update Application
       description: You use a `PUT` request to update an existing application.
       operationId: updateApplication
       parameters:
-        - $ref: '#/components/parameters/app_id'
+        - $ref: "#/components/parameters/app_id"
       requestBody:
         content:
           application/json:
@@ -189,9 +189,9 @@ paths:
                 - type
               properties:
                 api_key:
-                  $ref: '#/components/schemas/apiKey'
+                  $ref: "#/components/schemas/apiKey"
                 api_secret:
-                  $ref: '#/components/schemas/apiSecret'
+                  $ref: "#/components/schemas/apiSecret"
                 name:
                   description: The name of your application.
                   type: string
@@ -213,7 +213,7 @@ paths:
                     makes a request to `answer_url`.
                   type: string
                   format: url
-                  example: 'https://example.com/webhooks/answer'
+                  example: "https://example.com/webhooks/answer"
                 answer_method:
                   description: >-
                     The HTTP method used to make the request to `answer_url`. The
@@ -227,7 +227,7 @@ paths:
                     changes.
                   type: string
                   format: url
-                  example: 'https://example.com/webhooks/event'
+                  example: "https://example.com/webhooks/event"
                 event_method:
                   description: >-
                     The HTTP method used to send event information to `event_url`. The
@@ -236,20 +236,20 @@ paths:
                   default: POST
                   example: POST
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/application'
+                $ref: "#/components/schemas/application"
     delete:
       summary: Destroy Application
       description: You use a `DELETE` request to delete a single application.
       operationId: deleteApplication
       parameters:
-        - $ref: '#/components/parameters/app_id'
+        - $ref: "#/components/parameters/app_id"
       responses:
-        '204':
+        "204":
           description: No content
 components:
   parameters:
@@ -333,7 +333,7 @@ components:
                   `event_url`: Nexmo sends event information asynchronously to
                   this URL when status changes.
                 format: url
-                example: 'https://example.com/webhooks/answer'
+                example: "https://example.com/webhooks/answer"
               http_method:
                 type: string
                 description: >-
@@ -369,7 +369,7 @@ components:
                   `inbound_url`: The URL where inbound messages are delivered.
                   `status_url`: The URL where message status is delivered.
                 format: url
-                example: 'https://example.com/webhooks/status'
+                example: "https://example.com/webhooks/status"
               http_method:
                 type: string
                 description: >-
@@ -392,7 +392,7 @@ components:
           example: PUBLIC_KEY
     keysWithPrivateKey:
       allOf:
-        - $ref: '#/components/schemas/keys'
+        - $ref: "#/components/schemas/keys"
         - properties:
             private_key:
               description: >-
@@ -402,10 +402,10 @@ components:
               example: PRIVATE_KEY
     applicationCreated:
       allOf:
-        - $ref: '#/components/schemas/application'
+        - $ref: "#/components/schemas/application"
         - properties:
             keys:
-              $ref: '#/components/schemas/keysWithPrivateKey'
+              $ref: "#/components/schemas/keysWithPrivateKey"
     application:
       type: object
       required:
@@ -414,17 +414,17 @@ components:
         - messages
       properties:
         id:
-          $ref: '#/components/schemas/applicationBase/properties/id'
+          $ref: "#/components/schemas/applicationBase/properties/id"
         name:
-          $ref: '#/components/schemas/applicationBase/properties/name'
+          $ref: "#/components/schemas/applicationBase/properties/name"
         voice:
-          $ref: '#/components/schemas/voice'
+          $ref: "#/components/schemas/voice"
         messages:
-          $ref: '#/components/schemas/messages'
+          $ref: "#/components/schemas/messages"
         keys:
-          $ref: '#/components/schemas/keys'
+          $ref: "#/components/schemas/keys"
         _links:
-          $ref: '#/components/schemas/links'
+          $ref: "#/components/schemas/links"
     applicationBase:
       type: object
       properties:
@@ -446,15 +446,15 @@ components:
         - _links
       properties:
         count:
-          $ref: '#/components/schemas/applicationsBase/properties/count'
+          $ref: "#/components/schemas/applicationsBase/properties/count"
         page_size:
-          $ref: '#/components/schemas/applicationsBase/properties/page_size'
+          $ref: "#/components/schemas/applicationsBase/properties/page_size"
         page_index:
-          $ref: '#/components/schemas/applicationsBase/properties/page_index'
+          $ref: "#/components/schemas/applicationsBase/properties/page_index"
         _embedded:
-          $ref: '#/components/schemas/applicationsBase/properties/_embedded'
+          $ref: "#/components/schemas/applicationsBase/properties/_embedded"
         _links:
-          $ref: '#/components/schemas/links'
+          $ref: "#/components/schemas/links"
     applicationsBase:
       properties:
         count:
@@ -481,4 +481,4 @@ components:
                 information about an an individual application. The public_key
                 is not included in the application information.
               items:
-                $ref: '#/components/schemas/application'
+                $ref: "#/components/schemas/application"

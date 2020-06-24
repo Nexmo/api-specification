@@ -2,11 +2,11 @@ openapi: "3.0.0"
 info:
   version: 0.3.8
   title: Messages API
-  description: 'The Messaging API is a new API that consolidates all messaging channels. It encapsulates a user (developer) from having to use multiple APIs to interact with our various channels such as SMS, MMS, Viber, Facebook Messenger, etc. The API normalises information across all channels to abstracted to, from and content. This API is currently in Beta.'
+  description: "The Messaging API is a new API that consolidates all messaging channels. It encapsulates a user (developer) from having to use multiple APIs to interact with our various channels such as SMS, MMS, Viber, Facebook Messenger, etc. The API normalises information across all channels to abstracted to, from and content. This API is currently in Beta."
   contact:
     name: Nexmo DevRel
     email: devrel@nexmo.com
-    url: 'https://developer.nexmo.com/'
+    url: "https://developer.nexmo.com/"
   x-label: Beta
 servers:
   - url: https://api.nexmo.com/v0.1/messages
@@ -24,57 +24,55 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NewMessage'
+              $ref: "#/components/schemas/NewMessage"
       responses:
-        '202':
+        "202":
           description: Accepted.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Response'
-        '400':
+                $ref: "#/components/schemas/Response"
+        "400":
           description: Bad Request.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
       callbacks:
         message-status:
-          '{$request.body#/callback}':
+          "{$request.body#/callback}":
             post:
               summary: Message Status
               operationId: message-status
-              x-example-path: '/webhooks/message-status'
-              description: 'Webhooks to inform about events happening to the message at communication level (has it been delivered, rejected by the provider...).'
+              x-example-path: "/webhooks/message-status"
+              description: "Webhooks to inform about events happening to the message at communication level (has it been delivered, rejected by the provider...)."
               requestBody:
                 required: true
                 content:
                   application/json:
                     schema:
-                      $ref: '#/components/schemas/MessageStatus'
+                      $ref: "#/components/schemas/MessageStatus"
               responses:
-                  '200':
-                    description: Your server returns this code if it accepts the callback.
+                "200":
+                  description: Your server returns this code if it accepts the callback.
         inbound-message:
-          '{$request.body#/callback}':
+          "{$request.body#/callback}":
             post:
               summary: Inbound Message
               operationId: inbound-message
-              x-example-path: '/webhooks/inbound-message'
+              x-example-path: "/webhooks/inbound-message"
               description: An inbound message from a customer to you.
               requestBody:
                 required: true
                 content:
                   application/json:
                     schema:
-                      $ref: '#/components/schemas/InboundMessage'
+                      $ref: "#/components/schemas/InboundMessage"
               responses:
-                  '200':
-                    description: Your server returns this code if it accepts the callback.
-
+                "200":
+                  description: Your server returns this code if it accepts the callback.
 
 components:
-
   securitySchemes:
     bearerAuth:
       type: http
@@ -85,7 +83,6 @@ components:
       scheme: basic
 
   schemas:
-
     NewMessage:
       required:
         - to
@@ -93,15 +90,15 @@ components:
         - message
       properties:
         to:
-          $ref: '#/components/schemas/ToProperty'
+          $ref: "#/components/schemas/ToProperty"
         from:
-          $ref: '#/components/schemas/FromProperty'
+          $ref: "#/components/schemas/FromProperty"
         message:
-          $ref: '#/components/schemas/MessageProperty'
+          $ref: "#/components/schemas/MessageProperty"
         client_ref:
           type: string
           description: Client reference of up to 40 characters. The reference will be present in every message status.
-          example: 'my-personal-reference'
+          example: "my-personal-reference"
 
     Response:
       required:
@@ -110,9 +107,9 @@ components:
         message_uuid:
           type: string
           description: The UUID of the message.
-          example: 'aaaaaaaa-bbbb-cccc-dddd-0123456789ab'
+          example: "aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
     Error:
-      description: 'The error format is standardized to the 4xx/5xx range with a code and a human readable explanation.'
+      description: "The error format is standardized to the 4xx/5xx range with a code and a human readable explanation."
       required:
         - type
         - title
@@ -121,13 +118,13 @@ components:
       properties:
         type:
           type: string
-          example: 'https://www.nexmo.com/messages/Errors#InvalidParams'
+          example: "https://www.nexmo.com/messages/Errors#InvalidParams"
         title:
           type: string
-          example: 'Invalid Parameters'
+          example: "Invalid Parameters"
         detail:
           type: string
-          example: 'Your request parameters did not validate.'
+          example: "Your request parameters did not validate."
         instance:
           type: string
           example: f94b4e56604e07e5e5ad5a7228618f81
@@ -144,13 +141,13 @@ components:
         message_uuid:
           type: string
           description: The UUID of the message.
-          example: 'aaaaaaaa-bbbb-cccc-dddd-0123456789ab'
+          example: "aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
         to:
-          $ref: '#/components/schemas/ToProperty'
+          $ref: "#/components/schemas/ToProperty"
         from:
-          $ref: '#/components/schemas/FromProperty'
+          $ref: "#/components/schemas/FromProperty"
         timestamp:
-          $ref: '#/components/schemas/TimestampProperty'
+          $ref: "#/components/schemas/TimestampProperty"
         status:
           type: string
           example: delivered
@@ -170,7 +167,7 @@ components:
               description: The error code. See [our errors list](https://developer.nexmo.com/api-errors/messages-olympus) for a list of possible errors
             reason:
               type: string
-              example: 'Not part of the provider network'
+              example: "Not part of the provider network"
               description: Text describing the error. See [our errors list](https://developer.nexmo.com/api-errors/messages-olympus) for a list of possible errors
         usage:
           type: object
@@ -183,12 +180,12 @@ components:
                 - EUR
             price:
               type: string
-              example: '0.0333'
+              example: "0.0333"
               description: The charge amount as a stringified number.
         client_ref:
           type: string
           description: The client's reference.
-          example: 'my-personal-reference'
+          example: "my-personal-reference"
 
     InboundMessage:
       type: object
@@ -200,7 +197,7 @@ components:
       properties:
         message_uuid:
           type: string
-          example: 'aaaaaaaa-bbbb-cccc-dddd-0123456789ab'
+          example: "aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
           description: The UUID of the message.
         to:
           type: object
@@ -218,7 +215,7 @@ components:
                 - viber_service_msg
             id:
               type: string
-              example: '01234567'
+              example: "01234567"
               description: |
                 **Messenger** or **Viber**: 
                 The ID of the recipient.
@@ -226,7 +223,7 @@ components:
               type: string
               minLength: 1
               maxLength: 50
-              example: '447700900000'
+              example: "447700900000"
               description: |
                 **WhatsApp** or **MMS**: 
                 The phone number of the message recipient in the [E.164](https://en.wikipedia.org/wiki/E.164) format.
@@ -247,12 +244,12 @@ components:
             id:
               type: string
               description: The ID of the sender.
-              example: '0123456789012345'
+              example: "0123456789012345"
             number:
               type: string
               minLength: 1
               maxLength: 50
-              example: '447700900000'
+              example: "447700900000"
               description: |
                 **WhatsApp** or **MMS** or **Viber**:
                 The phone number of the message sender in the [E.164](https://en.wikipedia.org/wiki/E.164) format.
@@ -260,7 +257,7 @@ components:
           type: string
           format: ISO 8601
           description: The datetime of when the event occurred.
-          example: '2020-01-01T14:00:00.000Z'
+          example: "2020-01-01T14:00:00.000Z"
         message:
           type: object
           properties:
@@ -274,7 +271,7 @@ components:
                     **whatsapp** and **messenger** supports `text`, `image`, `audio`, `video`, `file` and `location`. WhatsApp maximum inbound size is 64mb.
                     **mms** supports `image`.
                     **viber** supports `text`.
-                  example: 'text'
+                  example: "text"
                   enum:
                     - text
                     - image
@@ -285,17 +282,17 @@ components:
                 text:
                   type: string
                   description: The body of the message.
-                  example: 'Hello World!'
+                  example: "Hello World!"
                 image:
-                  $ref: '#/components/schemas/ImageProperty'
+                  $ref: "#/components/schemas/ImageProperty"
                 audio:
-                  $ref: '#/components/schemas/AudioProperty'
+                  $ref: "#/components/schemas/AudioProperty"
                 video:
-                  $ref: '#/components/schemas/VideoPropertyInbound'
+                  $ref: "#/components/schemas/VideoPropertyInbound"
                 file:
-                  $ref: '#/components/schemas/FileProperty'
+                  $ref: "#/components/schemas/FileProperty"
                 location:
-                  $ref: '#/components/schemas/LocationProperty'
+                  $ref: "#/components/schemas/LocationProperty"
 
     ToProperty:
       type: object
@@ -305,7 +302,7 @@ components:
         type:
           type: string
           description: The type of message that you want to send.
-          example: 'sms'
+          example: "sms"
           enum:
             - sms
             - viber_service_msg
@@ -318,15 +315,15 @@ components:
           type: string
           minLength: 1
           maxLength: 50
-          example: '0123456789012345'
+          example: "0123456789012345"
         number:
           type: string
           minLength: 1
           maxLength: 50
-          example: '447700900000'
+          example: "447700900000"
           description: |
-           **SMS**, **Viber**, **WhatsApp** or **MMS**: 
-           The phone number of the message recipient in the [E.164](https://en.wikipedia.org/wiki/E.164) format. Don't use a leading + or 00 when entering a phone number, start with the country code, for example, 447700900000.
+            **SMS**, **Viber**, **WhatsApp** or **MMS**: 
+            The phone number of the message recipient in the [E.164](https://en.wikipedia.org/wiki/E.164) format. Don't use a leading + or 00 when entering a phone number, start with the country code, for example, 447700900000.
     FromProperty:
       type: object
       required:
@@ -353,12 +350,12 @@ components:
           type: string
           minLength: 1
           maxLength: 50
-          example: '0123456789012345'
+          example: "0123456789012345"
         number:
           type: string
           minLength: 1
           maxLength: 50
-          example: '447700900000'
+          example: "447700900000"
           description: |
             **SMS**: The phone number of the message recipient in the [E.164](https://en.wikipedia.org/wiki/E.164) format. Don't use a leading + or 00 when entering a phone number, start with the country code, for example, 447700900000.
 
@@ -397,7 +394,7 @@ components:
                 - file
                 - template
                 - custom
-              example: 'text'
+              example: "text"
             text:
               description: |
                 The text of the message.
@@ -412,17 +409,17 @@ components:
               type: string
               minLength: 1
               maxLength: 4096
-              example: 'Nexmo Verification code: 64873. Valid for 10 minutes.'
+              example: "Nexmo Verification code: 64873. Valid for 10 minutes."
             image:
-              $ref: '#/components/schemas/ImageProperty'
+              $ref: "#/components/schemas/ImageProperty"
             audio:
-              $ref: '#/components/schemas/AudioProperty'
+              $ref: "#/components/schemas/AudioProperty"
             video:
-              $ref: '#/components/schemas/VideoProperty'
+              $ref: "#/components/schemas/VideoProperty"
             file:
-              $ref: '#/components/schemas/FileProperty'
+              $ref: "#/components/schemas/FileProperty"
             template:
-              $ref: '#/components/schemas/TemplateProperty'
+              $ref: "#/components/schemas/TemplateProperty"
             # @TODO: Clarify requirements
             # custom:
             #   type: object
@@ -434,14 +431,14 @@ components:
           type: object
           properties:
             category:
-              description: 'The use of different category tags enables the business to send messages for different use cases. For Viber Service Messages the first message sent from a business to a user must be personal, informative & a targeted message - not promotional. By default Nexmo sends the `transaction` category to Viber Service Messages.'
+              description: "The use of different category tags enables the business to send messages for different use cases. For Viber Service Messages the first message sent from a business to a user must be personal, informative & a targeted message - not promotional. By default Nexmo sends the `transaction` category to Viber Service Messages."
               type: string
-              example: 'transaction'
+              example: "transaction"
               enum:
                 - transaction
                 - promotion
             ttl:
-              description: 'Set the time-to-live of message to be delivered in seconds. i.e. if the message is not delivered in 600 seconds then delete the message.'
+              description: "Set the time-to-live of message to be delivered in seconds. i.e. if the message is not delivered in 600 seconds then delete the message."
               type: integer
               example: 600
               minimum: 30
@@ -449,14 +446,14 @@ components:
             type:
               description: 'Viber-specific type definition. To use "template", please contact Nexmo Account Manager to setup your templates. To find out more please visit [nexmo.com/products/messages](https://www.nexmo.com/products/messages).'
               type: string
-              example: 'template'
+              example: "template"
         messenger:
           type: object
           properties:
             category:
-              description: 'The use of different category tags enables the business to send messages for different use cases. For Facebook Messenger they need to comply with their [Messaging Types policy]( https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types). Nexmo maps our `category` to their `messaging_type`. If `message_tag` is used, then an additional `tag` for that type is mandatory. By default Nexmo sends the `response` category to Facebook Messenger.'
+              description: "The use of different category tags enables the business to send messages for different use cases. For Facebook Messenger they need to comply with their [Messaging Types policy]( https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types). Nexmo maps our `category` to their `messaging_type`. If `message_tag` is used, then an additional `tag` for that type is mandatory. By default Nexmo sends the `response` category to Facebook Messenger."
               type: string
-              example: 'message_tag'
+              example: "message_tag"
               enum:
                 - response
                 - update
@@ -464,27 +461,26 @@ components:
             tag:
               description: ‘A full list of the possible tags is available on [developers.facebook.com](https://developers.facebook.com/docs/messenger-platform/send-messages/message-tags)'
               type: string
-              example: 'ticket_update'
+              example: "ticket_update"
         whatsapp:
           type: object
           properties:
             policy:
-              description: 'Please note that WhatsApp deprecated `fallback` policy in January 2020. Use of the fallback policy will result in a 1020 error in the status callback'
+              description: "Please note that WhatsApp deprecated `fallback` policy in January 2020. Use of the fallback policy will result in a 1020 error in the status callback"
               type: string
-              example: 'deterministic'
+              example: "deterministic"
               enum:
                 - deterministic
             locale:
-              description: 'We are using the industry standard, BCP 47, for locales. So in your API call to the /messages API you will need to put “en-GB” and this will refer to the “en_GB” template for WhatsApp. A full list of the possible locales is available on [developers.facebook.com](https://developers.facebook.com/docs/whatsapp/message-templates/creation#translations).'
+              description: "We are using the industry standard, BCP 47, for locales. So in your API call to the /messages API you will need to put “en-GB” and this will refer to the “en_GB” template for WhatsApp. A full list of the possible locales is available on [developers.facebook.com](https://developers.facebook.com/docs/whatsapp/message-templates/creation#translations)."
               type: string
-              example: 'en-GB'
-
+              example: "en-GB"
 
     TimestampProperty:
       type: string
       format: ISO 8601
       description: The datetime of when the event occurred.
-      example: '2020-01-01T14:00:00.000Z'
+      example: "2020-01-01T14:00:00.000Z"
 
     ImageProperty:
       type: object
@@ -499,13 +495,13 @@ components:
             **whatsapp** and **viber_service_msg** supports .jpg .jpeg, and .png.
           minLength: 10
           maxLength: 2000
-          example: 'https://example.com/image.jpg'
+          example: "https://example.com/image.jpg"
         caption:
           type: string
-          description: 'Additional text to accompany the image. Supported by WhatsApp and MMS.'
+          description: "Additional text to accompany the image. Supported by WhatsApp and MMS."
           minLength: 1
           maxLength: 3000
-          example: 'Additional text to accompany the image.'
+          example: "Additional text to accompany the image."
     AudioProperty:
       type: object
       properties:
@@ -519,7 +515,7 @@ components:
             **whatsapp** supports .aac, .m4a, .amr, .mp3 and .opus.
           minLength: 10
           maxLength: 2000
-          example: 'https://example.com/audio.mp3'
+          example: "https://example.com/audio.mp3"
     VideoProperty:
       type: object
       properties:
@@ -527,13 +523,13 @@ components:
           type: string
           description: |
             The URL of the video attachment.
-            
+
             **messenger** supports .mp4
-            
+
             **whatsapp** supports .mp4 and .3gpp. Note, only H.264 video codec and AAC audio codec is supported.
           minLength: 10
           maxLength: 2000
-          example: 'https://example.com/video.mp4'
+          example: "https://example.com/video.mp4"
     VideoPropertyInbound:
       type: object
       properties:
@@ -545,13 +541,13 @@ components:
             **messenger** and **whatsapp** supports .mp4.
           minLength: 10
           maxLength: 2000
-          example: 'https://example.com/video.mp4'
+          example: "https://example.com/video.mp4"
         caption:
           type: string
-          description: 'Additional text to accompany the image. Only supported by WhatsApp. Only present if specified.'
+          description: "Additional text to accompany the image. Only supported by WhatsApp. Only present if specified."
           minLength: 1
           maxLength: 3000
-          example: 'Additional text to accompany the image.'
+          example: "Additional text to accompany the image."
     FileProperty:
       type: object
       properties:
@@ -565,20 +561,20 @@ components:
             **whatsapp** supports .pdf, .doc(x), .ppt(x) and .xls(x).'
           minLength: 10
           maxLength: 2000
-          example: 'https://example.com/file.zip'
+          example: "https://example.com/file.zip"
         caption:
           type: string
-          description: 'Additional text to accompany the image. Only supported by WhatsApp. Optional. Only present if specified.'
+          description: "Additional text to accompany the image. Only supported by WhatsApp. Optional. Only present if specified."
           minLength: 1
           maxLength: 3000
-          example: 'Additional text to accompany the image.'
+          example: "Additional text to accompany the image."
     TemplateProperty:
       type: object
       properties:
         name:
           type: string
-          description: 'The name of the template. For WhatsApp use your Whatsapp namespace (available via Facebook Business Manager), followed by a colon `:` and the name of the template to use.'
-          example: 'WhatsApp_namespace:template_name'
+          description: "The name of the template. For WhatsApp use your Whatsapp namespace (available via Facebook Business Manager), followed by a colon `:` and the name of the template to use."
+          example: "WhatsApp_namespace:template_name"
         parameters:
           type: array
           items:
@@ -586,8 +582,8 @@ components:
             properties:
               default:
                 type: string
-                description: 'The parameters are an array. The first value being {{1}} in the template.'
-                example: '1234'
+                description: "The parameters are an array. The first value being {{1}} in the template."
+                example: "1234"
 
     LocationProperty:
       type: object
@@ -595,22 +591,22 @@ components:
         lat:
           type: string
           description: The latitude of the location attachment.
-          example: '51.5228349'
+          example: "51.5228349"
         long:
           type: string
           description: The longitude of the location attachment.
-          example: '-0.0854414'
+          example: "-0.0854414"
         url:
           type: string
           description: Depending on the provider, this can either be the location on a map or the website of the business at this location.
         address:
           type: string
           description: The address of the location attachment.
-          example: '15 Bonhill St London EC2A 4DN'
+          example: "15 Bonhill St London EC2A 4DN"
         name:
           type: string
           description: The name of the location attachment.
-          example: 'Nexmo London'
+          example: "Nexmo London"
 
 x-errors:
   "1000":
@@ -720,7 +716,7 @@ x-errors:
 
   "1330":
     description: Unknown  -  An unknown error was received from the carrier who tried to send this this message. Depending on the carrier, that to is unknown. When you see this error, and status is rejected, always check if to in your request was valid.
-  
+
   "1331":
     description: Provider error  -  The provider is not responding or unable to process the request. Please try sending your message in a few minutes time.
 
@@ -735,12 +731,12 @@ x-errors:
 
   "1370":
     description: Expired access Token - Please reauthenticate your Facebook Page with Nexmo.
-  
+
   "1380":
     description: Invalid resource - Please check that the URL your provided to your resrouce is accesible and valid.
-  
+
   "1381":
     description: Resource size is too large - Please try sending a smaller media file.
-    
+
   "1382":
     description: Resource type is invalid - Please check that the file you are trying to send is valid.

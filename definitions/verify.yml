@@ -338,7 +338,6 @@ paths:
           content:
             application/json:
               examples:
-
                 success:
                   summary: The supplied code is correct for this request. Verification successful.
                   value:
@@ -453,7 +452,6 @@ paths:
           content:
             application/json:
               examples:
-
                 success:
                   summary: The request was found
                   value:
@@ -463,14 +461,32 @@ paths:
                     sender_id: verify
                     date_submitted: "2020-01-01 12:00:00"
                     date_finalized: "2020-01-01 12:00:00"
-                    checks: [{date_received: "2020-01-01 12:00:00", code: "1111", status: INVALID, ip_address: ""},{date_received: "2020-01-01 12:02:00", code: "1234", status: VALID, ip_address: ""}]
+                    checks:
+                      [
+                        {
+                          date_received: "2020-01-01 12:00:00",
+                          code: "1111",
+                          status: INVALID,
+                          ip_address: "",
+                        },
+                        {
+                          date_received: "2020-01-01 12:02:00",
+                          code: "1234",
+                          status: VALID,
+                          ip_address: "",
+                        },
+                      ]
                     first_event_date: "2020-01-01 12:00:00"
                     last_event_date: "2020-01-01 12:00:00"
                     price: "0.1000000"
                     currency: EUR
                     status: SUCCESS
                     estimated_price_messages_sent: "0.06660000"
-                    events: [{id: 0A00000012345678, type: sms}, {id: 0A00000012345679, type: sms}]
+                    events:
+                      [
+                        { id: 0A00000012345678, type: sms },
+                        { id: 0A00000012345679, type: sms },
+                      ]
 
                 throttled:
                   summary: Request limit exceeded
@@ -507,7 +523,6 @@ paths:
                   value:
                     status: "101"
                     error_text: No response found
-
 
               schema:
                 oneOf:
@@ -575,7 +590,6 @@ paths:
           content:
             application/json:
               examples:
-
                 success-cancel:
                   summary: The request has been cancelled
                   value:
@@ -645,7 +659,7 @@ paths:
                 oneOf:
                   - $ref: "#/components/schemas/controlResponse"
                   - $ref: "#/components/schemas/controlErrorResponse"
-  '/psd2/{format}':
+  "/psd2/{format}":
     post:
       operationId: verifyRequestWithPSD2
       summary: PSD2 (Payment Services Directive 2) Request
@@ -707,7 +721,7 @@ paths:
                     The decimal amount of the payment to be confirmed, in Euros
                   type: number
                   format: float
-                  example: '48.00'
+                  example: "48.00"
                 code_length:
                   description: The length of the verification code.
                   type: integer
@@ -791,14 +805,14 @@ paths:
                   example: 4
 
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 oneOf:
-                  - $ref: '#/components/schemas/requestResponse'
-                  - $ref: '#/components/schemas/requestErrorResponse'
+                  - $ref: "#/components/schemas/requestResponse"
+                  - $ref: "#/components/schemas/requestErrorResponse"
 components:
   parameters:
     format:

@@ -13,7 +13,7 @@ components:
             properties:
               type:
                 type: string
-                example: 'https://developer.nexmo.com/api-errors#TO_BE_UPDATED'
+                example: "https://developer.nexmo.com/api-errors#TO_BE_UPDATED"
               title:
                 type: string
                 example: THIS ERROR NEEDS REPLACING
@@ -21,7 +21,7 @@ components:
                 type: string
                 example: THIS IS A PLACEHOLDER FOR OTHER ERRORS
               instance:
-                $ref: '#/components/fields/instance'
+                $ref: "#/components/fields/instance"
     BadCredentialsError:
       description: Credential is missing or invalid
       content:
@@ -30,7 +30,7 @@ components:
             properties:
               type:
                 type: string
-                example: 'https://developer.nexmo.com/api-errors#unauthorized'
+                example: "https://developer.nexmo.com/api-errors#unauthorized"
               title:
                 type: string
                 example: Invalid credentials supplied
@@ -38,7 +38,7 @@ components:
                 type: string
                 example: You did not provide correct credentials.
               instance:
-                $ref: '#/components/fields/instance'
+                $ref: "#/components/fields/instance"
     NotFoundError:
       description: Resource Not Found
       content:
@@ -47,7 +47,7 @@ components:
             properties:
               type:
                 type: string
-                example: 'https://developer.nexmo.com/api-errors#not-found'
+                example: "https://developer.nexmo.com/api-errors#not-found"
               title:
                 type: string
                 example: Not Found
@@ -55,7 +55,7 @@ components:
                 type: string
                 example: ID 'ABC123' does not exist, or you do not have access
               instance:
-                $ref: '#/components/fields/instance'
+                $ref: "#/components/fields/instance"
     InvalidRequestMethod:
       description: Invalid Request Method
       content:
@@ -64,7 +64,7 @@ components:
             properties:
               type:
                 type: string
-                example: 'https://developer.nexmo.com/api-errors#wrong-verb'
+                example: "https://developer.nexmo.com/api-errors#wrong-verb"
               title:
                 type: string
                 example: Request method not allowed
@@ -72,7 +72,7 @@ components:
                 type: string
                 example: Request method 'TRACE' not supported
               instance:
-                $ref: '#/components/fields/instance'
+                $ref: "#/components/fields/instance"
     InvalidAcceptHeader:
       description: Invalid Accept Header
       content:
@@ -81,7 +81,7 @@ components:
             properties:
               type:
                 type: string
-                example: 'https://developer.nexmo.com/api-errors#accept-header'
+                example: "https://developer.nexmo.com/api-errors#accept-header"
               title:
                 type: string
                 example: Invalid Accept header
@@ -89,7 +89,7 @@ components:
                 type: string
                 example: "Invalid Accept header provided. Must be one of the following: 'application/json'"
               instance:
-                $ref: '#/components/fields/instance'
+                $ref: "#/components/fields/instance"
     UnsupportedContentTypeHeader:
       description: Unsupported Content Type Header
       content:
@@ -98,7 +98,7 @@ components:
             properties:
               type:
                 type: string
-                example: 'https://developer.nexmo.com/api-errors#content-type-header'
+                example: "https://developer.nexmo.com/api-errors#content-type-header"
               title:
                 type: string
                 example: Unsupported Content-Type header
@@ -106,4 +106,4 @@ components:
                 type: string
                 example: "Unsupported Content-Type header provided. Must be one of the following: 'application/json'"
               instance:
-                $ref: '#/components/fields/instance'
+                $ref: "#/components/fields/instance"

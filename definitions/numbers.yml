@@ -334,7 +334,7 @@ components:
       type: object
       properties:
         country:
-          $ref: '#/components/schemas/country'
+          $ref: "#/components/schemas/country"
         msisdn:
           type: string
           example: "447700900000"
@@ -375,7 +375,7 @@ components:
       type: object
       properties:
         country:
-          $ref: '#/components/schemas/country'
+          $ref: "#/components/schemas/country"
         msisdn:
           type: string
           example: "447700900000"
@@ -427,7 +427,7 @@ components:
       type: object
       properties:
         country:
-          $ref: '#/components/schemas/country'
+          $ref: "#/components/schemas/country"
         msisdn:
           type: string
           example: "447700900000"
@@ -444,7 +444,7 @@ components:
       type: object
       properties:
         country:
-          $ref: '#/components/schemas/country'
+          $ref: "#/components/schemas/country"
         msisdn:
           type: string
           example: "447700900000"
@@ -541,7 +541,7 @@ components:
     account-unauthorized:
       type: object
       xml:
-        name: inbound-numbers 
+        name: inbound-numbers
       properties:
         error-code:
           type: string

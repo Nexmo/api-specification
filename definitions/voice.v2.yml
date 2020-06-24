@@ -4,25 +4,25 @@ info:
   version: 2.1.1
   title: Voice API BETA
   description: |
-      This is the *beta* version of the Voice API. Calls created with v2 must be managed
-      using [v1 endpoints](/api/voice).
+    This is the *beta* version of the Voice API. Calls created with v2 must be managed
+    using [v1 endpoints](/api/voice).
 
-      Voice v2 is provided to allow users to create IP calls. If you do not have this requirement
-      we recommend that you stay on v1 for now.
+    Voice v2 is provided to allow users to create IP calls. If you do not have this requirement
+    we recommend that you stay on v1 for now.
 
-      > This API may break backwards compatibility at short notice (60 days)
+    > This API may break backwards compatibility at short notice (60 days)
   contact:
     name: Nexmo DevRel
     email: devrel@nexmo.com
-    url: 'https://developer.nexmo.com/'
+    url: "https://developer.nexmo.com/"
 servers:
-- url: https://api.nexmo.com/v2/calls
+  - url: https://api.nexmo.com/v2/calls
 paths:
   "/":
     post:
       security:
         - bearerAuth: []
-      summary: 
+      summary:
         "$ref": "voice.yml#/paths/~1/post/summary"
       description:
         "$ref": "voice.yml#/paths/~1/post/description"
@@ -31,7 +31,7 @@ paths:
       requestBody:
         "$ref": "#/components/requestBodies/CreateCallRequestBody"
       responses:
-        '202':
+        "202":
           description: Accepted
           content:
             application/json:
@@ -41,20 +41,20 @@ paths:
 
       callbacks:
         delivery-receipt:
-          '{$request.body#/event_url}':
+          "{$request.body#/event_url}":
             post:
               summary: Call Placed Callback
               operationId: call-placed
-              x-example-path: '/webhooks/event_url'
+              x-example-path: "/webhooks/event_url"
               description: Each time a leg is created you'll receive a webhook containing the leg ID (`uuid`) and the conversation ID (`conversation_uuid`) in addition to the `to` and `from` addresses.
               requestBody:
                 required: true
                 content:
                   application/json:
                     schema:
-                      $ref: '#/components/schemas/CallPlacedWebhook'
+                      $ref: "#/components/schemas/CallPlacedWebhook"
               responses:
-                '200':
+                "200":
                   description: Your server returns this code if it accepts the callback
 
 components:
@@ -83,11 +83,11 @@ components:
           type: array
           items:
             oneOf:
-            - "$ref": "./voice.yml#/components/schemas/EndpointPhone"
-            - "$ref": "./voice.yml#/components/schemas/EndpointApp"
-            - "$ref": "./voice.yml#/components/schemas/EndpointSip"
-            - "$ref": "./voice.yml#/components/schemas/EndpointWebsocket"
-            - "$ref": "./voice.yml#/components/schemas/EndpointVBCExtension"
+              - "$ref": "./voice.yml#/components/schemas/EndpointPhone"
+              - "$ref": "./voice.yml#/components/schemas/EndpointApp"
+              - "$ref": "./voice.yml#/components/schemas/EndpointSip"
+              - "$ref": "./voice.yml#/components/schemas/EndpointWebsocket"
+              - "$ref": "./voice.yml#/components/schemas/EndpointVBCExtension"
         from:
           "$ref": "voice.yml#/components/schemas/EndpointPhone"
         ncco:
@@ -137,8 +137,8 @@ components:
           description: Possible values are `outbound` or `inbound`
           example: outbound
           enum:
-          - outbound
-          - inbound
+            - outbound
+            - inbound
         timestamp:
           type: string
           format: date-time

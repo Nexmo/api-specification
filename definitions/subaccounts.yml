@@ -1,6 +1,6 @@
 openapi: 3.0.0
 servers:
-  - url: 'https://api.nexmo.com/accounts'
+  - url: "https://api.nexmo.com/accounts"
 info:
   version: 1.0.5
   title: Subaccounts API
@@ -9,7 +9,7 @@ info:
   contact:
     name: Nexmo DevRel
     email: devrel@nexmo.com
-    url: 'https://developer.nexmo.com/'
+    url: "https://developer.nexmo.com/"
 paths:
   /{api_key}/subaccounts:
     get:
@@ -29,24 +29,24 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Subaccounts response
           content:
             application/json:
               schema:
-                  $ref: '#/components/schemas/SubaccountsAllResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-        '403':
-          $ref: '#/components/responses/ForbiddenError'
-        '404':
-          $ref: '#/components/responses/NotFoundError'
+                $ref: "#/components/schemas/SubaccountsAllResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "403":
+          $ref: "#/components/responses/ForbiddenError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
     post:
       summary: Create subaccount
       operationId: createSubAccount
       description: >
         Create a subaccount for a given primary account.
-      tags: 
+      tags:
         - Subaccount Management
       security:
         - basicAuth: []
@@ -62,29 +62,29 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NewSubaccountRequest'
+              $ref: "#/components/schemas/NewSubaccountRequest"
       responses:
-        '200':
+        "200":
           description: Subaccount response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SubaccountCreateResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-        '403':
-          $ref: '#/components/responses/ForbiddenError'
-        '404':
-          $ref: '#/components/responses/NotFoundError'
-        '422':
-          $ref: '#/components/responses/UnprocessableEntityError'
+                $ref: "#/components/schemas/SubaccountCreateResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "403":
+          $ref: "#/components/responses/ForbiddenError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntityError"
   /{api_key}/subaccounts/{subaccount_key}:
     get:
       summary: Retrieve a subaccount
       operationId: retrieveSubaccount
       description: >
         Get the information of a subaccount specified with its API key.
-      tags: 
+      tags:
         - Subaccount Management
       security:
         - basicAuth: []
@@ -102,24 +102,24 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Subaccount response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SubaccountResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-        '403':
-          $ref: '#/components/responses/ForbiddenError'
-        '404':
-          $ref: '#/components/responses/NotFoundError'
+                $ref: "#/components/schemas/SubaccountResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "403":
+          $ref: "#/components/responses/ForbiddenError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
     patch:
       summary: Modify a subaccount
       operationId: modifySubaccount
       description: >
         Change one or more properties of a subaccount.
-      tags: 
+      tags:
         - Subaccount Management
       security:
         - basicAuth: []
@@ -141,29 +141,29 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ModifySubaccountRequest'
+              $ref: "#/components/schemas/ModifySubaccountRequest"
       responses:
-        '200':
+        "200":
           description: Subaccount response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SubaccountResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-        '403':
-          $ref: '#/components/responses/ForbiddenError'
-        '404':
-          $ref: '#/components/responses/NotFoundError'
-        '422':
-          $ref: '#/components/responses/UnprocessableEntityError'
+                $ref: "#/components/schemas/SubaccountResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "403":
+          $ref: "#/components/responses/ForbiddenError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntityError"
   /{api_key}/credit-transfers:
     get:
       summary: Retrieve list of credit transfers
       operationId: retrieveCreditTransfers
       description: >
         Retrieve a list of credit transfers that have taken place for a primary account within a specified time period.
-      tags: 
+      tags:
         - Transfers
       security:
         - basicAuth: []
@@ -180,14 +180,14 @@ paths:
           required: true
           schema:
             type: string
-          example: '2019-07-15T13:11:44Z'
+          example: "2019-07-15T13:11:44Z"
         - name: end_date
           in: query
           description: End of the retrieval period. If absent then all transfers until now is returned.
           required: false
           schema:
             type: string
-          example: '2019-07-15T14:11:44Z'
+          example: "2019-07-15T14:11:44Z"
         - name: subaccount
           in: query
           description: Subaccount to filter by. You may send this multiple times to filter on multiple subaccounts
@@ -195,24 +195,24 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: List credit transfers response
           content:
             application/json:
               schema:
-                  $ref: '#/components/schemas/ListCreditTransfersResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-        '403':
-          $ref: '#/components/responses/ForbiddenError'
-        '404':
-          $ref: '#/components/responses/NotFoundError'
+                $ref: "#/components/schemas/ListCreditTransfersResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "403":
+          $ref: "#/components/responses/ForbiddenError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
     post:
       summary: Transfer credit
       operationId: transferCredit
       description: >
         Transfer credit limit between a primary account and one of its subaccounts.
-      tags: 
+      tags:
         - Transfers
       security:
         - basicAuth: []
@@ -228,29 +228,29 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TransferBalanceOrCreditRequest'
+              $ref: "#/components/schemas/TransferBalanceOrCreditRequest"
       responses:
-        '200':
+        "200":
           description: Credit transfer response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TransferCreditResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-        '403':
-          $ref: '#/components/responses/ForbiddenError'
-        '404':
-          $ref: '#/components/responses/NotFoundError'
-        '422':
-          $ref: '#/components/responses/UnprocessableEntityError'
+                $ref: "#/components/schemas/TransferCreditResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "403":
+          $ref: "#/components/responses/ForbiddenError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntityError"
   /{api_key}/balance-transfers:
     get:
       summary: Retrieve list of balance transfers
       operationId: retrieveBalanceTransfers
       description: >
         Retrieve a list of balance transfers that have taken place for a primary account within a specified time period.
-      tags: 
+      tags:
         - Transfers
       security:
         - basicAuth: []
@@ -267,14 +267,14 @@ paths:
           required: true
           schema:
             type: string
-          example: '2019-07-15T13:11:44Z'
+          example: "2019-07-15T13:11:44Z"
         - name: end_date
           in: query
           description: End of the retrieval period. If absent then all transfers until now is returned.
           required: false
           schema:
             type: string
-          example: '2019-07-15T14:11:44Z'
+          example: "2019-07-15T14:11:44Z"
         - name: subaccount
           in: query
           description: Subaccount to filter by. You may send this multiple times to filter on multiple subaccounts
@@ -282,24 +282,24 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: List balance transfers response
           content:
             application/json:
               schema:
-                  $ref: '#/components/schemas/ListBalanceTransfersResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-        '403':
-          $ref: '#/components/responses/ForbiddenError'
-        '404':
-          $ref: '#/components/responses/NotFoundError'
+                $ref: "#/components/schemas/ListBalanceTransfersResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "403":
+          $ref: "#/components/responses/ForbiddenError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
     post:
       summary: Transfer balance
       description: >
         Transfer balance between a primary account and one of its subaccounts.
         Note that balance_available_for_transfer = |account_balance - credit_limit| of the source account.
-      tags: 
+      tags:
         - Transfers
       security:
         - basicAuth: []
@@ -316,22 +316,22 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TransferBalanceOrCreditRequest'
+              $ref: "#/components/schemas/TransferBalanceOrCreditRequest"
       responses:
-        '200':
+        "200":
           description: Balance transfer response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TransferBalanceResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-        '403':
-          $ref: '#/components/responses/ForbiddenError'
-        '404':
-          $ref: '#/components/responses/NotFoundError'
-        '422':
-          $ref: '#/components/responses/UnprocessableEntityError' 
+                $ref: "#/components/schemas/TransferBalanceResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "403":
+          $ref: "#/components/responses/ForbiddenError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntityError"
 tags:
   - name: Subaccount Management
     description: This section shows how you can create, retrieve and modify subaccounts of a primary account.
@@ -357,16 +357,16 @@ components:
             properties:
               type:
                 type: string
-                example: 'https://developer.nexmo.com/api-errors#unauthorized'
+                example: "https://developer.nexmo.com/api-errors#unauthorized"
               title:
                 type: string
-                example: 'Invalid credentials supplied'
+                example: "Invalid credentials supplied"
               detail:
                 type: string
-                example: 'You did not provide correct credentials'
+                example: "You did not provide correct credentials"
               instance:
                 type: string
-                example: '798b8f199c45014ab7b08bfe9cc1c12c'
+                example: "798b8f199c45014ab7b08bfe9cc1c12c"
     ForbiddenError:
       description: Action is forbidden
       content:
@@ -381,16 +381,16 @@ components:
             properties:
               type:
                 type: string
-                example: 'https://developer.nexmo.com/api-errors#unprovisioned'
+                example: "https://developer.nexmo.com/api-errors#unprovisioned"
               title:
                 type: string
-                example: 'Authorisation error'
+                example: "Authorisation error"
               detail:
                 type: string
-                example: 'Account acc6111f is not provisioned to access Subaccount Provisioning API'
+                example: "Account acc6111f is not provisioned to access Subaccount Provisioning API"
               instance:
                 type: string
-                example: '158b8f199c45014ab7b08bfe9cc1c12c'
+                example: "158b8f199c45014ab7b08bfe9cc1c12c"
     NotFoundError:
       description: The account ID provided does not exist in our system or you do not have access
       content:
@@ -405,16 +405,16 @@ components:
             properties:
               type:
                 type: string
-                example: 'https://developer.nexmo.com/api-errors#invalid-api-key'
+                example: "https://developer.nexmo.com/api-errors#invalid-api-key"
               title:
                 type: string
-                example: 'Invalid API Key'
+                example: "Invalid API Key"
               detail:
                 type: string
                 example: "API key 'acc6111f' does not exist, or you do not have access"
               instance:
                 type: string
-                example: '158b8f199c45014ab7b08bfe9cc1c12c'
+                example: "158b8f199c45014ab7b08bfe9cc1c12c"
     UnprocessableEntityError:
       description: Validation Error
       content:
@@ -430,13 +430,13 @@ components:
             properties:
               type:
                 type: string
-                example: 'https://developer.nexmo.com/api-errors/account/subaccounts#validation'
+                example: "https://developer.nexmo.com/api-errors/account/subaccounts#validation"
               title:
                 type: string
-                example: 'Bad Request'
+                example: "Bad Request"
               detail:
                 type: string
-                example: 'The request failed due to validation errors'
+                example: "The request failed due to validation errors"
               invalid_parameters:
                 type: array
                 items:
@@ -444,13 +444,13 @@ components:
                   properties:
                     name:
                       type: string
-                      example: 'use_primary_account_balance'
+                      example: "use_primary_account_balance"
                     reason:
                       type: string
                       example: "Should be either 'true' or 'false'"
               instance:
                 type: string
-                example: '158b8f199c45014ab7b08bfe9cc1c12c'
+                example: "158b8f199c45014ab7b08bfe9cc1c12c"
     InternalError:
       description: An internal error has occurred
       content:
@@ -465,16 +465,16 @@ components:
             properties:
               type:
                 type: string
-                example: 'https://developer.nexmo.com/api-errors#internal-error'
+                example: "https://developer.nexmo.com/api-errors#internal-error"
               title:
                 type: string
-                example: 'Internal Error'
+                example: "Internal Error"
               detail:
                 type: string
-                example: 'An internal error occurred. Please try again shortly'
+                example: "An internal error occurred. Please try again shortly"
               instance:
                 type: string
-                example: '158b8f199c45014ab7b08bfe9cc1c12c'
+                example: "158b8f199c45014ab7b08bfe9cc1c12c"
   schemas:
     SubaccountsAllResponse:
       properties:
@@ -482,25 +482,25 @@ components:
           type: object
           properties:
             primary_account:
-              $ref: '#/components/schemas/SubaccountResponse'
+              $ref: "#/components/schemas/SubaccountResponse"
             subaccounts:
               type: array
               items:
-                $ref: '#/components/schemas/SubaccountResponse'
+                $ref: "#/components/schemas/SubaccountResponse"
     SubaccountResponse:
       properties:
         api_key:
-          example: 'bbe6222f'
+          example: "bbe6222f"
           type: string
           description: >-
             Unique subaccount ID.
         name:
           type: string
-          example: 'Subaccount department A'
+          example: "Subaccount department A"
           description: >-
-           Name of the subaccount.
+            Name of the subaccount.
         primary_account_api_key:
-          example: 'acc6111f'
+          example: "acc6111f"
           type: string
           description: >-
             Unique primary account ID.
@@ -510,7 +510,7 @@ components:
           description: >-
             Flag showing if balance is shared with primary account.
         created_at:
-          example: '2018-03-02T16:34:49Z'
+          example: "2018-03-02T16:34:49Z"
           type: string
           description: >-
             Subaccount creation date and time.
@@ -534,14 +534,14 @@ components:
         - properties:
             secret:
               type: string
-              example: 'Password123'
+              example: "Password123"
               description: >-
-               API secret of the subaccount.
-        - $ref: '#/components/schemas/SubaccountResponse'
+                API secret of the subaccount.
+        - $ref: "#/components/schemas/SubaccountResponse"
     TransferCreditResponse:
       properties:
         credit_transfer_id:
-          example: '07b5-46e1-a527-85530e625800'
+          example: "07b5-46e1-a527-85530e625800"
           type: string
           description: >-
             Unique credit transfer ID
@@ -551,29 +551,29 @@ components:
           description: >-
             Credit transfer amount
         from:
-          example: '7c9738e6'
+          example: "7c9738e6"
           type: string
           description: >-
             Account the credit is transferred from
         to:
-          example: 'ad6dc56f'
+          example: "ad6dc56f"
           type: string
           description: >-
             Account the credit is transferred to
         reference:
-          example: 'This gets added to the audit log'
+          example: "This gets added to the audit log"
           type: string
           description: >-
             Reference for the credit transfer
         created_at:
-          example: '2019-03-02T16:34:49Z'
+          example: "2019-03-02T16:34:49Z"
           type: string
           description: >-
             The date and time when the credit transfer was executed
     TransferBalanceResponse:
       properties:
         balance_transfer_id:
-          example: '07b5-46e1-a527-85530e625800'
+          example: "07b5-46e1-a527-85530e625800"
           type: string
           description: >-
             Unique balance transfer ID
@@ -583,22 +583,22 @@ components:
           description: >-
             Balance transfer amount
         from:
-          example: '7c9738e6'
+          example: "7c9738e6"
           type: string
           description: >-
             Account the balance is transferred from
         to:
-          example: 'ad6dc56f'
+          example: "ad6dc56f"
           type: string
           description: >-
             Account the balance is transferred to
         reference:
-          example: 'This gets added to the audit log'
+          example: "This gets added to the audit log"
           type: string
           description: >-
             Reference for the balance transfer
         created_at:
-          example: '2019-03-02T16:34:49Z'
+          example: "2019-03-02T16:34:49Z"
           type: string
           description: >-
             The date and time when the balance transfer was executed
@@ -610,7 +610,7 @@ components:
             credit-transfers:
               type: array
               items:
-                $ref: '#/components/schemas/TransferCreditResponse'
+                $ref: "#/components/schemas/TransferCreditResponse"
     ListBalanceTransfersResponse:
       properties:
         _embedded:
@@ -619,7 +619,7 @@ components:
             balance_transfers:
               type: array
               items:
-                $ref: '#/components/schemas/TransferBalanceResponse'
+                $ref: "#/components/schemas/TransferBalanceResponse"
     NewSubaccountRequest:
       type: object
       required:
@@ -627,10 +627,10 @@ components:
       properties:
         name:
           type: string
-          example: 'Subaccount department A'
+          example: "Subaccount department A"
         secret:
           type: string
-          example: 'Password123'
+          example: "Password123"
         use_primary_account_balance:
           type: boolean
           example: false
@@ -649,16 +649,16 @@ components:
       properties:
         from:
           type: string
-          example: '7c9738e6'
+          example: "7c9738e6"
         to:
           type: string
-          example: 'ad6dc56f'
+          example: "ad6dc56f"
         amount:
           type: number
-          example: '123.45'
+          example: "123.45"
         reference:
           type: string
-          example: 'This gets added to the audit log'
+          example: "This gets added to the audit log"
       required:
         - from
         - to

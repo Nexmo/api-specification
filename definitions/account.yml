@@ -2,48 +2,48 @@ openapi: "3.0.2"
 info:
   title: "Nexmo Account API"
   version: "1.0.0"
-  description : >-
+  description: >-
     Enables users to manage their Nexmo Account by programmable means. More information is available here: <https://developer.nexmo.com/account/overview>.
   contact:
     name: Nexmo.com
     url: "https://developer.nexmo.com"
-servers: 
+servers:
   - url: "https://api.nexmo.com"
 paths:
   /account/get-balance:
-    servers: 
+    servers:
       - url: "https://rest.nexmo.com"
     get:
       operationId: getAccountBalance
       summary: Get Account Balance
       description: Retrieve the current balance of your Nexmo account
       parameters:
-        - $ref: '#/components/parameters/api_key_for_auth'
-        - $ref: '#/components/parameters/api_secret_for_auth'
+        - $ref: "#/components/parameters/api_key_for_auth"
+        - $ref: "#/components/parameters/api_secret_for_auth"
       tags:
         - Balance
       responses:
-        '200':
+        "200":
           description: The current balance of your account
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/accountBalance'
-              example: {"value":10.17127500,"autoReload":false}
+                $ref: "#/components/schemas/accountBalance"
+              example: { "value": 10.17127500, "autoReload": false }
             application/xml:
               schema:
-                $ref: '#/components/schemas/accountBalance'
+                $ref: "#/components/schemas/accountBalance"
               example: >-
                 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
                 <accountBalance>
                   <value>10.17127500</value>
                   <autoReload>false</autoReload>
                 </accountBalance>
-        '401':
+        "401":
           description: Not Authorised. You must supply your `api_key` and `api_secret` as query parameters to this request
 
   /account/top-up:
-    servers: 
+    servers:
       - url: "https://rest.nexmo.com"
     post:
       operationId: topUpAccountBalance
@@ -57,12 +57,12 @@ paths:
         and auto-reload is enabled, then it will be topped up automatically. Use this endpoint 
         if you need to top up at times when your credit may be exhausted more quickly than the
         auto-reload may occur.
-      externalDocs: 
+      externalDocs:
         url: "https://help.nexmo.com/hc/en-us/articles/205603248-How-do-I-set-up-automatic-payments-using-PayPal-or-credit-card-"
         description: Read more about automatic payments on the Knowledgebase
       parameters:
-        - $ref: '#/components/parameters/api_key_for_auth'
-        - $ref: '#/components/parameters/api_secret_for_auth'
+        - $ref: "#/components/parameters/api_key_for_auth"
+        - $ref: "#/components/parameters/api_secret_for_auth"
       tags:
         - Balance
       requestBody:
@@ -79,7 +79,7 @@ paths:
                   description: The transaction reference of the transaction when balance was added and auto-reload was enabled on your account.
                   example: 8ef2447e69604f642ae59363aa5f781b
       responses:
-        '200':
+        "200":
           description: Success
           content:
             application/json:
@@ -96,11 +96,11 @@ paths:
                   response:
                     type: string
               example: <?xml version="1.0" encoding="UTF-8" standalone="yes"?><response>success</response>
-        '401':
+        "401":
           description: Not Authorised. You must supply your `api_key` and `api_secret` as query parameters to this request
 
   /account/settings:
-    servers: 
+    servers:
       - url: "https://rest.nexmo.com"
     post:
       operationId: changeAccountSettings
@@ -113,8 +113,8 @@ paths:
         Note that the URLs you provide must be valid and active. Nexmo will check that they
         return a 200 OK response before the setting is saved.
       parameters:
-        - $ref: '#/components/parameters/api_key_for_auth'
-        - $ref: '#/components/parameters/api_secret_for_auth'
+        - $ref: "#/components/parameters/api_key_for_auth"
+        - $ref: "#/components/parameters/api_secret_for_auth"
       tags:
         - Configuration
       requestBody:
@@ -143,12 +143,12 @@ paths:
                   format: url
                   example: https://example.com/webhooks/delivery-receipt
       responses:
-        '200':
+        "200":
           description: OK. Settings were updated if supplied, the details of the current settings are included in the response.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/accountSettings'
+                $ref: "#/components/schemas/accountSettings"
               example: >-
                 {
                   "mo-callback-url": "https:\/\/example.com\/webhooks\/inbound-sms",
@@ -159,7 +159,7 @@ paths:
                 }
             application/xml:
               schema:
-                $ref: '#/components/schemas/accountSettings'          
+                $ref: "#/components/schemas/accountSettings"
               example: >-
                 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
                 <account-settings>
@@ -169,7 +169,7 @@ paths:
                   <max-inbound-request>30</max-inbound-request>
                   <max-calls-per-second>30</max-calls-per-second>
                 </account-settings>
-        '401':
+        "401":
           description: Not Authorised. You must supply your `api_key` and `api_secret` as query parameters to this request
 
   /accounts/{api_key}/secrets:
@@ -178,19 +178,19 @@ paths:
       operationId: retrieveAPISecrets
       tags:
         - Secret Management
-      security: 
+      security:
         - basicAuth: []
       parameters:
-        - $ref: '#/components/parameters/APIKey'
+        - $ref: "#/components/parameters/APIKey"
       responses:
-        '200':
+        "200":
           description: The list of your current API secrets
           content:
             application/json:
               schema:
                 properties:
                   _links:
-                    $ref: '#/components/schemas/secretMgmtLinks'
+                    $ref: "#/components/schemas/secretMgmtLinks"
                   _embedded:
                     type: object
                     description: The single `secrets` key returns an array of API secrets
@@ -199,7 +199,7 @@ paths:
                         type: array
                         description: Array of API secrets
                         items:
-                            $ref: '#/components/schemas/secretInfo'
+                          $ref: "#/components/schemas/secretInfo"
               example: >-
                 {
                   "_links": {
@@ -221,23 +221,23 @@ paths:
                     ]
                   }
                 }
-        '401':
-          $ref: '#/components/responses/BadCredentialsError'
-        '404':
+        "401":
+          $ref: "#/components/responses/BadCredentialsError"
+        "404":
           description: "Item not found"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorAPIKeyNotFound'
+                $ref: "#/components/schemas/ErrorAPIKeyNotFound"
     post:
       summary: Create API Secret
       operationId: createAPISecret
       tags:
         - Secret Management
-      security: 
+      security:
         - basicAuth: []
       parameters:
-        - $ref: '#/components/parameters/APIKey'
+        - $ref: "#/components/parameters/APIKey"
       requestBody:
         required: true
         content:
@@ -249,23 +249,23 @@ paths:
               properties:
                 secret:
                   description: |
-                      The new secret must follow these rules:
+                    The new secret must follow these rules:
 
-                      * minimum 8 characters
-                      * maximum 25 characters
-                      * minimum 1 lower case character
-                      * minimum 1 upper case character
-                      * minimum 1 digit
+                    * minimum 8 characters
+                    * maximum 25 characters
+                    * minimum 1 lower case character
+                    * minimum 1 upper case character
+                    * minimum 1 digit
 
                   type: string
-                  example: 'example-4PI-secret'
+                  example: "example-4PI-secret"
       responses:
-        '201':
+        "201":
           description: Secret created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/secretInfo'
+                $ref: "#/components/schemas/secretInfo"
               example: >-
                 {
                   "_links": {
@@ -276,7 +276,7 @@ paths:
                   "id": "01234567-aaaa-bbbb-cccc-defdefdefdef",
                   "created_at": "2018-12-03T10:07:23Z"
                 }
-        '400':
+        "400":
           description: Bad request. This usually indicates valid data but can also occur when a user has exceeded the allowed number of secrets on their account.
           content:
             application/json:
@@ -312,33 +312,33 @@ paths:
                           type: string
                           description: Explanation of why parameter is considered invalid
                           example: Does not meet complexity requirements
-        '401':
-          $ref: '#/components/responses/BadCredentialsError'
-        '404':
+        "401":
+          $ref: "#/components/responses/BadCredentialsError"
+        "404":
           description: "Item not found"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorAPIKeyNotFound'
-  
+                $ref: "#/components/schemas/ErrorAPIKeyNotFound"
+
   /accounts/{api_key}/secrets/{secret_id}:
     get:
       summary: Retrieve one API Secret
       operationId: retrieveAPISecret
       tags:
         - Secret Management
-      security: 
+      security:
         - basicAuth: []
       parameters:
-        - $ref: '#/components/parameters/APIKey'
-        - $ref: '#/components/parameters/secretId'
+        - $ref: "#/components/parameters/APIKey"
+        - $ref: "#/components/parameters/secretId"
       responses:
-        '200':
+        "200":
           description: API secret response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/secretInfo'
+                $ref: "#/components/schemas/secretInfo"
               example: >-
                 {
                   "_links": {
@@ -349,32 +349,32 @@ paths:
                   "id": "01234567-aaaa-bbbb-cccc-defdefdefdef",
                   "created_at": "2018-12-03T10:07:23Z"
                 }
-        '401':
-          $ref: '#/components/responses/BadCredentialsError'
-        '404':
+        "401":
+          $ref: "#/components/responses/BadCredentialsError"
+        "404":
           description: "Item not found"
           content:
             application/json:
               schema:
                 oneOf:
-                  - $ref: '#/components/schemas/ErrorAPIKeyNotFound'
-                  - $ref: '#/components/schemas/ErrorSecretIDNotFound'
+                  - $ref: "#/components/schemas/ErrorAPIKeyNotFound"
+                  - $ref: "#/components/schemas/ErrorSecretIDNotFound"
     delete:
       summary: Revoke an API Secret
       operationId: revokeAPISecret
       tags:
         - Secret Management
-      security: 
+      security:
         - basicAuth: []
       parameters:
-        - $ref: '#/components/parameters/APIKey'
-        - $ref: '#/components/parameters/secretId'
+        - $ref: "#/components/parameters/APIKey"
+        - $ref: "#/components/parameters/secretId"
       responses:
-        '204':
+        "204":
           description: Revoked secret response (without body content)
-        '401':
-          $ref: '#/components/responses/BadCredentialsError'
-        '403':
+        "401":
+          $ref: "#/components/responses/BadCredentialsError"
+        "403":
           description: Operation forbidden by permissions or because this is the only API secret and you are required to have at least one.
           content:
             application/json:
@@ -396,14 +396,14 @@ paths:
                     type: string
                     description: Internal Trace ID
                     example: bf0ca0bf927b3b52e3cb03217e1a1ddf
-        '404':
+        "404":
           description: "Item not found"
           content:
             application/json:
               schema:
                 oneOf:
-                  - $ref: '#/components/schemas/ErrorAPIKeyNotFound'
-                  - $ref: '#/components/schemas/ErrorSecretIDNotFound'
+                  - $ref: "#/components/schemas/ErrorAPIKeyNotFound"
+                  - $ref: "#/components/schemas/ErrorSecretIDNotFound"
 
 tags:
   - name: Balance
@@ -426,7 +426,6 @@ components:
 
         If your API key were aaa012 and your API secret were abc123456789 then your HTTP header would be: `Authorization: Basic YWFhMDEyOmFiYzEyMzQ1Njc4OQ==`
 
-
   parameters:
     api_key_for_auth:
       name: api_key
@@ -445,13 +444,13 @@ components:
         type: string
         example: ABCDEFGH01234abc
     APIKey:
-     name: api_key
-     in: path
-     description: The API key to manage secrets for
-     example: abcd1234
-     required: true
-     schema:
-       type: string
+      name: api_key
+      in: path
+      description: The API key to manage secrets for
+      example: abcd1234
+      required: true
+      schema:
+        type: string
     secretId:
       name: secret_id
       in: path
@@ -502,7 +501,7 @@ components:
       type: object
       properties:
         _links:
-          $ref: '#/components/schemas/secretMgmtLinks'
+          $ref: "#/components/schemas/secretMgmtLinks"
         id:
           type: string
           description: Secret ID
@@ -510,7 +509,7 @@ components:
         created_at:
           type: string
           description: Creation date/time for this secret
-          example: '2017-03-02T16:34:49Z'
+          example: "2017-03-02T16:34:49Z"
     secretMgmtLinks:
       type: object
       description: Links related to this resource
@@ -575,7 +574,7 @@ components:
           description: Internal Trace ID
           example: bf0ca0bf927b3b52e3cb03217e1a1ddf
 
-  responses: 
+  responses:
     BadCredentialsError:
       description: Credentials are missing or invalid
       content:
@@ -593,7 +592,7 @@ components:
               detail:
                 type: string
                 description: More detail regarding this error, including the expected value
-                example: "Invalid credentials format. Expected: \"Authorization: (Base64(UTF-8(apiKey:secret)))\""
+                example: 'Invalid credentials format. Expected: "Authorization: (Base64(UTF-8(apiKey:secret)))"'
               instance:
                 type: string
                 description: Internal Trace ID
@@ -603,12 +602,12 @@ x-errors:
   validation:
     description: The provided payload is invalid
     resolution: |
-        Modify your request to provide a valid payload.
-        * Minimum 8 characters
-        * Maximum 25 characters
-        * Minimum 1 lower case character
-        * Minimum 1 upper case character
-        * Minimum 1 digit
+      Modify your request to provide a valid payload.
+      * Minimum 8 characters
+      * Maximum 25 characters
+      * Minimum 1 lower case character
+      * Minimum 1 upper case character
+      * Minimum 1 digit
     link:
       text: View API reference
       url: /api/account/api-secret-management#createSecret
