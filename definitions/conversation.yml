@@ -2,7 +2,7 @@ openapi: 3.0.0
 servers:
   - url: "https://api.nexmo.com/beta"
 info:
-  version: 1.7.7
+  version: 1.7.8
   title: Nexmo Conversation API
   description: "The Nexmo Conversation API enables you to build conversation features where communication can take place across multiple mediums including IP Messaging, PSTN Voice, SMS and WebRTC Audio and Video. The context of the conversations is maintained though each communication event taking place within a conversation, no matter the medium."
   contact:
@@ -720,7 +720,7 @@ components:
       items:
         type: string
         format: url
-      example: '["https://example.com/event"]'
+      example: ["https://example.com/event"]
       x-nexmo-developer-collection-description-shown: true
       description: The webhook endpoint where recording progress events are sent to.
     event_method:
@@ -838,21 +838,6 @@ components:
       type: string
       example: My User Name
       description: A string to be displayed as user name. It does not need to be unique
-    numbers:
-      type: object
-      description: "An object containing number on different channels. "
-      example:
-        pstn: 14155550100
-        sms: 442079460000
-      properties:
-        sms:
-          type: string
-          description: phone number used for sms channel
-          example: 442079460000
-        pstn:
-          type: string
-          description: phone number used for pstn channel
-          example: 14155550100
     conversation_properties:
       type: object
       description: Conversation properties
@@ -1181,8 +1166,6 @@ components:
                 $ref: "#/components/schemas/display_name"
               image_url:
                 $ref: "#/components/schemas/image_url"
-              numbers:
-                $ref: "#/components/schemas/numbers"
               properties:
                 $ref: "#/components/schemas/conversation_properties"
     RecordConversation:
