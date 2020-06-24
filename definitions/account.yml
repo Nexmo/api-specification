@@ -1,7 +1,7 @@
 openapi: "3.0.2"
 info:
   title: "Nexmo Account API"
-  version: "1.0.0"
+  version: "1.0.1"
   description: >-
     Enables users to manage their Nexmo Account by programmable means. More information is available here: <https://developer.nexmo.com/account/overview>.
   contact:
@@ -41,6 +41,13 @@ paths:
                 </accountBalance>
         "401":
           description: Not Authorised. You must supply your `api_key` and `api_secret` as query parameters to this request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorAuthenticationFailedAccountBalance"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/ErrorAuthenticationFailedAccountBalance"
 
   /account/top-up:
     servers:
@@ -84,20 +91,23 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  response:
-                    type: string
-              example: "success"
+                $ref: "#/components/schemas/success"
             application/xml:
               schema:
-                type: object
-                properties:
-                  response:
-                    type: string
-              example: <?xml version="1.0" encoding="UTF-8" standalone="yes"?><response>success</response>
+                $ref: "#/components/schemas/success"
         "401":
-          description: Not Authorised. You must supply your `api_key` and `api_secret` as query parameters to this request
+          description: Not Authorised
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/ErrorAuthenticationFailed"
+                  - $ref: "#/components/schemas/ErrorAutoReloadNotEnabled"
+            application/xml:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/ErrorAuthenticationFailed"
+                  - $ref: "#/components/schemas/ErrorAutoReloadNotEnabled"
 
   /account/settings:
     servers:
@@ -460,6 +470,15 @@ components:
       schema:
         type: string
   schemas:
+    success:
+      type: object
+      xml:
+        name: response
+      properties:
+        "error-code":
+          example: "200"
+        "error-code-label":
+          example: "success"
     accountBalance:
       type: object
       xml:
@@ -468,12 +487,16 @@ components:
         value:
           type: number
           description: The balance of the account, in EUR
+          example: 10.28
         autoReload:
           type: boolean
           enum: [true, false]
+          example: false
           description: Whether the account has auto-reloading enabled
     accountSettings:
       type: object
+      xml:
+        name: account-settings
       properties:
         mo-callback-url:
           type: string
@@ -547,6 +570,39 @@ components:
           type: string
           description: Internal Trace ID
           example: bf0ca0bf927b3b52e3cb03217e1a1ddf
+
+    ErrorAuthenticationFailedAccountBalance:
+      description: Authentication Failed
+      type: object
+      xml:
+        name: accountBalance
+      properties:
+        "error-code":
+          example: "401"
+        "error-code-label":
+          example: "authentication failed"
+
+    ErrorAuthenticationFailed:
+      description: Authentication Failed
+      type: object
+      xml:
+        name: response
+      properties:
+        "error-code":
+          example: "401"
+        "error-code-label":
+          example: "authentication failed"
+
+    ErrorAutoReloadNotEnabled:
+      description: Auto-Reload not enabled
+      type: object
+      xml:
+        name: response
+      properties:
+        "error-code":
+          example: "401"
+        "error-code-label":
+          example: "not auto-reload enabled"
 
     ErrorSecretIDNotFound:
       description: This secret ID was not recognised
