@@ -19,6 +19,7 @@ paths:
       summary: Create a workflow
       operationId: createWorkflow
       requestBody:
+        x-hide-request: true
         description: Please note that last message does not have failover attribute inside it. All other messages must contain a failover attribute.
         required: true
         content:

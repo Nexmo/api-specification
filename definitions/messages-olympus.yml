@@ -19,6 +19,7 @@ paths:
       summary: Send a Message
       operationId: NewMessage
       requestBody:
+        x-hide-request: true
         description: Send a Message.
         required: true
         content:
