@@ -1,6 +1,6 @@
 openapi: "3.0.0"
 info:
-  version: 2.1.5
+  version: 2.1.6
   title: Nexmo Reports API
   description: |
     [Nexmo's Reports API](/reports/overview) allows you to request a report of activity on your Nexmo account.
@@ -59,7 +59,7 @@ paths:
           example: SMS
           required: true
         - name: direction
-          description: Direction of the request, either inbound or outbound.
+          description: Direction of the request, either inbound or outbound. Required for products `SMS` and `MESSAGES`. Optional for `VOICE-CALL`. Invalid for `CONVERSATIONS`, `NUMBER-INSIGHT`, `VERIFY-API`.
           in: query
           schema:
             type: string
@@ -67,10 +67,9 @@ paths:
               - inbound
               - outbound
           example: inbound
-          required: true
         - name: id
           description: |
-            The ID of the request.
+            The UUID of the message or call to be searched for.
 
             If you provide this, you must not provide `date_start` or `date_end`
           in: query
@@ -104,7 +103,7 @@ paths:
           example: "2018-01-01T00:00:00+0000"
           in: query
         - name: include_message
-          description: Include the message contents in the records
+          description: Include the message contents in the records. Optional for use with products `SMS` and `MESSAGES`. 
           in: query
           schema:
             type: string
@@ -114,17 +113,18 @@ paths:
               - false
           example: true
         - name: type
-          description: "The event type to search for. Only used for `type: CONVERSATIONS`"
+          required: true
+          description: "The event type to search for. Only used when product is `CONVERSATIONS`."
           in: query
           schema:
             type: string
             default: false
             enum:
               - ip-voice
-              - custom-event
+              - cs-custom-event
           example: ip-voice
         - name: status
-          description: "The SMS status to search for. Only used for `type: SMS`"
+          description: "The SMS status to search for. Optional where producuct is `SMS`."
           in: query
           schema:
             type: string
@@ -231,6 +231,7 @@ paths:
           schema:
             type: string
           example: SUCCESS, FAILED
+          required: true
         - name: date_from
           description: ISO-8601 extended time zone offset or ISO-8601 UTC zone offset formatted date from which the list of reports will be queried. Format `yyyy-mm-ddThh:mm:ss[.sss]±hh:mm` or `yyyy-mm-ddThh:mm:ss[.sss]Z`.
           in: query
@@ -300,7 +301,7 @@ paths:
           schema:
             type: string
             example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
-          description: UUID of the report
+          description: UUID of the report request.
           required: true
       responses:
         "200":
@@ -452,7 +453,7 @@ components:
                         type: array
                         description: Records in JSON format
                         items:
-                          $ref: "#/components/schemas/json_sms_outbound"
+                          $ref: "#/components/schemas/json_sms_outbound_with_body"
 
               - allOf:
                   - $ref: "#/components/schemas/report_response_top_level"
@@ -467,7 +468,7 @@ components:
                         type: array
                         description: Records in JSON format
                         items:
-                          $ref: "#/components/schemas/json_sms_inbound"
+                          $ref: "#/components/schemas/json_sms_inbound_with_body"
 
               - allOf:
                   - $ref: "#/components/schemas/report_response_top_level"
@@ -747,7 +748,7 @@ components:
       example: "CONVERSATIONS"
     direction:
       type: string
-      description: Direction of the request, either inbound or outbound.
+      description: Direction of the request, either inbound or outbound. Required for products `SMS` and `MESSAGES`. Optional for `VOICE-CALL`. Invalid for `CONVERSATIONS`, `NUMBER-INSIGHT`, `VERIFY-API`.
       enum:
         - inbound
         - outbound
@@ -844,6 +845,7 @@ components:
       example: ip-voice
       enum:
         - ip-voice
+        - cs-custom-event
     conversation_id:
       type: string
       example: CON-abc123
@@ -856,10 +858,10 @@ components:
       type: string
       description: Search only request for the target number.
       example: "441234567890"
-    uuid:
+    id:
       type: string
       description: Search only messages with the specified uuid.
-      example: "441234567890"
+      example: "aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
 
     # response fields
     instance:
@@ -1252,11 +1254,14 @@ components:
           $ref: "#/components/schemas/from"
         to:
           $ref: "#/components/schemas/to"
-        uuid:
-          $ref: "#/components/schemas/uuid"
+        id:
+          $ref: "#/components/schemas/id"
         include_message:
           $ref: "#/components/schemas/include_message"
-
+      required:
+        - product
+        - account_id
+        - direction
     SMS:
       description: SMS
       x-tab-id: SMS
