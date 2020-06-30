@@ -840,9 +840,8 @@ components:
       description: Search only for requests attached to a particular Application ID.
     conversation_type:
       type: string
-      description: Type of conversation request.
+      description: Type of conversation request. Only used, and is required, when product is `CONVERSATIONS`.
       example: ip-voice
-      required: true
       enum:
         - ip-voice
         - cs-custom-event
