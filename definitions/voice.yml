@@ -523,8 +523,8 @@ components:
               properties:
                 href:
                   type: string
-                  title: Link to the object
-                  example: "/calls?page_size=10&record_index=20&order=asc"
+                  title: Link to the Call Object
+                  example: "/calls/63f61863-4a51-4f6b-86e1-46edebcf9356"
         uuid:
           $ref: "#/components/schemas/uuid"
         conversation_uuid:
@@ -585,42 +585,7 @@ components:
             calls:
               type: array
               items:
-                type: object
-                properties:
-                  _links:
-                    type: object
-                    properties:
-                      self:
-                        type: object
-                        properties:
-                          href:
-                            type: string
-                            title: The Link to the Call Object
-                            example: "/calls/63f61863-4a51-4f6b-86e1-46edebcf9356"
-                  uuid:
-                    $ref: "#/components/schemas/uuid"
-                  conversation_uuid:
-                    $ref: "#/components/schemas/conversation_uuid"
-                  to:
-                    $ref: "#/components/schemas/to"
-                  from:
-                    $ref: "#/components/schemas/from"
-                  status:
-                    $ref: "#/components/schemas/status"
-                  direction:
-                    $ref: "#/components/schemas/direction"
-                  rate:
-                    $ref: "#/components/schemas/rate"
-                  price:
-                    $ref: "#/components/schemas/price"
-                  duration:
-                    $ref: "#/components/schemas/duration"
-                  start_time:
-                    $ref: "#/components/schemas/start_time"
-                  end_time:
-                    $ref: "#/components/schemas/end_time"
-                  network:
-                    $ref: "#/components/schemas/network"
+                $ref: "#/components/schemas/GetCallResponse"
 
     CreateCallResponse:
       type: object
@@ -720,11 +685,6 @@ components:
       title: The State of the call
       example: started
       description: The status of the call. [See possible values](https://developer.nexmo.com/voice/voice-api/guides/call-flow#event-objects)
-
-    name_user:
-      type: string
-      example: my_user_name
-      description: Unique name for a user
 
     EndpointApp:
       type: object
@@ -830,52 +790,6 @@ components:
       maxLength: 50
       example: wss://example.com/socket
 
-    callEvent:
-      type: object
-      required:
-        - conversation_uuid
-        - to
-        - from
-        - uuid
-        - status
-      properties:
-        conversation_uuid:
-          description: The UUID of the Conversion that the event relates to
-          type: string
-          format: uuid
-          example: CON-171b3991-49b0-4dfa-badd-2bc6e68b57b4
-        to:
-          $ref: "#/components/schemas/to"
-        from:
-          $ref: "#/components/schemas/from"
-        uuid:
-          description: The UUID of the call leg that the event relates to
-          type: string
-          format: uuid
-          example: 63f61863-4a51-4f6b-86e1-46edebcf9356
-        timestamp:
-          type: string
-          format: date-time
-          example: 2018-01-12T15:01:55.315Z
-        status:
-          type: string
-          example: started
-          enum:
-            - started
-            - ringing
-            - answered
-            - machine
-            - completed
-            - timeout
-            - failed
-            - rejected
-            - cancelled
-            - busy
-        direction:
-          type: string
-          enum:
-            - inbound
-            - outbound
     voice_name:
       description: The voice & language to use
       type: string
