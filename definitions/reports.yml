@@ -113,8 +113,7 @@ paths:
               - false
           example: true
         - name: type
-          required: true
-          description: "The event type to search for. Only used when product is `CONVERSATIONS`."
+          description: "The event type to search for. Only used, and is required, when product is `CONVERSATIONS`."
           in: query
           schema:
             type: string
