@@ -117,7 +117,7 @@ paths:
           in: query
           schema:
             type: string
-            default: false
+            default: none
             enum:
               - ip-voice
               - cs-custom-event
@@ -127,7 +127,7 @@ paths:
           in: query
           schema:
             type: string
-            default: false
+            default: none
             enum:
               - delivered
               - expired
