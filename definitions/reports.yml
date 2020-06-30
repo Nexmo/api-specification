@@ -106,7 +106,7 @@ paths:
           description: Include the message contents in the records. Optional for use with products `SMS` and `MESSAGES`. 
           in: query
           schema:
-            type: string
+            type: boolean
             default: false
             enum:
               - true
