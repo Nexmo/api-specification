@@ -71,7 +71,7 @@ paths:
           description: |
             The UUID of the message or call to be searched for.
 
-            If you provide this, you must not provide `date_start` or `date_end`
+            If you specify `id`, you must not specify `status`, `date_start` or `date_end`.
           in: query
           schema:
             type: string
