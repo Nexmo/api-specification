@@ -301,7 +301,7 @@ paths:
           schema:
             type: string
             example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
-          description: UUID of the report request.
+          description: UUID of the report request (`request_id` in response).
           required: true
       responses:
         "200":
