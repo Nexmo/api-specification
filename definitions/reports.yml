@@ -124,7 +124,7 @@ paths:
               - cs-custom-event
           example: ip-voice
         - name: status
-          description: "The SMS status to search for. Optional where producuct is `SMS`."
+          description: "The SMS status to search for. Optional where product is `SMS`."
           in: query
           schema:
             type: string
