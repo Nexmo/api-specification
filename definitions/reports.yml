@@ -843,6 +843,7 @@ components:
       type: string
       description: Type of conversation request.
       example: ip-voice
+      required: true
       enum:
         - ip-voice
         - cs-custom-event
