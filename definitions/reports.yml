@@ -59,7 +59,7 @@ paths:
           example: SMS
           required: true
         - name: direction
-          description: Direction of the request, either inbound or outbound. Required for products `SMS` and `MESSAGES`. Optional for `VOICE-CALL`. Invalid for `CONVERSATIONS`, `NUMBER-INSIGHT`, `VERIFY-API`.
+          description: Direction of the communication, either `inbound` (received by our services), or `outbound` (originated from our services). Required for products `SMS` and `MESSAGES`. Optional for `VOICE-CALL`. Invalid for `CONVERSATIONS`, `NUMBER-INSIGHT`, `VERIFY-API`.
           in: query
           schema:
             type: string
@@ -103,7 +103,7 @@ paths:
           example: "2018-01-01T00:00:00+0000"
           in: query
         - name: include_message
-          description: Include the message contents in the records. Optional for use with products `SMS` and `MESSAGES`. 
+          description: Include the message contents in the records. Only applicable for use with products `SMS` and `MESSAGES`, where it is optional. 
           in: query
           schema:
             type: boolean
@@ -225,7 +225,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/account_id"
         - name: status
-          description: List of statuses of reports to list, comma separated. Statuses can be one of PENDING, PROCESSING, SUCCESS, ABORTED, FAILED, TRUNCATED.
+          description: A comma-separated list of report status values. Reports with any of the statuses specified are returned. The values in the comma-seperated list specified for `status` can be any of `PENDING`, `PROCESSING`, `SUCCESS`, `ABORTED`, `FAILED`, `TRUNCATED`.
           in: query
           schema:
             type: string
@@ -747,7 +747,7 @@ components:
       example: "CONVERSATIONS"
     direction:
       type: string
-      description: Direction of the request, either inbound or outbound. Required for products `SMS` and `MESSAGES`. Optional for `VOICE-CALL`. Invalid for `CONVERSATIONS`, `NUMBER-INSIGHT`, `VERIFY-API`.
+      description: Direction of the communication, either `inbound` (received by our services), or `outbound` (originated from our services). Required for products `SMS` and `MESSAGES`. Optional for `VOICE-CALL`. Invalid for `CONVERSATIONS`, `NUMBER-INSIGHT`, `VERIFY-API`.
       enum:
         - inbound
         - outbound
