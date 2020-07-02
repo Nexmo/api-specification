@@ -65,7 +65,7 @@ GEM
     deep_merge (1.2.1)
     dotenv (2.7.5)
     erubi (1.9.0)
-    ffi (1.13.0)
+    ffi (1.13.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     hansi (0.2.0)
@@ -90,7 +90,7 @@ GEM
       hansi (~> 0.2.0)
       mustermann (= 1.1.1)
     neatjson (0.9)
-    nexmo-oas-renderer (0.11.2)
+    nexmo-oas-renderer (2.0.1)
       activemodel (~> 6.0)
       activesupport (~> 6.0)
       banzai (~> 0.1.2)
@@ -100,11 +100,10 @@ GEM
       oas_parser (~> 0.25.1)
       octicons_helper (~> 8.2)
       redcarpet (= 3.4.0)
-      rouge (= 2.0.7)
       sass (~> 3.1)
       shotgun (~> 0.9)
       sinatra (~> 2.0)
-    nexmo_markdown_renderer (0.3.1)
+    nexmo_markdown_renderer (0.4.0)
       activemodel (~> 6.0)
       banzai (~> 0.1.2)
       i18n (~> 1.7)
@@ -194,13 +193,13 @@ GEM
     websocket-driver (0.7.2)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    zeitwerk (2.3.0)
+    zeitwerk (2.3.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  nexmo-oas-renderer (~> 0.11.2)
+  nexmo-oas-renderer (~> 2.0.0)
 
 BUNDLED WITH
    2.1.4
