@@ -25,94 +25,7 @@ paths:
         content:
           application/json:
             schema:
-              oneOf:
-                - title: SMS
-                  x-tab-id: SMS
-                  allOf:
-                    - $ref: "#/components/schemas/Sms"  
-                - title: WhatsApp
-                  x-tab-id: WhatsApp
-                  oneOf:                    
-                    - title: Text
-                      x-tab-id: WhatsAppText
-                      allOf:
-                        - $ref: "#/components/schemas/channelOptionsWhatsapp"
-                        - $ref: "#/components/schemas/textMessageWhatsApp"
-                    - title: Template
-                      x-tab-id: WhatsAppTemplate
-                      allOf:
-                        - $ref: "#/components/schemas/channelOptionsWhatsapp"
-                        - $ref: "#/components/schemas/templateMessageWhatsApp"
-                    - title: Image
-                      x-tab-id: WhatsAppImage
-                      allOf:
-                        - $ref: "#/components/schemas/channelOptionsWhatsapp"
-                        - $ref: "#/components/schemas/imageMessageWhatsApp"
-                    - title: Video
-                      x-tab-id: WhatsAppVideo
-                      allOf:
-                        - $ref: "#/components/schemas/channelOptionsWhatsapp"
-                        - $ref: "#/components/schemas/videoMessageWhatsApp"
-                    - title: Audio
-                      x-tab-id: WhatsAppAudio
-                      allOf:
-                        - $ref: "#/components/schemas/channelOptionsWhatsapp"
-                        - $ref: "#/components/schemas/audioMessageWhatsApp"
-                    - title: File
-                      x-tab-id: WhatsAppFile
-                      allOf:
-                        - $ref: "#/components/schemas/channelOptionsWhatsapp"
-                        - $ref: "#/components/schemas/fileMessageWhatsApp"                
-                - title: Viber
-                  x-tab-id: Viber
-                  oneOf:
-                    - title: Text
-                      x-tab-id: ViberText
-                      allOf:
-                        - $ref: "#/components/schemas/channelOptionsViber"
-                        - $ref: "#/components/schemas/textMessageViber"
-                    - title: Image
-                      x-tab-id: ViberImage
-                      allOf:
-                        - $ref: "#/components/schemas/channelOptionsViber"
-                        - $ref: "#/components/schemas/imageMessageViber"
-                    - title: Template
-                      x-tab-id: ViberTemplate
-                      allOf:
-                        - $ref: "#/components/schemas/channelOptionsViber"
-                        - $ref: "#/components/schemas/templateMessageViber"
-                - title: Facebook Messenger
-                  x-tab-id: Messenger
-                  oneOf:
-                    - title: Text
-                      x-tab-id: FacebookText
-                      allOf:
-                        - $ref: "#/components/schemas/channelOptionsFacebook"
-                        - $ref: "#/components/schemas/textMessageFacebook"
-                    - title: Image
-                      x-tab-id: FacebookImage
-                      allOf:
-                        - $ref: "#/components/schemas/channelOptionsFacebook"
-                        - $ref: "#/components/schemas/imageMessageFacebook"
-                    - title: Video
-                      x-tab-id: FacebookVideo
-                      allOf:
-                        - $ref: "#/components/schemas/channelOptionsFacebook"
-                        - $ref: "#/components/schemas/videoMessageFacebook"
-                    - title: Audio
-                      x-tab-id: FacebookAudio
-                      allOf:
-                        - $ref: "#/components/schemas/channelOptionsFacebook"
-                        - $ref: "#/components/schemas/audioMessageFacebook"
-                    - title: File
-                      x-tab-id: FacebookFile
-                      allOf:
-                        - $ref: "#/components/schemas/channelOptionsFacebook"
-                        - $ref: "#/components/schemas/fileMessageFacebook"
-                - title: MMS
-                  x-tab-id: MMS
-                  allOf:
-                    - $ref: "#/components/schemas/mmsMessage"
+              $ref: "#/components/schemas/message"              
       responses:
         "202":
           description: Accepted.
@@ -160,7 +73,7 @@ paths:
                 "200":
                   description: Your server returns this code if it accepts the callback.
 
-components:
+components:  
   securitySchemes:
     bearerAuth:
       type: http
@@ -170,6 +83,146 @@ components:
       type: http
       scheme: basic
   schemas:
+    message:
+      oneOf:
+        - title: SMS
+          x-tab-id: SMS
+          allOf:
+            - $ref: "#/components/schemas/Sms"  
+        - title: WhatsApp
+          x-tab-id: WhatsApp
+          oneOf:                    
+            - title: Text
+              x-tab-id: text
+              allOf:
+                - $ref: "#/components/schemas/channelOptionsWhatsapp"
+                - $ref: "#/components/schemas/textMessageWhatsApp"
+            - title: Template
+              x-tab-id: template
+              allOf:
+                - $ref: "#/components/schemas/channelOptionsWhatsapp"
+                - $ref: "#/components/schemas/templateMessageWhatsApp"
+            - title: Image
+              x-tab-id: image
+              allOf:
+                - $ref: "#/components/schemas/channelOptionsWhatsapp"
+                - $ref: "#/components/schemas/imageMessageWhatsApp"
+            - title: Video
+              x-tab-id: video
+              allOf:
+                - $ref: "#/components/schemas/channelOptionsWhatsapp"
+                - $ref: "#/components/schemas/videoMessageWhatsApp"
+            - title: Audio
+              x-tab-id: audio
+              allOf:
+                - $ref: "#/components/schemas/channelOptionsWhatsapp"
+                - $ref: "#/components/schemas/audioMessageWhatsApp"
+            - title: File
+              x-tab-id: file
+              allOf:
+                - $ref: "#/components/schemas/channelOptionsWhatsapp"
+                - $ref: "#/components/schemas/fileMessageWhatsApp"
+            - title: Location
+              x-tab-id: location
+              allOf:
+                - $ref: "#/components/schemas/channelOptionsWhatsapp"
+                - $ref: "#/components/schemas/locationMessageWhatsApp"                
+        - title: Viber
+          x-tab-id: Viber
+          oneOf:
+            - title: Text
+              x-tab-id: text
+              allOf:
+                - $ref: "#/components/schemas/channelOptionsViber"
+                - $ref: "#/components/schemas/textMessageViber"
+            - title: Image
+              x-tab-id: image
+              allOf:
+                - $ref: "#/components/schemas/channelOptionsViber"
+                - $ref: "#/components/schemas/imageMessageViber"
+            - title: Template
+              x-tab-id: template
+              allOf:
+                - $ref: "#/components/schemas/channelOptionsViber"
+                - $ref: "#/components/schemas/templateMessageViber"
+        - title: Facebook Messenger
+          x-tab-id: Messenger
+          oneOf:
+            - title: Text
+              x-tab-id: text
+              allOf:
+                - $ref: "#/components/schemas/channelOptionsFacebook"
+                - $ref: "#/components/schemas/textMessageFacebook"
+            - title: Image
+              x-tab-id: image
+              allOf:
+                - $ref: "#/components/schemas/channelOptionsFacebook"
+                - $ref: "#/components/schemas/imageMessageFacebook"
+            - title: Video
+              x-tab-id: video
+              allOf:
+                - $ref: "#/components/schemas/channelOptionsFacebook"
+                - $ref: "#/components/schemas/videoMessageFacebook"
+            - title: Audio
+              x-tab-id: audio
+              allOf:
+                - $ref: "#/components/schemas/channelOptionsFacebook"
+                - $ref: "#/components/schemas/audioMessageFacebook"
+            - title: File
+              x-tab-id: file
+              allOf:
+                - $ref: "#/components/schemas/channelOptionsFacebook"
+                - $ref: "#/components/schemas/fileMessageFacebook"
+        - title: MMS
+          x-tab-id: MMS
+          allOf:
+            - $ref: "#/components/schemas/mmsMessage"
+    locationMessageWhatsApp:
+      type: object
+      required:        
+        - message        
+      properties:        
+        message:
+          type: object
+          required:
+            - content
+          properties:
+            content:
+              type: object
+              required:
+                - location
+                - type
+              properties:
+                type:
+                  description: The type of message that you are sending
+                  type: string
+                  enum:
+                    - location
+                  example: location
+                location:
+                  type: object
+                  required:
+                    - longitude
+                    - latitude
+                  description: location content object
+                  properties:
+                    longitude:
+                      type: string                      
+                      description: The longitude of the location
+                      example: "-122.425332"
+                    latitude:
+                      type: string                      
+                      description: The latitude of the location
+                      example: "37.758056"
+                    name:
+                      type: string
+                      description: Name of the Location.
+                      example: Facebook HQ
+                    address:
+                      type: string
+                      description: The address of the location, only displays if name is present
+                      example: 1 Hacker Way, Menlo Park, CA 94025
+
     mmsMessage:
       type: object
       required:
@@ -1056,6 +1109,23 @@ components:
           example: "my-personal-reference"
 
     InboundMessage:
+      # TODO Michael to see about enabling this scheme over the scheme that's currently supported 
+      # allOf:
+      #   - type: object
+      #     required:
+      #       - message_uuid            
+      #       - timestamp
+      #     properties:
+      #       message_uuid:
+      #         type: string
+      #         example: "aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
+      #         description: The UUID of the message.        
+      #       timestamp:
+      #         type: string
+      #         format: ISO 8601
+      #         description: The datetime of when the event occurred.
+      #         example: "2020-01-01T14:00:00.000Z"       
+      #   - $ref: "#/components/schemas/message"
       type: object
       required:
         - message_uuid
@@ -1066,61 +1136,7 @@ components:
         message_uuid:
           type: string
           example: "aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
-          description: The UUID of the message.
-        to:
-          type: object
-          required:
-            - type
-          properties:
-            type:
-              type: string
-              description: The type of message being received.
-              example: messenger
-              enum:
-                - messenger
-                - mms
-                - whatsapp
-                - viber_service_msg
-            id:
-              type: string
-              example: "01234567"
-              description: |
-                **Messenger** or **Viber**: 
-                The ID of the recipient.
-            number:
-              type: string
-              minLength: 1
-              maxLength: 50
-              example: "447700900000"
-              description: |
-                **WhatsApp** or **MMS**: 
-                The phone number of the message recipient in the [E.164](https://en.wikipedia.org/wiki/E.164) format.
-        from:
-          type: object
-          required:
-            - type
-          properties:
-            type:
-              type: string
-              description: The type of message being sent.
-              example: messenger
-              enum:
-                - messenger
-                - mms
-                - whatsapp
-                - viber_service_msg
-            id:
-              type: string
-              description: The ID of the sender.
-              example: "0123456789012345"
-            number:
-              type: string
-              minLength: 1
-              maxLength: 50
-              example: "447700900000"
-              description: |
-                **WhatsApp** or **MMS** or **Viber**:
-                The phone number of the message sender in the [E.164](https://en.wikipedia.org/wiki/E.164) format.
+          description: The UUID of the message.        
         timestamp:
           type: string
           format: ISO 8601
