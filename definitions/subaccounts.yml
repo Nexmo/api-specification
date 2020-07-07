@@ -674,6 +674,9 @@ x-errors:
   valid-transfers:
     description: Invalid transfer
     resolution: See the `detail` field for the reason this transfer is invalid.
+    link:
+      text: View API reference
+      url: /api/subaccounts#transferCredit
   provisioning:
     description: Maximum number of sub-accounts reached
     resolution: If you need more subaccounts, contact [Vonage Support](https://support.vonage.co.uk/contactus).
