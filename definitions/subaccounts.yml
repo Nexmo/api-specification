@@ -665,18 +665,18 @@ components:
         - amount
 
 x-errors:
-  provisioning:
-    description: Maximum number of sub-accounts reached
-    resolution: Remove an existing subaccount before attempting to create a new one.
   validation:
     description: The request failed due to validation errors
     resolution: See the `detail` (and, if present, the `invalid_parameters`) fields for the exact reason this request was rejected and review the documentation.
     link:
       text: View API reference
       url: /api/subaccounts
-  internal-error:
-    description: An error has occurred in the platform while processing this request
-    resolution: If the error persists, contact [Vonage Support](https://support.vonage.co.uk/contactus).
   valid-transfers:
     description: Invalid transfer
     resolution: See the `detail` field for the reason this transfer is invalid.
+  provisioning:
+    description: Maximum number of sub-accounts reached
+    resolution: If you need more subaccounts, contact [Vonage Support](https://support.vonage.co.uk/contactus).
+  internal-error:
+    description: An error has occurred in the platform while processing this request
+    resolution: If the error persists, contact [Vonage Support](https://support.vonage.co.uk/contactus).
