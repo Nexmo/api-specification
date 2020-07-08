@@ -273,6 +273,7 @@ paths:
                 - $ref: "#/components/schemas/NUMBER-INSIGHT"
                 - $ref: "#/components/schemas/MESSAGES"
                 - $ref: "#/components/schemas/CONVERSATIONS"
+                - $ref: "#/components/schemas/ASR"
               discriminator:
                 propertyName: product
       responses:
@@ -392,6 +393,7 @@ components:
               - $ref: "#/components/schemas/number_insight_response_get_report"
               - $ref: "#/components/schemas/messages_response_get_report"
               - $ref: "#/components/schemas/conversations_response_get_report"
+              - $ref: "#/components/schemas/asr_response_get_report"
     report_responses_create_report:
       description: OK
       content:
@@ -404,6 +406,7 @@ components:
               - $ref: "#/components/schemas/number_insight_response_create_report"
               - $ref: "#/components/schemas/messages_response_create_report"
               - $ref: "#/components/schemas/conversations_response_create_report"
+              - $ref: "#/components/schemas/asr_response_create_report"
 
     list_report_response:
       description: OK
@@ -432,6 +435,7 @@ components:
                     - $ref: "#/components/schemas/number_insight_response_get_report"
                     - $ref: "#/components/schemas/messages_response_get_report"
                     - $ref: "#/components/schemas/conversations_response_get_report"
+                    - $ref: "#/components/schemas/asr_response_get_report"
 
     json_record_response:
       description: OK
@@ -539,6 +543,17 @@ components:
                         description: Records in JSON format
                         items:
                           $ref: "#/components/schemas/csv_conversations_ip_voice"
+                          
+              - allOf:
+                  - $ref: "#/components/schemas/report_response_top_level"
+                  - description: ASR
+                    type: object
+                    properties:
+                      records:
+                        type: array
+                        description: Records in JSON format
+                        items:
+                          $ref: "#/components/schemas/csv_asr"
 
     csv_report_response:
       description: Zip file containing CSV files
@@ -561,6 +576,7 @@ components:
                     - $ref: "#/components/schemas/csv_messages_outbound"
                     - $ref: "#/components/schemas/csv_messages_inbound"
                     - $ref: "#/components/schemas/csv_conversations_ip_voice"
+                    - $ref: "#/components/schemas/csv_asr"
 
     400_json:
       description: Bad Request
@@ -727,6 +743,7 @@ components:
         - NUMBER-INSIGHT
         - MESSAGES
         - CONVERSATIONS
+        - ASR
     product_sms:
       type: string
       example: "SMS"
@@ -745,6 +762,9 @@ components:
     product_conversations:
       type: string
       example: "CONVERSATIONS"
+    product_asr:
+      type: string
+      example: "ASR"
     direction:
       type: string
       description: Direction of the communication, either `inbound` (received by our services), or `outbound` (originated from our services). Required for products `SMS` and `MESSAGES`. Optional for `VOICE-CALL`. Invalid for `CONVERSATIONS`, `NUMBER-INSIGHT`, `VERIFY-API`.
@@ -835,6 +855,14 @@ components:
         - rejected
         - cancelled
         - busy
+    asr_status:
+      type: string
+      description: Search only for ASR with corresponding status.
+      example: "ok"
+      enum:
+        - ok
+        - error
+        
     application_id:
       type: string
       description: Search only for requests attached to a particular Application ID.
@@ -1011,6 +1039,10 @@ components:
       type: string
       description: Description of the status of the call.
       example: "The call was successful."
+    asr_status_description:
+      type: string
+      description: ASR error message.
+      example: "ERR1: Failed to analyze audio"
     date_finalized:
       type: string
       format: date
@@ -1134,6 +1166,7 @@ components:
       type: string
       description: Status of the conversation evnet.
       example: "0"
+    
 
     report_request:
       type: object
@@ -1261,6 +1294,22 @@ components:
         - product
         - account_id
         - direction
+        
+    asr_fields:
+      description: ASR
+      x-tab-id: asr
+      type: object
+      properties:
+        product:
+          $ref: "#/components/schemas/product_asr"
+        from:
+          $ref: "#/components/schemas/from"
+        to:
+          $ref: "#/components/schemas/to"
+        status:
+          $ref: "#/components/schemas/asr_status"
+        
+    
     SMS:
       description: SMS
       x-tab-id: SMS
@@ -1302,6 +1351,13 @@ components:
       allOf:
         - $ref: "#/components/schemas/report_request"
         - $ref: "#/components/schemas/messages_fields"
+    
+    ASR:
+      description: ASR
+      x-tab-id: asr
+      allOf:
+        - $ref: "#/components/schemas/report_request"
+        - $ref: "#/components/schemas/asr_fields"
 
     report_response:
       type: object
@@ -1440,6 +1496,20 @@ components:
       allOf:
         - $ref: "#/components/schemas/report_response_create_report"
         - $ref: "#/components/schemas/messages_fields"
+
+    asr_response_get_report:
+      description: ASR
+      x-tab-id: asr
+      allOf:
+        - $ref: "#/components/schemas/report_response"
+        - $ref: "#/components/schemas/asr_fields"
+
+    asr_response_create_report:
+      description: ASR
+      x-tab-id: asr
+      allOf:
+        - $ref: "#/components/schemas/report_response_create_report"
+        - $ref: "#/components/schemas/asr_fields"
 
     json_sms_outbound_with_body:
       allOf:
@@ -1828,6 +1898,40 @@ components:
           $ref: "#/components/schemas/duration"
         status:
           $ref: "#/components/schemas/ip_voice_status"
+        currency:
+          $ref: "#/components/schemas/currency"
+        price:
+          $ref: "#/components/schemas/price"
+        total_price:
+          $ref: "#/components/schemas/total_price"
+
+    csv_asr:
+      description: ASR
+      x-tab-id: asr
+      type: object
+      properties:
+        account_id:
+          $ref: "#/components/schemas/account_id"
+        call_id:
+          $ref: "#/components/schemas/request_id"
+        direction:
+          $ref: "#/components/schemas/direction"
+        from:
+          $ref: "#/components/schemas/from"
+        to:
+          $ref: "#/components/schemas/to"
+        call_date_start:
+          $ref: "#/components/schemas/call_start_date"
+        date_start:
+          $ref: "#/components/schemas/call_start_date"
+        date_end:
+          $ref: "#/components/schemas/call_end_date"
+        duration:
+          $ref: "#/components/schemas/duration"
+        status:
+          $ref: "#/components/schemas/asr_status"
+        status_description:
+          $ref: "#/components/schemas/asr_status_description"
         currency:
           $ref: "#/components/schemas/currency"
         price:
