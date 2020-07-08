@@ -56,6 +56,7 @@ paths:
               - NUMBER-INSIGHT
               - MESSAGES
               - CONVERSATIONS
+              - ASR
           example: SMS
           required: true
         - name: direction
@@ -1042,7 +1043,7 @@ components:
     asr_status_description:
       type: string
       description: ASR error message.
-      example: "ERR1: Failed to analyze audio"
+      example: ""
     date_finalized:
       type: string
       format: date
@@ -1302,6 +1303,8 @@ components:
       properties:
         product:
           $ref: "#/components/schemas/product_asr"
+        direction:
+          $ref: "#/components/schemas/direction"		  
         from:
           $ref: "#/components/schemas/from"
         to:
