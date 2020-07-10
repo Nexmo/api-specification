@@ -7,6 +7,7 @@ info:
     Nexmo's Audit API allows you to view details of changes to your account. More information is available at <https://developer.nexmo.com/audit/overview>.
 
     _Please note that the Audit API is currently in Beta_
+  x-label: Beta
   contact:
     name: Nexmo DevRel
     email: devrel@nexmo.com
