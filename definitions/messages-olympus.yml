@@ -13,8 +13,6 @@ servers:
 paths:
   /:
     post:
-      tags:
-        - Message
       description: Send a Message over SMS, WhatsApp, Viber, Facebook Messenger, or MMS
       security:
         - bearerAuth: []
@@ -114,13 +112,7 @@ components:
               allOf:
                 - $ref: "#/components/schemas/inbound-common"
                 - $ref: "#/components/schemas/channelOptionsWhatsappCommon"
-                - $ref: "#/components/schemas/textMessageWhatsApp"
-            - title: Template
-              x-tab-id: template
-              allOf:
-                - $ref: "#/components/schemas/inbound-common"
-                - $ref: "#/components/schemas/channelOptionsWhatsappCommon"
-                - $ref: "#/components/schemas/templateMessageWhatsAppInbound"
+                - $ref: "#/components/schemas/textMessageWhatsApp"            
             - title: Image
               x-tab-id: image
               allOf:
@@ -158,20 +150,14 @@ components:
               x-tab-id: text
               allOf:
                 - $ref: "#/components/schemas/inbound-common"
-                - $ref: "#/components/schemas/channelOptionsViberCommon"
+                - $ref: "#/components/schemas/channelOptionsViberInbound"
                 - $ref: "#/components/schemas/textMessageViberInbound"
             - title: Image
               x-tab-id: image
               allOf:
                 - $ref: "#/components/schemas/inbound-common"
-                - $ref: "#/components/schemas/channelOptionsViberCommon"
-                - $ref: "#/components/schemas/imageMessageViberInbound"
-            - title: Template
-              x-tab-id: template
-              allOf:
-                - $ref: "#/components/schemas/inbound-common"
-                - $ref: "#/components/schemas/channelOptionsViberCommon"
-                - $ref: "#/components/schemas/templateMessageViber"
+                - $ref: "#/components/schemas/channelOptionsViberInbound"
+                - $ref: "#/components/schemas/imageMessageViberInbound"            
         - title: Facebook Messenger
           x-tab-id: Messenger
           oneOf:
@@ -266,12 +252,7 @@ components:
               x-tab-id: image
               allOf:
                 - $ref: "#/components/schemas/channelOptionsViber"
-                - $ref: "#/components/schemas/imageMessageViber"
-            - title: Template
-              x-tab-id: template
-              allOf:
-                - $ref: "#/components/schemas/channelOptionsViber"
-                - $ref: "#/components/schemas/templateMessageViber_outbound"
+                - $ref: "#/components/schemas/imageMessageViber"            
         - title: Facebook Messenger
           x-tab-id: Messenger
           oneOf:
@@ -720,66 +701,20 @@ components:
         - type: object
           properties:            
             client_ref:
-              $ref: "#/components/schemas/client_ref"
-    templateMessageViberContent:
-      type: object
-      required:
-        - template
-        - type
-      properties:
-        type:
-          description: The type of message you are sending
-          type: string
-          example: template
-          enum:
-            - template
-        template:
-          required:
-            - name
-          type: object
-          description: The template to be sent.
-          properties:
-            name:
-              type: string
-              description: The name of the template to be sent
-              example: verify
-            parameters:
-              $ref: "#/components/schemas/templateParameters"
-
-    templateMessageViber:      
-      type: object
-      required:
-        - message        
-      properties:
-        message:
-          type: object
-          required:
-            - content            
-          properties:            
-            content:
-              $ref: "#/components/schemas/templateMessageViberContent"          
-    templateMessageViber_outbound:
-      type: object
-      required:
-        - message        
-      properties:
-        message:
-          type: object
-          required:
-            - content            
-          properties:            
-            content:
-              $ref: "#/components/schemas/templateMessageViberContent"          
-            viber_service_msg:
-              $ref: "#/components/schemas/viber_service_msg"
+              $ref: "#/components/schemas/client_ref"    
     templateParameters:
       type: array
       description: The parameters are an array. The first value being {{1}} in the template.
       example:
-        - Daisy
-        - '12345'
+        - default: "John"
+        - default: "12345"
+        - default: "5"
       items:
-        type: string
+        type: object
+        properties:
+          default:
+            type: string
+            example: John
     imageMessageViberContent:
       type: object
       required:
@@ -980,20 +915,7 @@ components:
                   example: deterministic
                   default: deterministic
                   enum:
-                    - deterministic
-    templateMessageWhatsAppInbound:
-      type: object
-      required:
-        - message        
-      properties:
-        message:
-          type: object
-          required:
-            - content
-            - whatsapp
-          properties:
-            content:
-              $ref: "#/components/schemas/templateMessageWhatsAppContent"
+                    - deterministic    
     audioMessageWhatsApp:
       type: object
       required:        
@@ -1251,6 +1173,45 @@ components:
             client_ref:
               $ref: "#/components/schemas/client_ref"
         - $ref: "#/components/schemas/SmsCommon"
+    channelOptionsViberInbound:
+      required:
+        - to
+        - from
+      type: object
+      properties:
+        to:
+          required:
+            - type
+            - id
+          type: object
+          properties:
+            type:
+              type: string
+              description: The channel you are sending to
+              example: viber_service_msg
+              enum:
+                - viber_service_msg
+            id:
+              type: string
+              example: '447700900000'
+              description: |
+                This is your Service Message ID given to you by Nexmo Account Manager. To find out more please visit [nexmo.com/products/messages](https://www.vonage.com/communications-apis/messages/).
+        from:
+          required:
+            - type
+            - number
+          type: object
+          properties:
+            type:
+              type: string
+              description: The channel your message will be coming from.
+              example: viber_service_msg
+              enum:
+                - viber_service_msg
+            number:
+              type: string
+              description: The Viber number of the message's sender in the [E.164](https://en.wikipedia.org/wiki/E.164) format. Don't use a leading + or 00 when entering a phone number, start with the country code, for example, 447700900000.
+              example: '654321'
     channelOptionsViberCommon:
       required:
         - to
@@ -1461,10 +1422,6 @@ components:
       format: ISO 8601
       description: The datetime of when the event occurred.
       example: "2020-01-01T14:00:00.000Z"
-
-tags:
-  - name: Message
-    description: Send messages with different media types over different channels including SMS, WhatsApp, Viber, Facebook Messenger, and MMS.
 x-errors:
   "1000":
     description: Throttled - You have exceeded the submission capacity allowed on this account. Please wait and retry

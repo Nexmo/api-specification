@@ -2,16 +2,16 @@ extends: spectral:oas
 functions:
   [objectRequiredProperties, operationOrdering, requiredPropertyExample]
 rules:
-  example-value-or-externalValue: false
-  oas3-unused-components-schema: false # needed by inter-file references e.g. Voice API
-  oas3-valid-content-schema-example: false
-  oas3-valid-oas-content-example: false
-  oas3-valid-oas-parameter-example: false
-  oas3-valid-parameter-schema-example: false
-  oas3-valid-schema-example: false
-  openapi-tags: false
-  operation-description: false
-  operation-tags: false
+  # example-value-or-externalValue: false
+  # oas3-unused-components-schema: false # needed by inter-file references e.g. Voice API
+  # oas3-valid-content-schema-example: false
+  # oas3-valid-oas-content-example: false
+  # oas3-valid-oas-parameter-example: false
+  # oas3-valid-parameter-schema-example: false
+  # oas3-valid-schema-example: false
+  # openapi-tags: false
+  # operation-description: false
+  # operation-tags: false
 
   # OperationId related linting
   operation-operationId: "error"
