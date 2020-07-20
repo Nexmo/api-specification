@@ -38,7 +38,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/error"
       callbacks:
         message-status:
           "{$request.body#/callback}":
@@ -1317,7 +1317,7 @@ components:
           type: string
           description: The UUID of the message.
           example: "aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
-    Error:
+    error:
       description: "The error format is standardized to the 4xx/5xx range with a code and a human readable explanation."
       required:
         - type
