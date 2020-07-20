@@ -32,7 +32,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Response"
+                $ref: "#/components/schemas/response"
         "400":
           description: Bad Request.
           content:
@@ -68,7 +68,7 @@ paths:
                 content:
                   application/json:
                     schema:
-                      $ref: "#/components/schemas/inbound-message"
+                      $ref: "#/components/schemas/inboundMessage"
               responses:
                 "200":
                   description: Your server returns this code if it accepts the callback.
@@ -83,7 +83,7 @@ components:
       type: http
       scheme: basic
   schemas:
-    inbound-common:
+    inboundCommon:
       type: object
       required:
         - message_uuid            
@@ -98,49 +98,45 @@ components:
           format: ISO 8601
           description: The datetime of when the event occurred.
           example: "2020-01-01T14:00:00.000Z"   
-    inbound-message:
-      oneOf:
-        - title: SMS
-          x-tab-id: SMS
-          allOf:
-            - $ref: "#/components/schemas/SmsCommon"  
+    inboundMessage:
+      oneOf:        
         - title: WhatsApp
           x-tab-id: WhatsApp
           oneOf:                    
             - title: Text
               x-tab-id: text
               allOf:
-                - $ref: "#/components/schemas/inbound-common"
+                - $ref: "#/components/schemas/inboundCommon"
                 - $ref: "#/components/schemas/channelOptionsWhatsappCommon"
                 - $ref: "#/components/schemas/textMessageWhatsApp"            
             - title: Image
               x-tab-id: image
               allOf:
-                - $ref: "#/components/schemas/inbound-common"
+                - $ref: "#/components/schemas/inboundCommon"
                 - $ref: "#/components/schemas/channelOptionsWhatsappCommon"
                 - $ref: "#/components/schemas/imageMessageWhatsApp"
             - title: Video
               x-tab-id: video
               allOf:
-                - $ref: "#/components/schemas/inbound-common"
+                - $ref: "#/components/schemas/inboundCommon"
                 - $ref: "#/components/schemas/channelOptionsWhatsappCommon"
                 - $ref: "#/components/schemas/videoMessageWhatsApp"
             - title: Audio
               x-tab-id: audio
               allOf:
-                - $ref: "#/components/schemas/inbound-common"
+                - $ref: "#/components/schemas/inboundCommon"
                 - $ref: "#/components/schemas/channelOptionsWhatsappCommon"
                 - $ref: "#/components/schemas/audioMessageWhatsApp"
             - title: File
               x-tab-id: file
               allOf:
-                - $ref: "#/components/schemas/inbound-common"
+                - $ref: "#/components/schemas/inboundCommon"
                 - $ref: "#/components/schemas/channelOptionsWhatsappCommon"
                 - $ref: "#/components/schemas/fileMessageWhatsApp"
             - title: Location
               x-tab-id: location
               allOf:
-                - $ref: "#/components/schemas/inbound-common"
+                - $ref: "#/components/schemas/inboundCommon"
                 - $ref: "#/components/schemas/channelOptionsWhatsappCommon"
                 - $ref: "#/components/schemas/locationMessageWhatsApp"                
         - title: Viber
@@ -149,13 +145,13 @@ components:
             - title: Text
               x-tab-id: text
               allOf:
-                - $ref: "#/components/schemas/inbound-common"
+                - $ref: "#/components/schemas/inboundCommon"
                 - $ref: "#/components/schemas/channelOptionsViberInbound"
                 - $ref: "#/components/schemas/textMessageViberInbound"
             - title: Image
               x-tab-id: image
               allOf:
-                - $ref: "#/components/schemas/inbound-common"
+                - $ref: "#/components/schemas/inboundCommon"
                 - $ref: "#/components/schemas/channelOptionsViberInbound"
                 - $ref: "#/components/schemas/imageMessageViberInbound"            
         - title: Facebook Messenger
@@ -164,44 +160,44 @@ components:
             - title: Text
               x-tab-id: text
               allOf:
-                - $ref: "#/components/schemas/inbound-common"
+                - $ref: "#/components/schemas/inboundCommon"
                 - $ref: "#/components/schemas/channelOptionsFacebookCommon"
                 - $ref: "#/components/schemas/textMessageFacebookInbound"
             - title: Image
               x-tab-id: image
               allOf:
-                - $ref: "#/components/schemas/inbound-common"
+                - $ref: "#/components/schemas/inboundCommon"
                 - $ref: "#/components/schemas/channelOptionsFacebookCommon"
                 - $ref: "#/components/schemas/imageMessageFacebookInbound"
             - title: Video
               x-tab-id: video
               allOf:
-                - $ref: "#/components/schemas/inbound-common"
+                - $ref: "#/components/schemas/inboundCommon"
                 - $ref: "#/components/schemas/channelOptionsFacebookCommon"
                 - $ref: "#/components/schemas/videoMessageFacebookInbound"
             - title: Audio
               x-tab-id: audio
               allOf:
-                - $ref: "#/components/schemas/inbound-common"
+                - $ref: "#/components/schemas/inboundCommon"
                 - $ref: "#/components/schemas/channelOptionsFacebookCommon"
                 - $ref: "#/components/schemas/audioMessageFacebookInbound"
             - title: File
               x-tab-id: file
               allOf:
-                - $ref: "#/components/schemas/inbound-common"
+                - $ref: "#/components/schemas/inboundCommon"
                 - $ref: "#/components/schemas/channelOptionsFacebookCommon"
                 - $ref: "#/components/schemas/fileMessageFacebookInbound"
         - title: MMS
           x-tab-id: MMS
           allOf:
-            - $ref: "#/components/schemas/inbound-common"
+            - $ref: "#/components/schemas/inboundCommon"
             - $ref: "#/components/schemas/mmsMessageCommon" 
     message:
       oneOf:
         - title: SMS
           x-tab-id: SMS
           allOf:
-            - $ref: "#/components/schemas/Sms"  
+            - $ref: "#/components/schemas/sms"  
         - title: WhatsApp
           x-tab-id: WhatsApp
           oneOf:                    
@@ -393,17 +389,24 @@ components:
                     - url
                   properties:
                     url:
+                      minLength: 10
+                      maxLength: 2000
                       description: The URL of the image attachment. The image file is available for 48 hours after it is created. Supported file types are .jpg, .jpeg, .png, and .gif
                       type: string
                       format: url
                       example: "https://example.com/image.jpg"
+                    caption:
+                      maxLength: 3000
+                      description: Additional text to accompany the image
+                      example: This is a picture of a dog
+                      type: string
     mmsMessage:
       allOf:
         - $ref: "#/components/schemas/mmsMessageCommon"
         - type: object
           properties:            
             client_ref:
-              $ref: "#/components/schemas/client_ref"
+              $ref: "#/components/schemas/clientRef"
     messenger:
       type: object
       properties:
@@ -438,6 +441,8 @@ components:
           description: The file content being sent to the recipient.
           properties:
             url:
+              minLength: 10
+              maxLength: 2000
               type: string
               description: The URL of the file attachment. Supports .zip, .csv, and .pdf
               example: "https://example.com/file.zip"
@@ -484,6 +489,8 @@ components:
           required:
             - url
           type: object
+          minLength: 10
+          maxLength: 2000
           description: The audio content being sent to the recipient.
           properties:
             url:
@@ -536,6 +543,8 @@ components:
           description: The video content being sent to the recipient.
           properties:
             url:
+              minLength: 10
+              maxLength: 2000
               type: string
               description: The URL of the video attachment. Supports .mp4.
               example: "https://example.com/video.mp4"
@@ -586,6 +595,8 @@ components:
           properties:
             url:
               type: string
+              minLength: 10
+              maxLength: 2000
               description: The URL of the image attachment. The image file is available for 48 hours after it is created. Supported types are .jpg, .jpeg, .png, and .gif
               example: "https://example.com/image.jpg"
               format: url
@@ -628,6 +639,8 @@ components:
           enum:
             - text
         text:
+          minLength: 1
+          maxLength: 640
           type: string
           description: The text to be sent to the recipient's Facebook Messenger account.
           example: Hello from Vonage!
@@ -677,6 +690,8 @@ components:
               example: messenger
             id:
               type: string
+              minLength: 1
+              maxLength: 50
               description: The ID of the Message recipient. This value should be the `from.id` value you receive on an inbound message from messenger
               example: '123456789987'
         from:
@@ -692,6 +707,8 @@ components:
                 - messenger
               example: messenger
             id:
+              minLength: 1
+              maxLength: 50
               type: string
               description: This value should be the `to.id` value you received in the inbound messenger event. Can also be found using your [account dashboard](https://dashboard.nexmo.com/applications/) when trying to link external accounts to your applications.
               example: '123456789987'
@@ -701,7 +718,7 @@ components:
         - type: object
           properties:            
             client_ref:
-              $ref: "#/components/schemas/client_ref"    
+              $ref: "#/components/schemas/clientRef"    
     templateParameters:
       type: array
       description: The parameters are an array. The first value being {{1}} in the template.
@@ -735,6 +752,8 @@ components:
           properties:
             url:
               type: string
+              minLength: 10
+              maxLength: 2000
               format: url
               description: Publicly accessible URL of the image to be attached. The image file is available for 48 hours after it's created. Supports .jpg, .jpeg, and .png.
               example: "https://example.com/image.jpg"
@@ -751,7 +770,7 @@ components:
             content:
               $ref: "#/components/schemas/imageMessageViberContent"
             viber_service_msg:
-              $ref: "#/components/schemas/viber_service_msg"
+              $ref: "#/components/schemas/viberServiceMessage"
     imageMessageViberInbound:
       type: object
       required:
@@ -764,7 +783,7 @@ components:
           properties:            
             content:
               $ref: "#/components/schemas/imageMessageViberContent"            
-    viber_service_msg:
+    viberServiceMessage:
       type: object
       properties:
         category:
@@ -814,7 +833,7 @@ components:
             content:
               $ref: "#/components/schemas/textMessageViberContent"
             viber_service_msg:
-              $ref: "#/components/schemas/viber_service_msg"
+              $ref: "#/components/schemas/viberServiceMessage"
     textMessageViberInbound:
       type: object
       required:
@@ -856,6 +875,8 @@ components:
                     - url
                   properties:
                     url:
+                      minLength: 10
+                      maxLength: 2000
                       example: "https://example.com/file.pdf"
                       type: string
                       format: url
@@ -947,6 +968,8 @@ components:
                     url:
                       example: "https://example.com/audio.mp3"
                       type: string
+                      minLength: 10
+                      maxLength: 2000
                       format: url
                       description: |
                         The publicly accessible URL of the audio attachment. The audio file is available for 48 hours after it is created.
@@ -980,6 +1003,8 @@ components:
                     - url
                   properties:
                     url:
+                      minLength: 10
+                      maxLength: 2000
                       type: string
                       format: url
                       example: "https://example.com/video.mp4"
@@ -1018,10 +1043,14 @@ components:
                     url:
                       type: string
                       format: url
+                      minLength: 10
+                      maxLength: 2000
                       description: The publicly accessible URL of the image attachment. The image file is available for 48 hours after it is created. Supported types are .jpg, .jpeg, and .png
                       example: https://example.com/cat.jpg
                     caption:
                       type: string
+                      minLength: 1
+                      maxLength: 3000
                       description: Additional text to accompany the image.
                       example: My Tabby cat, Oliver.        
     textMessageWhatsApp:
@@ -1071,6 +1100,8 @@ components:
               enum:
                 - whatsapp
             number:
+              minLength: 7
+              maxLength: 15
               type: string
               example: '447700900000'
               description: |
@@ -1088,6 +1119,8 @@ components:
               enum:
                 - whatsapp
             number:
+              minLength: 7
+              maxLength: 15
               type: string
               description: WhatsApp Number the message is to be sent from.
               example: '447700900001'
@@ -1098,15 +1131,17 @@ components:
         - type: object
           properties:
             client_ref:
-              $ref : "#/components/schemas/client_ref"
+              $ref : "#/components/schemas/clientRef"
         
     toNumber:
       type: string
+      minLength: 7
+      maxLength: 15
       example: '447700900000'
       description: |
         The phone number of the message recipient in the [E.164](https://en.wikipedia.org/wiki/E.164) format. Don't use a leading + or 00 when entering a phone number, start with the country code, for example, 447700900000.
 
-    SmsCommon:
+    smsCommon:
       type: object
       required:
         - to
@@ -1142,6 +1177,8 @@ components:
             number:
               type: string
               example: '447700900001'
+              minLength: 5
+              maxLength: 15
               description: |
                 The Vonage Virtual number the message is originating from in the [E.164](https://en.wikipedia.org/wiki/E.164) format. Don't use a leading + or 00 when entering a phone number, start with the country code, for example, 447700900000.
         message:
@@ -1164,15 +1201,17 @@ components:
                 text:
                   example: Hello From Vonage!
                   type: string
+                  minLength: 1
+                  maxLength: 1000
                   description: |
                     Limited to 1000 characters. The Messages API automatically detects unicode characters when sending SMS and sends the message as a unicode SMS. For more information on how concatenation and encoding please visit: developer.nexmo.com/messaging/sms/guides/concatenation-and-encoding.
-    Sms:
+    sms:
       allOf:
         - type: object
           properties:            
             client_ref:
-              $ref: "#/components/schemas/client_ref"
-        - $ref: "#/components/schemas/SmsCommon"
+              $ref: "#/components/schemas/clientRef"
+        - $ref: "#/components/schemas/smsCommon"
     channelOptionsViberInbound:
       required:
         - to
@@ -1193,6 +1232,8 @@ components:
                 - viber_service_msg
             id:
               type: string
+              minLength: 1
+              maxLength: 50
               example: '447700900000'
               description: |
                 This is your Service Message ID given to you by Nexmo Account Manager. To find out more please visit [nexmo.com/products/messages](https://www.vonage.com/communications-apis/messages/).
@@ -1210,6 +1251,8 @@ components:
                 - viber_service_msg
             number:
               type: string
+              minLength: 7
+              maxLength: 15
               description: The Viber number of the message's sender in the [E.164](https://en.wikipedia.org/wiki/E.164) format. Don't use a leading + or 00 when entering a phone number, start with the country code, for example, 447700900000.
               example: '654321'
     channelOptionsViberCommon:
@@ -1231,6 +1274,8 @@ components:
               enum:
                 - viber_service_msg
             number:
+              minLength: 7
+              maxLength: 15
               type: string
               example: '447700900000'
               description: |
@@ -1248,6 +1293,8 @@ components:
               enum:
                 - viber_service_msg
             id:
+              minLength: 1
+              maxLength: 50
               type: string
               description: This is your Service Message ID given to you by Nexmo Account Manager. To find out more please visit [nexmo.com/products/messages](https://www.vonage.com/communications-apis/messages/).
               example: '654321'
@@ -1257,12 +1304,12 @@ components:
         - type: object
           properties:             
             client_ref:
-              $ref: "#/components/schemas/client_ref"
-    client_ref:
+              $ref: "#/components/schemas/clientRef"
+    clientRef:
       type: string
       description: client reference up to 40 characters, the reference will be present in every message status
       example: client-ref2
-    Response:
+    response:
       required:
         - message_uuid
       properties:
@@ -1333,23 +1380,23 @@ components:
                         The Vonage Virtual number the message is originating from in the [E.164](https://en.wikipedia.org/wiki/E.164) format. Don't use a leading + or 00 when entering a phone number, start with the country code, for example, 447700900000.
             
                 client_ref:
-                  $ref: "#/components/schemas/client_ref"
-            - $ref: "#/components/schemas/MessageStatusCommon"
+                  $ref: "#/components/schemas/clientRef"
+            - $ref: "#/components/schemas/messageStatusCommon"
         - title: WhatsApp
           type: object
           allOf:
             - $ref: "#/components/schemas/channelOptionsWhatsappCommon"
-            - $ref: "#/components/schemas/MessageStatusCommon"
+            - $ref: "#/components/schemas/messageStatusCommon"
         - title: Viber
           type: object
           allOf:
             - $ref: "#/components/schemas/channelOptionsViberCommon"
-            - $ref: "#/components/schemas/MessageStatusCommon"
+            - $ref: "#/components/schemas/messageStatusCommon"
         - title: Facebook Messenger
           type: object
           allOf:
             - $ref: "#/components/schemas/channelOptionsFacebookCommon"
-            - $ref: "#/components/schemas/MessageStatusCommon"
+            - $ref: "#/components/schemas/messageStatusCommon"
         - title: MMS
           type: object
           allOf:
@@ -1386,8 +1433,8 @@ components:
                       example: '447700900001'
                       description: |
                         A US shcortcode            
-            - $ref: "#/components/schemas/MessageStatusCommon"
-    MessageStatusCommon:
+            - $ref: "#/components/schemas/messageStatusCommon"
+    messageStatusCommon:
       type: object
       required:
         - message_uuid
@@ -1401,7 +1448,7 @@ components:
           description: The UUID of the message.
           example: "aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
         timestamp:
-          $ref: "#/components/schemas/TimestampProperty"
+          $ref: "#/components/schemas/timestampProperty"
         status:
           type: string
           example: delivered
@@ -1436,7 +1483,7 @@ components:
               type: string
               example: "0.0333"
               description: The charge amount as a stringified number.        
-    TimestampProperty:
+    timestampProperty:
       type: string
       format: ISO 8601
       description: The datetime of when the event occurred.
