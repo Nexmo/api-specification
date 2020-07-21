@@ -133,12 +133,6 @@ components:
                 - $ref: "#/components/schemas/inboundCommon"
                 - $ref: "#/components/schemas/channelOptionsWhatsappCommon"
                 - $ref: "#/components/schemas/fileMessageWhatsApp"
-            - title: Location
-              x-tab-id: location
-              allOf:
-                - $ref: "#/components/schemas/inboundCommon"
-                - $ref: "#/components/schemas/channelOptionsWhatsappCommon"
-                - $ref: "#/components/schemas/locationMessageWhatsApp"                
         - title: Viber
           x-tab-id: Viber
           oneOf:
@@ -231,11 +225,6 @@ components:
               allOf:
                 - $ref: "#/components/schemas/channelOptionsWhatsapp"
                 - $ref: "#/components/schemas/fileMessageWhatsApp"
-            - title: Location
-              x-tab-id: location
-              allOf:
-                - $ref: "#/components/schemas/channelOptionsWhatsapp"
-                - $ref: "#/components/schemas/locationMessageWhatsApp"                
         - title: Viber
           x-tab-id: Viber
           oneOf:
@@ -281,52 +270,6 @@ components:
           x-tab-id: MMS
           allOf:
             - $ref: "#/components/schemas/mmsMessage"
-    locationMessageWhatsApp:
-      type: object
-      required:        
-        - message        
-      properties:        
-        message:
-          type: object
-          required:
-            - content
-          properties:
-            content:
-              type: object
-              required:
-                - location
-                - type
-              properties:
-                type:
-                  description: The type of message that you are sending
-                  type: string
-                  enum:
-                    - location
-                  example: location
-                location:
-                  type: object
-                  required:
-                    - longitude
-                    - latitude
-                  description: location content object
-                  properties:
-                    longitude:
-                      type: string                      
-                      description: The longitude of the location
-                      example: "-122.425332"
-                    latitude:
-                      type: string                      
-                      description: The latitude of the location
-                      example: "37.758056"
-                    name:
-                      type: string
-                      description: Name of the Location.
-                      example: Facebook HQ
-                    address:
-                      type: string
-                      description: The address of the location, only displays if name is present
-                      example: 1 Hacker Way, Menlo Park, CA 94025
-
     mmsMessageCommon:
       type: object
       required:
