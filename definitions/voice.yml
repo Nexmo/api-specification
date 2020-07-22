@@ -1,7 +1,7 @@
 ---
 openapi: 3.0.0
 info:
-  version: 1.3.0
+  version: 1.3.1
   title: Voice API
   description:
     The Voice API lets you create outbound calls, control in-progress calls
@@ -542,7 +542,7 @@ components:
           example: continue
         length_timer:
           description: Set the number of seconds that elapse before Nexmo
-            hangs up after the call state changes to in_progress.
+            hangs up after the call state changes to answered.
           minimum: 1
           maximum: 7200
           default: 7200
