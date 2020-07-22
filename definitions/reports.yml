@@ -1,28 +1,24 @@
 openapi: "3.0.0"
 info:
   version: 2.1.8
-  title: Nexmo Reports API
+  title: Reports API
   description: |
-    [Nexmo's Reports API](/reports/overview) allows you to request a report of activity on your Nexmo account.
+    The [Reports API](/reports/overview) enables you to request a report of activity for your Vonage account.
 
-    Depending on your query pattern, you can choose from one of the two versions of Reports API: asynchronous and synchronous. Asynchronous version is optimized for infrequent and large data queries (from several records to tens of millions). Synchronous version is optimized for frequent and periodic retrievals of small batches of data records (from one record to tens of thousand per query).
+    Depending on your query pattern, you can choose from one of the two versions of the Reports API: asynchronous and synchronous. The asynchronous version is optimized for infrequent and large data queries (from several records to tens of millions). The synchronous version is optimized for frequent and periodic retrievals of small batches of data records (from one record to tens of thousand per query).
 
     Only synchronous version supports retrival of data records by message/record ID.
 
-    Nexmo recommends to limit asynchronous queries to a maximum of 20 million records, by setting the start and end dates accordingly. On average, the asynchronous Reports API takes 5 - 10 minutes to generate 1 million records.
+    Vonage recommends you limit asynchronous queries to a maximum of 20 million records, by setting the start and end dates accordingly. On average, the asynchronous Reports API takes 5 - 10 minutes to generate 1 million records.
   contact:
-    name: Nexmo.com
-    email: devrel@nexmo.com
+    name: Vonage DevRel
+    email: devrel@vonage.com
     url: "https://developer.nexmo.com/"
-    x-twitter: Nexmo
   x-label: Beta
   termsOfService: "https://www.nexmo.com/terms-of-use"
   license:
     name: The MIT License (MIT)
     url: "https://opensource.org/licenses/MIT"
-  x-logo:
-    url: "https://twitter.com/Nexmo/profile_image?size=original"
-  x-apiClientRegistration: "https://dashboard.nexmo.com/sign-up"
 servers:
   - url: https://api.nexmo.com
 paths:
@@ -84,7 +80,7 @@ paths:
           description: |
             ISO-8601 extended time zone offset or ISO-8601 UTC zone offset formatted date (format `yyyy-mm-ddThh:mm:ss[.sss]±hh:mm` or `yyyy-mm-ddThh:mm:ss[.sss]Z`) for when reports should begin. 
 
-            It filters on the time the API call was received by Nexmo and corresponds to the field `date_received` (`date_start` for Voice) in the report file. It is inclusive, i.e. the provided value is less than or equal to the value in the field `date_received` (`date_start` for Voice) in the CDR.
+            It filters on the time the API call was received by Vonage and corresponds to the field `date_received` (`date_start` for Voice) in the report file. It is inclusive, i.e. the provided value is less than or equal to the value in the field `date_received` (`date_start` for Voice) in the CDR.
 
             If you provide this, you must provide `date_end` and must not provide `id`.
           example: "2017-12-01T00:00:00+0000"
@@ -795,7 +791,7 @@ components:
       format: date
       description: >
         ISO-8601 extended time zone offset or ISO-8601 UTC zone offset formatted date (format `yyyy-mm-ddThh:mm:ss[.sss]±hh:mm` or `yyyy-mm-ddThh:mm:ss[.sss]Z`) for when reports 
-        should begin. It filters on the time the API call was received by Nexmo and corresponds to the field `date_received` (`date_start` for Voice) in the report file. It is
+        should begin. It filters on the time the API call was received by Vonage and corresponds to the field `date_received` (`date_start` for Voice) in the report file. It is
         inclusive, i.e. the provided value is less than or equal to the value in the field `date_received` (`date_start` for Voice) in the CDR.<br>If unspecified, defaults 
         to seven days ago.
       example: "2017-12-01T00:00:00+00:00"
