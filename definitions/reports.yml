@@ -9,7 +9,7 @@ info:
 
     Only synchronous version supports retrival of data records by message/record ID.
 
-    Vonage recommends you limit asynchronous queries to a maximum of 20 million records, by setting the start and end dates accordingly. On average, the asynchronous Reports API takes 5 - 10 minutes to generate 1 million records.
+    Vonage recommends that you limit asynchronous queries to a maximum of 20 million records, by setting the start and end dates accordingly. On average, the asynchronous Reports API takes 5 - 10 minutes to generate 1 million records.
   contact:
     name: Vonage DevRel
     email: devrel@vonage.com
