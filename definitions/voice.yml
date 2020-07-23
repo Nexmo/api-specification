@@ -352,39 +352,55 @@ components:
           description: Set the audio level of the stream in the range `-1 >= level <= 1` with a precision of 0.1. The default value is 0.
           example: "0.4"
           default: "0"
+    
+    RequestTransferActionParam:
+      description: Transfer the call to a new NCCO
+      type: string
+      example: transfer
+      enum:
+        - transfer
 
-    UpdateCallRequestTransferBase:
+
+    UpdateCallRequestTransferAnswerUrl:
+        title: Transfer with Answer URL
+        type: object
+        required:
+          - action
+          - destination
+        properties:
+          action: 
+            $ref: "#/components/schemas/RequestTransferActionParam" 
+          destination:
+            type: object
+            required:
+              - type
+              - url
+            properties:
+              type:
+                type: string
+                example: url
+              url:
+                type: array
+                example: ["https://example.com/ncco.json"]
+                items:
+                  type: string
+                description: The URL that Nexmo makes a request to. Must return an NCCO.
+                x-nexmo-developer-collection-description-shown: true
+
+    UpdateCallRequestTransferNcco:
+      title: Transfer with NCCO
       type: object
       required:
         - action
+        - destination
       properties:
+        action:
+          $ref: "#/components/schemas/RequestTransferActionParam" 
         destination:
           type: object
-          properties:
-            action:
-              type: string
-              example: transfer
-              enum:
-                - transfer
-              description: Transfer the call to a new NCCO
-
-    UpdateCallRequestTransferAnswerUrl:
-      allOf:
-        - "$ref": "#/components/schemas/UpdateCallRequestTransferBase"
-        - title: Transfer with Answer URL
-          properties:
-            url:
-              example: ["https://example.com/ncco.json"]
-              type: array
-              items:
-                type: string
-              description: The URL that Nexmo makes a request to. Must return an NCCO.
-              x-nexmo-developer-collection-description-shown: true
-
-    UpdateCallRequestTransferNcco:
-      allOf:
-        - "$ref": "#/components/schemas/UpdateCallRequestTransferBase"
-        - title: Transfer with NCCO
+          required:
+            - type
+            - ncco
           properties:
             type:
               type: string
@@ -392,13 +408,13 @@ components:
               description: Always `ncco`
               x-nexmo-developer-collection-description-shown: true
             ncco:
+              type: array
               example:
                 - action: talk
                   text: Hello World
-              type: array
               items:
                 type: object
-              description: Can be used instead of `url` for the `transfer` action only.
+              description: Refer to the [NCCO Guide](https://developer.nexmo.com/voice/voice-api/ncco-reference) for a description of possible NCCO parameters.
               x-nexmo-developer-collection-description-shown: true
 
     UpdateCallRequestHangup:
