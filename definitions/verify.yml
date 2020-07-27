@@ -3,7 +3,7 @@ servers:
   - url: "https://api.nexmo.com/verify"
 info:
   title: Nexmo Verify API
-  version: 1.1.2
+  version: 1.1.3
   description: >-
     The Verify API helps you to implement 2FA (two-factor authentication) in your applications.
     This is useful for:
@@ -148,8 +148,10 @@ paths:
                     - ro-ro
                     - ru-ru
                     - sv-se
+                    - th-th
                     - tr-tr
                     - vi-vn
+                    - yue-cn
                     - zh-cn
                     - zh-tw
                 pin_expiry:
