@@ -1,7 +1,7 @@
 ---
 openapi: 3.0.0
 info:
-  version: 2.2.0
+  version: 2.2.1
   title: Voice API BETA
   description: |
     This is the *beta* version of the Voice API. Calls created with v2 must be managed
@@ -71,10 +71,114 @@ components:
         application/json:
           schema:
             oneOf:
-              - "$ref": "voice.yml#/components/schemas/CreateCallRequestNcco"
-              - "$ref": "voice.yml#/components/schemas/CreateCallRequestAnswerUrl"
+              - "$ref": "#/components/schemas/CreateCallRequestNcco"
+              - "$ref": "#/components/schemas/CreateCallRequestAnswerUrl"
 
   schemas:
+    CreateCallRequestBaseV2:
+      type: object
+      required:
+        - to
+        - from
+      properties:
+        to:
+          type: array
+          items:
+            oneOf:
+              - "$ref": "voice.yml#/components/schemas/EndpointPhoneTo"
+              - "$ref": "voice.yml#/components/schemas/EndpointSip"
+              - "$ref": "voice.yml#/components/schemas/EndpointWebsocket"
+              - "$ref": "voice.yml#/components/schemas/EndpointVBCExtension"
+              - "$ref": "voice.yml#/components/schemas/EndpointApp"
+        from:
+          "$ref": "voice.yml#/components/schemas/EndpointPhoneFrom"
+        event_url:
+          description: |
+            **Required** unless `event_url` is configured at the application
+            level, see [Create an Application](/api/application.v2#createApplication)
+
+            The webhook endpoint where call progress events are
+            sent to. For more information about the values sent, see
+            [Event webhook](/voice/voice-api/webhook-reference#event-webhook).
+          type: array
+          x-nexmo-developer-collection-description-shown: true
+          example: ["https://example.com/event"]
+          items:
+            type: string
+            format: uri
+        event_method:
+          description: The HTTP method used to send event information to event_url.
+          type: string
+          default: POST
+          enum:
+            - POST
+            - GET
+        machine_detection:
+          description: Configure the behavior when Nexmo detects that the
+            call is answered by voicemail. If Continue Nexmo sends an HTTP
+            request to event_url with the Call event machine. hangup  end
+            the call
+          type: string
+          enum:
+            - continue
+            - hangup
+          example: continue
+        length_timer:
+          description: Set the number of seconds that elapse before Nexmo
+            hangs up after the call state changes to answered.
+          minimum: 1
+          maximum: 7200
+          default: 7200
+          type: integer
+        ringing_timer:
+          description: Set the number of seconds that elapse before Nexmo
+            hangs up after the call state changes to ‘ringing’.
+          minimum: 1
+          maximum: 120
+          default: 60
+          type: integer
+
+    CreateCallRequestNcco:
+      allOf:
+        - title: With NCCO
+          required:
+            - ncco
+        - properties:
+            ncco:
+              description: |
+                The [Nexmo Call Control Object](/voice/voice-api/ncco-reference) to use for this call.
+              type: array
+              x-nexmo-developer-collection-description-shown: true
+              example:
+                - action: talk
+                  text: Hello World
+              items:
+                type: object
+        - "$ref": "#/components/schemas/CreateCallRequestBaseV2"
+
+    CreateCallRequestAnswerUrl:
+      allOf:
+        - title: With Answer URL
+          required:
+            - answer_url
+        - properties:
+            answer_url:
+              description: |
+                The webhook endpoint where you provide the [Nexmo Call Control Object](/voice/voice-api/ncco-reference) that governs this call.
+              type: array
+              x-nexmo-developer-collection-description-shown: true
+              example: ["https://example.com/answer"]
+              items:
+                type: string
+            answer_method:
+              description: The HTTP method used to send event information to answer_url.
+              type: string
+              default: GET
+              enum:
+                - POST
+                - GET
+        - "$ref": "#/components/schemas/CreateCallRequestBaseV2"
+
     CallPlacedWebhook:
       properties:
         from:
