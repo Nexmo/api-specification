@@ -966,7 +966,7 @@ components:
         - "vi-VN"
         - "yue-CN"
     style:
-      description: The voice style to use
+      description: The vocal style (vocal range, tessitura, and timbre) to use
       type: integer
       default: 0
       
