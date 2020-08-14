@@ -1,7 +1,7 @@
 ---
 openapi: 3.0.0
 info:
-  version: 1.3.3
+  version: 1.3.4
   title: Voice API
   description:
     The Voice API lets you create outbound calls, control in-progress calls
@@ -364,30 +364,32 @@ components:
 
 
     UpdateCallRequestTransferAnswerUrl:
-        title: Transfer with Answer URL
-        type: object
-        required:
-          - action
-          - destination
-        properties:
-          action: 
-            $ref: "#/components/schemas/RequestTransferActionParam" 
-          destination:
-            type: object
-            required:
-              - type
-              - url
-            properties:
-              type:
+      title: Transfer with Answer URL
+      type: object
+      required:
+        - action
+        - destination
+      properties:
+        action: 
+          $ref: "#/components/schemas/RequestTransferActionParam" 
+        destination:
+          type: object
+          required:
+            - type
+            - url
+          properties:
+            type:
+              type: string
+              description: Always `ncco`
+              example: ncco
+              x-nexmo-developer-collection-description-shown: true
+            url:
+              type: array
+              example: ["https://example.com/ncco.json"]
+              items:
                 type: string
-                example: url
-              url:
-                type: array
-                example: ["https://example.com/ncco.json"]
-                items:
-                  type: string
-                description: The URL that Nexmo makes a request to. Must return an NCCO.
-                x-nexmo-developer-collection-description-shown: true
+              description: The URL that Nexmo makes a request to. Must return an NCCO.
+              x-nexmo-developer-collection-description-shown: true
 
     UpdateCallRequestTransferNcco:
       title: Transfer with NCCO
