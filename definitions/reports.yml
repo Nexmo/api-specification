@@ -1,6 +1,6 @@
 openapi: "3.0.0"
 info:
-  version: 2.1.9
+  version: 2.1.10
   title: Reports API
   description: |
     The [Reports API](/reports/overview) enables you to request a report of activity for your Vonage account.
@@ -48,6 +48,7 @@ paths:
             enum:
               - SMS
               - VOICE-CALL
+              - WEBSOCKET-CALL
               - VERIFY-API
               - NUMBER-INSIGHT
               - MESSAGES
@@ -190,7 +191,7 @@ paths:
                           properties:
                             reason:
                               type: string
-                              example: "Could not resolve product name. Please use one of the following values [CONVERSATIONS, MESSAGES, NUMBER-INSIGHT, SMS, VERIFY-API, VERIFY-SDK, VOICE-CALL]"
+                              example: "Could not resolve product name. Please use one of the following values [CONVERSATIONS, MESSAGES, NUMBER-INSIGHT, SMS, VERIFY-API, VERIFY-SDK, VOICE-CALL, WEBSOCKET-CALL]"
                             name:
                               type: string
                               example: "product"
@@ -266,6 +267,7 @@ paths:
               oneOf:
                 - $ref: "#/components/schemas/SMS"
                 - $ref: "#/components/schemas/VOICE-CALL"
+                - $ref: "#/components/schemas/WEBSOCKET-CALL"
                 - $ref: "#/components/schemas/VERIFY-API"
                 - $ref: "#/components/schemas/NUMBER-INSIGHT"
                 - $ref: "#/components/schemas/MESSAGES"
@@ -386,6 +388,7 @@ components:
             oneOf:
               - $ref: "#/components/schemas/sms_response_get_report"
               - $ref: "#/components/schemas/voice_call_response_get_report"
+              - $ref: "#/components/schemas/websocket_call_response_get_report"
               - $ref: "#/components/schemas/verify_api_response_get_report"
               - $ref: "#/components/schemas/number_insight_response_get_report"
               - $ref: "#/components/schemas/messages_response_get_report"
@@ -399,6 +402,7 @@ components:
             oneOf:
               - $ref: "#/components/schemas/sms_response_create_report"
               - $ref: "#/components/schemas/voice_call_response_create_report"
+              - $ref: "#/components/schemas/websocket_call_response_create_report"
               - $ref: "#/components/schemas/verify_api_response_create_report"
               - $ref: "#/components/schemas/number_insight_response_create_report"
               - $ref: "#/components/schemas/messages_response_create_report"
@@ -428,6 +432,7 @@ components:
                   anyOf:
                     - $ref: "#/components/schemas/sms_response_get_report"
                     - $ref: "#/components/schemas/voice_call_response_get_report"
+                    - $ref: "#/components/schemas/websocket_call_response_get_report"
                     - $ref: "#/components/schemas/verify_api_response_get_report"
                     - $ref: "#/components/schemas/number_insight_response_get_report"
                     - $ref: "#/components/schemas/messages_response_get_report"
@@ -481,6 +486,18 @@ components:
                         description: Records in JSON format
                         items:
                           $ref: "#/components/schemas/csv_voice"
+                          
+              - allOf:
+                  - $ref: "#/components/schemas/report_response_top_level"
+                  - description: WebSocket Call
+                    x-tab-id: websocket-call
+                    type: object
+                    properties:
+                      records:
+                        type: array
+                        description: Records in JSON format
+                        items:
+                          $ref: "#/components/schemas/csv_websockets"
 
               - allOf:
                   - $ref: "#/components/schemas/report_response_top_level"
@@ -568,6 +585,7 @@ components:
                     - $ref: "#/components/schemas/csv_sms_outbound"
                     - $ref: "#/components/schemas/csv_sms_inbound"
                     - $ref: "#/components/schemas/csv_voice"
+                    - $ref: "#/components/schemas/csv_websockets"
                     - $ref: "#/components/schemas/csv_verify"
                     - $ref: "#/components/schemas/csv_ni"
                     - $ref: "#/components/schemas/csv_messages_outbound"
@@ -736,6 +754,7 @@ components:
       enum:
         - SMS
         - VOICE-CALL
+        - WEBSOCKET-CALL
         - VERIFY-API
         - NUMBER-INSIGHT
         - MESSAGES
@@ -747,6 +766,9 @@ components:
     product_voice:
       type: string
       example: "VOICE-CALL"
+    product_websocket:
+      type: string
+      example: "WEBSOCKET-CALL"
     product_verify:
       type: string
       example: "VERIFY-API"
@@ -852,6 +874,11 @@ components:
         - rejected
         - cancelled
         - busy
+    websocket_status:
+      type: string
+      description: Search only for WebSocket call with corresponding status.
+      example: 200
+        
     asr_status:
       type: string
       description: Search only for ASR with corresponding status.
@@ -1231,6 +1258,16 @@ components:
           $ref: "#/components/schemas/to"
         status:
           $ref: "#/components/schemas/voice_status"
+          
+    websocket_call_fields:
+      description: WebSocket Call
+      x-tab-id: websocket-call
+      type: object
+      properties:
+        product:
+          $ref: "#/components/schemas/product_websocket"
+        status:
+          $ref: "#/components/schemas/websocket_status"
 
     verify_api_fields:
       description: Verify
@@ -1322,6 +1359,13 @@ components:
       allOf:
         - $ref: "#/components/schemas/report_request"
         - $ref: "#/components/schemas/voice_call_fields"
+        
+    WEBSOCKET-CALL:
+      description: WebSocket Call
+      x-tab-id: websocket-call
+      allOf:
+        - $ref: "#/components/schemas/report_request"
+        - $ref: "#/components/schemas/websocket_call_fields"
 
     VERIFY-API:
       description: Verify
@@ -1439,6 +1483,20 @@ components:
       allOf:
         - $ref: "#/components/schemas/report_response_create_report"
         - $ref: "#/components/schemas/voice_call_fields"
+        
+    websocket_call_response_get_report:
+      description: WebSocket Call
+      x-tab-id: websocket-call
+      allOf:
+        - $ref: "#/components/schemas/report_response"
+        - $ref: "#/components/schemas/websocket_call_fields"
+        
+    websocket_call_response_create_report:
+      description: WebSocket Call
+      x-tab-id: websocket-call
+      allOf:
+        - $ref: "#/components/schemas/report_response_create_report"
+        - $ref: "#/components/schemas/websocket_call_fields"
 
     number_insight_response_get_report:
       description: Number Insight
@@ -1707,6 +1765,30 @@ components:
           $ref: "#/components/schemas/voice_status"
         status_description:
           $ref: "#/components/schemas/voice_status_description"
+        currency:
+          $ref: "#/components/schemas/currency"
+        price:
+          $ref: "#/components/schemas/price"
+        total_price:
+          $ref: "#/components/schemas/total_price"
+
+    csv_websockets:
+      description: WebSocket Call
+      x-tab-id: websocket-call
+      type: object
+      properties:
+        account_id:
+          $ref: "#/components/schemas/account_id"
+        call_id:
+          $ref: "#/components/schemas/request_id"
+        date_start:
+          $ref: "#/components/schemas/call_start_date"
+        date_end:
+          $ref: "#/components/schemas/call_end_date"
+        duration:
+          $ref: "#/components/schemas/duration"
+        status:
+          $ref: "#/components/schemas/websocket_status"
         currency:
           $ref: "#/components/schemas/currency"
         price:
