@@ -28,7 +28,6 @@ paths:
       summary: Load records synchronously
       description: Fetch usage data synchronously
       security:
-        - bearerAuth: []
         - basicAuth: []
       parameters:
         - name: account_id
@@ -217,7 +216,6 @@ paths:
       summary: List reports
       description: List reports created by the specified account based on filtered provided.
       security:
-        - bearerAuth: []
         - basicAuth: []
       parameters:
         - $ref: "#/components/parameters/account_id"
@@ -254,7 +252,6 @@ paths:
       summary: Create an asynchronous report
       description: Request a report on your account activity
       security:
-        - bearerAuth: []
         - basicAuth: []
       requestBody:
         description: >
@@ -288,7 +285,6 @@ paths:
     get:
       operationId: get-report
       security:
-        - bearerAuth: []
         - basicAuth: []
       summary: Get status of report
       description: Retrieve status and metadata about a requested report.
@@ -310,7 +306,6 @@ paths:
     delete:
       operationId: cancel-report
       security:
-        - bearerAuth: []
         - basicAuth: []
       summary: Cancel the execution of a report
       description: Cancel the execution of a pending or processing report.
@@ -333,7 +328,6 @@ paths:
     get:
       operationId: download-report
       security:
-        - bearerAuth: []
         - basicAuth: []
       summary: Get report data
       description: >
