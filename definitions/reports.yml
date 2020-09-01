@@ -1,6 +1,6 @@
 openapi: "3.0.0"
 info:
-  version: 2.1.9
+  version: 2.1.10
   title: Reports API
   description: |
     The [Reports API](/reports/overview) enables you to request a report of activity for your Vonage account.
@@ -357,10 +357,6 @@ paths:
           $ref: "#/components/responses/404"
 components:
   securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
     basicAuth:
       type: http
       scheme: basic
