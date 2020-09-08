@@ -1,6 +1,6 @@
 openapi: "3.0.0"
 info:
-  version: 0.3.8
+  version: 0.3.9
   title: Messages API
   description: "The Messaging API is a new API that consolidates all messaging channels. It encapsulates a user (developer) from having to use multiple APIs to interact with our various channels such as SMS, MMS, Viber, Facebook Messenger, etc. The API normalises information across all channels to abstracted to, from and content. This API is currently in Beta."
   contact:
@@ -272,6 +272,7 @@ components:
                     **whatsapp** and **messenger** supports `text`, `image`, `audio`, `video`, `file` and `location`. WhatsApp maximum inbound size is 64mb.
                     **mms** supports `image`.
                     **viber** supports `text`.
+                    <br\>The type will be set to `unsupported` if the WhatsApp, Messenger, Viber, of MMS channel receive a message that is of a not supported type.
                   example: "text"
                   enum:
                     - text
@@ -280,6 +281,7 @@ components:
                     - video
                     - file
                     - location
+                    - unsupported
                 text:
                   type: string
                   description: The body of the message.
