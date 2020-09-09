@@ -272,7 +272,7 @@ components:
                     **whatsapp** and **messenger** supports `text`, `image`, `audio`, `video`, `file` and `location`. WhatsApp maximum inbound size is 64mb.
                     **mms** supports `image`.
                     **viber** supports `text`.
-                    <br\>The type will be set to `unsupported` if the WhatsApp, Messenger, Viber, of MMS channel receive a message that is of a not supported type.
+                    <br\>The type will be set to `unsupported` if a message is received that is of an unsupported type (e.g. WhatsApp Stickers.)
                   example: "text"
                   enum:
                     - text
