@@ -720,7 +720,7 @@ components:
               description: "If there is an internal lookup error, the `refund_price` will reflect the lookup price. If `cnam` is requested for a non-US number the `refund_price` will reflect the `cnam` price. If both of these conditions occur, `refund_price` is the sum of the lookup price and `cnam` price."
               example: "0.01500000"
             remaining_balance:
-              type: number
+              type: string
               description: "Your account balance in EUR after this request."
               example: "1.23456789"
             current_carrier:
