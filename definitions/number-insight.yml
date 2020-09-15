@@ -227,6 +227,10 @@ components:
             name: requestPrice
         status:
           $ref: "#/components/schemas/niStandardAdvancedStatus"
+        error_text:
+          type: string
+          description: "The status description of your request. Note: This field is equivalent to `status_message` field in the other endpoints"
+          example: "Success"
 
     niResponseXmlBasic:
       type: object
