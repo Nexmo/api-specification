@@ -2,7 +2,7 @@ openapi: 3.0.0
 servers:
   - url: "https://api.nexmo.com/beta"
 info:
-  version: 1.7.8
+  version: 1.7.9
   title: Nexmo Conversation API
   description: "The Nexmo Conversation API enables you to build conversation features where communication can take place across multiple mediums including IP Messaging, PSTN Voice, SMS and WebRTC Audio and Video. The context of the conversations is maintained though each communication event taking place within a conversation, no matter the medium."
   contact:
@@ -789,22 +789,22 @@ components:
     href:
       type: string
       format: url
-      example: "https://api.nexmo.com/beta/converations/CON-63f61863-4a51-4f6b-86e1-46edebio0391"
+      example: "https://api.nexmo.com/beta/conversations/CON-63f61863-4a51-4f6b-86e1-46edebio0391"
       description: A link towards a resources included in Conversation API
     href_conversation:
       type: string
       format: url
-      example: "https://api.nexmo.com/beta/converations/CON-63f61863-4a51-4f6b-86e1-46edebio0391"
+      example: "https://api.nexmo.com/beta/conversations/CON-63f61863-4a51-4f6b-86e1-46edebio0391"
       description: A link towards a conversation included in Conversation API
     href_conversations_list:
       type: string
       format: url
-      example: "https://api.nexmo.com/beta/converations?page_size=2&record_index=10&"
+      example: "https://api.nexmo.com/beta/conversations?page_size=2&record_index=10&"
       description: A link towards a conversations list included in Conversation API
     href_member:
       type: string
       format: url
-      example: "https://api.nexmo.com/beta/converations/CON-63f61863-4a51-4f6b-86e1-46edebio0391/members/MEM-63f61863-4a51-4f6b-86e1-46edebio0391"
+      example: "https://api.nexmo.com/beta/conversations/CON-63f61863-4a51-4f6b-86e1-46edebio0391/members/MEM-63f61863-4a51-4f6b-86e1-46edebio0391"
       description: A link towards a member included in Conversation API
     href_user:
       type: string
@@ -814,12 +814,12 @@ components:
     href_event:
       type: string
       format: url
-      example: "https://api.nexmo.com/beta/converations/CON-63f61863-4a51-4f6b-86e1-46edebio0391/events/1"
+      example: "https://api.nexmo.com/beta/conversations/CON-63f61863-4a51-4f6b-86e1-46edebio0391/events/1"
       description: A link towards a conversation event included in Conversation API
     href_rtc:
       type: string
       format: url
-      example: "https://api.nexmo.com/beta/converations/CON-63f61863-4a51-4f6b-86e1-46edebio0391/rtc/7777777777777"
+      example: "https://api.nexmo.com/beta/conversations/CON-63f61863-4a51-4f6b-86e1-46edebio0391/rtc/7777777777777"
       description: A link towards a rtc (leg) included in Conversation API
     event_id:
       type: string

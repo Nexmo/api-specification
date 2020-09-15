@@ -2,7 +2,7 @@ openapi: 3.0.0
 servers:
   - url: "https://api.nexmo.com/accounts"
 info:
-  version: 1.0.5
+  version: 1.0.6
   title: Subaccounts API
   description: >-
     The Nexmo Subaccounts API enables you to create subaccounts under your primary account. Subaccounts facilitate differential product configuration, reporting, and billing. The Subaccounts API is released initially with restricted availability. You can read more about the API in the [Subaccounts documentation](/account/subaccounts/overview).
@@ -663,3 +663,23 @@ components:
         - from
         - to
         - amount
+
+x-errors:
+  validation:
+    description: The request failed due to validation errors
+    resolution: See the `detail` (and, if present, the `invalid_parameters`) fields for the exact reason this request was rejected and review the documentation.
+    link:
+      text: View API reference
+      url: /api/subaccounts
+  valid-transfers:
+    description: Invalid transfer
+    resolution: See the `detail` field for the reason this transfer is invalid.
+    link:
+      text: View API reference
+      url: /api/subaccounts#transferCredit
+  provisioning:
+    description: Maximum number of sub-accounts reached
+    resolution: If you need more subaccounts, contact [Vonage Support](https://support.vonage.co.uk/contactus).
+  internal-error:
+    description: An error has occurred in the platform while processing this request
+    resolution: If the error persists, contact [Vonage Support](https://support.vonage.co.uk/contactus).

@@ -1,7 +1,7 @@
 ---
 openapi: 3.0.0
 info:
-  version: 1.3.0
+  version: 1.3.4
   title: Voice API
   description:
     The Voice API lets you create outbound calls, control in-progress calls
@@ -319,8 +319,10 @@ components:
           type: string
           description: The text to read
           example: Hello. How are you today?
-        voice_name:
-          $ref: "#/components/schemas/voice_name"
+        language:
+          $ref: "#/components/schemas/language"
+        style:
+          $ref: "#/components/schemas/style"
         loop:
           type: integer
           description: The number of times to repeat the text the file, 0
@@ -352,39 +354,57 @@ components:
           description: Set the audio level of the stream in the range `-1 >= level <= 1` with a precision of 0.1. The default value is 0.
           example: "0.4"
           default: "0"
+    
+    RequestTransferActionParam:
+      description: Transfer the call to a new NCCO
+      type: string
+      example: transfer
+      enum:
+        - transfer
 
-    UpdateCallRequestTransferBase:
+
+    UpdateCallRequestTransferAnswerUrl:
+      title: Transfer with Answer URL
       type: object
       required:
         - action
+        - destination
       properties:
+        action: 
+          $ref: "#/components/schemas/RequestTransferActionParam" 
         destination:
           type: object
+          required:
+            - type
+            - url
           properties:
-            action:
+            type:
               type: string
-              example: transfer
-              enum:
-                - transfer
-              description: Transfer the call to a new NCCO
-
-    UpdateCallRequestTransferAnswerUrl:
-      allOf:
-        - "$ref": "#/components/schemas/UpdateCallRequestTransferBase"
-        - title: Transfer with Answer URL
-          properties:
+              description: Always `ncco`
+              example: ncco
+              x-nexmo-developer-collection-description-shown: true
             url:
-              example: ["https://example.com/ncco.json"]
               type: array
+              example: ["https://example.com/ncco.json"]
               items:
                 type: string
               description: The URL that Nexmo makes a request to. Must return an NCCO.
               x-nexmo-developer-collection-description-shown: true
 
     UpdateCallRequestTransferNcco:
-      allOf:
-        - "$ref": "#/components/schemas/UpdateCallRequestTransferBase"
-        - title: Transfer with NCCO
+      title: Transfer with NCCO
+      type: object
+      required:
+        - action
+        - destination
+      properties:
+        action:
+          $ref: "#/components/schemas/RequestTransferActionParam" 
+        destination:
+          type: object
+          required:
+            - type
+            - ncco
           properties:
             type:
               type: string
@@ -392,13 +412,13 @@ components:
               description: Always `ncco`
               x-nexmo-developer-collection-description-shown: true
             ncco:
+              type: array
               example:
                 - action: talk
                   text: Hello World
-              type: array
               items:
                 type: object
-              description: Can be used instead of `url` for the `transfer` action only.
+              description: Refer to the [NCCO Guide](https://developer.nexmo.com/voice/voice-api/ncco-reference) for a description of possible NCCO parameters.
               x-nexmo-developer-collection-description-shown: true
 
     UpdateCallRequestHangup:
@@ -542,7 +562,7 @@ components:
           example: continue
         length_timer:
           description: Set the number of seconds that elapse before Nexmo
-            hangs up after the call state changes to in_progress.
+            hangs up after the call state changes to answered.
           minimum: 1
           maximum: 7200
           default: 7200
@@ -896,107 +916,62 @@ components:
       maxLength: 50
       example: wss://example.com/socket
 
-    voice_name:
-      description: The voice & language to use
+    language:
+      description: The language to use
       type: string
-      default: Kimberly
+      default: en-US
       enum:
-        - Aditi
-        - Agnieszka
-        - Alva
-        - Amy
-        - Astrid
-        - Bianca
-        - Brian
-        - Carla
-        - Carmen
-        - Carmit
-        - Catarina
-        - Celine
-        - Cem
-        - Chantal
-        - Chipmunk
-        - Conchita
-        - Cristiano
-        - Damayanti
-        - Dora
-        - Emma
-        - Empar
-        - Enrique
-        - Eric
-        - Ewa
-        - Felipe
-        - Filiz
-        - Geraint
-        - Giorgio
-        - Gwyneth
-        - Hans
-        - Henrik
-        - Ines
-        - Ioana
-        - Iveta
-        - Ivy
-        - Jacek
-        - Jan
-        - Jennifer
-        - Joana
-        - Joanna
-        - Joey
-        - Jordi
-        - Justin
-        - Kanya
-        - Karl
-        - Kendra
-        - Kimberly
-        - Laila
-        - Laura
-        - Lea
-        - Lekha
-        - Liv
-        - Lotte
-        - Lucia
-        - Luciana
-        - Mads
-        - Maged
-        - Maja
-        - Mariska
-        - Marlene
-        - Mathieu
-        - Matthew
-        - Maxim
-        - Mei-Jia
-        - Melina
-        - Mia
-        - Miguel
-        - Miren
-        - Mizuki
-        - Montserrat
-        - Naja
-        - Nicole
-        - Nikos
-        - Nora
-        - Oskar
-        - Penelope
-        - Raveena
-        - Ricardo
-        - Ruben
-        - Russell
-        - Salli
-        - Satu
-        - Seoyeon
-        - Sin-Ji
-        - Sora
-        - Takumi
-        - Tarik
-        - Tatyana
-        - Tessa
-        - Tian-Tian
-        - Vicki
-        - Vitoria
-        - Yelda
-        - Zeina
-        - Zhiyu
-        - Zuzana
+        - "ar"
+        - "ca-ES"
+        - "cmn-CN"
+        - "cmn-TW"
+        - "cs-CZ"
+        - "cy-GB"
+        - "da-DK"
+        - "de-DE"
+        - "el-GR"
+        - "en-AU"
+        - "en-GB"
+        - "en-GB-WLS"
+        - "en-IN"
+        - "en-US"
+        - "en-ZA"
+        - "es-ES"
+        - "es-MX"
+        - "es-US"
+        - "eu-ES"
+        - "fi-FI"
+        - "fil-PH"
+        - "fr-CA"
+        - "fr-FR"
+        - "he-IL"
+        - "hi-IN"
+        - "hu-HU"
+        - "id-ID"
+        - "is-IS"
+        - "it-IT"
+        - "ja-JP"
+        - "ko-KR"
+        - "nb-NO"
+        - "nl-NL"
+        - "no-NO"
+        - "pl-PL"
+        - "pt-BR"
+        - "pt-PT"
+        - "ro-RO"
+        - "ru-RU"
+        - "sk-SK"
+        - "sv-SE"
+        - "th-TH"
+        - "tr-TR"
+        - "uk-UA"
+        - "vi-VN"
+        - "yue-CN"
+    style:
+      description: The vocal style (vocal range, tessitura, and timbre) to use
+      type: integer
+      default: 0
+      
 
 tags:
   - name: Calls

@@ -4,7 +4,7 @@ servers:
   - url: "https://api.nexmo.com/ni"
 info:
   title: Number Insight API
-  version: 1.0.6
+  version: 1.0.7
   description: >-
     Nexmo's Number Insight API delivers real-time intelligence about the validity, reachability and roaming status of a phone number and tells you how to format the number correctly in your application. There are three levels of Number Insight API available: [Basic, Standard and Advanced](https://developer.nexmo.com/number-insight/overview#basic-standard-and-advanced-apis). The advanced API is available asynchronously as well as synchronously.
   contact:
@@ -215,7 +215,7 @@ components:
           example: "447700900000"
         remaining_balance:
           type: string
-          description: "Your account balance in EUR after this request. Not returned with Number Insight Advanced Async API."
+          description: "Your account balance in EUR after this request."
           example: "1.23456789"
           xml:
             name: remainingBalance
@@ -373,7 +373,7 @@ components:
           example: "0.01500000"
         remaining_balance:
           type: string
-          description: "Your account balance in EUR after this request. Not returned with Number Insight Advanced Async API."
+          description: "Your account balance in EUR after this request."
           example: "1.23456789"
         current_carrier:
           $ref: "#/components/schemas/niCurrentCarrierProperties"
@@ -538,7 +538,7 @@ components:
           example: "0.01500000"
         remaining_balance:
           type: string
-          description: "Your account balance in EUR after this request. Not returned with Number Insight Advanced Async API."
+          description: "Your account balance in EUR after this request."
           example: "1.23456789"
         current_carrier:
           $ref: "#/components/schemas/niCurrentCarrierProperties"
@@ -721,7 +721,7 @@ components:
               example: "0.01500000"
             remaining_balance:
               type: number
-              description: "Your account balance in EUR after this request. Not returned with Number Insight Advanced Async API."
+              description: "Your account balance in EUR after this request."
               example: "1.23456789"
             current_carrier:
               $ref: "#/components/schemas/niCurrentCarrierProperties"
@@ -813,7 +813,7 @@ components:
           example: "0.01500000"
         remaining_balance:
           type: string
-          description: "Your account balance in EUR after this request. Not returned with Number Insight Advanced Async API."
+          description: "Your account balance in EUR after this request."
           example: "1.23456789"
         current_carrier:
           $ref: "#/components/schemas/niCurrentCarrierProperties"

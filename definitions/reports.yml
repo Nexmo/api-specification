@@ -1,28 +1,24 @@
 openapi: "3.0.0"
 info:
-  version: 2.1.7
-  title: Nexmo Reports API
+  version: 2.1.10
+  title: Reports API
   description: |
-    [Nexmo's Reports API](/reports/overview) allows you to request a report of activity on your Nexmo account.
+    The [Reports API](/reports/overview) enables you to request a report of activity for your Vonage account.
 
-    Depending on your query pattern, you can choose from one of the two versions of Reports API: asynchronous and synchronous. Asynchronous version is optimized for infrequent and large data queries (from several records to tens of millions). Synchronous version is optimized for frequent and periodic retrievals of small batches of data records (from one record to tens of thousand per query).
+    Depending on your query pattern, you can choose from one of the two versions of the Reports API: asynchronous and synchronous. The asynchronous version is optimized for infrequent and large data queries (from several records to tens of millions). The synchronous version is optimized for frequent and periodic retrievals of small batches of data records (from one record to tens of thousand per query).
 
     Only synchronous version supports retrival of data records by message/record ID.
 
-    Nexmo recommends to limit asynchronous queries to a maximum of 20 million records, by setting the start and end dates accordingly. On average, the asynchronous Reports API takes 5 - 10 minutes to generate 1 million records.
+    Vonage recommends that you limit asynchronous queries to a maximum of 20 million records, by setting the start and end dates accordingly. On average, the asynchronous Reports API takes 5 - 10 minutes to generate 1 million records.
   contact:
-    name: Nexmo.com
-    email: devrel@nexmo.com
+    name: Vonage DevRel
+    email: devrel@vonage.com
     url: "https://developer.nexmo.com/"
-    x-twitter: Nexmo
   x-label: Beta
   termsOfService: "https://www.nexmo.com/terms-of-use"
   license:
     name: The MIT License (MIT)
     url: "https://opensource.org/licenses/MIT"
-  x-logo:
-    url: "https://twitter.com/Nexmo/profile_image?size=original"
-  x-apiClientRegistration: "https://dashboard.nexmo.com/sign-up"
 servers:
   - url: https://api.nexmo.com
 paths:
@@ -32,7 +28,6 @@ paths:
       summary: Load records synchronously
       description: Fetch usage data synchronously
       security:
-        - bearerAuth: []
         - basicAuth: []
       parameters:
         - name: account_id
@@ -56,6 +51,7 @@ paths:
               - NUMBER-INSIGHT
               - MESSAGES
               - CONVERSATIONS
+              - ASR
           example: SMS
           required: true
         - name: direction
@@ -83,7 +79,7 @@ paths:
           description: |
             ISO-8601 extended time zone offset or ISO-8601 UTC zone offset formatted date (format `yyyy-mm-ddThh:mm:ss[.sss]±hh:mm` or `yyyy-mm-ddThh:mm:ss[.sss]Z`) for when reports should begin. 
 
-            It filters on the time the API call was received by Nexmo and corresponds to the field `date_received` (`date_start` for Voice) in the report file. It is inclusive, i.e. the provided value is less than or equal to the value in the field `date_received` (`date_start` for Voice) in the CDR.
+            It filters on the time the API call was received by Vonage and corresponds to the field `date_received` (`date_start` for Voice) in the report file. It is inclusive, i.e. the provided value is less than or equal to the value in the field `date_received` (`date_start` for Voice) in the CDR.
 
             If you provide this, you must provide `date_end` and must not provide `id`.
           example: "2017-12-01T00:00:00+0000"
@@ -220,7 +216,6 @@ paths:
       summary: List reports
       description: List reports created by the specified account based on filtered provided.
       security:
-        - bearerAuth: []
         - basicAuth: []
       parameters:
         - $ref: "#/components/parameters/account_id"
@@ -257,7 +252,6 @@ paths:
       summary: Create an asynchronous report
       description: Request a report on your account activity
       security:
-        - bearerAuth: []
         - basicAuth: []
       requestBody:
         description: >
@@ -273,6 +267,7 @@ paths:
                 - $ref: "#/components/schemas/NUMBER-INSIGHT"
                 - $ref: "#/components/schemas/MESSAGES"
                 - $ref: "#/components/schemas/CONVERSATIONS"
+                - $ref: "#/components/schemas/ASR"
               discriminator:
                 propertyName: product
       responses:
@@ -290,7 +285,6 @@ paths:
     get:
       operationId: get-report
       security:
-        - bearerAuth: []
         - basicAuth: []
       summary: Get status of report
       description: Retrieve status and metadata about a requested report.
@@ -312,7 +306,6 @@ paths:
     delete:
       operationId: cancel-report
       security:
-        - bearerAuth: []
         - basicAuth: []
       summary: Cancel the execution of a report
       description: Cancel the execution of a pending or processing report.
@@ -335,7 +328,6 @@ paths:
     get:
       operationId: download-report
       security:
-        - bearerAuth: []
         - basicAuth: []
       summary: Get report data
       description: >
@@ -359,10 +351,6 @@ paths:
           $ref: "#/components/responses/404"
 components:
   securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
     basicAuth:
       type: http
       scheme: basic
@@ -392,6 +380,7 @@ components:
               - $ref: "#/components/schemas/number_insight_response_get_report"
               - $ref: "#/components/schemas/messages_response_get_report"
               - $ref: "#/components/schemas/conversations_response_get_report"
+              - $ref: "#/components/schemas/asr_response_get_report"
     report_responses_create_report:
       description: OK
       content:
@@ -404,6 +393,7 @@ components:
               - $ref: "#/components/schemas/number_insight_response_create_report"
               - $ref: "#/components/schemas/messages_response_create_report"
               - $ref: "#/components/schemas/conversations_response_create_report"
+              - $ref: "#/components/schemas/asr_response_create_report"
 
     list_report_response:
       description: OK
@@ -432,6 +422,7 @@ components:
                     - $ref: "#/components/schemas/number_insight_response_get_report"
                     - $ref: "#/components/schemas/messages_response_get_report"
                     - $ref: "#/components/schemas/conversations_response_get_report"
+                    - $ref: "#/components/schemas/asr_response_get_report"
 
     json_record_response:
       description: OK
@@ -539,6 +530,17 @@ components:
                         description: Records in JSON format
                         items:
                           $ref: "#/components/schemas/csv_conversations_ip_voice"
+                          
+              - allOf:
+                  - $ref: "#/components/schemas/report_response_top_level"
+                  - description: ASR
+                    type: object
+                    properties:
+                      records:
+                        type: array
+                        description: Records in JSON format
+                        items:
+                          $ref: "#/components/schemas/csv_asr"
 
     csv_report_response:
       description: Zip file containing CSV files
@@ -561,6 +563,7 @@ components:
                     - $ref: "#/components/schemas/csv_messages_outbound"
                     - $ref: "#/components/schemas/csv_messages_inbound"
                     - $ref: "#/components/schemas/csv_conversations_ip_voice"
+                    - $ref: "#/components/schemas/csv_asr"
 
     400_json:
       description: Bad Request
@@ -727,6 +730,7 @@ components:
         - NUMBER-INSIGHT
         - MESSAGES
         - CONVERSATIONS
+        - ASR
     product_sms:
       type: string
       example: "SMS"
@@ -745,6 +749,9 @@ components:
     product_conversations:
       type: string
       example: "CONVERSATIONS"
+    product_asr:
+      type: string
+      example: "ASR"
     direction:
       type: string
       description: Direction of the communication, either `inbound` (received by our services), or `outbound` (originated from our services). Required for products `SMS` and `MESSAGES`. Optional for `VOICE-CALL`. Invalid for `CONVERSATIONS`, `NUMBER-INSIGHT`, `VERIFY-API`.
@@ -774,7 +781,7 @@ components:
       format: date
       description: >
         ISO-8601 extended time zone offset or ISO-8601 UTC zone offset formatted date (format `yyyy-mm-ddThh:mm:ss[.sss]±hh:mm` or `yyyy-mm-ddThh:mm:ss[.sss]Z`) for when reports 
-        should begin. It filters on the time the API call was received by Nexmo and corresponds to the field `date_received` (`date_start` for Voice) in the report file. It is
+        should begin. It filters on the time the API call was received by Vonage and corresponds to the field `date_received` (`date_start` for Voice) in the report file. It is
         inclusive, i.e. the provided value is less than or equal to the value in the field `date_received` (`date_start` for Voice) in the CDR.<br>If unspecified, defaults 
         to seven days ago.
       example: "2017-12-01T00:00:00+00:00"
@@ -835,6 +842,14 @@ components:
         - rejected
         - cancelled
         - busy
+    asr_status:
+      type: string
+      description: Search only for ASR with corresponding status.
+      example: "ok"
+      enum:
+        - ok
+        - error
+        
     application_id:
       type: string
       description: Search only for requests attached to a particular Application ID.
@@ -1011,6 +1026,10 @@ components:
       type: string
       description: Description of the status of the call.
       example: "The call was successful."
+    asr_status_description:
+      type: string
+      description: ASR error message.
+      example: ""
     date_finalized:
       type: string
       format: date
@@ -1134,6 +1153,7 @@ components:
       type: string
       description: Status of the conversation evnet.
       example: "0"
+    
 
     report_request:
       type: object
@@ -1261,6 +1281,24 @@ components:
         - product
         - account_id
         - direction
+        
+    asr_fields:
+      description: ASR
+      x-tab-id: asr
+      type: object
+      properties:
+        product:
+          $ref: "#/components/schemas/product_asr"
+        direction:
+          $ref: "#/components/schemas/direction"		  
+        from:
+          $ref: "#/components/schemas/from"
+        to:
+          $ref: "#/components/schemas/to"
+        status:
+          $ref: "#/components/schemas/asr_status"
+        
+    
     SMS:
       description: SMS
       x-tab-id: SMS
@@ -1302,6 +1340,13 @@ components:
       allOf:
         - $ref: "#/components/schemas/report_request"
         - $ref: "#/components/schemas/messages_fields"
+    
+    ASR:
+      description: ASR
+      x-tab-id: asr
+      allOf:
+        - $ref: "#/components/schemas/report_request"
+        - $ref: "#/components/schemas/asr_fields"
 
     report_response:
       type: object
@@ -1440,6 +1485,20 @@ components:
       allOf:
         - $ref: "#/components/schemas/report_response_create_report"
         - $ref: "#/components/schemas/messages_fields"
+
+    asr_response_get_report:
+      description: ASR
+      x-tab-id: asr
+      allOf:
+        - $ref: "#/components/schemas/report_response"
+        - $ref: "#/components/schemas/asr_fields"
+
+    asr_response_create_report:
+      description: ASR
+      x-tab-id: asr
+      allOf:
+        - $ref: "#/components/schemas/report_response_create_report"
+        - $ref: "#/components/schemas/asr_fields"
 
     json_sms_outbound_with_body:
       allOf:
@@ -1828,6 +1887,40 @@ components:
           $ref: "#/components/schemas/duration"
         status:
           $ref: "#/components/schemas/ip_voice_status"
+        currency:
+          $ref: "#/components/schemas/currency"
+        price:
+          $ref: "#/components/schemas/price"
+        total_price:
+          $ref: "#/components/schemas/total_price"
+
+    csv_asr:
+      description: ASR
+      x-tab-id: asr
+      type: object
+      properties:
+        account_id:
+          $ref: "#/components/schemas/account_id"
+        call_id:
+          $ref: "#/components/schemas/request_id"
+        direction:
+          $ref: "#/components/schemas/direction"
+        from:
+          $ref: "#/components/schemas/from"
+        to:
+          $ref: "#/components/schemas/to"
+        call_date_start:
+          $ref: "#/components/schemas/call_start_date"
+        date_start:
+          $ref: "#/components/schemas/call_start_date"
+        date_end:
+          $ref: "#/components/schemas/call_end_date"
+        duration:
+          $ref: "#/components/schemas/duration"
+        status:
+          $ref: "#/components/schemas/asr_status"
+        status_description:
+          $ref: "#/components/schemas/asr_status_description"
         currency:
           $ref: "#/components/schemas/currency"
         price:
