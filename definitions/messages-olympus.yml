@@ -1,6 +1,10 @@
 openapi: "3.0.0"
 info:
+<<<<<<< HEAD
   version: 0.3.10
+=======
+  version: 0.3.9
+>>>>>>> master
   title: Messages API
   description: "The Messaging API is a new API that consolidates all messaging channels. It encapsulates a user (developer) from having to use multiple APIs to interact with our various channels such as SMS, MMS, Viber, Facebook Messenger, etc. The API normalises information across all channels to abstracted to, from and content. This API is currently in Beta."
   contact:
@@ -1426,7 +1430,121 @@ components:
         client_ref:
           type: string
           description: The client's reference.
+<<<<<<< HEAD
           example: "my-personal-reference"    
+=======
+          example: "my-personal-reference"
+
+    InboundMessage:
+      type: object
+      required:
+        - message_uuid
+        - to
+        - from
+        - timestamp
+      properties:
+        message_uuid:
+          type: string
+          example: "aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
+          description: The UUID of the message.
+        to:
+          type: object
+          required:
+            - type
+          properties:
+            type:
+              type: string
+              description: The type of message being received.
+              example: messenger
+              enum:
+                - messenger
+                - mms
+                - whatsapp
+                - viber_service_msg
+            id:
+              type: string
+              example: "01234567"
+              description: |
+                **Messenger** or **Viber**: 
+                The ID of the recipient.
+            number:
+              type: string
+              minLength: 1
+              maxLength: 50
+              example: "447700900000"
+              description: |
+                **WhatsApp** or **MMS**: 
+                The phone number of the message recipient in the [E.164](https://en.wikipedia.org/wiki/E.164) format.
+        from:
+          type: object
+          required:
+            - type
+          properties:
+            type:
+              type: string
+              description: The type of message being sent.
+              example: messenger
+              enum:
+                - messenger
+                - mms
+                - whatsapp
+                - viber_service_msg
+            id:
+              type: string
+              description: The ID of the sender.
+              example: "0123456789012345"
+            number:
+              type: string
+              minLength: 1
+              maxLength: 50
+              example: "447700900000"
+              description: |
+                **WhatsApp** or **MMS** or **Viber**:
+                The phone number of the message sender in the [E.164](https://en.wikipedia.org/wiki/E.164) format.
+        timestamp:
+          type: string
+          format: ISO 8601
+          description: The datetime of when the event occurred.
+          example: "2020-01-01T14:00:00.000Z"
+        message:
+          type: object
+          properties:
+            content:
+              type: object
+              properties:
+                type:
+                  type: string
+                  description: |
+                    The type of message being received. 
+                    **whatsapp** and **messenger** supports `text`, `image`, `audio`, `video`, `file` and `location`. WhatsApp maximum inbound size is 64mb.
+                    **mms** supports `image`.
+                    **viber** supports `text`.
+                    <br\>The type will be set to `unsupported` if a message is received that is of an unsupported type (e.g. WhatsApp Stickers.)
+                  example: "text"
+                  enum:
+                    - text
+                    - image
+                    - audio
+                    - video
+                    - file
+                    - location
+                    - unsupported
+                text:
+                  type: string
+                  description: The body of the message.
+                  example: "Hello World!"
+                image:
+                  $ref: "#/components/schemas/ImageProperty"
+                audio:
+                  $ref: "#/components/schemas/AudioProperty"
+                video:
+                  $ref: "#/components/schemas/VideoPropertyInbound"
+                file:
+                  $ref: "#/components/schemas/FileProperty"
+                location:
+                  $ref: "#/components/schemas/LocationProperty"
+
+>>>>>>> master
     ToProperty:
       type: object
       required:
