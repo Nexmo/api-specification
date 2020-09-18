@@ -38,31 +38,7 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  page_size:
-                    type: integer
-                    example: 10
-                    description: The number of applications per page
-                  page:
-                    type: integer
-                    example: 1
-                    description: The current page number (starts at 1)
-                  total_items:
-                    type: integer
-                    example: 6
-                    description: The total number of applications
-                  total_pages:
-                    type: integer
-                    example: 1
-                    description: The total number of pages returned
-                  _embedded:
-                    type: object
-                    description: A list of applications matching your existing filters
-                    properties:
-                      applications:
-                        type: array
-                        items:
-                          $ref: "#/components/schemas/ApplicationResponse"
+                $ref: "#/components/schemas/ApplicationResponseCollection"
         "400":
           description: Invalid Request
           content:
@@ -574,6 +550,33 @@ components:
                 $ref: "common/common_errors.yml#/components/fields/instance"
 
   schemas:
+    ApplicationResponseCollection:
+      properties:
+        page_size:
+          type: integer
+          example: 10
+          description: The number of applications per page
+        page:
+          type: integer
+          example: 1
+          description: The current page number (starts at 1)
+        total_items:
+          type: integer
+          example: 6
+          description: The total number of applications
+        total_pages:
+          type: integer
+          example: 1
+          description: The total number of pages returned
+        _embedded:
+          type: object
+          description: A list of applications matching your existing filters
+          properties:
+            applications:
+              type: array
+              items:
+                $ref: "#/components/schemas/ApplicationResponse"
+
     ApplicationResponse:
       properties:
         id:
