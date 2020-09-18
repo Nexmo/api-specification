@@ -4,11 +4,11 @@ info:
   version: 2.0.5
   title: "Application API"
   description: |
-    Nexmo provides an Application API to allow management of your Nexmo Applications.
+    Vonage provides an Application API to allow management of your Vonage Applications.
 
     This API is backwards compatible with version 1. Applications created using version 1 of the API can also be managed using version 2 (this version) of the API.
   contact:
-    name: Nexmo
+    name: Vonage
     url: "https://developer.nexmo.com/"
     email: devrel@nexmo.com
 servers:
@@ -120,7 +120,7 @@ paths:
                           properties:
                             answer_url:
                               type: object
-                              description: "The URL that Nexmo make a request to when a call is placed/received. Must return an NCCO"
+                              description: "The URL that Vonage makes a request to when a call is placed/received. Must return an NCCO"
                               x-nexmo-developer-collection-description-shown: true
                               properties:
                                 address:
@@ -135,7 +135,7 @@ paths:
                             fallback_answer_url:
                               type: object
                               description: |
-                                If your `answer_url` is offline or returns a HTTP error code, Nexmo will make a request to a
+                                If your `answer_url` is offline or returns a HTTP error code, Vonage will make a request to a
                                 `fallback_answer_url` if it is set. This URL must return an NCCO.
                               x-nexmo-developer-collection-description-shown: true
                               properties:
@@ -150,7 +150,7 @@ paths:
                                     - POST
                             event_url:
                               type: object
-                              description: "Nexmo will send call events (e.g. `ringing`, `answered`) to this URL"
+                              description: "Vonage will send call events (e.g. `ringing`, `answered`) to this URL"
                               x-nexmo-developer-collection-description-shown: true
                               properties:
                                 address:
@@ -172,7 +172,7 @@ paths:
                           properties:
                             event_url:
                               type: object
-                              description: "Nexmo will send RTC events to this URL"
+                              description: "Vonage will send RTC events to this URL"
                               x-nexmo-developer-collection-description-shown: true
                               properties:
                                 address:
@@ -194,7 +194,7 @@ paths:
                           properties:
                             inbound_url:
                               type: object
-                              description: "Nexmo will forward inbound messages to this URL"
+                              description: "Vonage will forward inbound messages to this URL"
                               x-nexmo-developer-collection-description-shown: true
                               properties:
                                 address:
@@ -207,7 +207,7 @@ paths:
                                     - POST
                             status_url:
                               type: object
-                              description: "Nexmo will send message status updates (e.g. `delivered`, `seen`) to this URL"
+                              description: "Vonage will send message status updates (e.g. `delivered`, `seen`) to this URL"
                               x-nexmo-developer-collection-description-shown: true
                               properties:
                                 address:
@@ -345,7 +345,7 @@ paths:
                           properties:
                             answer_url:
                               type: object
-                              description: "The URL that Nexmo make a request to when a call is placed/received. Must return an NCCO"
+                              description: "The URL that Vonage make a request to when a call is placed/received. Must return an NCCO"
                               x-nexmo-developer-collection-description-shown: true
                               properties:
                                 address:
@@ -360,7 +360,7 @@ paths:
                             fallback_answer_url:
                               type: object
                               description: |
-                                If your `answer_url` is offline or returns a HTTP error code, Nexmo will make a request to a
+                                If your `answer_url` is offline or returns a HTTP error code, Vonage will make a request to a
                                 `fallback_answer_url` if it is set. This URL must return an NCCO
                               x-nexmo-developer-collection-description-shown: true
                               properties:
@@ -376,7 +376,7 @@ paths:
 
                             event_url:
                               type: object
-                              description: "Nexmo will send call events (e.g. `ringing`, `answered`) to this URL"
+                              description: "Vonage will send call events (e.g. `ringing`, `answered`) to this URL"
                               x-nexmo-developer-collection-description-shown: true
                               properties:
                                 address:
@@ -398,7 +398,7 @@ paths:
                           properties:
                             event_url:
                               type: object
-                              description: "Nexmo will send RTC events to this URL"
+                              description: "Vonage will send RTC events to this URL"
                               x-nexmo-developer-collection-description-shown: true
                               properties:
                                 address:
@@ -420,7 +420,7 @@ paths:
                           properties:
                             inbound_url:
                               type: object
-                              description: "Nexmo will forward inbound messages to this URL"
+                              description: "Vonage will forward inbound messages to this URL"
                               x-nexmo-developer-collection-description-shown: true
                               properties:
                                 address:
@@ -433,7 +433,7 @@ paths:
                                     - POST
                             status_url:
                               type: object
-                              description: "Nexmo will send message status updates (e.g. `delivered`, `seen`) to this URL"
+                              description: "Vonage will send message status updates (e.g. `delivered`, `seen`) to this URL"
                               x-nexmo-developer-collection-description-shown: true
                               properties:
                                 address:
@@ -604,7 +604,7 @@ components:
                         address:
                           type: string
                           example: https://example.com/webhooks/answer
-                          description: The URL that Nexmo requests when a call is placed/received. Must return an NCCO
+                          description: The URL that Vonage requests when a call is placed/received. Must return an NCCO
                         http_method:
                           type: string
                           example: POST
@@ -616,7 +616,7 @@ components:
                           type: string
                           example: https://fallback.example.com/webhooks/answer
                           description: |
-                            If your `answer_url` is offline or returns a HTTP error code, Nexmo will make a request to a
+                            If your `answer_url` is offline or returns a HTTP error code, Vonage will make a request to a
                             `fallback_answer_url` if it is set. This URL must return an NCCO.
                         http_method:
                           type: string
@@ -628,7 +628,7 @@ components:
                         address:
                           type: string
                           example: https://example.com/webhooks/event
-                          description: The URL that Nexmo sends events related to your call to
+                          description: The URL that Vonage sends events related to your call to
                         http_method:
                           type: string
                           example: POST
@@ -646,7 +646,7 @@ components:
                         address:
                           type: string
                           example: https://example.com/webhooks/inbound
-                          description: The URL that Nexmo forwards inbound messages to on your server
+                          description: The URL that Vonage forwards inbound messages to on your server
                         http_method:
                           type: string
                           example: POST
@@ -657,7 +657,7 @@ components:
                         address:
                           type: string
                           example: https://example.com/webhooks/status
-                          description: The URL that Nexmo sends events related to your messages to
+                          description: The URL that Vonage sends events related to your messages to
                         http_method:
                           type: string
                           example: POST
