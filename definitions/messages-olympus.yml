@@ -158,13 +158,7 @@ components:
               allOf:
                 - $ref: "#/components/schemas/inbound-common"
                 - $ref: "#/components/schemas/channelOptionsViberCommon"
-                - $ref: "#/components/schemas/textMessageViberInbound"
-            - title: Image
-              x-tab-id: image
-              allOf:
-                - $ref: "#/components/schemas/inbound-common"
-                - $ref: "#/components/schemas/channelOptionsViberCommon"
-                - $ref: "#/components/schemas/imageMessageViberInbound"            
+                - $ref: "#/components/schemas/textMessageViberInbound"                     
             - title: Unsupported
               x-tab-id: unsupported
               allOf:
