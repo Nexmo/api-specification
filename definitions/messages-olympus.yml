@@ -99,11 +99,7 @@ components:
           description: The datetime of when the event occurred.
           example: "2020-01-01T14:00:00.000Z"   
     inbound-message:
-      oneOf:
-        - title: SMS
-          x-tab-id: SMS
-          allOf:
-            - $ref: "#/components/schemas/SmsCommon"  
+      oneOf:        
         - title: WhatsApp
           x-tab-id: WhatsApp
           oneOf:                    
