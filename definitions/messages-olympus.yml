@@ -12,7 +12,7 @@ servers:
   - url: https://api.nexmo.com/v0.1/messages
 paths:
   /:
-    post: 
+    post:      
       description: Send a Message over SMS, WhatsApp, Viber, Facebook Messenger, or MMS
       security:
         - bearerAuth: []
@@ -253,12 +253,7 @@ components:
               x-tab-id: file
               allOf:
                 - $ref: "#/components/schemas/channelOptionsWhatsapp"
-                - $ref: "#/components/schemas/fileMessageWhatsApp"
-            - title: Location
-              x-tab-id: location
-              allOf:
-                - $ref: "#/components/schemas/channelOptionsWhatsapp"
-                - $ref: "#/components/schemas/locationMessageWhatsApp"                
+                - $ref: "#/components/schemas/fileMessageWhatsApp"                          
         - title: Viber
           x-tab-id: Viber
           oneOf:
