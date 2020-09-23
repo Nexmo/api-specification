@@ -12,9 +12,7 @@ servers:
   - url: https://api.nexmo.com/v0.1/messages
 paths:
   /:
-    post:
-      tags:
-        - Message
+    post: 
       description: Send a Message over SMS, WhatsApp, Viber, Facebook Messenger, or MMS
       security:
         - bearerAuth: []
@@ -114,13 +112,7 @@ components:
               allOf:
                 - $ref: "#/components/schemas/inbound-common"
                 - $ref: "#/components/schemas/channelOptionsWhatsappCommon"
-                - $ref: "#/components/schemas/textMessageWhatsApp"
-            - title: Template
-              x-tab-id: template
-              allOf:
-                - $ref: "#/components/schemas/inbound-common"
-                - $ref: "#/components/schemas/channelOptionsWhatsappCommon"
-                - $ref: "#/components/schemas/templateMessageWhatsAppInbound"
+                - $ref: "#/components/schemas/textMessageWhatsApp"            
             - title: Image
               x-tab-id: image
               allOf:
@@ -172,13 +164,7 @@ components:
               allOf:
                 - $ref: "#/components/schemas/inbound-common"
                 - $ref: "#/components/schemas/channelOptionsViberCommon"
-                - $ref: "#/components/schemas/imageMessageViberInbound"
-            - title: Template
-              x-tab-id: template
-              allOf:
-                - $ref: "#/components/schemas/inbound-common"
-                - $ref: "#/components/schemas/channelOptionsViberCommon"
-                - $ref: "#/components/schemas/templateMessageViber"
+                - $ref: "#/components/schemas/imageMessageViberInbound"            
             - title: Unsupported
               x-tab-id: unsupported
               allOf:
@@ -1501,10 +1487,6 @@ components:
       format: ISO 8601
       description: The datetime of when the event occurred.
       example: "2020-01-01T14:00:00.000Z"
-
-tags:
-  - name: Message
-    description: Send messages with different media types over different channels including SMS, WhatsApp, Viber, Facebook Messenger, and MMS.
 x-errors:
   "1000":
     description: Throttled - You have exceeded the submission capacity allowed on this account. Please wait and retry
