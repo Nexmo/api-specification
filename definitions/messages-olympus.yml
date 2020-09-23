@@ -153,13 +153,13 @@ components:
               x-tab-id: text
               allOf:
                 - $ref: "#/components/schemas/inbound-common"
-                - $ref: "#/components/schemas/channelOptionsViberCommon"
+                - $ref: "#/components/schemas/channelOptionsInboundViberCommon"
                 - $ref: "#/components/schemas/textMessageViberInbound"                     
             - title: Unsupported
               x-tab-id: unsupported
               allOf:
                 - $ref: "#/components/schemas/inbound-common"
-                - $ref: "#/components/schemas/channelOptionsViberCommon"
+                - $ref: "#/components/schemas/channelOptionsInboundViberCommon"
                 - $ref: "#/components/schemas/unsupportedMessage"
         - title: Facebook Messenger
           x-tab-id: Messenger
@@ -1262,6 +1262,45 @@ components:
             client_ref:
               $ref: "#/components/schemas/client_ref"
         - $ref: "#/components/schemas/SmsCommon"
+    channelOptionsInboundViberCommon:
+      required:
+        - to
+        - from
+      type: object
+      properties:
+        to:
+          required:
+            - type
+            - id
+          type: object
+          properties:
+            type:
+              type: string
+              description: The channel you are sending to
+              example: viber_service_msg
+              enum:
+                - viber_service_msg
+            id:
+              type: string
+              description: This is your Service Message ID given to you by Nexmo Account Manager. To find out more please visit [nexmo.com/products/messages](https://www.vonage.com/communications-apis/messages/).
+              example: '654321'
+        from:
+          required:
+            - type
+            - number
+          type: object
+          properties:
+            type:
+              type: string
+              description: The channel your message will be coming from.
+              example: viber_service_msg
+              enum:
+                - viber_service_msg
+            number:
+              type: string
+              example: '447700900000'
+              description: |
+                The Viber number of the message recipient in the [E.164](https://en.wikipedia.org/wiki/E.164) format. Don't use a leading + or 00 when entering a phone number, start with the country code, for example, 447700900000.            
     channelOptionsViberCommon:
       required:
         - to
