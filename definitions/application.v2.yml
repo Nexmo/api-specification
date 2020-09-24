@@ -66,7 +66,7 @@ paths:
                           type: string
                           example: must be between 1 and 100
                   instance:
-                    $ref: "common/common_errors.yml#/components/fields/instance"
+                    $ref: "common/common_errors.yml#/components/schemas/instance"
         "401":
           $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
         "405":
@@ -277,7 +277,7 @@ paths:
         in: path
         required: true
         description: The ID of the application
-        example: 78d335fa323d01149c3dd6f0d48968cf
+        example: 78d335fa-323d-0114-9c3d-d6f0d48968cf
         schema:
           type: string
     get:
@@ -547,7 +547,7 @@ components:
                       type: string
                       example: "must be one of: GET, POST"
               instance:
-                $ref: "common/common_errors.yml#/components/fields/instance"
+                $ref: "common/common_errors.yml#/components/schemas/instance"
 
   schemas:
     ApplicationResponseCollection:
@@ -581,7 +581,7 @@ components:
       properties:
         id:
           type: string
-          example: 78d335fa323d01149c3dd6f0d48968cf
+          example: 78d335fa-323d-0114-9c3d-d6f0d48968cf
           description: The application's ID
         name:
           type: string
