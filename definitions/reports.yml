@@ -433,6 +433,7 @@ components:
               - allOf:
                   - $ref: "#/components/schemas/report_response_top_level"
                   - description: SMS (Outbound)
+                    x-tab-id: sms-outbound
                     type: object
                     properties:
                       product:
@@ -461,6 +462,7 @@ components:
               - allOf:
                   - $ref: "#/components/schemas/report_response_top_level"
                   - description: SMS (Inbound)
+                    x-tab-id: sms-inbound
                     type: object
                     properties:
                       product:
@@ -509,6 +511,7 @@ components:
               - allOf:
                   - $ref: "#/components/schemas/report_response_top_level"
                   - description: Verify
+                    x-tab-id: verify
                     type: object
                     properties:
                       product:
@@ -526,6 +529,7 @@ components:
               - allOf:
                   - $ref: "#/components/schemas/report_response_top_level"
                   - description: Number Insight
+                    x-tab-id: number-insight
                     type: object
                     properties:
                       product:
@@ -543,6 +547,7 @@ components:
               - allOf:
                   - $ref: "#/components/schemas/report_response_top_level"
                   - description: Messages (Outbound)
+                    x-tab-id: messages-outbound
                     type: object
                     properties:
                       product:
@@ -571,6 +576,7 @@ components:
               - allOf:
                   - $ref: "#/components/schemas/report_response_top_level"
                   - description: Messages (Inbound)
+                    x-tab-id: messages-inbound
                     type: object
                     properties:
                       product:
@@ -599,6 +605,7 @@ components:
               - allOf:
                   - $ref: "#/components/schemas/report_response_top_level"
                   - description: IP Voice
+                    x-tab-id: ip-voice
                     type: object
                     properties:
                       product:
@@ -616,6 +623,7 @@ components:
               - allOf:
                   - $ref: "#/components/schemas/report_response_top_level"
                   - description: ASR
+                    x-tab-id: asr-tab
                     type: object
                     properties:
                       product:
