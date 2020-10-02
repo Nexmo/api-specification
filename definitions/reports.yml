@@ -1,6 +1,6 @@
 openapi: "3.0.0"
 info:
-  version: 2.1.10
+  version: 2.1.11
   title: Reports API
   description: |
     The [Reports API](/reports/overview) enables you to request a report of activity for your Vonage account.
@@ -435,25 +435,37 @@ components:
                   - description: SMS (Outbound)
                     type: object
                     properties:
+                      product:
+                        $ref: "#/components/schemas/product_sms"  
                       include_message:
                         type: boolean
                         description: Include the text of messages in the report.
                         example: "true"
+                      items_count:
+                        type: integer
+                        description: The number of returned records
+                        example: 1
                       records:
                         type: array
                         description: Records in JSON format
                         items:
                           $ref: "#/components/schemas/json_sms_outbound_with_body"
-
+ 
               - allOf:
                   - $ref: "#/components/schemas/report_response_top_level"
                   - description: SMS (Inbound)
                     type: object
                     properties:
+                      product:
+                        $ref: "#/components/schemas/product_sms"  
                       include_message:
                         type: boolean
                         description: Include the text of messages in the report.
                         example: "true"
+                      items_count:
+                        type: integer
+                        description: The number of returned records
+                        example: 1
                       records:
                         type: array
                         description: Records in JSON format
@@ -466,6 +478,12 @@ components:
                     x-tab-id: voice-call
                     type: object
                     properties:
+                      product:
+                        $ref: "#/components/schemas/product_voice"  
+                      items_count:
+                        type: integer
+                        description: The number of returned records
+                        example: 1
                       records:
                         type: array
                         description: Records in JSON format
@@ -477,6 +495,12 @@ components:
                   - description: Verify
                     type: object
                     properties:
+                      product:
+                        $ref: "#/components/schemas/product_verify"  
+                      items_count:
+                        type: integer
+                        description: The number of returned records
+                        example: 1
                       records:
                         type: array
                         description: Records in JSON format
@@ -488,6 +512,12 @@ components:
                   - description: Number Insight
                     type: object
                     properties:
+                      product:
+                        $ref: "#/components/schemas/product_ni"  
+                      items_count:
+                        type: integer
+                        description: The number of returned records
+                        example: 1
                       records:
                         type: array
                         description: Records in JSON format
@@ -499,10 +529,16 @@ components:
                   - description: Messages (Outbound)
                     type: object
                     properties:
+                      product:
+                        $ref: "#/components/schemas/product_messages"  
                       include_message:
                         type: boolean
                         description: Include the text of messages in the report.
                         example: "true"
+                      items_count:
+                        type: integer
+                        description: The number of returned records
+                        example: 1
                       records:
                         type: array
                         description: Records in JSON format
@@ -514,6 +550,12 @@ components:
                   - description: Messages (Inbound)
                     type: object
                     properties:
+                      product:
+                        $ref: "#/components/schemas/product_messages"  
+                      items_count:
+                        type: integer
+                        description: The number of returned records
+                        example: 1
                       records:
                         type: array
                         description: Records in JSON format
@@ -525,6 +567,12 @@ components:
                   - description: IP Voice
                     type: object
                     properties:
+                      product:
+                        $ref: "#/components/schemas/product_conversations"  
+                      items_count:
+                        type: integer
+                        description: The number of returned records
+                        example: 1
                       records:
                         type: array
                         description: Records in JSON format
@@ -536,6 +584,12 @@ components:
                   - description: ASR
                     type: object
                     properties:
+                      product:
+                        $ref: "#/components/schemas/product_asr"  
+                      items_count:
+                        type: integer
+                        description: The number of returned records
+                        example: 1
                       records:
                         type: array
                         description: Records in JSON format
@@ -698,26 +752,9 @@ components:
           $ref: "#/components/schemas/price"
         currency:
           $ref: "#/components/schemas/currency"
-        direction:
-          $ref: "#/components/schemas/direction"
-        product:
-          $ref: "#/components/schemas/product"
         account_id:
           $ref: "#/components/schemas/account_id"
-        date_start:
-          $ref: "#/components/schemas/date_start"
-        date_end:
-          $ref: "#/components/schemas/date_end"
-        include_message:
-          type: boolean
-          description: Include the text of messages in the report.
-          example: "false"
-          default: false
-        items_count:
-          type: integer
-          description: The number of returned records
-          example: 2
-
+ 
     # request fields
     product:
       type: string
@@ -1290,7 +1327,7 @@ components:
         product:
           $ref: "#/components/schemas/product_asr"
         direction:
-          $ref: "#/components/schemas/direction"		  
+          $ref: "#/components/schemas/direction"      
         from:
           $ref: "#/components/schemas/from"
         to:
