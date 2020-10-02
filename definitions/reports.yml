@@ -437,6 +437,13 @@ components:
                     properties:
                       product:
                         $ref: "#/components/schemas/product_sms"  
+                      direction:
+                        type: string
+                        description: Direction of the communication, either `inbound` (received by our services), or `outbound` (originated from our services). Required for products `SMS` and `MESSAGES`. Optional for `VOICE-CALL`. Invalid for `CONVERSATIONS`, `NUMBER-INSIGHT`, `VERIFY-API`.
+                        enum:
+                          - inbound
+                          - outbound  
+                        example: "outbound"
                       include_message:
                         type: boolean
                         description: Include the text of messages in the report.
@@ -458,6 +465,13 @@ components:
                     properties:
                       product:
                         $ref: "#/components/schemas/product_sms"  
+                      direction:
+                        type: string
+                        description: Direction of the communication, either `inbound` (received by our services), or `outbound` (originated from our services). Required for products `SMS` and `MESSAGES`. Optional for `VOICE-CALL`. Invalid for `CONVERSATIONS`, `NUMBER-INSIGHT`, `VERIFY-API`.
+                        enum:
+                          - inbound
+                          - outbound  
+                        example: "inbound"
                       include_message:
                         type: boolean
                         description: Include the text of messages in the report.
@@ -479,7 +493,9 @@ components:
                     type: object
                     properties:
                       product:
-                        $ref: "#/components/schemas/product_voice"  
+                        $ref: "#/components/schemas/product_voice"
+                      direction:
+                        $ref: "#/components/schemas/direction"
                       items_count:
                         type: integer
                         description: The number of returned records
@@ -531,6 +547,13 @@ components:
                     properties:
                       product:
                         $ref: "#/components/schemas/product_messages"  
+                      direction:
+                        type: string
+                        description: Direction of the communication, either `inbound` (received by our services), or `outbound` (originated from our services). Required for products `SMS` and `MESSAGES`. Optional for `VOICE-CALL`. Invalid for `CONVERSATIONS`, `NUMBER-INSIGHT`, `VERIFY-API`.
+                        enum:
+                          - inbound
+                          - outbound  
+                        example: "outbound"
                       include_message:
                         type: boolean
                         description: Include the text of messages in the report.
@@ -552,6 +575,17 @@ components:
                     properties:
                       product:
                         $ref: "#/components/schemas/product_messages"  
+                      direction:
+                        type: string
+                        description: Direction of the communication, either `inbound` (received by our services), or `outbound` (originated from our services). Required for products `SMS` and `MESSAGES`. Optional for `VOICE-CALL`. Invalid for `CONVERSATIONS`, `NUMBER-INSIGHT`, `VERIFY-API`.
+                        enum:
+                          - inbound
+                          - outbound  
+                        example: "inbound"
+                      include_message:
+                        type: boolean
+                        description: Include the text of messages in the report.
+                        example: "true"
                       items_count:
                         type: integer
                         description: The number of returned records
@@ -759,7 +793,6 @@ components:
     product:
       type: string
       description: Which product you wish to generate a report for.
-      example: "SMS"
       enum:
         - SMS
         - VOICE-CALL
@@ -770,31 +803,94 @@ components:
         - ASR
     product_sms:
       type: string
+      description: Which product you wish to generate a report for.
+      enum:
+        - SMS
+        - VOICE-CALL
+        - VERIFY-API
+        - NUMBER-INSIGHT
+        - MESSAGES
+        - CONVERSATIONS
+        - ASR
       example: "SMS"
     product_voice:
       type: string
+      description: Which product you wish to generate a report for.
+      enum:
+        - SMS
+        - VOICE-CALL
+        - VERIFY-API
+        - NUMBER-INSIGHT
+        - MESSAGES
+        - CONVERSATIONS
+        - ASR
       example: "VOICE-CALL"
     product_verify:
       type: string
+      description: Which product you wish to generate a report for.
+      enum:
+        - SMS
+        - VOICE-CALL
+        - VERIFY-API
+        - NUMBER-INSIGHT
+        - MESSAGES
+        - CONVERSATIONS
+        - ASR
       example: "VERIFY-API"
     product_ni:
       type: string
+      description: Which product you wish to generate a report for.
+      enum:
+        - SMS
+        - VOICE-CALL
+        - VERIFY-API
+        - NUMBER-INSIGHT
+        - MESSAGES
+        - CONVERSATIONS
+        - ASR
       example: "NUMBER-INSIGHT"
     product_messages:
       type: string
+      description: Which product you wish to generate a report for.
+      enum:
+        - SMS
+        - VOICE-CALL
+        - VERIFY-API
+        - NUMBER-INSIGHT
+        - MESSAGES
+        - CONVERSATIONS
+        - ASR
       example: "MESSAGES"
     product_conversations:
       type: string
+      description: Which product you wish to generate a report for.
+      enum:
+        - SMS
+        - VOICE-CALL
+        - VERIFY-API
+        - NUMBER-INSIGHT
+        - MESSAGES
+        - CONVERSATIONS
+        - ASR
       example: "CONVERSATIONS"
     product_asr:
       type: string
+      description: Which product you wish to generate a report for.
+      enum:
+        - SMS
+        - VOICE-CALL
+        - VERIFY-API
+        - NUMBER-INSIGHT
+        - MESSAGES
+        - CONVERSATIONS
+        - ASR
       example: "ASR"
     direction:
       type: string
       description: Direction of the communication, either `inbound` (received by our services), or `outbound` (originated from our services). Required for products `SMS` and `MESSAGES`. Optional for `VOICE-CALL`. Invalid for `CONVERSATIONS`, `NUMBER-INSIGHT`, `VERIFY-API`.
       enum:
         - inbound
-        - outbound
+        - outbound  
       example: "outbound"
     account_id:
       type: string
