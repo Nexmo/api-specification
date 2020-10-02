@@ -801,6 +801,7 @@ components:
         - MESSAGES
         - CONVERSATIONS
         - ASR
+      example: "SMS"  
     product_sms:
       type: string
       description: Which product you wish to generate a report for.
