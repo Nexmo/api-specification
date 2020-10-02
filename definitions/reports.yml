@@ -605,7 +605,7 @@ components:
               - allOf:
                   - $ref: "#/components/schemas/report_response_top_level"
                   - description: IP Voice
-                    x-tab-id: ip-voice
+                    x-tab-id: conversations
                     type: object
                     properties:
                       product:
@@ -623,7 +623,7 @@ components:
               - allOf:
                   - $ref: "#/components/schemas/report_response_top_level"
                   - description: ASR
-                    x-tab-id: asr-tab
+                    x-tab-id: asr
                     type: object
                     properties:
                       product:
