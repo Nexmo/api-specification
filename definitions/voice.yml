@@ -1,7 +1,7 @@
 ---
 openapi: 3.0.0
 info:
-  version: 1.3.4
+  version: 1.3.5
   title: Voice API
   description:
     The Voice API lets you create outbound calls, control in-progress calls
@@ -975,7 +975,7 @@ components:
       default: 0
       
     voice_name:
-      description: The voice & language to use
+      description: <strong>DEPRECATED</strong> The voice & language to use
       type: string
       deprecated: true
       default: Kimberly
