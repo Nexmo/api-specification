@@ -323,6 +323,8 @@ components:
           $ref: "#/components/schemas/language"
         style:
           $ref: "#/components/schemas/style"
+        voice_name:
+          $ref: "#/components/schemas/voice_name"
         loop:
           type: integer
           description: The number of times to repeat the text the file, 0
@@ -972,6 +974,108 @@ components:
       type: integer
       default: 0
       
+    voice_name:
+      description: The voice & language to use
+      type: string
+      deprecated: true
+      default: Kimberly
+      enum:
+        - Aditi
+        - Agnieszka
+        - Alva
+        - Amy
+        - Astrid
+        - Bianca
+        - Brian
+        - Carla
+        - Carmen
+        - Carmit
+        - Catarina
+        - Celine
+        - Cem
+        - Chantal
+        - Chipmunk
+        - Conchita
+        - Cristiano
+        - Damayanti
+        - Dora
+        - Emma
+        - Empar
+        - Enrique
+        - Eric
+        - Ewa
+        - Felipe
+        - Filiz
+        - Geraint
+        - Giorgio
+        - Gwyneth
+        - Hans
+        - Henrik
+        - Ines
+        - Ioana
+        - Iveta
+        - Ivy
+        - Jacek
+        - Jan
+        - Jennifer
+        - Joana
+        - Joanna
+        - Joey
+        - Jordi
+        - Justin
+        - Kanya
+        - Karl
+        - Kendra
+        - Kimberly
+        - Laila
+        - Laura
+        - Lea
+        - Lekha
+        - Liv
+        - Lotte
+        - Lucia
+        - Luciana
+        - Mads
+        - Maged
+        - Maja
+        - Mariska
+        - Marlene
+        - Mathieu
+        - Matthew
+        - Maxim
+        - Mei-Jia
+        - Melina
+        - Mia
+        - Miguel
+        - Miren
+        - Mizuki
+        - Montserrat
+        - Naja
+        - Nicole
+        - Nikos
+        - Nora
+        - Oskar
+        - Penelope
+        - Raveena
+        - Ricardo
+        - Ruben
+        - Russell
+        - Salli
+        - Satu
+        - Seoyeon
+        - Sin-Ji
+        - Sora
+        - Takumi
+        - Tarik
+        - Tatyana
+        - Tessa
+        - Tian-Tian
+        - Vicki
+        - Vitoria
+        - Yelda
+        - Zeina
+        - Zhiyu
+        - Zuzana
 
 tags:
   - name: Calls
