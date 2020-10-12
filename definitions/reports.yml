@@ -1,6 +1,6 @@
 openapi: "3.0.0"
 info:
-  version: 2.1.10
+  version: 2.1.12
   title: Reports API
   description: |
     The [Reports API](/reports/overview) enables you to request a report of activity for your Vonage account.
@@ -28,7 +28,6 @@ paths:
       summary: Load records synchronously
       description: Fetch usage data synchronously
       security:
-        - bearerAuth: []
         - basicAuth: []
       parameters:
         - name: account_id
@@ -218,7 +217,6 @@ paths:
       summary: List reports
       description: List reports created by the specified account based on filtered provided.
       security:
-        - bearerAuth: []
         - basicAuth: []
       parameters:
         - $ref: "#/components/parameters/account_id"
@@ -255,7 +253,6 @@ paths:
       summary: Create an asynchronous report
       description: Request a report on your account activity
       security:
-        - bearerAuth: []
         - basicAuth: []
       requestBody:
         description: >
@@ -290,7 +287,6 @@ paths:
     get:
       operationId: get-report
       security:
-        - bearerAuth: []
         - basicAuth: []
       summary: Get status of report
       description: Retrieve status and metadata about a requested report.
@@ -312,7 +308,6 @@ paths:
     delete:
       operationId: cancel-report
       security:
-        - bearerAuth: []
         - basicAuth: []
       summary: Cancel the execution of a report
       description: Cancel the execution of a pending or processing report.
@@ -335,7 +330,6 @@ paths:
     get:
       operationId: download-report
       security:
-        - bearerAuth: []
         - basicAuth: []
       summary: Get report data
       description: >
@@ -359,10 +353,6 @@ paths:
           $ref: "#/components/responses/404"
 components:
   securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
     basicAuth:
       type: http
       scheme: basic
@@ -448,27 +438,55 @@ components:
               - allOf:
                   - $ref: "#/components/schemas/report_response_top_level"
                   - description: SMS (Outbound)
+                    x-tab-id: sms-outbound
                     type: object
                     properties:
+                      product:
+                        $ref: "#/components/schemas/product_sms"  
+                      direction:
+                        type: string
+                        description: Direction of the communication, either `inbound` (received by our services), or `outbound` (originated from our services). Required for products `SMS` and `MESSAGES`. Optional for `VOICE-CALL`. Invalid for `CONVERSATIONS`, `NUMBER-INSIGHT`, `VERIFY-API`.
+                        enum:
+                          - inbound
+                          - outbound  
+                        example: "outbound"
                       include_message:
                         type: boolean
                         description: Include the text of messages in the report.
                         example: "true"
+                      items_count:
+                        type: integer
+                        description: The number of returned records
+                        example: 1
                       records:
                         type: array
                         description: Records in JSON format
                         items:
                           $ref: "#/components/schemas/json_sms_outbound_with_body"
-
+ 
               - allOf:
                   - $ref: "#/components/schemas/report_response_top_level"
                   - description: SMS (Inbound)
+                    x-tab-id: sms-inbound
                     type: object
                     properties:
+                      product:
+                        $ref: "#/components/schemas/product_sms"  
+                      direction:
+                        type: string
+                        description: Direction of the communication, either `inbound` (received by our services), or `outbound` (originated from our services). Required for products `SMS` and `MESSAGES`. Optional for `VOICE-CALL`. Invalid for `CONVERSATIONS`, `NUMBER-INSIGHT`, `VERIFY-API`.
+                        enum:
+                          - inbound
+                          - outbound  
+                        example: "inbound"
                       include_message:
                         type: boolean
                         description: Include the text of messages in the report.
                         example: "true"
+                      items_count:
+                        type: integer
+                        description: The number of returned records
+                        example: 1
                       records:
                         type: array
                         description: Records in JSON format
@@ -481,6 +499,14 @@ components:
                     x-tab-id: voice-call
                     type: object
                     properties:
+                      product:
+                        $ref: "#/components/schemas/product_voice"
+                      direction:
+                        $ref: "#/components/schemas/direction"
+                      items_count:
+                        type: integer
+                        description: The number of returned records
+                        example: 1
                       records:
                         type: array
                         description: Records in JSON format
@@ -502,8 +528,15 @@ components:
               - allOf:
                   - $ref: "#/components/schemas/report_response_top_level"
                   - description: Verify
+                    x-tab-id: verify
                     type: object
                     properties:
+                      product:
+                        $ref: "#/components/schemas/product_verify"  
+                      items_count:
+                        type: integer
+                        description: The number of returned records
+                        example: 1
                       records:
                         type: array
                         description: Records in JSON format
@@ -513,8 +546,15 @@ components:
               - allOf:
                   - $ref: "#/components/schemas/report_response_top_level"
                   - description: Number Insight
+                    x-tab-id: number-insight
                     type: object
                     properties:
+                      product:
+                        $ref: "#/components/schemas/product_ni"  
+                      items_count:
+                        type: integer
+                        description: The number of returned records
+                        example: 1
                       records:
                         type: array
                         description: Records in JSON format
@@ -524,12 +564,26 @@ components:
               - allOf:
                   - $ref: "#/components/schemas/report_response_top_level"
                   - description: Messages (Outbound)
+                    x-tab-id: messages-outbound
                     type: object
                     properties:
+                      product:
+                        $ref: "#/components/schemas/product_messages"  
+                      direction:
+                        type: string
+                        description: Direction of the communication, either `inbound` (received by our services), or `outbound` (originated from our services). Required for products `SMS` and `MESSAGES`. Optional for `VOICE-CALL`. Invalid for `CONVERSATIONS`, `NUMBER-INSIGHT`, `VERIFY-API`.
+                        enum:
+                          - inbound
+                          - outbound  
+                        example: "outbound"
                       include_message:
                         type: boolean
                         description: Include the text of messages in the report.
                         example: "true"
+                      items_count:
+                        type: integer
+                        description: The number of returned records
+                        example: 1
                       records:
                         type: array
                         description: Records in JSON format
@@ -539,8 +593,26 @@ components:
               - allOf:
                   - $ref: "#/components/schemas/report_response_top_level"
                   - description: Messages (Inbound)
+                    x-tab-id: messages-inbound
                     type: object
                     properties:
+                      product:
+                        $ref: "#/components/schemas/product_messages"  
+                      direction:
+                        type: string
+                        description: Direction of the communication, either `inbound` (received by our services), or `outbound` (originated from our services). Required for products `SMS` and `MESSAGES`. Optional for `VOICE-CALL`. Invalid for `CONVERSATIONS`, `NUMBER-INSIGHT`, `VERIFY-API`.
+                        enum:
+                          - inbound
+                          - outbound  
+                        example: "inbound"
+                      include_message:
+                        type: boolean
+                        description: Include the text of messages in the report.
+                        example: "true"
+                      items_count:
+                        type: integer
+                        description: The number of returned records
+                        example: 1
                       records:
                         type: array
                         description: Records in JSON format
@@ -550,8 +622,15 @@ components:
               - allOf:
                   - $ref: "#/components/schemas/report_response_top_level"
                   - description: IP Voice
+                    x-tab-id: conversations
                     type: object
                     properties:
+                      product:
+                        $ref: "#/components/schemas/product_conversations"  
+                      items_count:
+                        type: integer
+                        description: The number of returned records
+                        example: 1
                       records:
                         type: array
                         description: Records in JSON format
@@ -561,8 +640,15 @@ components:
               - allOf:
                   - $ref: "#/components/schemas/report_response_top_level"
                   - description: ASR
+                    x-tab-id: asr
                     type: object
                     properties:
+                      product:
+                        $ref: "#/components/schemas/product_asr"  
+                      items_count:
+                        type: integer
+                        description: The number of returned records
+                        example: 1
                       records:
                         type: array
                         description: Records in JSON format
@@ -726,31 +812,13 @@ components:
           $ref: "#/components/schemas/price"
         currency:
           $ref: "#/components/schemas/currency"
-        direction:
-          $ref: "#/components/schemas/direction"
-        product:
-          $ref: "#/components/schemas/product"
         account_id:
           $ref: "#/components/schemas/account_id"
-        date_start:
-          $ref: "#/components/schemas/date_start"
-        date_end:
-          $ref: "#/components/schemas/date_end"
-        include_message:
-          type: boolean
-          description: Include the text of messages in the report.
-          example: "false"
-          default: false
-        items_count:
-          type: integer
-          description: The number of returned records
-          example: 2
-
+ 
     # request fields
     product:
       type: string
       description: Which product you wish to generate a report for.
-      example: "SMS"
       enum:
         - SMS
         - VOICE-CALL
@@ -760,36 +828,100 @@ components:
         - MESSAGES
         - CONVERSATIONS
         - ASR
+      example: "SMS"  
     product_sms:
       type: string
+      description: Which product you wish to generate a report for.
+      enum:
+        - SMS
+        - VOICE-CALL
+        - VERIFY-API
+        - NUMBER-INSIGHT
+        - MESSAGES
+        - CONVERSATIONS
+        - ASR
       example: "SMS"
     product_voice:
       type: string
+      description: Which product you wish to generate a report for.
+      enum:
+        - SMS
+        - VOICE-CALL
+        - VERIFY-API
+        - NUMBER-INSIGHT
+        - MESSAGES
+        - CONVERSATIONS
+        - ASR
       example: "VOICE-CALL"
     product_websocket:
       type: string
       example: "WEBSOCKET-CALL"
     product_verify:
       type: string
+      description: Which product you wish to generate a report for.
+      enum:
+        - SMS
+        - VOICE-CALL
+        - VERIFY-API
+        - NUMBER-INSIGHT
+        - MESSAGES
+        - CONVERSATIONS
+        - ASR
       example: "VERIFY-API"
     product_ni:
       type: string
+      description: Which product you wish to generate a report for.
+      enum:
+        - SMS
+        - VOICE-CALL
+        - VERIFY-API
+        - NUMBER-INSIGHT
+        - MESSAGES
+        - CONVERSATIONS
+        - ASR
       example: "NUMBER-INSIGHT"
     product_messages:
       type: string
+      description: Which product you wish to generate a report for.
+      enum:
+        - SMS
+        - VOICE-CALL
+        - VERIFY-API
+        - NUMBER-INSIGHT
+        - MESSAGES
+        - CONVERSATIONS
+        - ASR
       example: "MESSAGES"
     product_conversations:
       type: string
+      description: Which product you wish to generate a report for.
+      enum:
+        - SMS
+        - VOICE-CALL
+        - VERIFY-API
+        - NUMBER-INSIGHT
+        - MESSAGES
+        - CONVERSATIONS
+        - ASR
       example: "CONVERSATIONS"
     product_asr:
       type: string
+      description: Which product you wish to generate a report for.
+      enum:
+        - SMS
+        - VOICE-CALL
+        - VERIFY-API
+        - NUMBER-INSIGHT
+        - MESSAGES
+        - CONVERSATIONS
+        - ASR
       example: "ASR"
     direction:
       type: string
       description: Direction of the communication, either `inbound` (received by our services), or `outbound` (originated from our services). Required for products `SMS` and `MESSAGES`. Optional for `VOICE-CALL`. Invalid for `CONVERSATIONS`, `NUMBER-INSIGHT`, `VERIFY-API`.
       enum:
         - inbound
-        - outbound
+        - outbound  
       example: "outbound"
     account_id:
       type: string
@@ -1337,7 +1469,7 @@ components:
         product:
           $ref: "#/components/schemas/product_asr"
         direction:
-          $ref: "#/components/schemas/direction"		  
+          $ref: "#/components/schemas/direction"      
         from:
           $ref: "#/components/schemas/from"
         to:
