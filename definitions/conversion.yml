@@ -64,12 +64,57 @@ paths:
           description: OK
         "401":
           description: Wrong credentials
+          $ref: "#/components/responses/BadCredentialsError"
         "402":
           description: Conversion has not been enabled for your account
+          content:
+            application/json:
+              schema:
+                properties:
+                  type:
+                    type: string
+                    description: URL for further information
+                    example: https://developer.nexmo.com/api-errors#forbidden
+                  title:
+                    type: string
+                    description: Description of the error
+                    example: Conversion has not been enabled for your account
         "420":
           description: Invalid parameters
+          content:
+            application/json:
+              schema:
+                properties:
+                  type:
+                    type: string
+                    description: URL for further information
+                    example: https://developer.nexmo.com/api-errors#3
+                  title:
+                    type: string
+                    description: Description of the error
+                    example: Invalid parameters. The value of one or more parameters is invalid.
+                  resolution:
+                    type: string
+                    description: Methods to solve
+                    example: Check your parameters and try again.
         "423":
           description: Invalid parameters
+          content:
+            application/json:
+              schema:
+                properties:
+                  type:
+                    type: string
+                    description: URL for further information
+                    example: https://developer.nexmo.com/api-errors#3
+                  title:
+                    type: string
+                    description: Description of the error
+                    example: Invalid parameters. The value of one or more parameters is invalid.
+                  resolution:
+                    type: string
+                    description: Methods to solve
+                    example: Check your parameters and try again.
   /voice:
     post:
       operationId: voiceConversion
@@ -90,12 +135,57 @@ paths:
           description: OK
         "401":
           description: Wrong credentials
+          $ref: "#/components/responses/BadCredentialsError"
         "402":
           description: Conversion has not been enabled for your account
+          content:
+            application/json:
+              schema:
+                properties:
+                  type:
+                    type: string
+                    description: URL for further information
+                    example: https://developer.nexmo.com/api-errors#forbidden
+                  title:
+                    type: string
+                    description: Description of the error
+                    example: Conversion has not been enabled for your account
         "420":
           description: Invalid parameters
+          content:
+            application/json:
+              schema:
+                properties:
+                  type:
+                    type: string
+                    description: URL for further information
+                    example: https://developer.nexmo.com/api-errors#3
+                  title:
+                    type: string
+                    description: Description of the error
+                    example: Invalid parameters. The value of one or more parameters is invalid.
+                  resolution:
+                    type: string
+                    description: Methods to solve
+                    example: Check your parameters and try again.
         "423":
           description: Invalid parameters
+          content:
+            application/json:
+              schema:
+                properties:
+                  type:
+                    type: string
+                    description: URL for further information
+                    example: https://developer.nexmo.com/api-errors#3
+                  title:
+                    type: string
+                    description: Description of the error
+                    example: Invalid parameters. The value of one or more parameters is invalid.
+                  resolution:
+                    type: string
+                    description: Methods to solve
+                    example: Check your parameters and try again.
 components:
   parameters:
     message-id:
