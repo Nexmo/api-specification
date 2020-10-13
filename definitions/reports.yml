@@ -519,7 +519,6 @@ components:
                     x-tab-id: websocket-call
                     type: object
                     properties:
-                    properties:
                       product:
                         $ref: "#/components/schemas/product_websocket"  
                       items_count:
