@@ -519,6 +519,13 @@ components:
                     x-tab-id: websocket-call
                     type: object
                     properties:
+                    properties:
+                      product:
+                        $ref: "#/components/schemas/product_websocket"  
+                      items_count:
+                        type: integer
+                        description: The number of returned records
+                        example: 1
                       records:
                         type: array
                         description: Records in JSON format
@@ -835,6 +842,7 @@ components:
       enum:
         - SMS
         - VOICE-CALL
+        - WEBSOCKET-CALL
         - VERIFY-API
         - NUMBER-INSIGHT
         - MESSAGES
@@ -847,6 +855,7 @@ components:
       enum:
         - SMS
         - VOICE-CALL
+        - WEBSOCKET-CALL
         - VERIFY-API
         - NUMBER-INSIGHT
         - MESSAGES
@@ -856,12 +865,23 @@ components:
     product_websocket:
       type: string
       example: "WEBSOCKET-CALL"
+      description: Which product you wish to generate a report for.
+      enum:
+        - SMS
+        - VOICE-CALL
+        - WEBSOCKET-CALL
+        - VERIFY-API
+        - NUMBER-INSIGHT
+        - MESSAGES
+        - CONVERSATIONS
+        - ASR
     product_verify:
       type: string
       description: Which product you wish to generate a report for.
       enum:
         - SMS
         - VOICE-CALL
+        - WEBSOCKET-CALL
         - VERIFY-API
         - NUMBER-INSIGHT
         - MESSAGES
@@ -874,6 +894,7 @@ components:
       enum:
         - SMS
         - VOICE-CALL
+        - WEBSOCKET-CALL
         - VERIFY-API
         - NUMBER-INSIGHT
         - MESSAGES
@@ -898,6 +919,7 @@ components:
       enum:
         - SMS
         - VOICE-CALL
+        - WEBSOCKET-CALL
         - VERIFY-API
         - NUMBER-INSIGHT
         - MESSAGES
@@ -910,6 +932,7 @@ components:
       enum:
         - SMS
         - VOICE-CALL
+        - WEBSOCKET-CALL
         - VERIFY-API
         - NUMBER-INSIGHT
         - MESSAGES
@@ -2159,3 +2182,4 @@ x-errors:
     link:
       text: View API reference
       url: /api/reports#create-report
+
