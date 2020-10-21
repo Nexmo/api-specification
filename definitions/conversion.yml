@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Nexmo Conversion API
-  version: 1.0.1
+  version: 1.0.2
   description: >-
     The Conversion API allows you to tell Nexmo about the reliability of your
     2FA communications. Sending conversion data back to us means that Nexmo can
