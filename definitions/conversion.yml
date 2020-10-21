@@ -64,7 +64,7 @@ paths:
           description: OK
         "401":
           description: Wrong credentials
-          $ref: "#/components/responses/BadCredentialsError"
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
         "402":
           description: Conversion has not been enabled for your account
           content:
@@ -135,7 +135,7 @@ paths:
           description: OK
         "401":
           description: Wrong credentials
-          $ref: "#/components/responses/BadCredentialsError"
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
         "402":
           description: Conversion has not been enabled for your account
           content:
