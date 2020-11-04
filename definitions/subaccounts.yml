@@ -644,6 +644,9 @@ components:
         use_primary_account_balance:
           type: boolean
           example: false
+        name:
+          type: string
+          example: "Subaccount department B"
     TransferBalanceOrCreditRequest:
       type: object
       properties:
