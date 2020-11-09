@@ -546,7 +546,7 @@ components:
             type: string
             format: uri
         event_method:
-          description: The HTTP method used to send event information to event_url.
+          description: The HTTP method used to send event information to `event_url`.
           type: string
           default: POST
           enum:
