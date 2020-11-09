@@ -2,12 +2,12 @@ openapi: 3.0.0
 servers:
   - url: "https://api.nexmo.com/v0.2"
 info:
-  version: 1.0.0
-  title: Nexmo Conversation API
-  description: "The Nexmo Conversation API enables you to build conversation features where communication can take place across multiple mediums including IP Messaging, PSTN Voice, SMS and WebRTC Audio and Video. The context of the conversations is maintained though each communication event taking place within a conversation, no matter the medium."
+  version: 1.0.1
+  title: Conversation API
+  description: "The Conversation API enables you to build conversation features where communication can take place across multiple mediums including IP Messaging, PSTN Voice, SMS and WebRTC Audio and Video. The context of the conversations is maintained though each communication event taking place within a conversation, no matter the medium."
   contact:
-    name: Nexmo DevRel
-    email: devrel@nexmo.com
+    name: Vonage DevRel
+    email: devrel@vonage.com
     url: "https://developer.nexmo.com/"
   x-label: Beta
 paths:
@@ -661,7 +661,7 @@ components:
 
 tags:
   - name: conversation
-    description: A conversation is a shared core component that Nexmo APIs rely on. Conversations happen over multiple mediums and and can have associated Users through Memberships.
+    description: A conversation is a shared core component that Vonage APIs rely on. Conversations happen over multiple mediums and and can have associated Users through Memberships.
   - name: member
     description: Memberships connect users with conversations. Each membership has one conversation and one user however a user can have many memberships to conversations just as conversations can have many members.
   - name: event
