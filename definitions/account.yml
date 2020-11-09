@@ -422,7 +422,7 @@ tags:
     description: Manage the settings on your account
   - name: Secret Management
     description: >-
-      Many of Nexmo's APIs are accessed using an API key and secret. It is recommended that you change or "rotate" your secrets from time to time for security purposes. This section provides the API interface for achieving this.
+      Many of the Vonage APIs are accessed using an API key and secret. It is recommended that you change or "rotate" your secrets from time to time for security purposes. This section provides the API interface for achieving this.
 
       Note: to work on secrets for your secondary accounts, you may authenticate with your primary credentials and supply the secondary API keys as URL parameters to these API endpoints.
 
@@ -432,14 +432,14 @@ components:
       type: http
       scheme: basic
       description: >-
-        Provide an `Authorization` header, with a value of "Basic" followed by the result of base64-encoding your Nexmo API key and secret separated by a colon. You can find your API key and secret on the [dashboard](https://dashboard.nexmo.com) and more information is available [on the developer portal](https://developer.nexmo.com/concepts/guides/authentication#header-based-api-key-and-secret-authentication).
+        Provide an `Authorization` header, with a value of "Basic" followed by the result of base64-encoding your Vonage API key and secret separated by a colon. You can find your API key and secret on the [dashboard](https://dashboard.nexmo.com) and more information is available [on the developer portal](https://developer.nexmo.com/concepts/guides/authentication#header-based-api-key-and-secret-authentication).
 
         If your API key were aaa012 and your API secret were abc123456789 then your HTTP header would be: `Authorization: Basic YWFhMDEyOmFiYzEyMzQ1Njc4OQ==`
 
   parameters:
     api_key_for_auth:
       name: api_key
-      description: Your Nexmo API key. You can find this in the [dashboard](https://dashboard.nexmo.com)
+      description: Your Vonage API key. You can find this in the [dashboard](https://dashboard.nexmo.com)
       in: query
       required: true
       schema:
@@ -447,7 +447,7 @@ components:
         example: abcd1234
     api_secret_for_auth:
       name: api_secret
-      description: Your Nexmo API secret. You can find this in the [dashboard](https://dashboard.nexmo.com)
+      description: Your Vonage API secret. You can find this in the [dashboard](https://dashboard.nexmo.com)
       in: query
       required: true
       schema:
