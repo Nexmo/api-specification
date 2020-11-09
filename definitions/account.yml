@@ -1,11 +1,11 @@
 openapi: "3.0.2"
 info:
   title: "Account API"
-  version: "1.0.1"
+  version: "1.0.2"
   description: >-
     Enables users to manage their Vonage API Account by programmable means. More information is available here: <https://developer.nexmo.com/account/overview>.
   contact:
-    name: Nexmo.com
+    name: Vonage.com
     url: "https://developer.nexmo.com"
 servers:
   - url: "https://api.nexmo.com"
@@ -16,7 +16,7 @@ paths:
     get:
       operationId: getAccountBalance
       summary: Get Account Balance
-      description: Retrieve the current balance of your Nexmo account
+      description: Retrieve the current balance of your Vonage API account
       parameters:
         - $ref: "#/components/parameters/api_key_for_auth"
         - $ref: "#/components/parameters/api_secret_for_auth"
@@ -120,7 +120,7 @@ paths:
           * Callback URL for incoming SMS messages
           * Callback URL for delivery receipts
 
-        Note that the URLs you provide must be valid and active. Nexmo will check that they
+        Note that the URLs you provide must be valid and active. Vonage will check that they
         return a 200 OK response before the setting is saved.
       parameters:
         - $ref: "#/components/parameters/api_key_for_auth"
@@ -136,8 +136,8 @@ paths:
               properties:
                 moCallBackUrl:
                   description: >-
-                    The URL where Nexmo will send a webhook when an SMS is received
-                    to a Nexmo number that does not have SMS handling configured.
+                    The URL where Vonage will send a webhook when an SMS is received
+                    to a Vonage number that does not have SMS handling configured.
 
                     Send an empty string to unset this value.
                   type: string
@@ -145,7 +145,7 @@ paths:
                   example: https://example.com/webhooks/inbound-sms
                 drCallBackUrl:
                   description: >-
-                    The URL where Nexmo will send a webhook when an delivery
+                    The URL where Vonage will send a webhook when an delivery
                     receipt is received without a specific callback URL configured.
 
                     Send an empty string to unset this value.
