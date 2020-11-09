@@ -2,7 +2,7 @@
 
 <img src="https://developer.nexmo.com/assets/images/Vonage_Nexmo.svg" height="48px" alt="Nexmo is now known as Vonage" />
 
-Provides [OpenAPI Specification (v3)](https://github.com/OAI/OpenAPI-Specification) definitions for Nexmo APIs.
+Provides [OpenAPI Specification (v3)](https://github.com/OAI/OpenAPI-Specification) definitions for Vonage APIs.
 
 ## Human-readable specifications
 
@@ -28,8 +28,8 @@ These definitions provide a single point of truth that can be used end-to-end:
 ## Tools
 
 - [Stoplight Studio](https://stoplight.io/studio/) - powerful spec editor with validation and local mock server
-- [Nexmo OAS Renderer](https://github.com/Nexmo/nexmo-oas-renderer) - Nexmo's tool for rendering OpenAPI specs to HTML.
-- [Nexmo Developer](https://github.com/Nexmo/nexmo-developer) - Nexmo Developer uses these specs and the renderer for the API reference pages.
+- [Vonage API OAS Renderer](https://github.com/Nexmo/nexmo-oas-renderer) - the Vonage tool for rendering OpenAPI specs to HTML.
+- [Vonage API Developer](https://github.com/Nexmo/nexmo-developer) - Vonage API Developer Portal uses these specs and the renderer for the API reference pages.
 
 ### Check your API spec for validity and style
 

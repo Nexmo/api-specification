@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: Nexmo Application API
+  title: Vonage Application API
   version: 1.0.2
   description: >-
     <div class="Vlt-callout Vlt-callout--critical">
@@ -11,8 +11,8 @@ info:
     </div>
     </div>
 
-    A Nexmo application contains the security and configuration information you
-    need to connect to Nexmo endpoints and easily use our products.
+    A Vonage application contains the security and configuration information you
+    need to connect to Vonage endpoints and easily use our products.
   contact:
     name: Nexmo.com
     email: devrel@nexmo.com
@@ -91,7 +91,7 @@ paths:
                   example: My Application
                 type:
                   description: >-
-                    The Nexmo product or products that you access with this
+                    The Vonage API product or products that you access with this
                     application. Currently `voice` and `messages` application types are supported.
                   type: string
                   example: voice
@@ -102,7 +102,7 @@ paths:
                   description: >-
                     The URL where your webhook delivers the Nexmo Call Control
                     Object that governs this call. As soon as your user answers
-                    a call Nexmo makes a request to `answer_url`. Required for inbound calls only.
+                    a call Vonage makes a request to `answer_url`. Required for inbound calls only.
                   type: string
                   example: "https://example.com/webhooks/answer"
                 answer_method:
@@ -113,7 +113,7 @@ paths:
                   example: GET
                 event_url:
                   description: >-
-                    Nexmo sends event information asynchronously to this URL
+                    Vonage sends event information asynchronously to this URL
                     when status changes for `voice` applications. Always required for `voice` applications.
                   type: string
                   example: "https://example.com/webhooks/event"
@@ -125,7 +125,7 @@ paths:
                   example: POST
                 status_url:
                   description: >-
-                    Nexmo sends event information asynchronously to this URL
+                    Vonage sends event information asynchronously to this URL
                     when status changes. Required for `messages` type applications only.
                   type: string
                   example: "https://example.com/webhooks/status"
@@ -137,7 +137,7 @@ paths:
                   example: POST
                 inbound_url:
                   description: >-
-                    Nexmo sends a request to this URL when an inbound message
+                    Vonage sends a request to this URL when an inbound message
                     is received. Required for `messages` type applications only.
                   type: string
                   example: "https://example.com/webhooks/inbound"
@@ -198,7 +198,7 @@ paths:
                   example: UpdatedApplication
                 type:
                   description: >-
-                    The Nexmo product or products that you access with this application.
+                    The Vonage API product or products that you access with this application.
                     Currently `voice` and `messages` application types are supported. You 
                     can't change the type of application.
                   type: string
@@ -209,7 +209,7 @@ paths:
                 answer_url:
                   description: >-
                     The URL where your webhook delivers the Nexmo Call Control Object
-                    that governs this call. As soon as your user answers a call Nexmo
+                    that governs this call. As soon as your user answers a call Vonage
                     makes a request to `answer_url`.
                   type: string
                   format: url
@@ -223,7 +223,7 @@ paths:
                   example: GET
                 event_url:
                   description: >-
-                    Nexmo sends event information asynchronously to this URL when status
+                    Vonage sends event information asynchronously to this URL when status
                     changes.
                   type: string
                   format: url
@@ -257,7 +257,7 @@ components:
       name: app_id
       in: path
       required: true
-      description: The ID allocated to your application by Nexmo.
+      description: The ID allocated to your application by Vonage.
       schema:
         type: string
       example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
@@ -306,7 +306,7 @@ components:
           example: /v1/applications/aaaaaaaa-bbbb-cccc-dddd-0123456789ab
     voice:
       description: >-
-        The Nexmo product that you access with this application.
+        The Vonage API product that you access with this application.
       type: object
       properties:
         webhooks:
@@ -329,8 +329,8 @@ components:
                 description: >-
                   `answer_url`: The URL where your webhook delivers the Nexmo
                   Call Control Object that governs this call. As soon as your
-                  user answers a call Nexmo makes a request to answer_url.
-                  `event_url`: Nexmo sends event information asynchronously to
+                  user answers a call Vonage makes a request to answer_url.
+                  `event_url`: Vonage sends event information asynchronously to
                   this URL when status changes.
                 format: url
                 example: "https://example.com/webhooks/answer"
@@ -345,7 +345,7 @@ components:
                 example: GET
     messages:
       description: >-
-        The Nexmo product that you access with this application.
+        The Vonage API product that you access with this application.
       type: object
       properties:
         webhooks:
@@ -381,7 +381,7 @@ components:
                 example: POST
     keys:
       description: >-
-        The Nexmo product that you access with this application.
+        The Vonage API product that you access with this application.
       type: object
       properties:
         public_key:
@@ -429,7 +429,7 @@ components:
       type: object
       properties:
         id:
-          description: The ID allocated to your application by Nexmo.
+          description: The ID allocated to your application by Vonage.
           type: string
           example: aaaaaaaa-bbbb-cccc-dddd-0123456789ab
         name:

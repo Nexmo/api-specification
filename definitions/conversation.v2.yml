@@ -3,8 +3,8 @@ servers:
   - url: "https://api.nexmo.com/v0.2"
 info:
   version: 1.0.0
-  title: Nexmo Conversation API
-  description: "The Nexmo Conversation API enables you to build conversation features where communication can take place across multiple mediums including IP Messaging, PSTN Voice, SMS and WebRTC Audio and Video. The context of the conversations is maintained though each communication event taking place within a conversation, no matter the medium."
+  title: Vonage Conversation API
+  description: "The Vonage Conversation API enables you to build conversation features where communication can take place across multiple mediums including IP Messaging, PSTN Voice, SMS and WebRTC Audio and Video. The context of the conversations is maintained though each communication event taking place within a conversation, no matter the medium."
   contact:
     name: Nexmo DevRel
     email: devrel@nexmo.com

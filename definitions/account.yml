@@ -1,9 +1,9 @@
 openapi: "3.0.2"
 info:
-  title: "Nexmo Account API"
+  title: "Vonage Account API"
   version: "1.0.1"
   description: >-
-    Enables users to manage their Nexmo Account by programmable means. More information is available here: <https://developer.nexmo.com/account/overview>.
+    Enables users to manage their Vonage API Account by programmable means. More information is available here: <https://developer.nexmo.com/account/overview>.
   contact:
     name: Nexmo.com
     url: "https://developer.nexmo.com"
@@ -16,7 +16,7 @@ paths:
     get:
       operationId: getAccountBalance
       summary: Get Account Balance
-      description: Retrieve the current balance of your Nexmo account
+      description: Retrieve the current balance of your Vonage API account
       parameters:
         - $ref: "#/components/parameters/api_key_for_auth"
         - $ref: "#/components/parameters/api_secret_for_auth"
@@ -120,7 +120,7 @@ paths:
           * Callback URL for incoming SMS messages
           * Callback URL for delivery receipts
 
-        Note that the URLs you provide must be valid and active. Nexmo will check that they
+        Note that the URLs you provide must be valid and active. Vonage will check that they
         return a 200 OK response before the setting is saved.
       parameters:
         - $ref: "#/components/parameters/api_key_for_auth"
@@ -136,8 +136,8 @@ paths:
               properties:
                 moCallBackUrl:
                   description: >-
-                    The URL where Nexmo will send a webhook when an SMS is received
-                    to a Nexmo number that does not have SMS handling configured.
+                    The URL where Vonage will send a webhook when an SMS is received
+                    to a Vonage number that does not have SMS handling configured.
 
                     Send an empty string to unset this value.
                   type: string
@@ -145,7 +145,7 @@ paths:
                   example: https://example.com/webhooks/inbound-sms
                 drCallBackUrl:
                   description: >-
-                    The URL where Nexmo will send a webhook when an delivery
+                    The URL where Vonage will send a webhook when an delivery
                     receipt is received without a specific callback URL configured.
 
                     Send an empty string to unset this value.
@@ -422,7 +422,7 @@ tags:
     description: Manage the settings on your account
   - name: Secret Management
     description: >-
-      Many of Nexmo's APIs are accessed using an API key and secret. It is recommended that you change or "rotate" your secrets from time to time for security purposes. This section provides the API interface for achieving this.
+      Many of the Vonage APIs are accessed using an API key and secret. It is recommended that you change or "rotate" your secrets from time to time for security purposes. This section provides the API interface for achieving this.
 
       Note: to work on secrets for your secondary accounts, you may authenticate with your primary credentials and supply the secondary API keys as URL parameters to these API endpoints.
 
@@ -432,14 +432,14 @@ components:
       type: http
       scheme: basic
       description: >-
-        Provide an `Authorization` header, with a value of "Basic" followed by the result of base64-encoding your Nexmo API key and secret separated by a colon. You can find your API key and secret on the [dashboard](https://dashboard.nexmo.com) and more information is available [on the developer portal](https://developer.nexmo.com/concepts/guides/authentication#header-based-api-key-and-secret-authentication).
+        Provide an `Authorization` header, with a value of "Basic" followed by the result of base64-encoding your Vonage API key and secret separated by a colon. You can find your API key and secret on the [dashboard](https://dashboard.nexmo.com) and more information is available [on the developer portal](https://developer.nexmo.com/concepts/guides/authentication#header-based-api-key-and-secret-authentication).
 
         If your API key were aaa012 and your API secret were abc123456789 then your HTTP header would be: `Authorization: Basic YWFhMDEyOmFiYzEyMzQ1Njc4OQ==`
 
   parameters:
     api_key_for_auth:
       name: api_key
-      description: Your Nexmo API key. You can find this in the [dashboard](https://dashboard.nexmo.com)
+      description: Your Vonage API key. You can find this in the [dashboard](https://dashboard.nexmo.com)
       in: query
       required: true
       schema:
@@ -447,7 +447,7 @@ components:
         example: abcd1234
     api_secret_for_auth:
       name: api_secret
-      description: Your Nexmo API secret. You can find this in the [dashboard](https://dashboard.nexmo.com)
+      description: Your Vonage API secret. You can find this in the [dashboard](https://dashboard.nexmo.com)
       in: query
       required: true
       schema:
