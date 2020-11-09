@@ -107,7 +107,7 @@ components:
             type: string
             format: uri
         event_method:
-          description: The HTTP method used to send event information to event_url.
+          description: The HTTP method used to send event information to `event_url`.
           type: string
           default: POST
           enum:
@@ -116,7 +116,7 @@ components:
         machine_detection:
           description: Configure the behavior when Vonage detects that the
             call is answered by voicemail. If `continue` Vonage sends an HTTP
-            request to event_url with the Call event machine. If `hangup`, Vonage ends the call.
+            request to `event_url` with the Call event machine. If `hangup`, Vonage ends the call.
           type: string
           enum:
             - continue
