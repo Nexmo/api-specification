@@ -1,9 +1,9 @@
 openapi: "3.0.2"
 info:
-  title: "Nexmo Account API"
+  title: "Account API"
   version: "1.0.1"
   description: >-
-    Enables users to manage their Nexmo Account by programmable means. More information is available here: <https://developer.nexmo.com/account/overview>.
+    Enables users to manage their Vonage API Account by programmable means. More information is available here: <https://developer.nexmo.com/account/overview>.
   contact:
     name: Nexmo.com
     url: "https://developer.nexmo.com"
