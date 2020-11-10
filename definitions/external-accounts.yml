@@ -5,8 +5,8 @@ info:
   description: "The External Accounts API is used to manage accounts for Viber Service Messages, Facebook Messenger and Whatsapp for use in the [Messages](https://developer.nexmo.com/messages/overview) and [Dispatch](https://developer.nexmo.com/dispatch/overview) APIs."
   x-label: Developer Preview
   contact:
-    name: Nexmo DevRel
-    email: devrel@nexmo.com
+    name: Vonage DevRel
+    email: devrel@vonage.com
     url: "https://developer.nexmo.com/"
 servers:
   - url: https://api.nexmo.com/beta/chatapp-accounts
@@ -41,7 +41,7 @@ paths:
                   description:
                     This is the Facebook Page token. You can obtain the token using one of the following methods
                     <ul>
-                    <li>Use our tool to link a page to your Nexmo account [https://messenger.nexmo.com](https://messenger.nexmo.com)</li>
+                    <li>Use our tool to link a page to your Vonage API account [https://messenger.nexmo.com](https://messenger.nexmo.com)</li>
                     <li>Following the official [token reference](https://developers.facebook.com/docs/pages/access-tokens/)</li>
                     </ul>
                 name:
