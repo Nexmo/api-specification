@@ -4,23 +4,20 @@ info:
   version: 1.0.19
   description: >-
     The Numbers API enables you to manage your existing numbers and buy new virtual numbers for
-    use with Nexmo's APIs. Further information is here: <https://developer.nexmo.com/numbers/overview>
+    use with the Vonage APIs. Further information is here: <https://developer.nexmo.com/numbers/overview>
   contact:
-    name: Nexmo.com
-    email: devrel@nexmo.com
+    name: Vonage DevRel
+    email: devrel@vonage.com
     url: "https://developer.nexmo.com"
-    x-twitter: Nexmo
   termsOfService: "https://www.nexmo.com/terms-of-use"
   license:
     name: The MIT License (MIT)
     url: "https://opensource.org/licenses/MIT"
-  x-logo:
-    url: "https://twitter.com/Nexmo/profile_image?size=original"
   x-apiClientRegistration: "https://dashboard.nexmo.com/sign-up"
 servers:
   - url: "https://rest.nexmo.com"
 externalDocs:
-  description: Numbers product documentation on the Nexmo Developer Portal
+  description: Numbers product documentation on the Vonage Developer Portal
   url: "https://developer.nexmo.com/numbers/overview"
 security:
   - apiKey: []
@@ -30,7 +27,7 @@ paths:
     get:
       operationId: getOwnedNumbers
       summary: List the numbers you own
-      description: Retrieve all the inbound numbers associated with your Nexmo account.
+      description: Retrieve all the inbound numbers associated with your Vonage account.
       parameters:
         - $ref: "#/components/parameters/application_id"
         - $ref: "#/components/parameters/has_application"
@@ -457,7 +454,7 @@ components:
           description: >-
             An URL-encoded URI to the webhook endpoint that handles inbound
             messages. Your webhook endpoint must be active before you make this
-            request. Nexmo makes a `GET` request to the endpoint and checks
+            request. Vonage makes a `GET` request to the endpoint and checks
             that it returns a `200 OK` response. Set this parameter's value to an empty string to remove the webhook.
           type: string
           example: "https://example.com/webhooks/inbound-sms"
@@ -486,7 +483,7 @@ components:
           type: string
           example: "447700900000"
         voiceStatusCallback:
-          description: A webhook URI for Nexmo to send a request to when a call ends
+          description: A webhook URI for Vonage to send a request to when a call ends
           type: string
           example: "https://example.com/webhooks/status"
         messagesCallbackType:
