@@ -2,7 +2,7 @@ openapi: 3.0.0
 servers:
   - url: "https://api.nexmo.com/v0.1"
 info:
-  version: 2.0.0
+  version: 2.0.1
   title: Conversation API
   description: "The Conversation API enables you to build conversation features where communication can take place across multiple mediums including IP Messaging, PSTN Voice, SMS and WebRTC Audio and Video. The context of the conversations is maintained though each communication event taking place within a conversation, no matter the medium."
   contact:
