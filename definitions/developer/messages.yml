@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Message Search API
-  version: 1.0.5
+  version: 1.0.6
   description: >-
 
     <div class="Vlt-callout Vlt-callout--critical">
@@ -15,10 +15,10 @@ info:
     The Messages API lets you retrieve messages you have sent via the SMS API by
     ID, as well as retrieve details of messages that were rejected.
   contact:
-    name: Nexmo.com
-    email: devrel@nexmo.com
+    name: Vonage.com
+    email: devrel@vonage.com
     url: "https://developer.nexmo.com/"
-    x-twitter: Nexmo
+    x-twitter: Vonage
   termsOfService: "https://www.nexmo.com/terms-of-use"
   license:
     name: The MIT License (MIT)
@@ -29,7 +29,7 @@ info:
 servers:
   - url: "https://rest.nexmo.com/search"
 externalDocs:
-  url: "https://developer.nexmo.com/api/developer/messages"
+  url: "/api/developer/messages"
   x-sha1: d8836c374e2a7504bd2cd59e05fcee440f67cb44
 security:
   - apiKey: []
@@ -144,7 +144,7 @@ paths:
     get:
       summary: Search for rejections
       description: >-
-        Search for messages that have been rejected by Nexmo. Messages rejected
+        Search for messages that have been rejected by Vonage. Messages rejected
         by the carrier do not appear.
       operationId: searchRejections
       parameters:
@@ -243,7 +243,7 @@ components:
           description: >-
             The sender ID the message was sent from. Could be a phone number or
             name.
-          example: Nexmo
+          example: Vonage
         to:
           type: string
           description: The phone number the message was sent to.
@@ -251,7 +251,7 @@ components:
         body:
           type: string
           description: The body of the message.
-          example: A text message sent using the Nexmo SMS API
+          example: A text message sent using the Vonage SMS API
     messageMT:
       description: Outbound (MT)
       type: object
@@ -316,7 +316,7 @@ components:
           maxLength: 40
           description: >-
             The [internal
-            reference](https://developer.nexmo.com/api/sms#send-an-sms) you set
+            reference](/api/sms#send-an-sms) you set
             in the request.
           example: my-personal-reference
         status:
