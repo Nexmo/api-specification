@@ -54,7 +54,7 @@ paths:
             post:
               summary: Delivery Receipt
               operationId: delivery-receipt
-              description: The following are parameters sent in as a [delivery receipt](https://developer.nexmo.com/messaging/sms/guides/delivery-receipts) callback. You can subscribe to [webhooks](https://developer.nexmo.com/concepts/guides/webhooks) to receive notification when the delivery status of an SMS that you have sent with Vonage changes.
+              description: The following are parameters sent in as a [delivery receipt](/messaging/sms/guides/delivery-receipts) callback. You can subscribe to [webhooks](/concepts/guides/webhooks) to receive notification when the delivery status of an SMS that you have sent with Vonage changes.
               requestBody:
                 required: true
                 content:
@@ -72,7 +72,7 @@ x-webhooks:
         operationId: inbound-sms
         x-example-path: "/webhooks/inbound-sms"
         description: |
-          If you rent one or more virtual numbers from Vonage, inbound messages to that number are sent to your [webhook endpoint](https://developer.nexmo.com/concepts/guides/webhooks).
+          If you rent one or more virtual numbers from Vonage, inbound messages to that number are sent to your [webhook endpoint](/concepts/guides/webhooks).
 
           When you receive an inbound message, you must send a 2xx response. If you do not send a 2xx response Vonage will resend the inbound message for the next 24 hours.
         requestBody:
@@ -111,7 +111,7 @@ components:
           minLength: 16
           maxLength: 60
         from:
-          description: The name or number the message should be sent from. Alphanumeric senderID's are not supported in all countries, see [Global Messaging](https://developer.nexmo.com/messaging/sms/guides/global-messaging#country-specific-features) for more details. If alphanumeric, spaces will be ignored. Numbers are specified in E.164 format.
+          description: The name or number the message should be sent from. Alphanumeric senderID's are not supported in all countries, see [Global Messaging](/messaging/sms/guides/global-messaging#country-specific-features) for more details. If alphanumeric, spaces will be ignored. Numbers are specified in E.164 format.
           type: string
           example: "AcmeInc"
         to:
@@ -133,7 +133,7 @@ components:
           minimum: 20000
           maximum: 604800000
         status-report-req:
-          description: "**Advanced**: Boolean indicating if you like to receive a [Delivery Receipt](https://developer.nexmo.com/messaging/sms/building-blocks/receive-a-delivery-receipt)."
+          description: "**Advanced**: Boolean indicating if you like to receive a [Delivery Receipt](/messaging/sms/building-blocks/receive-a-delivery-receipt)."
           type: boolean
           example: false
           default: true
@@ -361,7 +361,7 @@ components:
             name: messageId
         status:
           type: string
-          description: The status of the message. See [Troubleshooting Failed SMS](https://developer.nexmo.com/messaging/sms/guides/troubleshooting-sms).
+          description: The status of the message. See [Troubleshooting Failed SMS](/messaging/sms/guides/troubleshooting-sms).
           example: "0"
         remaining-balance:
           type: string
@@ -428,7 +428,7 @@ components:
           example: "2001011400"
         err-code:
           type: string
-          description: The status of the request. Will be a non `0` value if there has been an error, or if the status is unknown. See the [Delivery Receipt documentation](https://developer.nexmo.com/messaging/sms/guides/delivery-receipts#dlr-error-codes) for more details
+          description: The status of the request. Will be a non `0` value if there has been an error, or if the status is unknown. See the [Delivery Receipt documentation](/messaging/sms/guides/delivery-receipts#dlr-error-codes) for more details
           example: "0"
         api-key:
           type: string
@@ -453,7 +453,7 @@ components:
         sig:
           type: string
           example: 1A20E4E2069B609FDA6CECA9DE18D5CAFE99720DDB628BD6BE8B19942A336E1C
-          description: The signature to enable verification of the source of this webhook. Please see the [developer documentation for validating signatures](https://developer.nexmo.com/concepts/guides/signing-messages) for more information, or use one of our published SDKs. _Only included if you have signatures enabled_
+          description: The signature to enable verification of the source of this webhook. Please see the [developer documentation for validating signatures](/concepts/guides/signing-messages) for more information, or use one of our published SDKs. _Only included if you have signatures enabled_
 
 x-errors:
   "1":
@@ -506,7 +506,7 @@ x-errors:
 
   "14":
     description: Invalid Signature. The signature supplied could not be verified.
-    resolution: Check the [documentation for signing messages](https://developer.nexmo.com/concepts/guides/signing-messages) or use one of the [SDKs](https://developer.nexmo.com/tools) to handle the signing.
+    resolution: Check the [documentation for signing messages](/concepts/guides/signing-messages) or use one of the [SDKs](/tools) to handle the signing.
 
   "15":
     description: Invalid Sender Address. You are using a non-authorized sender ID in the `from` field.
