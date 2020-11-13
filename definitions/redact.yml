@@ -3,7 +3,7 @@ openapi: "3.0.0"
 info:
   version: 1.0.5
   title: "Redact API"
-  description: The Redact API helps organisations meet their privacy compliance obligations. Redact API allows you to redact private information on demand, allowing you to meet your own compliance needs.
+  description: The [Redact API](/redact/overview) helps organisations meet their privacy compliance obligations. Redact API allows you to redact private information on demand, allowing you to meet your own compliance needs. Note, Redact API does not have the capability to redact the short-lived server logs that are retained for a few weeks. For SMS customers that need immediate redaction, Vonage suggests using [Advanced Auto-redact](/redact/overview#auto-redact-vs-redact-api).
   contact:
     name: Vonage DevRel
     email: devrel@vonage.com
