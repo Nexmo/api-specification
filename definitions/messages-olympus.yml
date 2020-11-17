@@ -1338,7 +1338,7 @@ components:
                 - viber_service_msg
             id:
               type: string
-              description: This is your Service Message ID given to you by Vonage Account Manager. To find out more please visit [vonage.com](https://www.vonage.com/communications-apis/messages/).
+              description: This is your Service Message ID given to you by your Vonage Account Manager. To find out more please visit [vonage.com](https://www.vonage.com/communications-apis/messages/).
               example: '654321'
     channelOptionsViber:
       allOf:
