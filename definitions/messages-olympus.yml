@@ -1488,7 +1488,7 @@ components:
 
             **Messenger**: This value should be the `to.id` value you received in the inbound messenger event.
 
-            **Viber**: This is your Service Message ID given to you by Vonage Account Manager. To find out more please visit [vonage.com](https://www.vonage.com/communications-apis/messages/).
+            **Viber**: This is your Service Message ID given to you by your Vonage Account Manager. To find out more please visit [vonage.com](https://www.vonage.com/communications-apis/messages/).
 
           type: string
           minLength: 1
