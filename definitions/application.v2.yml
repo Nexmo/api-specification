@@ -718,7 +718,7 @@ components:
                           type: integer
                           description: Reading timeout in milliseconds
                           example: 3000
-                          defalut: 5000
+                          default: 5000
                           maximum: 5000
                           minimum: 1000
                     event_url:
