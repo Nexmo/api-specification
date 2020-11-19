@@ -696,7 +696,6 @@ components:
                           type: integer
                           description: Connection timetout in milliseconds
                           example: 500
-                          minimum: 300
                         socket_timeout:
                           type: integer
                           description: Reading timeout in milliseconds
