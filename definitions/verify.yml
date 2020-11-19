@@ -3,7 +3,7 @@ servers:
   - url: "https://api.nexmo.com/verify"
 info:
   title: Verify API
-  version: 1.1.5
+  version: 1.1.6
   description: >-
     The Verify API helps you to implement 2FA (two-factor authentication) in your applications.
     This is useful for:
@@ -135,10 +135,10 @@ paths:
                     error_text: The destination number is not in a supported network
 
                 not-permitted:
-                  summary: Non-Whitelisted Destination
+                  summary: Non-Permitted Destination
                   value:
                     status: "29"
-                    error_text: Your Vonage account is still in demo mode. While in demo mode you must add target numbers to your whitelisted destination list. Add funds to your account to remove this limitation.
+                    error_text: Your Vonage account is still in demo mode. While in demo mode you must add target numbers to the approved list for your account. Add funds to your account to remove this limitation.
 
               schema:
                 oneOf:
@@ -769,7 +769,7 @@ components:
             10 | Concurrent verifications to the same number are not allowed |
             15 | The destination number is not in a supported network | The request has been rejected. Find out more about this error in the [Knowledge Base](https://help.nexmo.com/hc/en-us/articles/360018406532-Verify-On-demand-Service-to-High-Risk-Countries)
             20 | This account does not support the parameter: pin_code. | Only certain accounts have the ability to set the `pin_code`. Please contact your account manager for more information.
-            29 | Non-Whitelisted Destination | Your Vonage account is still in demo mode. While in demo mode you must add target numbers to your whitelisted destination list. Add funds to your account to remove this limitation.
+            29 | Non-Permitted Destination | Your Vonage account is still in demo mode. While in demo mode you must add target numbers to the approved list for your account. Add funds to your account to remove this limitation.
 
         error_text:
           type: string
