@@ -700,8 +700,6 @@ components:
                           type: integer
                           description: Reading timeout in milliseconds
                           example: 3000
-                          maximum: 5000
-                          minimum: 1000
                     fallback_answer_url:
                       type: object
                       properties:
@@ -719,14 +717,10 @@ components:
                           type: integer
                           description: Connection timeout in milliseconds
                           example: 500
-                          maximum: 1000
-                          minimum: 300
                         socket_timeout:
                           type: integer
                           description: Reading timeout in milliseconds
                           example: 3000
-                          maximum: 5000
-                          minimum: 1000
                     event_url:
                       type: object
                       properties:
@@ -742,14 +736,10 @@ components:
                           type: integer
                           description: Connection timetout in milliseconds
                           example: 500
-                          maximum: 1000
-                          minimum: 300
                         socket_timeout:
                           type: integer
                           description: Reading timeout in milliseconds
                           example: 3000
-                          maximum: 10000
-                          minimum: 1000
             messages:
               type: object
               description: Messages / Dispatch related configuration
