@@ -164,7 +164,7 @@ paths:
                                     - POST
                                 connection_timeout:
                                   type: integer
-                                  description: Connection timetout in milliseconds
+                                  description: Connection timeout in milliseconds
                                   example: 500
                                   default: 1000
                                   maximum: 1000
@@ -192,7 +192,7 @@ paths:
                                     - POST
                                 connection_timeout:
                                   type: integer
-                                  description: Connection timetout in milliseconds
+                                  description: Connection timeout in milliseconds
                                   example: 500
                                   default: 1000
                                   maximum: 1000
@@ -401,7 +401,7 @@ paths:
                                     - POST
                                 connection_timeout:
                                   type: integer
-                                  description: Connection timetout in milliseconds
+                                  description: Connection timeout in milliseconds
                                   example: 500
                                   default: 1000
                                   maximum: 1000
@@ -431,7 +431,7 @@ paths:
                                     - POST
                                 connection_timeout:
                                   type: integer
-                                  description: Connection timetout in milliseconds
+                                  description: Connection timeout in milliseconds
                                   example: 500
                                   default: 1000
                                   maximum: 1000
@@ -459,7 +459,7 @@ paths:
                                     - POST
                                 connection_timeout:
                                   type: integer
-                                  description: Connection timetout in milliseconds
+                                  description: Connection timeout in milliseconds
                                   example: 500
                                   default: 1000
                                   maximum: 1000
@@ -694,7 +694,7 @@ components:
                           description: The HTTP method used to fetch your NCCO from your `answer_url`
                         connection_timeout:
                           type: integer
-                          description: Connection timetout in milliseconds
+                          description: Connection timeout in milliseconds
                           example: 500
                         socket_timeout:
                           type: integer
@@ -734,7 +734,7 @@ components:
                           description: The HTTP method used to send events to your server
                         connection_timeout:
                           type: integer
-                          description: Connection timetout in milliseconds
+                          description: Connection timeout in milliseconds
                           example: 500
                         socket_timeout:
                           type: integer
