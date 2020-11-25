@@ -1,7 +1,7 @@
 openapi: "3.0.2"
 info:
   title: "Account API"
-  version: "1.0.2"
+  version: "1.0.3"
   description: >-
     Enables users to manage their Vonage API Account by programmable means. More information is available here: <https://developer.nexmo.com/account/overview>.
   contact:
@@ -77,14 +77,8 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              type: object
-              required:
-                - trx
-              properties:
-                trx:
-                  type: string
-                  description: The transaction reference of the transaction when balance was added and auto-reload was enabled on your account.
-                  example: 8ef2447e69604f642ae59363aa5f781b
+              $ref: "#/components/schemas/topupRequest"
+
       responses:
         "200":
           description: Success
@@ -132,26 +126,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              type: object
-              properties:
-                moCallBackUrl:
-                  description: >-
-                    The URL where Vonage will send a webhook when an SMS is received
-                    to a Vonage number that does not have SMS handling configured.
-
-                    Send an empty string to unset this value.
-                  type: string
-                  format: url
-                  example: https://example.com/webhooks/inbound-sms
-                drCallBackUrl:
-                  description: >-
-                    The URL where Vonage will send a webhook when an delivery
-                    receipt is received without a specific callback URL configured.
-
-                    Send an empty string to unset this value.
-                  type: string
-                  format: url
-                  example: https://example.com/webhooks/delivery-receipt
+              $ref: "#/components/schemas/accountSettingsRequest"
       responses:
         "200":
           description: OK. Settings were updated if supplied, the details of the current settings are included in the response.
@@ -253,22 +228,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              required:
-                - secret
-              properties:
-                secret:
-                  description: |
-                    The new secret must follow these rules:
-
-                    * minimum 8 characters
-                    * maximum 25 characters
-                    * minimum 1 lower case character
-                    * minimum 1 upper case character
-                    * minimum 1 digit
-
-                  type: string
-                  example: "example-4PI-secret"
+              $ref: "#/components/schemas/createSecretRequest"
       responses:
         "201":
           description: Secret created
@@ -629,6 +589,56 @@ components:
           type: string
           description: Internal Trace ID
           example: bf0ca0bf927b3b52e3cb03217e1a1ddf
+
+    accountSettingsRequest:
+      type: object
+      properties:
+        moCallBackUrl:
+          description: >-
+            The URL where Vonage will send a webhook when an SMS is received
+            to a Vonage number that does not have SMS handling configured.
+
+            Send an empty string to unset this value.
+          type: string
+          format: url
+          example: https://example.com/webhooks/inbound-sms
+        drCallBackUrl:
+          description: >-
+            The URL where Vonage will send a webhook when an delivery
+            receipt is received without a specific callback URL configured.
+
+            Send an empty string to unset this value.
+          type: string
+          format: url
+          example: https://example.com/webhooks/delivery-receipt
+
+    createSecretRequest:
+      type: object
+      required:
+        - secret
+      properties:
+        secret:
+          description: |
+            The new secret must follow these rules:
+
+            * minimum 8 characters
+            * maximum 25 characters
+            * minimum 1 lower case character
+            * minimum 1 upper case character
+            * minimum 1 digit
+
+          type: string
+          example: "example-4PI-secret"
+    topupRequest:
+      type: object
+      required:
+        - trx
+      properties:
+        trx:
+          type: string
+          description: The transaction reference of the transaction when balance was added and auto-reload was enabled on your account.
+          example: 8ef2447e69604f642ae59363aa5f781b
+
 
   responses:
     BadCredentialsError:
