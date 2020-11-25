@@ -202,11 +202,11 @@ components:
           type: string
           example: customer1234
         entity-id:
-          description: "**Advanced**: An string only required when needing to meet certain country regulations by providing this field when making an SMS request. For more information please refer to the [Country-Specific Outbound SMS Features](https://help.nexmo.com/hc/en-us/articles/115011781468)"
+          description: "**Advanced**: A string only required when needing to meet certain country regulations by providing this field when making an SMS request. For more information please refer to the [Country-Specific Outbound SMS Features](https://help.nexmo.com/hc/en-us/articles/115011781468)"
           type: string
           example: "1101456324675322134"
         content-id:
-          description: "**Advanced**: An string only required when needing to meet certain country regulations by providing this field when making an SMS request. For more information please refer to the [Country-Specific Outbound SMS Features](https://help.nexmo.com/hc/en-us/articles/115011781468)"
+          description: "**Advanced**: A string only required when needing to meet certain country regulations by providing this field when making an SMS request. For more information please refer to the [Country-Specific Outbound SMS Features](https://help.nexmo.com/hc/en-us/articles/115011781468)"
           type: string
           example: "1107457532145798767"
     Error:
