@@ -110,7 +110,7 @@ paths:
       operationId: changeAccountSettings
       summary: Change Account Settings
       description: >-
-        Update the default callback URLs (where the webhooks are sent to) associated with your account:
+        Update the default webhook URLs associated with your account:
           * Callback URL for incoming SMS messages
           * Callback URL for delivery receipts
 
@@ -461,12 +461,12 @@ components:
         mo-callback-url:
           type: string
           format: url
-          description: The current or updated inbound message URI
+          description: The current or updated inbound message webhook URI
           example: https://example.com/webhooks/inbound-sms
         dr-callback-url:
           type: string
           format: url
-          description: The current or updated delivery receipt URI
+          description: The current or updated delivery receipt webhook URI
           example: https://example.com/webhooks/delivery-receipt
         max-outbound-request:
           type: integer
@@ -595,8 +595,9 @@ components:
       properties:
         moCallBackUrl:
           description: >-
-            The URL where Vonage will send a webhook when an SMS is received
-            to a Vonage number that does not have SMS handling configured.
+            The default webhook URL for inbound SMS. If an SMS is received at a Vonage number 
+            that does not have its own inbound SMS webhook configured, Vonage makes a request
+            here.
 
             Send an empty string to unset this value.
           type: string
@@ -604,8 +605,8 @@ components:
           example: https://example.com/webhooks/inbound-sms
         drCallBackUrl:
           description: >-
-            The URL where Vonage will send a webhook when an delivery
-            receipt is received without a specific callback URL configured.
+            The webhook URL that Vonage makes a request to when a delivery receipt is available 
+            for an SMS sent by one of your Vonage numbers.
 
             Send an empty string to unset this value.
           type: string
