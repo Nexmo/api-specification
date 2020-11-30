@@ -1,7 +1,7 @@
 ---
 openapi: "3.0.0"
 info:
-  version: 2.0.8
+  version: 2.0.9
   title: "Application API"
   description: |
     Vonage provides an Application API to allow management of your Vonage Applications.
@@ -134,14 +134,14 @@ paths:
                                     - POST
                                 connection_timeout:
                                   type: integer
-                                  description: Connection timeout in milliseconds
+                                  description: If Vonage can't connect to the webhook URL for this specified amount of time, then Vonage makes one additional attempt to connect to the webhook endpoint. This is an integer value specified in milliseconds.
                                   example: 500
                                   default: 1000
                                   maximum: 1000
                                   minimum: 300
                                 socket_timeout:
                                   type: integer
-                                  description: Reading timeout in milliseconds
+                                  description: If a response from the webhook URL can't be read for this specified amount of time, then Vonage makes one additional attempt to read the webhook endpoint. This is an integer value specified in milliseconds.
                                   example: 3000
                                   default: 5000
                                   maximum: 5000
@@ -164,14 +164,14 @@ paths:
                                     - POST
                                 connection_timeout:
                                   type: integer
-                                  description: Connection timeout in milliseconds
+                                  description: If Vonage can't connect to the webhook URL for this specified amount of time, then Vonage makes one additional attempt to connect to the webhook endpoint. This is an integer value specified in milliseconds.
                                   example: 500
                                   default: 1000
                                   maximum: 1000
                                   minimum: 300
                                 socket_timeout:
                                   type: integer
-                                  description: Reading timeout in milliseconds
+                                  description: If a response from the webhook URL can't be read for this specified amount of time, then Vonage makes one additional attempt to read the webhook endpoint. This is an integer value specified in milliseconds.
                                   example: 3000
                                   default: 5000
                                   maximum: 5000
@@ -192,14 +192,14 @@ paths:
                                     - POST
                                 connection_timeout:
                                   type: integer
-                                  description: Connection timeout in milliseconds
+                                  description: If Vonage can't connect to the webhook URL for this specified amount of time, then Vonage makes one additional attempt to connect to the webhook endpoint. This is an integer value specified in milliseconds.
                                   example: 500
                                   default: 1000
                                   maximum: 1000
                                   minimum: 300
                                 socket_timeout:
                                   type: integer
-                                  description: Reading timeout in milliseconds
+                                  description: If a response from the webhook URL can't be read for this specified amount of time, then Vonage makes one additional attempt to read the webhook endpoint. This is an integer value specified in milliseconds.
                                   example: 3000
                                   default: 10000
                                   maximum: 10000
@@ -401,14 +401,14 @@ paths:
                                     - POST
                                 connection_timeout:
                                   type: integer
-                                  description: Connection timeout in milliseconds
+                                  description: If Vonage can't connect to the webhook URL for this specified amount of time, then Vonage makes one additional attempt to connect to the webhook endpoint. This is an integer value specified in milliseconds.
                                   example: 500
                                   default: 1000
                                   maximum: 1000
                                   minimum: 300
                                 socket_timeout:
                                   type: integer
-                                  description: Reading timeout in milliseconds
+                                  description: If a response from the webhook URL can't be read for this specified amount of time, then Vonage makes one additional attempt to read the webhook endpoint. This is an integer value specified in milliseconds.
                                   example: 3000
                                   default: 5000
                                   maximum: 5000
@@ -431,14 +431,14 @@ paths:
                                     - POST
                                 connection_timeout:
                                   type: integer
-                                  description: Connection timeout in milliseconds
+                                  description: If Vonage can't connect to the webhook URL for this specified amount of time, then Vonage makes one additional attempt to connect to the webhook endpoint. This is an integer value specified in milliseconds.
                                   example: 500
                                   default: 1000
                                   maximum: 1000
                                   minimum: 300
                                 socket_timeout:
                                   type: integer
-                                  description: Reading timeout in milliseconds
+                                  description: If a response from the webhook URL can't be read for this specified amount of time, then Vonage makes one additional attempt to read the webhook endpoint. This is an integer value specified in milliseconds.
                                   example: 3000
                                   default: 5000
                                   maximum: 5000
@@ -459,14 +459,14 @@ paths:
                                     - POST
                                 connection_timeout:
                                   type: integer
-                                  description: Connection timeout in milliseconds
+                                  description: If Vonage can't connect to the webhook URL for this specified amount of time, then Vonage makes one additional attempt to connect to the webhook endpoint. This is an integer value specified in milliseconds.
                                   example: 500
                                   default: 1000
                                   maximum: 1000
                                   minimum: 300
                                 socket_timeout:
                                   type: integer
-                                  description: Reading timeout in milliseconds
+                                  description: If a response from the webhook URL can't be read for this specified amount of time, then Vonage makes one additional attempt to read the webhook endpoint. This is an integer value specified in milliseconds.
                                   example: 3000
                                   default: 10000
                                   maximum: 10000
@@ -694,11 +694,11 @@ components:
                           description: The HTTP method used to fetch your NCCO from your `answer_url`
                         connection_timeout:
                           type: integer
-                          description: Connection timeout in milliseconds
+                          description: If Vonage can't connect to the webhook URL for this specified amount of time, then Vonage makes one additional attempt to connect to the webhook endpoint. This is an integer value specified in milliseconds.
                           example: 500
                         socket_timeout:
                           type: integer
-                          description: Reading timeout in milliseconds
+                          description: If a response from the webhook URL can't be read for this specified amount of time, then Vonage makes one additional attempt to read the webhook endpoint. This is an integer value specified in milliseconds.
                           example: 3000
                     fallback_answer_url:
                       type: object
@@ -734,11 +734,11 @@ components:
                           description: The HTTP method used to send events to your server
                         connection_timeout:
                           type: integer
-                          description: Connection timeout in milliseconds
+                          description: If Vonage can't connect to the webhook URL for this specified amount of time, then Vonage makes one additional attempt to connect to the webhook endpoint. This is an integer value specified in milliseconds.
                           example: 500
                         socket_timeout:
                           type: integer
-                          description: Reading timeout in milliseconds
+                          description: If a response from the webhook URL can't be read for this specified amount of time, then Vonage makes one additional attempt to read the webhook endpoint. This is an integer value specified in milliseconds.
                           example: 3000
             messages:
               type: object
