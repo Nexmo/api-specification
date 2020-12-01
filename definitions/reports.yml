@@ -1,6 +1,6 @@
 openapi: "3.0.0"
 info:
-  version: 2.1.12
+  version: 2.1.13
   title: Reports API
   description: |
     The [Reports API](/reports/overview) enables you to request a report of activity for your Vonage account.
@@ -326,6 +326,9 @@ paths:
           $ref: "#/components/responses/401"
         "404":
           $ref: "#/components/responses/404"
+        "409":
+          $ref: "#/components/responses/409"
+          
   "/v3/media/{file_id}":
     get:
       operationId: download-report
@@ -772,6 +775,24 @@ components:
               detail:
                 type: string
                 example: "Report aaaaaaaa-bbbb-cccc-dddd-0123456789ab does not exist, or you do not have access."
+              instance:
+                type: string
+                example: f94b4e56604e07e5e5ad5a7228618f81
+    "409":
+      description: Invalid Abort Operation
+      content:
+        application/json:
+          schema:
+            properties:
+              type:
+                type: string
+                example: "https://developer.nexmo.com/api-errors#invalid-abort-operation"
+              title:
+                type: string
+                example: "Invalid Abort Operation"
+              detail:
+                type: string
+                example: "The job is already in a terminated state such as `SUCCESS`, `TRUNCATED`, `FAILED` or `ABORTED`."
               instance:
                 type: string
                 example: f94b4e56604e07e5e5ad5a7228618f81
