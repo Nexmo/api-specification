@@ -2203,7 +2203,7 @@ x-errors:
       text: View API reference
       url: /api/reports#create-report
   invalid-abort-operation:
-    description: The job is already in a terminated state such as SUCCESS, TRUNCATED, FAILED or ABORTED.
+    description: The job is already in a terminated state such as `SUCCESS`, `TRUNCATED`, `FAILED` or `ABORTED`.
     resolution: None
     link:
       text: View API reference
