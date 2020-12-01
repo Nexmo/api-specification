@@ -786,7 +786,7 @@ components:
             properties:
               type:
                 type: string
-                example: "https://developer.nexmo.com/api-errors#invalid-abort-operation"
+                example: "https://developer.nexmo.com/api-errors/reports#invalid-abort-operation"
               title:
                 type: string
                 example: "Invalid Abort Operation"
@@ -2202,4 +2202,10 @@ x-errors:
     link:
       text: View API reference
       url: /api/reports#create-report
+  invalid-abort-operation:
+    description: The job is already in a terminated state such as SUCCESS, TRUNCATED, FAILED or ABORTED.
+    resolution: None
+    link:
+      text: View API reference
+      url: /api/reports#cancel-report
 
