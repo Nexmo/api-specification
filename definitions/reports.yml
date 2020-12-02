@@ -1,6 +1,6 @@
 openapi: "3.0.0"
 info:
-  version: 2.1.13
+  version: 2.1.14
   title: Reports API
   description: |
     The [Reports API](/reports/overview) enables you to request a report of activity for your Vonage account.
