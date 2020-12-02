@@ -66,7 +66,7 @@ paths:
           example: inbound
         - name: id
           description: |
-            The UUID of the message or call to be searched for.
+            The UUID of the message or call to be searched for. You can specify a comma-separated list of UUIDs. If UUIDs are not found they are listed in the response in the `ids_not_found` field.
 
             If you specify `id`, you must not specify `status`, `date_start` or `date_end`.
           in: query
