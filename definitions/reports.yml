@@ -841,6 +841,8 @@ components:
           $ref: "#/components/schemas/currency"
         account_id:
           $ref: "#/components/schemas/account_id"
+        ids_not_found:
+          $ref: "#/components/schemas/ids_not_found"
  
     # request fields
     product:
@@ -970,6 +972,10 @@ components:
       type: string
       description: The account ID (API key) you wish to search for. This can differ from the API key in the authorization header because some accounts can request reports for other accounts, e.g. a primary account owner wants to create a report for one of its subaccounts.
       example: "abcdef01"
+    ids_not_found:
+      type: string
+      description: If you request multiple records using a comma-separated list of UUIDs, then the UUIDs of any records not found are listed in this field.
+      example: "7b10a0c2-1a05-11eb-bad9-38f9d331649,7b1091b8-1a05-11eb-bad9-38f9d331493"
     include_subaccounts:
       type: boolean
       description: Whether to include subaccounts or not.
