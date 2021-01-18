@@ -3,7 +3,7 @@ servers:
   - url: "https://api.nexmo.com/verify"
 info:
   title: Verify API
-  version: 1.1.6
+  version: 1.1.7
   description: >-
     The Verify API helps you to implement 2FA (two-factor authentication) in your applications.
     This is useful for:
@@ -267,9 +267,9 @@ paths:
         - $ref: "#/components/parameters/api_key"
         - $ref: "#/components/parameters/api_secret"
         - name: request_id
-          required: false
+          required: true
           in: query
-          description: The `request_id` you received in the Verify Request Response.
+          description: The `request_id` you received in the Verify Request Response. Required if `request_ids` not provided.
           schema:
             type: string
           example: abcdef0123456789abcdef0123456789
@@ -278,7 +278,7 @@ paths:
           in: query
           description: >-
             More than one `request_id`. Each `request_id` is a new parameter in
-            the Verify Search request.
+            the Verify Search request. Required if `request_id` not provided.
           schema:
             type: array
             items:
