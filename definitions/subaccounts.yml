@@ -40,7 +40,7 @@ paths:
         "403":
           $ref: "#/components/responses/ForbiddenError"
         "404":
-          $ref: "#/components/responses/NotFoundError"
+          $ref: "#/components/responses/AccountIdNotFoundError"
     post:
       summary: Create subaccount
       operationId: createSubAccount
@@ -75,7 +75,7 @@ paths:
         "403":
           $ref: "#/components/responses/ForbiddenError"
         "404":
-          $ref: "#/components/responses/NotFoundError"
+          $ref: "#/components/responses/AccountIdNotFoundError"
         "422":
           $ref: "#/components/responses/UnprocessableEntityError"
   /{api_key}/subaccounts/{subaccount_key}:
@@ -113,7 +113,7 @@ paths:
         "403":
           $ref: "#/components/responses/ForbiddenError"
         "404":
-          $ref: "#/components/responses/NotFoundError"
+          $ref: "#/components/responses/AccountIdNotFoundError"
     patch:
       summary: Modify a subaccount
       operationId: modifySubaccount
@@ -154,7 +154,7 @@ paths:
         "403":
           $ref: "#/components/responses/ForbiddenError"
         "404":
-          $ref: "#/components/responses/NotFoundError"
+          $ref: "#/components/responses/AccountIdNotFoundError"
         "422":
           $ref: "#/components/responses/UnprocessableEntityError"
   /{api_key}/credit-transfers:
@@ -206,7 +206,7 @@ paths:
         "403":
           $ref: "#/components/responses/ForbiddenError"
         "404":
-          $ref: "#/components/responses/NotFoundError"
+          $ref: "#/components/responses/AccountIdNotFoundError"
     post:
       summary: Transfer credit
       operationId: transferCredit
@@ -241,7 +241,7 @@ paths:
         "403":
           $ref: "#/components/responses/ForbiddenError"
         "404":
-          $ref: "#/components/responses/NotFoundError"
+          $ref: "#/components/responses/AccountIdNotFoundError"
         "422":
           $ref: "#/components/responses/UnprocessableEntityError"
   /{api_key}/balance-transfers:
@@ -293,7 +293,7 @@ paths:
         "403":
           $ref: "#/components/responses/ForbiddenError"
         "404":
-          $ref: "#/components/responses/NotFoundError"
+          $ref: "#/components/responses/AccountIdNotFoundError"
     post:
       summary: Transfer balance
       description: >
@@ -329,7 +329,7 @@ paths:
         "403":
           $ref: "#/components/responses/ForbiddenError"
         "404":
-          $ref: "#/components/responses/NotFoundError"
+          $ref: "#/components/responses/AccountIdNotFoundError"
         "422":
           $ref: "#/components/responses/UnprocessableEntityError"
   /{api_key}/transfer-number:
@@ -373,7 +373,15 @@ paths:
                   - $ref: "#/components/schemas/UnprovisionedErrorResponse"
                   - $ref: "#/components/schemas/InvalidNumberTransferErrorResponse"
         "404":
-          $ref: "#/components/responses/NotFoundError"
+          description: Action is forbidden
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/responses/AccountIdNotFoundError/content/application~1json/schema"
+                  - $ref: "#/components/schemas/ShortcodeNotFound"
+        "409":
+          $ref: "#/components/responses/NumberTransferConflictResponse"
         "422":
           $ref: "#/components/responses/UnprocessableEntityError"
 tags:
@@ -417,11 +425,12 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/UnprovisionedErrorResponse"
-    NotFoundError:
+    AccountIdNotFoundError:
       description: The account ID provided does not exist in our system or you do not have access
       content:
         application/json:
           schema:
+            description: Invalid API Key
             type: object
             required:
               - type
@@ -441,6 +450,30 @@ components:
               instance:
                 type: string
                 example: "158b8f199c45014ab7b08bfe9cc1c12c"
+    NumberTransferConflictResponse:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - type
+              - title
+              - detail
+              - instance
+            properties:
+              type:
+                type: string
+                example: "https://developer.nexmo.com/api-errors/subaccounts#transfer-conflict"
+              title:
+                type: string
+                example: "Transfer Conflict"
+              detail:
+                type: string
+                example: "Could not transfer number {number} from account {from} to {to} - ShortCode is already owned by requesting account"
+              instance:
+                type: string
+                example: "158b8f199c45014ab7b08bfe9cc1c12c"
     UnprocessableEntityError:
       description: Validation Error
       content:
@@ -456,7 +489,7 @@ components:
             properties:
               type:
                 type: string
-                example: "https://developer.nexmo.com/api-errors/account/subaccounts#validation"
+                example: "https://developer.nexmo.com/api-errors/subaccounts#validation"
               title:
                 type: string
                 example: "Bad Request"
@@ -523,6 +556,27 @@ components:
         instance:
           type: string
           example: "158b8f199c45014ab7b08bfe9cc1c12c"
+    ShortcodeNotFound:
+      description: Shortcode Not Found
+      type: object
+      required:
+        - type
+        - title
+        - detail
+        - instance
+      properties:
+        type:
+          type: string
+          example: "https://developer.nexmo.com/api-errors/subaccounts#missing-number-transfer"
+        title:
+          type: string
+          example: "Invalid Number Transfer"
+        detail:
+          type: string
+          example: "Could not transfer number {number} from account {from} to {to} - ShortCode not found"
+        instance:
+          type: string
+          example: "158b8f199c45014ab7b08bfe9cc1c12c"
     InvalidNumberTransferErrorResponse:
       description: Invalid Transfer
       type: object
@@ -534,13 +588,13 @@ components:
       properties:
         type:
           type: string
-          example: "https://developer.nexmo.com/api-errors#invalid-number-transfer"
+          example: "https://developer.nexmo.com/api-errors/subaccounts#invalid-number-transfer"
         title:
           type: string
           example: "Invalid Number Transfer"
         detail:
           type: string
-          example: "Failed to perform transfer number {number} from account {from} to {to} - Shortcode not found"
+          example: "Failed to perform transfer number {number} from account {from} to {to} - The relationship between these two accounts does not allow for number transfer"
         instance:
           type: string
           example: "158b8f199c45014ab7b08bfe9cc1c12c"
