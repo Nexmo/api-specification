@@ -965,7 +965,7 @@ components:
     niInitialCarrierProperties:
       type: object
       x-nexmo-developer-collection-description-shown: true
-      description: "Information about the network `number` is currently connected to."
+      description: "Information about the network `number` was initially connected to."
       properties:
         network_code:
           type: string
