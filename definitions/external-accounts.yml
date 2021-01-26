@@ -38,12 +38,11 @@ paths:
                 access_token:
                   type: string
                   example: "myAccessToken"
-                  description:
-                    This is the Facebook Page token. You can obtain the token using one of the following methods
-                    <ul>
-                    <li>Use our tool in you [Vonage API Dashboard](https://dashboard.nexmo.com/messages/social-channels/facebook-connect) to link a page to your Vonage API account</li>
-                    <li>Following the official [token reference](https://developers.facebook.com/docs/pages/access-tokens/)</li>
-                    </ul>
+                  description: |
+                    This is the Facebook Business Page token. You can obtain the token using one of the following methods:
+                    
+                    * Linking your Facebook Business Page to your account [with our Dashboard tool](https://dashboard.nexmo.com/messages/social-channels/facebook-connect) 
+                    * Requesting a Page Access Token using the steps in the [Facebook token reference](https://developers.facebook.com/docs/pages/access-tokens/)
                 name:
                   type: string
                   example: "optionalName" # optional
