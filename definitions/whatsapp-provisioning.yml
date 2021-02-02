@@ -753,8 +753,8 @@ components:
           example: '44'
         number:
           type: string
-          description: The phone number of the deployment (minus the international dialing code) e.g. `7877001122`
-          example: '7877001122'
+          description: The phone number of the deployment (minus the international dialing code) e.g. `8675309`
+          example: '8675309'
         api_key:
           type: string
           description: The API key associated with the deployment.
@@ -798,7 +798,7 @@ components:
         number:
           description: The WhatsApp number being provisioned.
           type: string
-          example: "7877001122"
+          example: "8675309"
         vname_certificate:
           $ref: '#/components/schemas/vname_certificate'
         method:
@@ -811,7 +811,7 @@ components:
         waba_id:
           type: string
           description: WABA ID of the WhatsApp Number
-          example: '345676589250625'
+          example: '123456789123'
         pin:
           type: string
           description: Required if you previously set a PIN when creating a WhatsApp number.
@@ -821,7 +821,7 @@ components:
         The certificate, which you can retrieve from your WhatsApp Business dashboard.
         > **Note** this value is refreshed whenever you click the View button.
       type: string
-      example: CnQKMAj669nb79e    
+      example: AbCdEFGHiJK123456
     Resend-OTP:
       description: The method for delivering the OTP
       properties:
