@@ -1,6 +1,6 @@
 openapi: "3.0.3"
 info:
-  version: 0.1.1
+  version: 0.1.2
   title: WhatsApp Provisioning  API
   description: | 
     The WhatsApp Manager API enables customers to deploy a WhatsApp cluster, perform One Time Password (OTP) verification, and update profile information 
@@ -45,7 +45,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorUnauthorized"
-
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorForbidden"
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorConflictCreateDeployment"
   /deployments/{deployment_id}:
     get:
       description: Retrieves information about the deployment at the given deployment id.
@@ -634,6 +645,56 @@ components:
           type: string
           description: Unauthorized
           example: Check that you're using the correct credentials, and that your account has this feature enabled
+        instance:
+          type: string
+          description: Internal Trace ID
+          example: bf0ca0bf927b3b52e3cb03217e1a1ddf
+    ErrorConflictCreateDeployment:
+      description: Cannot create deployment because the number is already used by another deployment
+      type: object
+      required:
+        - type
+        - title
+        - detail
+        - instance
+      properties:
+        type:
+          type: string
+          description: Link to error / remediation options
+          example: https://developer.nexmo.com/api-errors/whatsapp-provisioning#number-in-use
+        title:
+          type: string
+          description: Generic error message
+          example: Number already in use
+        detail:
+          type: string
+          description: Additional information about the error
+          example: Active deployment already exists with id 21801df5-a3f6-4bd6-8b66-5bde51a909c7
+        instance:
+          type: string
+          description: Internal Trace ID
+          example: bf0ca0bf927b3b52e3cb03217e1a1ddf
+    ErrorForbidden:
+      description: Error when account isn't authorized to manage the deployment
+      type: object
+      required:
+        - type
+        - title
+        - detail
+        - instance
+      properties:
+        type:
+          type: string
+          description: Link to error / remediation options
+          example: https://developer.nexmo.com/api-errors#forbidden
+        title:
+          type: string
+          description: Generic error message
+          example: Forbidden
+        detail:
+          type: string
+          description: Additional information about the error
+          example: Your account does not have permission to perform this action - see https://www.vonage.com/communications-apis/contact-api/ for more details about getting signed up to send WhatsApp messages.
         instance:
           type: string
           description: Internal Trace ID
