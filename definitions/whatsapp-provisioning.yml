@@ -841,33 +841,24 @@ tags:
   - name: Profile
     description: Update WhatsApp profile
 x-errors:
+  invalid-json:
+    description: The request body did not contain valid JSON
+    resolution: Send a JSON request body, including a Content-Type header of application/json
   unprocessable:
     description: Parameters were valid JSON but something was missing or wrongly formatted
     resolution: Fix the incorrect request parameters and try again
-    link:
-      url: /api-errors/whatsapp-provisioning#unprocessable
-  unprocessableProfileUpdate:
+  unprocessable-profile-update:
     description: Parameters were valid JSON but something was missing or wrongly formatted
     resolution: Fix the incorrect request parameters and try again
-    link:
-      url: /api-errors/whatsapp-provisioning#unprocessableProfileUpdate
-  throttled: 
+  throttled:
     description: Too many requests have been made on this endpoint
     resolution: Wait a moment and try again
-    link:
-      url: /api-errors/whatsapp-provisioning#throttled
-  VerificationFailed:
+  verification-failed:
     description: Verification step failed. Either because the the provided code was incorrect or because too many attempts have been made
     resolution: Try again with the correct OTP, or call resend-otp
-    link:
-      url: /api-errors/whatsapp-provisioning#VerificationFailed
-  DeploymentStateConflict:
+  conflict-deployment-state:
     description: Deployment could not be modified because it is currently in a transitional state.
     resolution: If the deployment is transitioning into the state you want it in no action is required. If the state is `DELETING`, no action is required as the deployment will be deleted. Otherwise, wait for the transition to complete and try again.
-    link:
-      url: api-errors/whatsapp-provisioning#conflict-deployment-state
-  OtpResendConflict:
+  conflict-resend-otp:
     description: Could not resend OTP because the current state of the deployment did not allow it
     resolution: The deployment has either already finished, or is in an error state (in which case you should delete it and run it again).
-    link:
-      url: /api-errors/whatsapp-provisioning#conflict-resend-otp

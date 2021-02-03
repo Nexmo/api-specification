@@ -8,7 +8,7 @@ jobs:
     name: nexmo/github-actions/submodule-auto-pr@main
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@main
+    - uses: actions/checkout@master
     - name: nexmo/github-actions/submodule-auto-pr@main
       uses: nexmo/github-actions/submodule-auto-pr@main
       env:

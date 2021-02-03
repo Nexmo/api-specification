@@ -1,6 +1,6 @@
 openapi: "3.0.0"
 info:
-  version: 0.1.4
+  version: 0.1.5
   title: External Accounts API
   description: "The External Accounts API is used to manage accounts for Viber Service Messages, Facebook Messenger and Whatsapp for use in the [Messages](https://developer.nexmo.com/messages/overview) and [Dispatch](https://developer.nexmo.com/dispatch/overview) APIs."
   x-label: Developer Preview
@@ -38,12 +38,11 @@ paths:
                 access_token:
                   type: string
                   example: "myAccessToken"
-                  description:
-                    This is the Facebook Page token. You can obtain the token using one of the following methods
-                    <ul>
-                    <li>Use our tool to link a page to your Vonage API account [https://messenger.nexmo.com](https://messenger.nexmo.com)</li>
-                    <li>Following the official [token reference](https://developers.facebook.com/docs/pages/access-tokens/)</li>
-                    </ul>
+                  description: |
+                    This is the Facebook Business Page token. You can obtain the token using one of the following methods:
+                    
+                    * Linking your Facebook Business Page to your account [with our Dashboard tool](https://dashboard.nexmo.com/messages/social-channels/facebook-connect) 
+                    * Requesting a Page Access Token using the steps in the [Facebook token reference](https://developers.facebook.com/docs/pages/access-tokens/)
                 name:
                   type: string
                   example: "optionalName" # optional
