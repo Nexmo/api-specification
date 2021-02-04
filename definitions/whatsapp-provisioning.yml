@@ -1,6 +1,6 @@
 openapi: "3.0.3"
 info:
-  version: 0.1.1
+  version: 0.1.2
   title: WhatsApp Provisioning  API
   description: | 
     The WhatsApp Manager API enables customers to deploy a WhatsApp cluster, perform One Time Password (OTP) verification, and update profile information 
