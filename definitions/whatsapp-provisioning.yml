@@ -753,8 +753,8 @@ components:
           example: '44'
         number:
           type: string
-          description: The phone number of the deployment (minus the international dialing code) e.g. `8675309`
-          example: '8675309'
+          description: The phone number of the deployment (minus the international dialing code) e.g. `7700900000`
+          example: '7700900000'
         api_key:
           type: string
           description: The API key associated with the deployment.
