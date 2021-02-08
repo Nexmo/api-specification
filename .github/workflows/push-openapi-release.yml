@@ -2,7 +2,7 @@ name: OpenAPI Release
 on:
   push:
     branches:
-      - master
+      - main
 jobs:
   releaseOAS:
     name: Release OAS
@@ -10,6 +10,6 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: Release OAS
-      uses: nexmo/github-actions/openapi-release@master
+      uses: nexmo/github-actions/openapi-release@main
       env:
         GH_ADMIN_TOKEN: ${{ secrets.GH_ADMIN_TOKEN }}
