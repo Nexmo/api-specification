@@ -518,7 +518,6 @@ components:
       type: object
       required:
         - to
-        - from
       properties:
         to:
           type: array
@@ -530,6 +529,11 @@ components:
               - "$ref": "#/components/schemas/EndpointVBCExtension"
         from:
           "$ref": "#/components/schemas/EndpointPhoneFrom"
+          
+        random_from_number:
+          description: Set to `true` to use random phone number as `from`. The number will be selected from the list of the numbers assigned to the current application.
+          type: boolean
+          default: false
 
         event_url:
           description: |
