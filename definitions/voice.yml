@@ -531,7 +531,7 @@ components:
           "$ref": "#/components/schemas/EndpointPhoneFrom"
           
         random_from_number:
-          description: Set to `true` to use random phone number as `from`. The number will be selected from the list of the numbers assigned to the current application. `random_from_number: true` cannot be used together with `from`.
+          description: "Set to `true` to use random phone number as `from`. The number will be selected from the list of the numbers assigned to the current application. `random_from_number: true` cannot be used together with `from`."
           type: boolean
           default: false
 
