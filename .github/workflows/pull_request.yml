@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Create Review App
-        uses: mheap/github-action-pr-heroku-review-app@master
+        uses: nexmo/github-actions/heroku-review-app@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HEROKU_PIPELINE_ID: ${{ secrets.HEROKU_PIPELINE_ID }}

@@ -1,11 +1,11 @@
 openapi: "3.0.0"
 info:
-  version: 1.0.8
+  version: 1.0.10
   title: SMS API
-  description: With the Nexmo SMS API you can send SMS from your account and lookup messages both messages that you've sent as well as messages sent to your virtual numbers. Numbers are specified in E.164 format. More SMS API documentation is at <https://developer.nexmo.com/messaging/sms/overview>
+  description: With the SMS API you can send SMS from your account and lookup messages both messages that you've sent as well as messages sent to your virtual numbers. Numbers are specified in E.164 format. More SMS API documentation is at <https://developer.nexmo.com/messaging/sms/overview>
   contact:
-    name: Nexmo DevRel
-    email: devrel@nexmo.com
+    name: Vonage DevRel
+    email: devrel@vonage.com
     url: "https://developer.nexmo.com/"
 servers:
   - url: https://rest.nexmo.com/sms
@@ -14,7 +14,7 @@ paths:
     post:
       operationId: send-an-sms
       summary: Send an SMS
-      description: Send an outbound SMS from your Nexmo account
+      description: Send an outbound SMS from your Vonage account
       parameters:
         - name: format
           description: The format of the response
@@ -54,7 +54,7 @@ paths:
             post:
               summary: Delivery Receipt
               operationId: delivery-receipt
-              description: The following are parameters sent in as a [delivery receipt](https://developer.nexmo.com/messaging/sms/guides/delivery-receipts) callback. You can subscribe to [webhooks](https://developer.nexmo.com/concepts/guides/webhooks) to receive notification when the delivery status of an SMS that you have sent with Nexmo changes.
+              description: The following are parameters sent in as a [delivery receipt](/messaging/sms/guides/delivery-receipts) callback. You can subscribe to [webhooks](/concepts/guides/webhooks) to receive notification when the delivery status of an SMS that you have sent with Vonage changes.
               requestBody:
                 required: true
                 content:
@@ -72,9 +72,9 @@ x-webhooks:
         operationId: inbound-sms
         x-example-path: "/webhooks/inbound-sms"
         description: |
-          If you rent one or more virtual numbers from Nexmo, inbound messages to that number are sent to your [webhook endpoint](https://developer.nexmo.com/concepts/guides/webhooks).
+          If you rent one or more virtual numbers from Vonage, inbound messages to that number are sent to your [webhook endpoint](/concepts/guides/webhooks).
 
-          When you receive an inbound message, you must send a 2xx response. If you do not send a 2xx response Nexmo will resend the inbound message for the next 24 hours.
+          When you receive an inbound message, you must send a 2xx response. If you do not send a 2xx response Vonage will resend the inbound message for the next 24 hours.
         requestBody:
           required: true
           content:
@@ -111,7 +111,7 @@ components:
           minLength: 16
           maxLength: 60
         from:
-          description: The name or number the message should be sent from. Alphanumeric senderID's are not supported in all countries, see [Global Messaging](https://developer.nexmo.com/messaging/sms/guides/global-messaging#country-specific-features) for more details. If alphanumeric, spaces will be ignored. Numbers are specified in E.164 format.
+          description: The name or number the message should be sent from. Alphanumeric senderID's are not supported in all countries, see [Global Messaging](/messaging/sms/guides/global-messaging#country-specific-features) for more details. If alphanumeric, spaces will be ignored. Numbers are specified in E.164 format.
           type: string
           example: "AcmeInc"
         to:
@@ -126,14 +126,14 @@ components:
           type: string
           example: Hello World!
         ttl:
-          description: "**Advanced**: The duration in milliseconds the delivery of an SMS will be attempted.§§ By default Nexmo attempt delivery for 72 hours, however the maximum effective value depends on the operator and is typically 24 - 48 hours. We recommend this value should be kept at its default or at least 30 minutes."
+          description: "**Advanced**: The duration in milliseconds the delivery of an SMS will be attempted.§§ By default Vonage attempts delivery for 72 hours, however the maximum effective value depends on the operator and is typically 24 - 48 hours. We recommend this value should be kept at its default or at least 30 minutes."
           type: integer
           example: 900000
           default: 259200000
           minimum: 20000
           maximum: 604800000
         status-report-req:
-          description: "**Advanced**: Boolean indicating if you like to receive a [Delivery Receipt](https://developer.nexmo.com/messaging/sms/building-blocks/receive-a-delivery-receipt)."
+          description: "**Advanced**: Boolean indicating if you like to receive a [Delivery Receipt](/messaging/sms/building-blocks/receive-a-delivery-receipt)."
           type: boolean
           example: false
           default: true
@@ -201,6 +201,14 @@ components:
           description: "**Advanced**: An optional string used to identify separate accounts using the SMS endpoint for billing purposes. To use this feature, please email [support@nexmo.com](mailto:support@nexmo.com)"
           type: string
           example: customer1234
+        entity-id:
+          description: "**Advanced**: A string parameter that satisfies regulatory requirements when sending an SMS to specific countries. For more information please refer to the [Country-Specific Outbound SMS Features](https://help.nexmo.com/hc/en-us/articles/115011781468)"
+          type: string
+          example: "1101456324675322134"
+        content-id:
+          description: "**Advanced**: A string parameter that satisfies regulatory requirements when sending an SMS to specific countries. For more information please refer to the [Country-Specific Outbound SMS Features](https://help.nexmo.com/hc/en-us/articles/115011781468)"
+          type: string
+          example: "1107457532145798767"
     Error:
       description: Error
       type: object
@@ -280,7 +288,7 @@ components:
       properties:
         api-key:
           type: string
-          description: The Nexmo API Key of the receiving account.
+          description: The Vonage API Key of the receiving account.
           example: "abcd1234"
         msisdn:
           type: string
@@ -312,7 +320,7 @@ components:
           description: The first word in the message body. Converted to upper case.
           example: HELLO
         message-timestamp:
-          description: The time when Nexmo started to push this Delivery Receipt to your webhook endpoint.
+          description: The time when Vonage started to push this Delivery Receipt to your webhook endpoint.
           type: string
           example: 2020-01-01 12:00:00
         timestamp:
@@ -361,7 +369,7 @@ components:
             name: messageId
         status:
           type: string
-          description: The status of the message. See [Troubleshooting Failed SMS](https://developer.nexmo.com/messaging/sms/guides/troubleshooting-sms).
+          description: The status of the message. See [Troubleshooting Failed SMS](/messaging/sms/guides/troubleshooting-sms).
           example: "0"
         remaining-balance:
           type: string
@@ -404,7 +412,7 @@ components:
           example: "12345"
         messageId:
           type: string
-          description: The Nexmo ID for this message.
+          description: The Vonage ID for this message.
           example: "0A0000001234567B"
         price:
           type: string
@@ -428,7 +436,7 @@ components:
           example: "2001011400"
         err-code:
           type: string
-          description: The status of the request. Will be a non `0` value if there has been an error, or if the status is unknown. See the [Delivery Receipt documentation](https://developer.nexmo.com/messaging/sms/guides/delivery-receipts#dlr-error-codes) for more details
+          description: The status of the request. Will be a non `0` value if there has been an error, or if the status is unknown. See the [Delivery Receipt documentation](/messaging/sms/guides/delivery-receipts#dlr-error-codes) for more details
           example: "0"
         api-key:
           type: string
@@ -439,7 +447,7 @@ components:
           description: If the `client-ref` is set when the SMS is sent, it will be included in the delivery receipt
           example: my-personal-reference
         message-timestamp:
-          description: The time when Nexmo started to push this Delivery Receipt to your webhook endpoint.
+          description: The time when Vonage started to push this Delivery Receipt to your webhook endpoint.
           type: string
           example: 2020-01-01 12:00:00
         timestamp:
@@ -453,7 +461,7 @@ components:
         sig:
           type: string
           example: 1A20E4E2069B609FDA6CECA9DE18D5CAFE99720DDB628BD6BE8B19942A336E1C
-          description: The signature to enable verification of the source of this webhook. Please see the [developer documentation for validating signatures](https://developer.nexmo.com/concepts/guides/signing-messages) for more information, or use one of our published SDKs. _Only included if you have signatures enabled_
+          description: The signature to enable verification of the source of this webhook. Please see the [developer documentation for validating signatures](/concepts/guides/signing-messages) for more information, or use one of our published SDKs. _Only included if you have signatures enabled_
 
 x-errors:
   "1":
@@ -485,7 +493,7 @@ x-errors:
     resolution: N/A
 
   "8":
-    description: Partner Account Barred. Your Nexmo account has been suspended.
+    description: Partner Account Barred. Your Vonage account has been suspended.
     resolution: Contact <support@nexmo.com>.
 
   "9":
@@ -506,11 +514,11 @@ x-errors:
 
   "14":
     description: Invalid Signature. The signature supplied could not be verified.
-    resolution: Check the [documentation for signing messages](https://developer.nexmo.com/concepts/guides/signing-messages) or use one of the [SDKs](https://developer.nexmo.com/tools) to handle the signing.
+    resolution: Check the [documentation for signing messages](/concepts/guides/signing-messages) or use one of the [SDKs](/tools) to handle the signing.
 
   "15":
     description: Invalid Sender Address. You are using a non-authorized sender ID in the `from` field.
-    resolution: This is most commonly seen in North America, where a Nexmo long virtual number or short code is required.
+    resolution: This is most commonly seen in North America, where a Vonage long virtual number or short code is required.
 
   "22":
     description: Invalid Network Code. The network code supplied was either not recognized, or does not match the country of the destination address.
@@ -521,7 +529,7 @@ x-errors:
     resolution: Supply a valid URL for the callback.
 
   "29":
-    description: Non-Whitelisted Destination. Your Nexmo account is still in demo mode. While in demo mode you must add target numbers to your whitelisted destination list.
+    description: Non-Whitelisted Destination. Your Vonage account is still in demo mode. While in demo mode you must add target numbers to your whitelisted destination list.
     resolution: Top-up your account to remove this limitation.
 
   "32":

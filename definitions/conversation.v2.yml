@@ -1,13 +1,13 @@
 openapi: 3.0.0
 servers:
-  - url: "https://api.nexmo.com/beta2"
+  - url: "https://api.nexmo.com/v0.2"
 info:
-  version: 0.2.1
-  title: Nexmo Conversation API
-  description: "The Nexmo Conversation API enables you to build conversation features where communication can take place across multiple mediums including IP Messaging, PSTN Voice, SMS and WebRTC Audio and Video. The context of the conversations is maintained though each communication event taking place within a conversation, no matter the medium."
+  version: 1.0.1
+  title: Conversation API
+  description: "The Conversation API enables you to build conversation features where communication can take place across multiple mediums including IP Messaging, PSTN Voice, SMS and WebRTC Audio and Video. The context of the conversations is maintained though each communication event taking place within a conversation, no matter the medium."
   contact:
-    name: Nexmo DevRel
-    email: devrel@nexmo.com
+    name: Vonage DevRel
+    email: devrel@vonage.com
     url: "https://developer.nexmo.com/"
   x-label: Beta
 paths:
@@ -38,6 +38,10 @@ paths:
                     type: integer
                     example: 10
                     description: The number of results returned on this page.
+                  cursor:
+                    type: string
+                    example: 88b395c167da4d94e929705cbd63b82973771e7d390d274a58e301386d5762600a3ffd799bfb3fc5190c5a0d124cdd0fc72fe6e450506b18e4e2edf9fe84c7a0
+                    description: Current cursor
                   _embedded:
                     type: object
                     x-nexmo-developer-collection-description-shown: true
@@ -58,25 +62,25 @@ paths:
                         properties:
                           href:
                             type: string
-                            example: "https://api.nexmo.com/beta2/conversations?order=desc&page_size=10"
+                            example: "https://api.nexmo.com/v0.2/conversations?order=desc&page_size=10"
                       self:
                         type: object
                         properties:
                           href:
                             type: string
-                            example: "https://api.nexmo.com/beta2/conversations?order=desc&page_size=10&cursor=88b395c167da4d94e929705cbd63b82973771e7d390d274a58e301386d5762600a3ffd799bfb3fc5190c5a0d124cdd0fc72fe6e450506b18e4e2edf9fe84c7a0"
+                            example: "https://api.nexmo.com/v0.2/conversations?order=desc&page_size=10&cursor=88b395c167da4d94e929705cbd63b82973771e7d390d274a58e301386d5762600a3ffd799bfb3fc5190c5a0d124cdd0fc72fe6e450506b18e4e2edf9fe84c7a0"
                       next:
                         type: object
                         properties:
                           href:
                             type: string
-                            example: "https://api.nexmo.com/beta2/conversations?order=desc&page_size=10&cursor=88b395c167da4d94e929705cbd63b829a650e69a39197bfd4c949f4243f60dc4babb696afa404d2f44e7775e32b967f2a1a0bb8fb259c0999ba5a4e501eaab55"
+                            example: "https://api.nexmo.com/v0.2/conversations?order=desc&page_size=10&cursor=88b395c167da4d94e929705cbd63b829a650e69a39197bfd4c949f4243f60dc4babb696afa404d2f44e7775e32b967f2a1a0bb8fb259c0999ba5a4e501eaab55"
                       prev:
                         type: object
                         properties:
                           href:
                             type: string
-                            example: "https://api.nexmo.com/beta2/conversations?order=desc&page_size=10&cursor=069626a3de11d2ec900dff5042197bd75f1ce41dafc3f2b2481eb9151086e59aae9dba3e3a8858dc355232d499c310fbfbec43923ff657c0de8d49ffed9f7edb"
+                            example: "https://api.nexmo.com/v0.2/conversations?order=desc&page_size=10&cursor=069626a3de11d2ec900dff5042197bd75f1ce41dafc3f2b2481eb9151086e59aae9dba3e3a8858dc355232d499c310fbfbec43923ff657c0de8d49ffed9f7edb"
 
   "/users":
     get:
@@ -97,6 +101,10 @@ paths:
                     type: integer
                     example: 10
                     description: The number of results returned on this page
+                  cursor:
+                    type: string
+                    example: 88b395c167da4d94e929705cbd63b82973771e7d390d274a58e301386d5762600a3ffd799bfb3fc5190c5a0d124cdd0fc72fe6e450506b18e4e2edf9fe84c7a0
+                    description: Current cursor
                   _embedded:
                     type: object
                     x-nexmo-developer-collection-description-shown: true
@@ -117,25 +125,25 @@ paths:
                         properties:
                           href:
                             type: string
-                            example: "https://api.nexmo.com/beta2/users?order=desc&page_size=10"
+                            example: "https://api.nexmo.com/v0.2/users?order=desc&page_size=10"
                       self:
                         type: object
                         properties:
                           href:
                             type: string
-                            example: "https://api.nexmo.com/beta2/users?order=desc&page_size=10&cursor=88b395c167da4d94e929705cbd63b82973771e7d390d274a58e301386d5762600a3ffd799bfb3fc5190c5a0d124cdd0fc72fe6e450506b18e4e2edf9fe84c7a0"
+                            example: "https://api.nexmo.com/v0.2/users?order=desc&page_size=10&cursor=88b395c167da4d94e929705cbd63b82973771e7d390d274a58e301386d5762600a3ffd799bfb3fc5190c5a0d124cdd0fc72fe6e450506b18e4e2edf9fe84c7a0"
                       next:
                         type: object
                         properties:
                           href:
                             type: string
-                            example: "https://api.nexmo.com/beta2/users?order=desc&page_size=10&cursor=88b395c167da4d94e929705cbd63b829a650e69a39197bfd4c949f4243f60dc4babb696afa404d2f44e7775e32b967f2a1a0bb8fb259c0999ba5a4e501eaab55"
+                            example: "https://api.nexmo.com/v0.2/users?order=desc&page_size=10&cursor=88b395c167da4d94e929705cbd63b829a650e69a39197bfd4c949f4243f60dc4babb696afa404d2f44e7775e32b967f2a1a0bb8fb259c0999ba5a4e501eaab55"
                       prev:
                         type: object
                         properties:
                           href:
                             type: string
-                            example: "https://api.nexmo.com/beta2/users?order=desc&page_size=10&cursor=069626a3de11d2ec900dff5042197bd75f1ce41dafc3f2b2481eb9151086e59aae9dba3e3a8858dc355232d499c310fbfbec43923ff657c0de8d49ffed9f7edb"
+                            example: "https://api.nexmo.com/v0.2/users?order=desc&page_size=10&cursor=069626a3de11d2ec900dff5042197bd75f1ce41dafc3f2b2481eb9151086e59aae9dba3e3a8858dc355232d499c310fbfbec43923ff657c0de8d49ffed9f7edb"
 
   "/conversations/{conversation_id}/members":
     get:
@@ -179,25 +187,25 @@ paths:
                         properties:
                           href:
                             type: string
-                            example: "https://api.nexmo.com/beta2/members?order=desc&page_size=10"
+                            example: "https://api.nexmo.com/v0.2/members?order=desc&page_size=10"
                       self:
                         type: object
                         properties:
                           href:
                             type: string
-                            example: "https://api.nexmo.com/beta2/members?order=desc&page_size=10&cursor=88b395c167da4d94e929705cbd63b82973771e7d390d274a58e301386d5762600a3ffd799bfb3fc5190c5a0d124cdd0fc72fe6e450506b18e4e2edf9fe84c7a0"
+                            example: "https://api.nexmo.com/v0.2/members?order=desc&page_size=10&cursor=88b395c167da4d94e929705cbd63b82973771e7d390d274a58e301386d5762600a3ffd799bfb3fc5190c5a0d124cdd0fc72fe6e450506b18e4e2edf9fe84c7a0"
                       next:
                         type: object
                         properties:
                           href:
                             type: string
-                            example: "https://api.nexmo.com/beta2/members?order=desc&page_size=10&cursor=88b395c167da4d94e929705cbd63b829a650e69a39197bfd4c949f4243f60dc4babb696afa404d2f44e7775e32b967f2a1a0bb8fb259c0999ba5a4e501eaab55"
+                            example: "https://api.nexmo.com/v0.2/members?order=desc&page_size=10&cursor=88b395c167da4d94e929705cbd63b829a650e69a39197bfd4c949f4243f60dc4babb696afa404d2f44e7775e32b967f2a1a0bb8fb259c0999ba5a4e501eaab55"
                       prev:
                         type: object
                         properties:
                           href:
                             type: string
-                            example: "https://api.nexmo.com/beta2/members?order=desc&page_size=10&cursor=069626a3de11d2ec900dff5042197bd75f1ce41dafc3f2b2481eb9151086e59aae9dba3e3a8858dc355232d499c310fbfbec43923ff657c0de8d49ffed9f7edb"
+                            example: "https://api.nexmo.com/v0.2/members?order=desc&page_size=10&cursor=069626a3de11d2ec900dff5042197bd75f1ce41dafc3f2b2481eb9151086e59aae9dba3e3a8858dc355232d499c310fbfbec43923ff657c0de8d49ffed9f7edb"
 
   "/conversations/{conversation_id}/events":
     get:
@@ -244,25 +252,25 @@ paths:
                         properties:
                           href:
                             type: string
-                            example: "https://api.nexmo.com/beta2/conversations/CON-92a44c64-7e4e-485f-a0c4-1f2adfc44625/events?page_size=10"
+                            example: "https://api.nexmo.com/v0.2/conversations/CON-92a44c64-7e4e-485f-a0c4-1f2adfc44625/events?page_size=10"
                       self:
                         type: object
                         properties:
                           href:
                             type: string
-                            example: "https://api.nexmo.com/beta2/conversations/CON-92a44c64-7e4e-485f-a0c4-1f2adfc44625/events?page_size=10&cursor=a30e3b7a3dcda1434f64bbb1a5fa489b"
+                            example: "https://api.nexmo.com/v0.2/conversations/CON-92a44c64-7e4e-485f-a0c4-1f2adfc44625/events?page_size=10&cursor=a30e3b7a3dcda1434f64bbb1a5fa489b"
                       next:
                         type: object
                         properties:
                           href:
                             type: string
-                            example: "https://api.nexmo.com/beta2/conversations/CON-92a44c64-7e4e-485f-a0c4-1f2adfc44625/events?page_size=10&cursor=4db03d9254d1cdaecc7b1fc15b6bf1a81f3d3151191d784f1327893f8dc96416"
+                            example: "https://api.nexmo.com/v0.2/conversations/CON-92a44c64-7e4e-485f-a0c4-1f2adfc44625/events?page_size=10&cursor=4db03d9254d1cdaecc7b1fc15b6bf1a81f3d3151191d784f1327893f8dc96416"
                       prev:
                         type: object
                         properties:
                           href:
                             type: string
-                            example: "https://api.nexmo.com/beta2/conversations/CON-92a44c64-7e4e-485f-a0c4-1f2adfc44625/events?page_size=10&cursor=84963f79fd25785be9706bd38bfd30c264f71964fa4edc8d8b4dd5f30bbd9f7c"
+                            example: "https://api.nexmo.com/v0.2/conversations/CON-92a44c64-7e4e-485f-a0c4-1f2adfc44625/events?page_size=10&cursor=84963f79fd25785be9706bd38bfd30c264f71964fa4edc8d8b4dd5f30bbd9f7c"
 
 components:
   parameters:
@@ -473,7 +481,7 @@ components:
               properties:
                 href:
                   type: string
-                  example: "https://api.nexmo.com/beta2/conversations/CON-92a44c64-7e4e-485f-a0c4-1f2adfc44625/events/9"
+                  example: "https://api.nexmo.com/v0.2/conversations/CON-92a44c64-7e4e-485f-a0c4-1f2adfc44625/events/9"
 
     member_list:
       type: object
@@ -509,7 +517,7 @@ components:
               properties:
                 href:
                   type: string
-                  example: https://api.nexmo.com/beta2/conversations/CON-92a44c64-7e4e-485f-a0c4-1f2adfc44625/members/MEM-e784d5d1-dff2-424a-9de7-bc34f1901177
+                  example: https://api.nexmo.com/v0.2/conversations/CON-92a44c64-7e4e-485f-a0c4-1f2adfc44625/members/MEM-e784d5d1-dff2-424a-9de7-bc34f1901177
 
     member:
       allOf:
@@ -604,7 +612,7 @@ components:
               properties:
                 href:
                   type: string
-                  example: "https://api.nexmo.com/beta2/conversations/CON-c4724477-72ac-438e-9fc0-1d3e2ff8728c"
+                  example: "https://api.nexmo.com/v0.2/conversations/CON-c4724477-72ac-438e-9fc0-1d3e2ff8728c"
 
     conversation_id:
       type: string
@@ -649,11 +657,11 @@ components:
           properties:
             href:
               type: string
-              example: https://api.nexmo.com/beta2/users/USR-e46d9542-752a-4786-8f12-25a2e623a793
+              example: https://api.nexmo.com/v0.2/users/USR-e46d9542-752a-4786-8f12-25a2e623a793
 
 tags:
   - name: conversation
-    description: A conversation is a shared core component that Nexmo APIs rely on. Conversations happen over multiple mediums and and can have associated Users through Memberships.
+    description: A conversation is a shared core component that Vonage APIs rely on. Conversations happen over multiple mediums and and can have associated Users through Memberships.
   - name: member
     description: Memberships connect users with conversations. Each membership has one conversation and one user however a user can have many memberships to conversations just as conversations can have many members.
   - name: event

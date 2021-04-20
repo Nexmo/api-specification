@@ -1,6 +1,6 @@
 ---
 components:
-  fields:
+  schemas:
     instance:
       type: string
       example: 797a8f199c45014ab7b08bfe9cc1c12c
@@ -21,7 +21,7 @@ components:
                 type: string
                 example: THIS IS A PLACEHOLDER FOR OTHER ERRORS
               instance:
-                $ref: "#/components/fields/instance"
+                $ref: "#/components/schemas/instance"
     BadCredentialsError:
       description: Credential is missing or invalid
       content:
@@ -38,7 +38,7 @@ components:
                 type: string
                 example: You did not provide correct credentials.
               instance:
-                $ref: "#/components/fields/instance"
+                $ref: "#/components/schemas/instance"
     NotFoundError:
       description: Resource Not Found
       content:
@@ -55,7 +55,7 @@ components:
                 type: string
                 example: ID 'ABC123' does not exist, or you do not have access
               instance:
-                $ref: "#/components/fields/instance"
+                $ref: "#/components/schemas/instance"
     InvalidRequestMethod:
       description: Invalid Request Method
       content:
@@ -72,7 +72,7 @@ components:
                 type: string
                 example: Request method 'TRACE' not supported
               instance:
-                $ref: "#/components/fields/instance"
+                $ref: "#/components/schemas/instance"
     InvalidAcceptHeader:
       description: Invalid Accept Header
       content:
@@ -89,7 +89,7 @@ components:
                 type: string
                 example: "Invalid Accept header provided. Must be one of the following: 'application/json'"
               instance:
-                $ref: "#/components/fields/instance"
+                $ref: "#/components/schemas/instance"
     UnsupportedContentTypeHeader:
       description: Unsupported Content Type Header
       content:
@@ -106,4 +106,4 @@ components:
                 type: string
                 example: "Unsupported Content-Type header provided. Must be one of the following: 'application/json'"
               instance:
-                $ref: "#/components/fields/instance"
+                $ref: "#/components/schemas/instance"

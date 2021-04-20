@@ -4,12 +4,12 @@ servers:
   - url: "https://api.nexmo.com/ni"
 info:
   title: Number Insight API
-  version: 1.0.8
+  version: 1.0.10
   description: >-
-    Nexmo's Number Insight API delivers real-time intelligence about the validity, reachability and roaming status of a phone number and tells you how to format the number correctly in your application. There are three levels of Number Insight API available: [Basic, Standard and Advanced](https://developer.nexmo.com/number-insight/overview#basic-standard-and-advanced-apis). The advanced API is available asynchronously as well as synchronously.
+    The Number Insight API delivers real-time intelligence about the validity, reachability and roaming status of a phone number and tells you how to format the number correctly in your application. There are three levels of Number Insight API available: [Basic, Standard and Advanced](https://developer.nexmo.com/number-insight/overview#basic-standard-and-advanced-apis). The advanced API is available asynchronously as well as synchronously.
   contact:
-    name: Nexmo DevRel
-    email: devrel@nexmo.com
+    name: Vonage DevRel
+    email: devrel@vonage.com
     url: "https://developer.nexmo.com/"
   termsOfService: "https://www.nexmo.com/terms-of-use"
   license:
@@ -76,7 +76,7 @@ paths:
       operationId: getNumberInsightAsync
       summary: Advanced Number Insight (async)
       description: |
-        Provides [advanced number insight](/number-insight/overview#basic-standard-and-advanced-apis) number information **asynchronously** using the URL specified in the `callback` parameter. Nexmo recommends asynchronous use of the Number Insight Advanced API, to avoid timeouts.
+        Provides [advanced number insight](/number-insight/overview#basic-standard-and-advanced-apis) number information **asynchronously** using the URL specified in the `callback` parameter.  recommends asynchronous use of the Number Insight Advanced API, to avoid timeouts.
 
         Note that this endpoint also supports `POST` requests.
       parameters:
@@ -122,7 +122,7 @@ paths:
       description: |
         Provides [advanced number insight](/number-insight/overview#basic-standard-and-advanced-apis) information about a number synchronously, in the same way that the basic and standard endpoints do.
 
-        Nexmo recommends accessing the Advanced API **asynchronously** using the `/advanced/async` endpoint, to avoid timeouts.
+        Vonage recommends accessing the Advanced API **asynchronously** using the `/advanced/async` endpoint, to avoid timeouts.
 
         Note that this endpoint also supports `POST` requests.
       parameters:
@@ -965,7 +965,7 @@ components:
     niInitialCarrierProperties:
       type: object
       x-nexmo-developer-collection-description-shown: true
-      description: "Information about the network `number` is currently connected to."
+      description: "Information about the network `number` was initially connected to."
       properties:
         network_code:
           type: string
@@ -1071,12 +1071,12 @@ components:
       description: |
         Code | Text
         -- | --
-        0 | Success - request accepted for delivery by Nexmo.
-        1 | Busy - you have made more requests in the last second than are permitted by your Nexmo account. Please retry.
+        0 | Success - request accepted for delivery by .
+        1 | Busy - you have made more requests in the last second than are permitted by your account. Please retry.
         3 | Invalid - your request is incomplete and missing some mandatory parameters.
         4 | Invalid credentials - the _api_key_ or _api_secret_ you supplied is either not valid or has been disabled.
         5 | Internal Error - the format of the recipient address is not valid.
-        9 | Partner quota exceeded - your Nexmo account does not have sufficient credit to process this request.
+        9 | Partner quota exceeded - your account does not have sufficient credit to process this request.
 
     niStandardAdvancedStatus:
       type: integer
@@ -1096,12 +1096,12 @@ components:
       description: |
         Code | Text
         -- | --
-        0 | Success - request accepted for delivery by Nexmo.
-        1 | Busy - you have made more requests in the last second than are permitted by your Nexmo account. Please retry.
+        0 | Success - request accepted for delivery by .
+        1 | Busy - you have made more requests in the last second than are permitted by your account. Please retry.
         3 | Invalid - your request is incomplete and missing some mandatory parameters.
         4 | Invalid credentials - the _api_key_ or _api_secret_ you supplied is either not valid or has been disabled.
         5 | Internal Error - the format of the recipient address is not valid.
-        9 | Partner quota exceeded - your Nexmo account does not have sufficient credit to process this request.
+        9 | Partner quota exceeded - your account does not have sufficient credit to process this request.
         19 | Facility Not Allowed - your request makes use of a facility that is not enabled on your account.
         43, 44, 45 | Live mobile lookup not returned. Not all return parameters are available.
         999 | Request unparseable.

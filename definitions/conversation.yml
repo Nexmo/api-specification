@@ -1,13 +1,13 @@
 openapi: 3.0.0
 servers:
-  - url: "https://api.nexmo.com/beta"
+  - url: "https://api.nexmo.com/v0.1"
 info:
-  version: 1.7.9
-  title: Nexmo Conversation API
-  description: "The Nexmo Conversation API enables you to build conversation features where communication can take place across multiple mediums including IP Messaging, PSTN Voice, SMS and WebRTC Audio and Video. The context of the conversations is maintained though each communication event taking place within a conversation, no matter the medium."
+  version: 2.0.1
+  title: Conversation API
+  description: "The Conversation API enables you to build conversation features where communication can take place across multiple mediums including IP Messaging, PSTN Voice, SMS and WebRTC Audio and Video. The context of the conversations is maintained though each communication event taking place within a conversation, no matter the medium."
   contact:
-    name: Nexmo DevRel
-    email: devrel@nexmo.com
+    name: Vonage DevRel
+    email: devrel@vonage.com
     url: "https://developer.nexmo.com/"
   x-label: Beta
 paths:
@@ -21,13 +21,14 @@ paths:
         <div class="Vlt-callout Vlt-callout--warning">
         <i></i>
         <div class="Vlt-callout__content">
-        <p><strong>This API endpoint is deprecated. Please use <a href="/api/conversation.v2#get-conversations">/beta2/conversations</a></strong>.<br />This endpoint will return a maximum of 100 items.</p>
+        <p><strong>This API endpoint is deprecated. Please use <a href="/api/conversation.v2#get-conversations">/v0.2/conversations</a></strong>.<br />This endpoint will return a maximum of 100 items.</p>
         </div>
         </div>
 
         List all conversations associated with your application. 
         This endpoint required an admin JWT. To find all conversations for
         the currently logged in user, see [GET /users/:id/conversations](#getuserConversations)
+      deprecated: true
       parameters:
         - $ref: "#/components/parameters/date_start"
         - $ref: "#/components/parameters/date_end"
@@ -65,8 +66,14 @@ paths:
                               $ref: "#/components/schemas/conversation_id"
                             name:
                               $ref: "#/components/schemas/name_conversation"
-                            href:
-                              $ref: "#/components/schemas/href_conversation"
+                            _links:
+                              type: object
+                              properties:
+                                self:
+                                  type: object
+                                  properties:
+                                    href:
+                                      $ref: "#/components/schemas/href_conversation"
                           required:
                             - uuid
                             - name
@@ -201,10 +208,10 @@ paths:
         <div class="Vlt-callout Vlt-callout--warning">
         <i></i>
         <div class="Vlt-callout__content">
-        <p><strong>This API endpoint is deprecated. Please use <a href="/api/conversation.v2#get-events">/beta2/events</a></strong><br />This endpoint will return a maximum of 100 items.</p>
+        <p><strong>This API endpoint is deprecated. Please use <a href="/api/conversation.v2#get-events">/v0.2/events</a></strong><br />This endpoint will return a maximum of 100 items.</p>
         </div>
         </div>
-
+      deprecated: true
       tags:
         - event
       summary: List events
@@ -288,9 +295,10 @@ paths:
         <div class="Vlt-callout Vlt-callout--warning">
         <i></i>
         <div class="Vlt-callout__content">
-        <p><strong>This API endpoint is deprecated. Please use <a href="/api/conversation.v2#get-members">/beta2/members</a></strong><br />This endpoint will return a maximum of 100 items.</p>
+        <p><strong>This API endpoint is deprecated. Please use <a href="/api/conversation.v2#get-members">/v0.2/members</a></strong><br />This endpoint will return a maximum of 100 items.</p>
         </div>
         </div>
+      deprecated: true
       tags:
         - member
       summary: List members
@@ -428,9 +436,10 @@ paths:
         <div class="Vlt-callout Vlt-callout--warning">
         <i></i>
         <div class="Vlt-callout__content">
-        <strong>This API endpoint is deprecated. Please use <a href="/api/conversation.v2#get-users">/beta2/users</a><br />This endpoint will return a maximum of 100 items.</strong>
+        <strong>This API endpoint is deprecated. Please use <a href="/api/conversation.v2#get-users">/v0.2/users</a><br />This endpoint will return a maximum of 100 items.</strong>
         </div>
         </div>
+      deprecated: true
       tags:
         - user
       summary: List users
@@ -464,7 +473,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  user_id:
+                  id:
                     $ref: "#/components/schemas/user_id"
                   href:
                     $ref: "#/components/schemas/href_user"
@@ -502,7 +511,7 @@ paths:
                     $ref: "#/components/schemas/name_user"
                   href:
                     type: string
-                    example: "https://api.nexmo.com/beta/users/USR-63f61863-4a51-4f6b-86e1-46edebio0391"
+                    example: "https://api.nexmo.com/v0.1/users/USR-63f61863-4a51-4f6b-86e1-46edebio0391"
     put:
       operationId: updateUser
       tags:
@@ -662,7 +671,7 @@ paths:
                   record_index: 0
                   _links:
                     self:
-                      href: "https://api.nexmo.com/beta/legs"
+                      href: "https://api.nexmo.com/v0.1/legs"
                   _embedded:
                     legs:
                       - uuid: 2a71f8a1-b6f1-42b3-9eef-c69729e17513
@@ -680,7 +689,7 @@ paths:
                           state: terminated
                         _links:
                           self:
-                            href: "https://api.nexmo.com/beta/legs/2a71f8a1-b6f1-42b3-9eef-c69729e17513"
+                            href: "https://api.nexmo.com/v0.1/legs/2a71f8a1-b6f1-42b3-9eef-c69729e17513"
   "/legs/{leg_id}":
     parameters:
       - $ref: "#/components/parameters/leg_id"
@@ -789,37 +798,37 @@ components:
     href:
       type: string
       format: url
-      example: "https://api.nexmo.com/beta/conversations/CON-63f61863-4a51-4f6b-86e1-46edebio0391"
+      example: "https://api.nexmo.com/v0.1/conversations/CON-63f61863-4a51-4f6b-86e1-46edebio0391"
       description: A link towards a resources included in Conversation API
     href_conversation:
       type: string
       format: url
-      example: "https://api.nexmo.com/beta/conversations/CON-63f61863-4a51-4f6b-86e1-46edebio0391"
+      example: "https://api.nexmo.com/v0.1/conversations/CON-63f61863-4a51-4f6b-86e1-46edebio0391"
       description: A link towards a conversation included in Conversation API
     href_conversations_list:
       type: string
       format: url
-      example: "https://api.nexmo.com/beta/conversations?page_size=2&record_index=10&"
+      example: "https://api.nexmo.com/v0.1/conversations?page_size=2&record_index=10&"
       description: A link towards a conversations list included in Conversation API
     href_member:
       type: string
       format: url
-      example: "https://api.nexmo.com/beta/conversations/CON-63f61863-4a51-4f6b-86e1-46edebio0391/members/MEM-63f61863-4a51-4f6b-86e1-46edebio0391"
+      example: "https://api.nexmo.com/v0.1/conversations/CON-63f61863-4a51-4f6b-86e1-46edebio0391/members/MEM-63f61863-4a51-4f6b-86e1-46edebio0391"
       description: A link towards a member included in Conversation API
     href_user:
       type: string
       format: url
-      example: "https://api.nexmo.com/beta/users/USR-63f61863-4a51-4f6b-86e1-46edebio0391"
+      example: "https://api.nexmo.com/v0.1/users/USR-63f61863-4a51-4f6b-86e1-46edebio0391"
       description: A link towards a user included in Conversation API
     href_event:
       type: string
       format: url
-      example: "https://api.nexmo.com/beta/conversations/CON-63f61863-4a51-4f6b-86e1-46edebio0391/events/1"
+      example: "https://api.nexmo.com/v0.1/conversations/CON-63f61863-4a51-4f6b-86e1-46edebio0391/events/1"
       description: A link towards a conversation event included in Conversation API
     href_rtc:
       type: string
       format: url
-      example: "https://api.nexmo.com/beta/conversations/CON-63f61863-4a51-4f6b-86e1-46edebio0391/rtc/7777777777777"
+      example: "https://api.nexmo.com/v0.1/conversations/CON-63f61863-4a51-4f6b-86e1-46edebio0391/rtc/7777777777777"
       description: A link towards a rtc (leg) included in Conversation API
     event_id:
       type: string
@@ -1197,9 +1206,9 @@ security:
 
 tags:
   - name: conversation
-    description: A conversation is a shared core component that Nexmo APIs rely on. Conversations happen over multiple mediums and and can have associated Users through Memberships.
+    description: A conversation is a shared core component that Vonage APIs rely on. Conversations happen over multiple mediums and and can have associated Users through Memberships.
   - name: user
-    description: "The concept of a user exists in Nexmo APIs, you can associate one with a user in your own application if you choose. A user can have multiple memberships to conversations and can communicate with other users through various different mediums."
+    description: "The concept of a user exists in Vonage APIs, you can associate one with a user in your own application if you choose. A user can have multiple memberships to conversations and can communicate with other users through various different mediums."
   - name: member
     description: Memberships connect users with conversations. Each membership has one conversation and one user however a user can have many memberships to conversations just as conversations can have many members.
   - name: event

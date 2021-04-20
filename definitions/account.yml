@@ -1,11 +1,11 @@
 openapi: "3.0.2"
 info:
-  title: "Nexmo Account API"
-  version: "1.0.1"
+  title: "Account API"
+  version: "1.0.3"
   description: >-
-    Enables users to manage their Nexmo Account by programmable means. More information is available here: <https://developer.nexmo.com/account/overview>.
+    Enables users to manage their Vonage API Account by programmable means. More information is available here: <https://developer.nexmo.com/account/overview>.
   contact:
-    name: Nexmo.com
+    name: Vonage.com
     url: "https://developer.nexmo.com"
 servers:
   - url: "https://api.nexmo.com"
@@ -16,7 +16,7 @@ paths:
     get:
       operationId: getAccountBalance
       summary: Get Account Balance
-      description: Retrieve the current balance of your Nexmo account
+      description: Retrieve the current balance of your Vonage API account
       parameters:
         - $ref: "#/components/parameters/api_key_for_auth"
         - $ref: "#/components/parameters/api_secret_for_auth"
@@ -77,14 +77,8 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              type: object
-              required:
-                - trx
-              properties:
-                trx:
-                  type: string
-                  description: The transaction reference of the transaction when balance was added and auto-reload was enabled on your account.
-                  example: 8ef2447e69604f642ae59363aa5f781b
+              $ref: "#/components/schemas/topupRequest"
+
       responses:
         "200":
           description: Success
@@ -116,11 +110,11 @@ paths:
       operationId: changeAccountSettings
       summary: Change Account Settings
       description: >-
-        Update the default callback URLs (where the webhooks are sent to) associated with your account:
+        Update the default webhook URLs associated with your account:
           * Callback URL for incoming SMS messages
           * Callback URL for delivery receipts
 
-        Note that the URLs you provide must be valid and active. Nexmo will check that they
+        Note that the URLs you provide must be valid and active. Vonage will check that they
         return a 200 OK response before the setting is saved.
       parameters:
         - $ref: "#/components/parameters/api_key_for_auth"
@@ -132,26 +126,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              type: object
-              properties:
-                moCallBackUrl:
-                  description: >-
-                    The URL where Nexmo will send a webhook when an SMS is received
-                    to a Nexmo number that does not have SMS handling configured.
-
-                    Send an empty string to unset this value.
-                  type: string
-                  format: url
-                  example: https://example.com/webhooks/inbound-sms
-                drCallBackUrl:
-                  description: >-
-                    The URL where Nexmo will send a webhook when an delivery
-                    receipt is received without a specific callback URL configured.
-
-                    Send an empty string to unset this value.
-                  type: string
-                  format: url
-                  example: https://example.com/webhooks/delivery-receipt
+              $ref: "#/components/schemas/accountSettingsRequest"
       responses:
         "200":
           description: OK. Settings were updated if supplied, the details of the current settings are included in the response.
@@ -253,22 +228,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              required:
-                - secret
-              properties:
-                secret:
-                  description: |
-                    The new secret must follow these rules:
-
-                    * minimum 8 characters
-                    * maximum 25 characters
-                    * minimum 1 lower case character
-                    * minimum 1 upper case character
-                    * minimum 1 digit
-
-                  type: string
-                  example: "example-4PI-secret"
+              $ref: "#/components/schemas/createSecretRequest"
       responses:
         "201":
           description: Secret created
@@ -422,7 +382,7 @@ tags:
     description: Manage the settings on your account
   - name: Secret Management
     description: >-
-      Many of Nexmo's APIs are accessed using an API key and secret. It is recommended that you change or "rotate" your secrets from time to time for security purposes. This section provides the API interface for achieving this.
+      Many of the Vonage APIs are accessed using an API key and secret. It is recommended that you change or "rotate" your secrets from time to time for security purposes. This section provides the API interface for achieving this.
 
       Note: to work on secrets for your secondary accounts, you may authenticate with your primary credentials and supply the secondary API keys as URL parameters to these API endpoints.
 
@@ -432,14 +392,14 @@ components:
       type: http
       scheme: basic
       description: >-
-        Provide an `Authorization` header, with a value of "Basic" followed by the result of base64-encoding your Nexmo API key and secret separated by a colon. You can find your API key and secret on the [dashboard](https://dashboard.nexmo.com) and more information is available [on the developer portal](https://developer.nexmo.com/concepts/guides/authentication#header-based-api-key-and-secret-authentication).
+        Provide an `Authorization` header, with a value of "Basic" followed by the result of base64-encoding your Vonage API key and secret separated by a colon. You can find your API key and secret on the [dashboard](https://dashboard.nexmo.com) and more information is available [on the developer portal](https://developer.nexmo.com/concepts/guides/authentication#header-based-api-key-and-secret-authentication).
 
         If your API key were aaa012 and your API secret were abc123456789 then your HTTP header would be: `Authorization: Basic YWFhMDEyOmFiYzEyMzQ1Njc4OQ==`
 
   parameters:
     api_key_for_auth:
       name: api_key
-      description: Your Nexmo API key. You can find this in the [dashboard](https://dashboard.nexmo.com)
+      description: Your Vonage API key. You can find this in the [dashboard](https://dashboard.nexmo.com)
       in: query
       required: true
       schema:
@@ -447,7 +407,7 @@ components:
         example: abcd1234
     api_secret_for_auth:
       name: api_secret
-      description: Your Nexmo API secret. You can find this in the [dashboard](https://dashboard.nexmo.com)
+      description: Your Vonage API secret. You can find this in the [dashboard](https://dashboard.nexmo.com)
       in: query
       required: true
       schema:
@@ -501,12 +461,12 @@ components:
         mo-callback-url:
           type: string
           format: url
-          description: The current or updated inbound message URI
+          description: The current or updated inbound message webhook URI
           example: https://example.com/webhooks/inbound-sms
         dr-callback-url:
           type: string
           format: url
-          description: The current or updated delivery receipt URI
+          description: The current or updated delivery receipt webhook URI
           example: https://example.com/webhooks/delivery-receipt
         max-outbound-request:
           type: integer
@@ -629,6 +589,57 @@ components:
           type: string
           description: Internal Trace ID
           example: bf0ca0bf927b3b52e3cb03217e1a1ddf
+
+    accountSettingsRequest:
+      type: object
+      properties:
+        moCallBackUrl:
+          description: >-
+            The default webhook URL for inbound SMS. If an SMS is received at a Vonage number 
+            that does not have its own inbound SMS webhook configured, Vonage makes a request
+            here.
+
+            Send an empty string to unset this value.
+          type: string
+          format: url
+          example: https://example.com/webhooks/inbound-sms
+        drCallBackUrl:
+          description: >-
+            The webhook URL that Vonage makes a request to when a delivery receipt is available 
+            for an SMS sent by one of your Vonage numbers.
+
+            Send an empty string to unset this value.
+          type: string
+          format: url
+          example: https://example.com/webhooks/delivery-receipt
+
+    createSecretRequest:
+      type: object
+      required:
+        - secret
+      properties:
+        secret:
+          description: |
+            The new secret must follow these rules:
+
+            * minimum 8 characters
+            * maximum 25 characters
+            * minimum 1 lower case character
+            * minimum 1 upper case character
+            * minimum 1 digit
+
+          type: string
+          example: "example-4PI-secret"
+    topupRequest:
+      type: object
+      required:
+        - trx
+      properties:
+        trx:
+          type: string
+          description: The transaction reference of the transaction when balance was added and auto-reload was enabled on your account.
+          example: 8ef2447e69604f642ae59363aa5f781b
+
 
   responses:
     BadCredentialsError:
