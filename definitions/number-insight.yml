@@ -4,7 +4,7 @@ servers:
   - url: "https://api.nexmo.com/ni"
 info:
   title: Number Insight API
-  version: 1.1.0
+  version: 1.1.1
   description: >-
     The Number Insight API delivers real-time intelligence about the validity, reachability and roaming status of a phone number and tells you how to format the number correctly in your application. There are three levels of Number Insight API available: [Basic, Standard and Advanced](https://developer.nexmo.com/number-insight/overview#basic-standard-and-advanced-apis). The advanced API is available asynchronously as well as synchronously.
   contact:
@@ -65,7 +65,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/niResponseJsonStandard"
+                oneOf:
+                  - $ref: "#/components/schemas/niResponseJsonStandard"
+                  - $ref: "#/components/schemas/niResponseJsonStandardRoamingUnknown"
             text/xml:
               schema:
                 $ref: "#/components/schemas/niResponseXmlStandard"
@@ -91,7 +93,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/niResponseAsync"
+                oneOf:
+                  - $ref: "#/components/schemas/niResponseAsync"
+
             text/xml:
               schema:
                 $ref: "#/components/schemas/niResponseAsync"
@@ -107,6 +111,23 @@ paths:
                   application/json:
                     schema:
                       $ref: "#/components/schemas/niResponseJsonAdvanced"
+                  text/xml:
+                    schema:
+                      $ref: "#/components/schemas/niResponseXmlAdvanced"
+              responses:
+                "200":
+                  description: OK
+        onDataUnknownRoaming:
+          "{$request.query.callback}":
+            post:
+              operationId: asyncCallbackRoamingUnknown
+              summary: Asynchronous response with Unknown Roaming
+              description: Contains the response to your Number Insight Advanced API request.
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      $ref: "#/components/schemas/niResponseJsonAdvancedRoamingUnknown"
                   text/xml:
                     schema:
                       $ref: "#/components/schemas/niResponseXmlAdvanced"
@@ -136,7 +157,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/niResponseJsonAdvanced"
+                oneOf:
+                  - $ref: "#/components/schemas/niResponseJsonAdvanced"
+                  - $ref: "#/components/schemas/niResponseJsonAdvancedRoamingUnknown"
             text/xml:
               schema:
                 $ref: "#/components/schemas/niResponseXmlAdvanced"
@@ -402,7 +425,6 @@ components:
               xml:
                 x-text: true
         roaming:
-          nullable: true
           type: object
           description: "Information about the roaming status for number. This is applicable to mobile numbers only."
           x-nexmo-developer-collection-description-shown: true
@@ -718,6 +740,7 @@ components:
           example: "44"
 
     niResponseJsonStandard:
+      description: "Standard Response"
       allOf:
         - $ref: "#/components/schemas/niResponseJsonBasic"
         - type: object
@@ -776,9 +799,73 @@ components:
                 - unknown
               example: "consumer"
 
+    niResponseJsonStandardRoamingUnknown:
+      description: Unknown Roaming
+      allOf:
+        - $ref: "#/components/schemas/niResponseJsonBasic"
+        - type: object
+          properties:
+            request_price:
+              type: string
+              description: "The amount in EUR charged to your account."
+              example: "0.04000000"
+            refund_price:
+              type: string
+              description: "If there is an internal lookup error, the `refund_price` will reflect the lookup price. If `cnam` is requested for a non-US number the `refund_price` will reflect the `cnam` price. If both of these conditions occur, `refund_price` is the sum of the lookup price and `cnam` price."
+              example: "0.01500000"
+            remaining_balance:
+              type: string
+              description: "Your account balance in EUR after this request."
+              example: "1.23456789"
+            current_carrier:
+              nullable: true
+              allOf:
+                - $ref: "#/components/schemas/niCurrentCarrierProperties"
+            original_carrier:
+              $ref: "#/components/schemas/niInitialCarrierProperties"
+            ported:
+              nullable: true
+              type: string
+              description: "If the user has changed carrier for `number`. The assumed status means that the information supplier has replied to the request but has not said explicitly that the number is ported."
+              enum:
+                - unknown
+                - ported
+                - not_ported
+                - assumed_not_ported
+                - assumed_ported
+              example: "not_ported"
+            roaming:
+              type: string
+              enum:
+                - unknown
+              example: unknown
+            caller_identity:
+              $ref: "#/components/schemas/niCallerIdentity"
+            caller_name:
+              type: string
+              description: "Full name of the person or business who owns the phone number. `unknown` if this information is not available. This parameter is only present if `cnam` had a value of `true` within the request."
+              example: "John Smith"
+            last_name:
+              type: string
+              description: "Last name of the person who owns the phone number if the owner is an individual. This parameter is only present if `cnam` had a value of `true` within the request."
+              example: "Smith"
+            first_name:
+              type: string
+              description: "First name of the person who owns the phone number if the owner is an individual. This parameter is only present if `cnam` had a value of `true` within the request."
+              example: "John"
+            caller_type:
+              type: string
+              description: "The value will be `business` if the owner of a phone number is a business. If the owner is an individual the value will be `consumer`. The value will be `unknown` if this information is not available. This parameter is only present if `cnam` had a value of `true` within the request."
+              enum:
+                - business
+                - consumer
+                - unknown
+              example: "consumer"
+
+
     niResponseJsonAdvanced:
+      description: "Advanced Response"
       type: object
-      description: Advanced
       properties:
         status:
           $ref: "#/components/schemas/niStandardAdvancedStatus"
@@ -846,6 +933,133 @@ components:
           example: "not_ported"
         roaming:
           $ref: "#/components/schemas/niRoaming"
+        caller_identity:
+          $ref: "#/components/schemas/niCallerIdentity"
+        lookup_outcome:
+          type: integer
+          description: |
+            Shows if all information about a phone number has been returned. Possible values:
+
+            Code | Text
+            --- | ---
+            0 | Success
+            1 | Partial success - some fields populated
+            2 | Failed
+          enum:
+            - 0
+            - 1
+            - 2
+          example: 0
+        lookup_outcome_message:
+          type: string
+          description: "Shows if all information about a phone number has been returned."
+          example: "Success"
+        valid_number:
+          type: string
+          description: "Does `number` exist. `unknown` means the number could not be validated. `valid` means the number is valid. `not_valid` means the number is not valid. `inferred_not_valid` means that the number could not be determined as valid or invalid via an external system and the best guess is that the number is invalid. This is applicable to mobile numbers only."
+          enum:
+            - unknown
+            - valid
+            - not_valid
+            - inferred
+            - inferred_not_valid
+          example: "valid"
+        reachable:
+          type: string
+          nullable: true
+          description: "Can you call `number` now. This is applicable to mobile numbers only."
+          enum:
+            - unknown
+            - reachable
+            - undeliverable
+            - absent
+            - bad_number
+            - blacklisted
+          example: "reachable"
+      required:
+        - status
+        - status_message
+        - request_id
+        - international_format_number
+        - national_format_number
+        - country_code
+        - country_code_iso3
+        - country_name
+        - country_prefix
+
+    niResponseJsonAdvancedRoamingUnknown:
+      description: "Unknown Roaming"
+      type: object
+      properties:
+        status:
+          $ref: "#/components/schemas/niStandardAdvancedStatus"
+        status_message:
+          type: string
+          description: "The status description of your request."
+          example: "Success"
+        request_id:
+          type: string
+          description: "The unique identifier for your request. This is a alphanumeric string up to 40 characters."
+          example: "aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
+          maxLength: 40
+        international_format_number:
+          type: string
+          description: "The `number` in your request in international format."
+          example: "447700900000"
+        national_format_number:
+          type: string
+          description: "The `number` in your request in the format used by the country the number belongs to."
+          example: "07700 900000"
+        country_code:
+          type: string
+          description: "Two character country code for `number`. This is in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format."
+          example: "GB"
+          pattern: "[A-Z]{2}"
+        country_code_iso3:
+          type: string
+          description: "Three character country code for `number`. This is in [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) format."
+          example: "GBR"
+          pattern: "[A-Z]{3}"
+        country_name:
+          type: string
+          description: "The full name of the country that `number` is registered in."
+          example: "United Kingdom"
+        country_prefix:
+          type: string
+          description: "The numeric prefix for the country that `number` is registered in."
+          example: "44"
+        request_price:
+          type: string
+          description: "The amount in EUR charged to your account."
+          example: "0.04000000"
+        refund_price:
+          type: string
+          description: "If there is an internal lookup error, the `refund_price` will reflect the lookup price. If `cnam` is requested for a non-US number the `refund_price` will reflect the `cnam` price. If both of these conditions occur, `refund_price` is the sum of the lookup price and `cnam` price."
+          example: "0.01500000"
+        remaining_balance:
+          type: string
+          description: "Your account balance in EUR after this request."
+          example: "1.23456789"
+        current_carrier:
+          $ref: "#/components/schemas/niCurrentCarrierProperties"
+        original_carrier:
+          $ref: "#/components/schemas/niInitialCarrierProperties"
+        ported:
+          nullable: true
+          type: string
+          description: "If the user has changed carrier for `number`. The assumed status means that the information supplier has replied to the request but has not said explicitly that the number is ported."
+          enum:
+            - unknown
+            - ported
+            - not_ported
+            - assumed_not_ported
+            - assumed_ported
+          example: "not_ported"
+        roaming:
+          type: string
+          example: unknown
+          enum:
+            - unknown
         caller_identity:
           $ref: "#/components/schemas/niCallerIdentity"
         lookup_outcome:
@@ -1022,7 +1236,6 @@ components:
           example: "mobile"
 
     niRoaming:
-      nullable: true
       type: object
       description: "Information about the roaming status for `number`. This is applicable to mobile numbers only."
       properties:
@@ -1030,7 +1243,6 @@ components:
           type: string
           description: "Is `number` outside its home carrier network."
           enum:
-            - unknown
             - roaming
             - not_roaming
           example: roaming
