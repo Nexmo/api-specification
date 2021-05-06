@@ -405,13 +405,13 @@
             "voiceName": {
               "$ref": "#/definitions/voices"
             },
-			"language" : {
-			  "$ref": "#/definitions/languages"
-			},
-			"style" : {
+            "language" : {
+              "$ref": "#/definitions/languages"
+            },
+            "style" : {
                 "type": "integer",
                 "minimum": 0
-			}
+            }
           },
           "required": [
             "text"
@@ -472,59 +472,59 @@
         "Vitoria"
       ]
     },
-	"languages" : {
-		"enum" : [
-			"ar",
-			"bn-IN",
-			"ca-ES",
-			"cmn-CN",
-			"cmn-TW",
-			"cs-CZ",
-			"cy-GB",
-			"da-DK",
-			"de-DE",
-			"el-GR",
-			"en-AU",
-			"en-GB",
-			"en-GB-WLS",
-			"en-IN",
-			"en-US",
-			"en-ZA",
-			"es-ES",
-			"es-MX",
-			"es-US",
-			"eu-ES",
-			"fi-FI",
-			"fil-PH",
-			"fr-CA",
-			"fr-FR",
-			"he-IL",
-			"hi-IN",
-			"hu-HU",
-			"id-ID",
-			"is-IS",
-			"it-IT",
-			"ja-JP",
-			"ko-KR",
-			"ml-IN",
-			"nb-NO",
-			"nl-NL",
-			"pl-PL",
-			"pt-BR",
-			"pt-PT",
-			"ro-RO",
-			"ru-RU",
-			"sk-SK",
-			"sv-SE",
-			"ta-IN",
-			"te-IN",
-			"th-TH",
-			"tr-TR",
-			"uk-UA",
-			"vi-VN",
-			"yue-CN"
-		]
-	}
+    "languages" : {
+      "enum" : [
+        "ar",
+        "bn-IN",
+        "ca-ES",
+        "cmn-CN",
+        "cmn-TW",
+        "cs-CZ",
+        "cy-GB",
+        "da-DK",
+        "de-DE",
+        "el-GR",
+        "en-AU",
+        "en-GB",
+        "en-GB-WLS",
+        "en-IN",
+        "en-US",
+        "en-ZA",
+        "es-ES",
+        "es-MX",
+        "es-US",
+        "eu-ES",
+        "fi-FI",
+        "fil-PH",
+        "fr-CA",
+        "fr-FR",
+        "he-IL",
+        "hi-IN",
+        "hu-HU",
+        "id-ID",
+        "is-IS",
+        "it-IT",
+        "ja-JP",
+        "ko-KR",
+        "ml-IN",
+        "nb-NO",
+        "nl-NL",
+        "pl-PL",
+        "pt-BR",
+        "pt-PT",
+        "ro-RO",
+        "ru-RU",
+        "sk-SK",
+        "sv-SE",
+        "ta-IN",
+        "te-IN",
+        "th-TH",
+        "tr-TR",
+        "uk-UA",
+        "vi-VN",
+        "yue-CN"
+      ]
+    }
   },
   "type": "array",
   "items": {
