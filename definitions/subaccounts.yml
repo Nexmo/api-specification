@@ -771,6 +771,7 @@ components:
       properties:
         name:
           type: string
+          maxLength: 80
           example: "Subaccount department A"
         secret:
           type: string
