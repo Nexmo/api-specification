@@ -4,7 +4,7 @@ servers:
   - url: "https://api.nexmo.com/ni"
 info:
   title: Number Insight API
-  version: 1.1.1
+  version: 1.1.2
   description: >-
     The Number Insight API delivers real-time intelligence about the validity, reachability and roaming status of a phone number and tells you how to format the number correctly in your application. There are three levels of Number Insight API available: [Basic, Standard and Advanced](https://developer.nexmo.com/number-insight/overview#basic-standard-and-advanced-apis). The advanced API is available asynchronously as well as synchronously.
   contact:
@@ -67,7 +67,6 @@ paths:
               schema:
                 oneOf:
                   - $ref: "#/components/schemas/niResponseJsonStandard"
-                  - $ref: "#/components/schemas/niResponseJsonStandardRoamingUnknown"
             text/xml:
               schema:
                 $ref: "#/components/schemas/niResponseXmlStandard"
@@ -424,18 +423,6 @@ components:
               example: "not_ported"
               xml:
                 x-text: true
-        roaming:
-          type: object
-          description: "Information about the roaming status for number. This is applicable to mobile numbers only."
-          x-nexmo-developer-collection-description-shown: true
-          properties:
-            status:
-              type: string
-              enum:
-                - unknown
-              example: unknown
-              xml:
-                attribute: true
         caller_identity:
           type: object
           x-nexmo-developer-collection-description-shown: true
@@ -680,6 +667,7 @@ components:
             - absent
             - bad_number
             - blacklisted
+            - "null"
           example: "reachable"
         roaming:
           $ref: "#/components/schemas/niRoaming"
@@ -773,9 +761,8 @@ components:
                 - not_ported
                 - assumed_not_ported
                 - assumed_ported
+                - "null"
               example: "not_ported"
-            roaming:
-              $ref: "#/components/schemas/niRoaming"
             caller_identity:
               $ref: "#/components/schemas/niCallerIdentity"
             caller_name:
@@ -833,12 +820,8 @@ components:
                 - not_ported
                 - assumed_not_ported
                 - assumed_ported
+                - "null"
               example: "not_ported"
-            roaming:
-              type: string
-              enum:
-                - unknown
-              example: unknown
             caller_identity:
               $ref: "#/components/schemas/niCallerIdentity"
             caller_name:
@@ -930,6 +913,7 @@ components:
             - not_ported
             - assumed_not_ported
             - assumed_ported
+            - "null"
           example: "not_ported"
         roaming:
           $ref: "#/components/schemas/niRoaming"
@@ -975,6 +959,7 @@ components:
             - absent
             - bad_number
             - blacklisted
+            - "null"
           example: "reachable"
       required:
         - status
@@ -1054,6 +1039,7 @@ components:
             - not_ported
             - assumed_not_ported
             - assumed_ported
+            - "null"
           example: "not_ported"
         roaming:
           type: string
@@ -1102,6 +1088,7 @@ components:
             - absent
             - bad_number
             - blacklisted
+            - "null"
           example: "reachable"
       required:
         - status
@@ -1189,12 +1176,14 @@ components:
             - virtual
             - unknown
             - pager
+            - "null"
           xml:
             attribute: true
           example: "mobile"
 
     niInitialCarrierProperties:
       type: object
+      nullable: true
       x-nexmo-developer-collection-description-shown: true
       description: "Information about the network `number` was initially connected to."
       properties:
@@ -1231,13 +1220,15 @@ components:
             - virtual
             - unknown
             - pager
+            - "null"
           xml:
             attribute: true
           example: "mobile"
 
     niRoaming:
       type: object
-      description: "Information about the roaming status for `number`. This is applicable to mobile numbers only."
+      nullable: true
+      description: "Information about the roaming status for `number`. This is applicable to mobile numbers only. If unknown, this may return a string of `unknown` instead of an object."
       properties:
         status:
           type: string
