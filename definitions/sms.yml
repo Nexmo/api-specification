@@ -138,7 +138,7 @@ components:
           example: false
           default: true
         callback:
-          description: "**Advanced**: The webhook endpoint the delivery receipt for this sms is sent to. This parameter overrides the webhook endpoint you set in Dashboard."
+          description: "**Advanced**: The webhook endpoint the delivery receipt for this sms is sent to. This parameter overrides the webhook endpoint you set in Dashboard. Max 100 characters."
           type: string
           example: "https://example.com/sms-dlr"
         message-class:
@@ -194,7 +194,7 @@ components:
           type: string
           example: "300000"
         client-ref:
-          description: "**Advanced**: You can optionally include your own reference of up to 40 characters."
+          description: "**Advanced**: You can optionally include your own reference of up to 100 characters."
           type: string
           example: my-personal-reference
         account-ref:
