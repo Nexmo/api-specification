@@ -175,7 +175,7 @@ paths:
                                   example: 3000
                                   default: 5000
                                   maximum: 5000
-                                  minimum: 1000                           
+                                  minimum: 1000
                             event_url:
                               type: object
                               description: "Vonage will send call events (e.g. `ringing`, `answered`) to this URL"
@@ -264,6 +264,16 @@ paths:
                       type: object
                       description: "Specify `vbc` capability to enable zero-rated calls for VBC number programmability service applications. This must be an empty object."
                       x-nexmo-developer-collection-description-shown: true
+                privacy:
+                  type: object
+                  description: "Application privacy config"
+                  properties:
+                    improve_ai:
+                      type: boolean
+                      description: "If set to `true`, Vonage may store and use your content and data for the improvement of Vonage's AI based services and technologies."
+                      example: true
+                      default: true
+
       responses:
         "201":
           description: Success
@@ -531,6 +541,14 @@ paths:
                       type: object
                       description: "Specify the `vbc` capability to enable zero-rated calls for VBC number programmability service applications.  This must be an empty object."
                       x-nexmo-developer-collection-description-shown: true
+                privacy:
+                  type: object
+                  description: "Application privacy config"
+                  properties:
+                    improve_ai:
+                      type: boolean
+                      description: "If set to `true`, Vonage may store and use your content and data for the improvement of Vonage's AI based services and technologies."
+                      example: true
       responses:
         "200":
           description: Success
@@ -788,6 +806,14 @@ components:
             vbc:
               type: object
               description: "Specify the `vbc` capability to enable zero-rated calls for VBC number programmability service applications. This is always an empty object."
+        privacy:
+          type: object
+          description: "Application privacy config"
+          properties:
+            improve_ai:
+              type: boolean
+              description: "If set to `true`, Vonage may store and use your content and data for the improvement of Vonage's AI based services and technologies."
+              example: true
 
 x-errors:
   payload-validation:
