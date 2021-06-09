@@ -1,7 +1,7 @@
 ---
 openapi: "3.0.0"
 info:
-  version: 2.0.9
+  version: 2.1.0
   title: "Application API"
   description: |
     Vonage provides an Application API to allow management of your Vonage Applications.
