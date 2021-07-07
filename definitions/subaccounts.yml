@@ -2,7 +2,7 @@ openapi: 3.0.0
 servers:
   - url: "https://api.nexmo.com/accounts"
 info:
-  version: 1.0.8
+  version: 1.0.9
   title: Subaccounts API
   description: >-
     The Subaccounts API enables you to create subaccounts under your primary account. Subaccounts facilitate differential product configuration, reporting, and billing. The Subaccounts API is released initially with restricted availability. You can read more about the API in the [Subaccounts documentation](/account/subaccounts/overview).
@@ -38,7 +38,11 @@ paths:
         "401":
           $ref: "#/components/responses/UnauthorizedError"
         "403":
-          $ref: "#/components/responses/ForbiddenError"
+          description: Action is forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
         "404":
           $ref: "#/components/responses/AccountIdNotFoundError"
     post:
@@ -73,7 +77,16 @@ paths:
         "401":
           $ref: "#/components/responses/UnauthorizedError"
         "403":
-          $ref: "#/components/responses/ForbiddenError"
+          description: Action is forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+              examples:
+                account-not-provisioned:
+                  $ref: '#/components/examples/account-not-provisioned'
+                subaccounts-limit-reached:
+                  $ref: '#/components/examples/subaccounts-limit-reached'
         "404":
           $ref: "#/components/responses/AccountIdNotFoundError"
         "422":
@@ -111,7 +124,11 @@ paths:
         "401":
           $ref: "#/components/responses/UnauthorizedError"
         "403":
-          $ref: "#/components/responses/ForbiddenError"
+          description: Action is forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
         "404":
           $ref: "#/components/responses/AccountIdNotFoundError"
     patch:
@@ -152,7 +169,16 @@ paths:
         "401":
           $ref: "#/components/responses/UnauthorizedError"
         "403":
-          $ref: "#/components/responses/ForbiddenError"
+          description: Action is forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+              examples:
+                account-not-provisioned:
+                  $ref: '#/components/examples/account-not-provisioned'
+                independent-balance-disabled:
+                  $ref: '#/components/examples/independent-balance-disabled'
         "404":
           $ref: "#/components/responses/AccountIdNotFoundError"
         "422":
@@ -204,7 +230,14 @@ paths:
         "401":
           $ref: "#/components/responses/UnauthorizedError"
         "403":
-          $ref: "#/components/responses/ForbiddenError"
+          description: Action is forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+              examples: 
+                quota-transfer-provisioning:
+                  $ref: '#/components/examples/quota-transfer-provisioning'
         "404":
           $ref: "#/components/responses/AccountIdNotFoundError"
     post:
@@ -239,7 +272,16 @@ paths:
         "401":
           $ref: "#/components/responses/UnauthorizedError"
         "403":
-          $ref: "#/components/responses/ForbiddenError"
+          description: Action is forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+              examples:
+                account-not-provisioned:
+                  $ref: '#/components/examples/account-not-provisioned'
+                independent-balance-disabled:
+                  $ref: '#/components/examples/independent-balance-disabled'
         "404":
           $ref: "#/components/responses/AccountIdNotFoundError"
         "422":
@@ -291,7 +333,14 @@ paths:
         "401":
           $ref: "#/components/responses/UnauthorizedError"
         "403":
-          $ref: "#/components/responses/ForbiddenError"
+          description: Action is forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+              examples: 
+                quota-transfer-provisioning:
+                  $ref: '#/components/examples/quota-transfer-provisioning'
         "404":
           $ref: "#/components/responses/AccountIdNotFoundError"
     post:
@@ -327,7 +376,16 @@ paths:
         "401":
           $ref: "#/components/responses/UnauthorizedError"
         "403":
-          $ref: "#/components/responses/ForbiddenError"
+          description: Action is forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+              examples:
+                account-not-provisioned:
+                  $ref: '#/components/examples/account-not-provisioned'
+                independent-balance-disabled:
+                  $ref: '#/components/examples/independent-balance-disabled'
         "404":
           $ref: "#/components/responses/AccountIdNotFoundError"
         "422":
@@ -369,9 +427,12 @@ paths:
           content:
             application/json:
               schema:
-                oneOf:
-                  - $ref: "#/components/schemas/UnprovisionedErrorResponse"
-                  - $ref: "#/components/schemas/InvalidNumberTransferErrorResponse"
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+              examples:
+                account-not-provisioned:
+                  $ref: '#/components/examples/account-not-provisioned'
+                invalid-number-transfer:
+                  $ref: '#/components/examples/invalid-number-transfer'
         "404":
           description: Action is forbidden
           content:
@@ -419,12 +480,6 @@ components:
               instance:
                 type: string
                 example: "798b8f199c45014ab7b08bfe9cc1c12c"
-    ForbiddenError:
-      description: Action is forbidden
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/UnprovisionedErrorResponse"
     AccountIdNotFoundError:
       description: The account ID provided does not exist in our system or you do not have access
       content:
@@ -535,27 +590,6 @@ components:
                 type: string
                 example: "158b8f199c45014ab7b08bfe9cc1c12c"
   schemas:
-    UnprovisionedErrorResponse:
-      description: Unprovisioned
-      type: object
-      required:
-        - type
-        - title
-        - detail
-        - instance
-      properties:
-        type:
-          type: string
-          example: "https://developer.nexmo.com/api-errors#unprovisioned"
-        title:
-          type: string
-          example: "Authorisation error"
-        detail:
-          type: string
-          example: "Account acc6111f is not provisioned to access Subaccount Provisioning API"
-        instance:
-          type: string
-          example: "158b8f199c45014ab7b08bfe9cc1c12c"
     ShortcodeNotFound:
       description: Shortcode Not Found
       type: object
@@ -574,27 +608,6 @@ components:
         detail:
           type: string
           example: "Could not transfer number {number} from account {from} to {to} - ShortCode not found"
-        instance:
-          type: string
-          example: "158b8f199c45014ab7b08bfe9cc1c12c"
-    InvalidNumberTransferErrorResponse:
-      description: Invalid Transfer
-      type: object
-      required:
-        - type
-        - title
-        - detail
-        - instance
-      properties:
-        type:
-          type: string
-          example: "https://developer.nexmo.com/api-errors/subaccounts#invalid-number-transfer"
-        title:
-          type: string
-          example: "Invalid Number Transfer"
-        detail:
-          type: string
-          example: "Failed to perform transfer number {number} from account {from} to {to} - The relationship between these two accounts does not allow for number transfer"
         instance:
           type: string
           example: "158b8f199c45014ab7b08bfe9cc1c12c"
@@ -826,6 +839,72 @@ components:
         country:
           type: string
           example: "GB"
+    ForbiddenErrorResponse:
+      type: object
+      properties:
+        type:
+          type: string
+          example: "https://developer.nexmo.com/api-errors#unprovisioned"
+        title:
+          type: string
+          example: "Authorisation error"
+        detail:
+          type: string
+          example: "Account acc6111f is not provisioned to access Subaccount Provisioning API"
+        instance:
+          type: string
+          example: "158b8f199c45014ab7b08bfe9cc1c12c"
+      required:
+        - type
+        - title
+        - detail
+        - instance
+  examples:
+    account-not-provisioned:
+      summary: "The response for an unprovisioned account"
+      value:
+        {
+          "type": "https://developer.nexmo.com/api-errors#unprovisioned",
+          "title": "Authorisation error",
+          "detail": "Account acc6111f is not provisioned to access Subaccount Provisioning API",
+          "instance": "158b8f199c45014ab7b08bfe9cc1c12c"
+        }
+    subaccounts-limit-reached:
+      summary: "Limit of subaccounts for primary account reached"
+      value:
+        {
+          "type": "https://developer.nexmo.com/api-errors/account/subaccounts#provisioning",
+          "title": "Maximum number of sub-accounts reached",
+          "detail": "This account has reached maximum number of allowed sub-accounts",
+          "instance": "158b8f199c45014ab7b08bfe9cc1c12c"
+        }
+    independent-balance-disabled:
+      summary: "Primary account does not allow independent balance"
+      value:
+        {
+          "type": "https://developer.nexmo.com/api-errors/account/subaccounts#validation",
+          "title": "Invalid use_primary_account_balance",
+          "detail": "Primary account does not allow independent balance",
+          "instance": "158b8f199c45014ab7b08bfe9cc1c12c"
+        }
+    quota-transfer-provisioning:
+      summary: Account cannot perform quota transfer
+      value:
+        {
+          "type": "https://developer.nexmo.com/api-errors/account/subaccounts#provisioning",
+          "title": "Invalid operation for account",
+          "detail": "Account is not provisioned to perform quota transfers",
+          "instance": "158b8f199c45014ab7b08bfe9cc1c12c"
+        }
+    invalid-number-transfer:
+      summary: "Invalid Transfer"
+      value:
+        {
+          "type": "https://developer.nexmo.com/api-errors/subaccounts#invalid-number-transfer",
+          "title": "Invalid Number Transfer",
+          "detail": "Failed to perform transfer number {number} from account {from} to {to} - The relationship between these two accounts does not allow for number transfer",
+          "instance": "158b8f199c45014ab7b08bfe9cc1c12c"
+        }
 
 x-errors:
   validation:
