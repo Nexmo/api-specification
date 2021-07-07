@@ -1,0 +1,2176 @@
+openapi: 3.0.3
+info:
+  version: 0.1.0
+  title: Natural Language Understanding API
+  description: "Vonage's Natural Language Understanding API allows you to build, store, and use model's for intent \nand entity detection from user utterances.\n"
+  contact:
+    name: Nexmo
+    url: 'https://developer.nexmo.com/'
+    email: devrel@nexmo.com
+servers:
+  - url: 'https://api.nexmo.com/v0.1/athena'
+paths:  
+  '/utterances':
+    get:
+      summary: List utterances
+      tags:
+        - Utterances
+      operationId: listUtterances
+      description: List the utterances for a given intent
+      parameters:
+        - $ref: '#/components/parameters/search_intent_id'
+        - $ref: '#/components/parameters/page_size'        
+        - $ref: '#/components/parameters/order'
+        - $ref: '#/components/parameters/cursor'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/utterances"
+        '400':
+          description: Bad Request
+        '401':
+          description: Missing or Invalid Credentials  
+    post:
+      summary: Create an utterance
+      operationId: createUtterance
+      description: Create an utterance that corresponds to a given intent
+      tags:
+        - Utterances      
+      requestBody:        
+        $ref: "#/components/requestBodies/Utterance"  
+                  
+      responses:
+        '201':
+          description: Created utterance
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/utterance"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInvalidJson"
+        '401':
+          description: Invalid or Missing Credentials
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorUnauthorized"
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorNotFound"
+        '422':
+          description: Label does not match
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorLabelDoesNotMatch"
+  '/utterances/{utterance_id}':
+    get:
+      summary: Get Utterance
+      description: Retrieves the utterance at the given id
+      operationId: getUtterance
+      tags:
+        - Utterances
+      parameters:
+        - $ref: '#/components/parameters/utterance_id'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/utterance"
+        '401':
+          description: Missing or Invalid Credentials
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorUnauthorized"
+        '404':
+          description: Resource Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorNotFound"
+    patch:
+      description: Updates the utterance - note all fields are replaced and not added
+      tags:
+        - Utterances
+      summary: Update utterance
+      operationId: updateUtterance
+      parameters:
+        - $ref: "#/components/parameters/utterance_id"
+      requestBody:
+        $ref: "#/components/requestBodies/UtteranceUpdate"                    
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/utterance"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInvalidJson"
+        '401':
+          description: Missing or Invalid Credentials
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorUnauthorized"
+        '404':
+          description: Resource Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorNotFound"
+        '422':
+          description: Label does not match
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorLabelDoesNotMatch"
+    delete:
+      description: deletes the utterances
+      tags:
+        - Utterances
+      summary: Delete Utterance
+      operationId: deleteUtterance
+      parameters:
+        - $ref: "#/components/parameters/utterance_id"
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Missing or Invalid Credentials
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorUnauthorized"
+        '404':
+          description: Resource Not Found        
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorNotFound"
+  /models:
+    get:
+      summary: List models
+      operationId: list_models
+      description: Lists the models available for use in analysis
+      tags:
+        - Models
+      parameters:        
+        - name: intent_id
+          description: the intent to search on
+          in: query
+          example: INT-f972836a-550f-45fa-956c-12a2ab5b7d22
+          schema:
+            type: string
+          required: false
+        - name: entity_id
+          description: the entity to search on
+          in: query
+          example: ENT-f972836a-550f-45fa-956c-12a2ab5b7d22
+          schema:
+            type: string
+          required: false
+        - $ref: '#/components/parameters/page_size'        
+        - $ref: '#/components/parameters/order'
+        - $ref: '#/components/parameters/cursor'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  page_size:
+                    type: integer
+                    example: 10
+                    description: The number of results returned on this page.                  
+                  _embedded:
+                    type: object
+                    x-nexmo-developer-collection-description-show: true
+                    properties:
+                      models:
+                        type: array
+                        description: List of Models matching the provided filter
+                        items:
+                          $ref: '#/components/schemas/model'
+                  _links:
+                    $ref: '#/components/schemas/model_links'
+        '401':
+          description: Not Authorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorUnauthorized"
+    post:
+      summary: Create model
+      description: Creates a model as a conglomeration of entities and intents from the rest of your knowledge base. A model should at least have an intent id or an entity id.
+      operationId: create_model
+      tags:
+        - Models
+      requestBody:
+        $ref: '#/components/requestBodies/Model'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/model'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInvalidJson"
+        '401':
+          description: Not Authorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorUnauthorized"
+    
+  /intents:
+    get:
+      operationId: list_intents
+      description: Lists the intents available for analysis
+      summary: List intents
+      tags:
+        - Intents
+      parameters:        
+        - $ref: '#/components/parameters/page_size'        
+        - $ref: '#/components/parameters/order'
+        - $ref: '#/components/parameters/model_id_query'
+        - $ref: '#/components/parameters/cursor'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  page_size:
+                    type: integer
+                    example: 10
+                    description: The number of results returned per page                  
+                  _embedded:
+                    type: object
+                    x-nexmo-developer-collection-description-show: true
+                    properties:
+                      intents:
+                        type: array
+                        description: the list of intents matching the provided filter
+                        items:
+                          $ref: '#/components/schemas/intent'
+                  _links:
+                    $ref: '#/components/schemas/intent_links'
+        '401':
+          description: Not Authorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorUnauthorized"
+    post:
+      summary: Create Intent
+      description: Creates a new intent that you can detect with analysis
+      operationId: create_intent
+      tags:
+        - Intents
+      requestBody:
+        $ref: '#/components/requestBodies/Intent'
+      responses:
+        '200':
+          description: Intent Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/intent'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInvalidJson"
+        '401':
+          description: Not Authorized    
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorUnauthorized"
+  '/intents/{intent_id}':
+    get:
+      operationId: get_intent
+      summary: Get Intent
+      description: Get an intent
+      tags:
+        - Intents
+      parameters:
+        - $ref: '#/components/parameters/intent_id'
+      responses:
+        '200':
+          description: Intent Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/intent'
+        '401':
+          description: Not Authorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorUnauthorized"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorNotFound"
+    patch:
+      operationId: update_intent
+      summary: Update intent
+      description: Add utterances to or rename to an intent.
+      tags:
+        - Intents
+      parameters:
+        - $ref: '#/components/parameters/intent_id'
+      requestBody:
+        $ref: '#/components/requestBodies/IntentUpdate'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/intent'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInvalidJson"
+        '401':
+          description: Not Authorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorUnauthorized"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorNotFound"
+    delete:
+      operationId: delete_intent
+      summary: Delete Intent
+      description: Delete an intent
+      tags:
+        - Intents
+      parameters:
+        - $ref: '#/components/parameters/intent_id'
+        - $ref:  "#/components/parameters/force_intent_delete"
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Not Authorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorUnauthorized"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorNotFound"        
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:      
+                  type:
+                    type: string
+                    description: Link to error / remediation options
+                    example: https://developer.nexmo.com/api-errors/athena#delete-conflict
+                  title:
+                    type: string
+                    description: title of the error
+                    example: Conflict
+                  detail:
+                    type: string
+                    description: detailed description of the error
+                    example: Delete operation would orphan child utterances - please delete child utterances or set force to true to cascade the delete to child entities
+                  instance:
+                    type: string
+                    description: Internal Trace ID
+                    example: bf0ca0bf927b3b52e3cb03217e1a1ddf
+  /entities:
+    get:
+      operationId: list_entities
+      tags:
+        - Entities
+      summary: List entities
+      description: List all Entities associated with your application. The endpoint requires a JWT.
+      parameters:              
+        - $ref: '#/components/parameters/page_size'        
+        - $ref: '#/components/parameters/order'
+        - $ref: '#/components/parameters/model_id_query'
+        - $ref: '#/components/parameters/cursor'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  page_size:
+                    type: integer
+                    example: 10
+                    description: The number of results returned on this page.                  
+                  _embedded:
+                    type: object
+                    x-nexmo-developer-collection-description-show: true
+                    properties:
+                      entities:
+                        type: array
+                        description: List of entities matching the provided filter
+                        items:
+                          $ref: '#/components/schemas/entity'
+                  _links:
+                    $ref: "#/components/schemas/entity_links"
+        '401':
+          description: Not Authorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorUnauthorized"
+    post:
+      operationId: create_entity
+      tags:
+        - Entities
+      summary: Create an entity
+      description: 'Creates an entity. An entity represents a real world object such as a color, person, location'
+      requestBody:
+        $ref: '#/components/requestBodies/Entity'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/entity'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInvalidJson"
+        '401':
+          description: Not Authorized  
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorUnauthorized"
+  '/entities/{entity_id}':
+    get:
+      summary: Get an Entity
+      description: Retrieves the entity at the given entity ID
+      operationId: get_entity
+      tags:
+        - Entities
+      parameters:
+        - $ref: '#/components/parameters/entity_id'
+      responses:
+        '200':
+          description: Value Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/entity'
+        '401':
+          description: Bad Credentials
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorUnauthorized"
+        '404':
+          description: Resource Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorNotFound"
+    patch:
+      summary: Update an entity
+      operationId: update_entity
+      description: Updates the entity at the given entity ID
+      tags:
+        - Entities
+      parameters:
+        - $ref: '#/components/parameters/entity_id'
+      requestBody:
+        $ref: '#/components/requestBodies/EntityUpdate'
+      responses:
+        '202':
+          description: Entity Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/entity'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInvalidJson"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorUnauthorized"
+        '404':
+          description: Not Found    
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorNotFound"
+    delete:
+      summary: Delete an entity
+      operationId: delete_entity
+      description: deletes the entity at the provided id
+      tags:
+        - Entities
+      parameters:
+        - $ref: '#/components/parameters/entity_id'
+        - $ref: "#/components/parameters/force_entity_delete"
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Not Authorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorUnauthorized"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorNotFound"
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    description: Link to error / remediation options
+                    example: https://developer.nexmo.com/api-errors/athena#delete-conflict
+                  title:
+                    type: string
+                    description: title of the error
+                    example: Conflict
+                  detail:
+                    type: string
+                    description: detailed description of the error
+                    example: Delete operation would orphan child values - please delete child values or set force to true to cascade the delete to child entities
+                  instance:
+                    type: string
+                    description: Internal Trace ID
+                    example: bf0ca0bf927b3b52e3cb03217e1a1ddf
+  '/labels':
+    summary: list_labels
+    get:
+      description: List the labels applicable to a given intent
+      operationId: getLabels
+      tags:
+        - Labels
+      summary: List Labels
+      parameters:
+        - $ref: '#/components/parameters/search_intent_id'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/order'
+        - $ref: '#/components/parameters/cursor'
+      responses:
+        '200':
+          description: Labels Listed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/labels'
+        '401':
+          description: Not Authorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorUnauthorized"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorNotFound"
+    post:
+      description: Create a label
+      operationId: createLabel
+      tags:
+        - Labels
+      summary: Create a Label
+      requestBody:
+        $ref: "#/components/requestBodies/Label"
+      responses:
+        '200':
+          description: Label created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/label"
+        '401':
+          description: Not Authorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorUnauthorized"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorNotFound"
+  '/labels/{label_id}':
+    get:
+      summary: Get Label
+      description: Retrieve the label for the given ID
+      operationId: getLabel
+      tags:
+        - Labels
+      parameters:
+        - $ref: "#/components/parameters/label_id"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/label"
+        '401':
+          description: Not Authorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorUnauthorized"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorNotFound"    
+    delete:
+      summary: Delete label
+      description: Delete an entity label
+      operationId: deleteLabel
+      tags:
+        - Labels
+      parameters:
+        - $ref: "#/components/parameters/label_id"
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Not Authorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorUnauthorized"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorNotFound"        
+  '/values':
+    summary: list_values
+    get:
+      description: Lists the discrete set of values available for a given entity id.
+      operationId: get_values
+      tags:
+        - Values
+      summary: List Values
+      parameters:
+        - $ref: '#/components/parameters/search_entity_id'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/order'        
+        - $ref: '#/components/parameters/cursor'
+      responses:
+        '200':
+          description: Values Listed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/values' 
+        '401':
+          description: Not Authorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorUnauthorized"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorNotFound"
+    post:
+      description: Creates a value for the provided entity id
+      operationId: create_value
+      tags:
+        - Values
+      summary: Create a value            
+      requestBody:
+        $ref: '#/components/requestBodies/Value'
+      responses:
+        '200':
+          description: Value Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/value'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInvalidJson"
+        '401':
+          description: Not Authorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorUnauthorized"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorNotFound"
+  '/values/{value_id}':
+    get:
+      description: Gets the value at the given value id
+      operationId: get_value
+      tags:
+        - Values
+      summary: Get a value
+      parameters:
+        - $ref: '#/components/parameters/value_id'
+      responses:
+        '200':
+          description: Value found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/value'
+        '401':
+          description: Not Authorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorUnauthorized"
+        '404':
+          description: Resource Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorNotFound"
+    patch:
+      description: Updates the value at the provided value id. Particularly useful if you need to edit a value but do not want to change it's underlying synonyms.
+      operationId: update_value
+      tags:
+        - Values
+      summary: Update a value
+      parameters:
+        - $ref: '#/components/parameters/value_id'
+      requestBody:
+        $ref: '#/components/requestBodies/ValueUpdate'
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/value'     
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInvalidJson"     
+        '401':
+          description: Not Authorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorUnauthorized"
+        '404':
+          description: Resource Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorNotFound"
+    delete:
+      description: Deletes the value at the provided id.
+      operationId: delete_value
+      tags:
+        - Values
+      summary: Delete a value
+      parameters:
+        - $ref: '#/components/parameters/value_id'        
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Not Authorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorUnauthorized"
+        '404':
+          description: Resource Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorNotFound"        
+  '/models/{model_id}':
+    parameters:
+      - schema:
+          type: string
+        name: model_id
+        description: The unique id for the model
+        example: MOD-92a44c64-7e4e-485f-a0c4-1f2adfc44625
+        in: path
+        required: true
+    get:
+      summary: Get a model
+      tags:
+        - Models
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/model'
+        '401':
+          description: Not Authorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorUnauthorized"
+        '404':
+          description: Resource Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorNotFound"
+      operationId: get-models-model_id
+      description: Get the model at the given ID
+    patch:
+      summary: Update a model
+      operationId: patch-models-model_id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/model'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInvalidJson"
+        '401':
+          description: Not Authorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorUnauthorized"
+        '404':
+          description: Resource Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorNotFound"
+      description: Update a Model at the given Id
+      requestBody:
+        $ref: '#/components/requestBodies/Model'
+      tags:
+        - Models
+    delete:
+      summary: Delete a model
+      operationId: delete-models-model_id
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Not Authorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorUnauthorized"
+      description: Deletes a Model
+      tags:
+        - Models
+  /analyze:
+    post:
+      summary: Analyze text
+      operationId: analyze_text
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/analysis'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInvalidJson"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorUnauthorized"
+        '422':
+          description: validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorUnprocessable"
+      description: Analyze submitted text text
+      requestBody:
+        $ref: '#/components/requestBodies/AnalyzeRequest'
+      tags:
+        - Analyze
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:    
+    force_entity_delete:
+      name: force
+      in: query
+      description: If set to `true` a delete will cascade to all child values.
+      required: false
+      example: false
+      schema:
+        type: boolean
+    force_intent_delete:
+      name: force
+      in: query
+      description: If set to `true` a delete will cascade to all child utterances.
+      required: false
+      example: false
+      schema:
+        type: boolean
+    force:
+      name: force
+      in: query
+      description: If set to `true` a delete will cascade to the resources children.
+      required: false
+      example: false
+      schema:
+        type: boolean
+    search_entity_id:
+      name: entity_id
+      in: query
+      required: true
+      description: The entity to search on
+      schema:
+        type: string
+    analyze_id:
+      name: analyze_id
+      in: path
+      description: Unique id for the analysis being looked up
+      required: true
+      schema:
+        type: string
+    model_id:
+      name: model_id
+      in: path
+      description: Unique id for a model being looked up
+      required: true
+      schema:
+        type: string
+    intent_id:
+      name: intent_id
+      in: path
+      description: Unique Id for an Intent
+      required: true
+      schema:
+        type: string
+    utterance_id:
+      name: utterance_id
+      in: path
+      description: Unique Id for an utterance
+      example: UTT-f972836a-550f-45fa-956c-12a2ab5b7d22
+      required: true
+      schema:
+        type: string
+    entity_id:
+      name: entity_id
+      in: path
+      description: Unique Id for an entity
+      required: true
+      schema:
+        type: string
+    model_id_query:
+      name: model_id
+      in: query
+      description: Looks up resources that are part of the provided model
+      schema:
+        type: string
+        example: MOD-92a44c64-7e4e-485f-a0c4-1f2adfc44625    
+    page_size:
+      name: page_size
+      in: query
+      description: The number of results returned per page.   The default value is `10`. The maximum value is `100`.
+      schema:
+        type: integer
+        default: 10
+        example: 25
+        minimum: 1
+        maximum: 100
+      required: false
+    order:
+      name: order
+      in: query
+      description: Show the most (`desc`) / least (`asc`) recently created entries first
+      schema:
+        type: string
+        default: asc
+        example: desc
+        enum:
+          - asc
+          - desc
+      required: false
+    cursor:
+      name: cursor
+      in: query
+      description: |
+        The cursor to start returning results from.
+
+        You are not expected to provide this manually, but to follow the url provided in `_links.next.href` in the response which contains a `cursor` value
+      schema:
+        type: string
+      required: false    
+    search_intent_id:
+      name: intent_id
+      description: the intent to search on
+      in: query
+      example: INT-f972836a-550f-45fa-956c-12a2ab5b7d22
+      schema:
+        type: string
+      required: true
+    search_value_id:
+      name: value_id
+      in: query
+      description: the value to search on
+      example: VAL-f972836a-550f-45fa-956c-12a2ab5b7d22
+      schema:
+        type: string
+      required: true
+    label_id:
+      name: label_id
+      in: path
+      description: The Id of the label
+      example: LAB-f972836a-550f-45fa-956c-12a2ab5b7d22
+      schema:
+        type: string
+      required: true
+    value_id:
+      name: value_id
+      in: path
+      description: The Id of the value
+      example: VAL-f972836a-550f-45fa-956c-12a2ab5b7d22
+      schema:
+        type: string
+      required: true
+  requestBodies:
+    AnalyzeRequest:
+      description: A Request to analyze a piece of text against a model
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - title: With Model
+                x-tab-id: WithModel
+                type: object
+                required:
+                  - text
+                  - model_id
+                properties:
+                  text:
+                    $ref: '#/components/schemas/analyze_text'
+                  language_code:
+                    $ref: '#/components/schemas/language_code'
+                  model_id:
+                    $ref: '#/components/schemas/model_id'
+                  intent_ids:
+                    $ref: '#/components/schemas/intent_ids'
+                  entity_ids:
+                    $ref: '#/components/schemas/entity_ids'
+              - title: With Intent
+                x-tab-id: WithIntent
+                type: object
+                required:
+                  - text
+                  - intent_ids
+                properties:
+                  text:
+                    $ref: '#/components/schemas/analyze_text'
+                  language_code:
+                    $ref: '#/components/schemas/language_code'
+                  model_id:
+                    $ref: '#/components/schemas/model_id'
+                  intent_ids:
+                    $ref: '#/components/schemas/intent_ids'
+                  entity_ids:
+                    $ref: '#/components/schemas/entity_ids'
+    Model:
+      description: The model to run text analysis against.
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - title: With Intents
+                x-tab-id: WithIntents
+                required:
+                  - intent_ids                
+                type: object
+                properties:                  
+                  intent_ids:
+                    $ref: '#/components/schemas/model_intent_ids'
+                  entity_ids:
+                    $ref: '#/components/schemas/entity_ids'              
+                  name:
+                    $ref: '#/components/schemas/model_name'
+              - title: With Entities
+                x-tab-id: WithEntities
+                required:
+                  - entity_ids                
+                type: object
+                properties:                  
+                  intent_ids:
+                    $ref: '#/components/schemas/model_intent_ids'
+                  entity_ids:
+                    $ref: '#/components/schemas/entity_ids'
+                  name:
+                    $ref: '#/components/schemas/model_name'
+    IntentUpdate:
+      description: New name for the intent
+      x-nexmo-developer-collection-description-show: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                $ref: '#/components/schemas/intent_name'
+              utterances:                
+                $ref: '#/components/schemas/utterance_list_update'                         
+    Intent:
+      description: A task or action a user intends for the agent
+      x-nexmo-developer-collection-description-show: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - name
+            properties:
+              name:
+                $ref: '#/components/schemas/intent_name'
+              utterances:
+                $ref: '#/components/schemas/utterance_list'
+    Label:
+      description: A label of an entity in the context of an intent
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - label_name
+              - entity_id
+              - intent_id
+            properties:
+              label_name:
+                type: string
+                description: The name of the label for the entity.
+                example: caller
+              entity_id:
+                type: string
+                description: The id of the entity associated with this label
+                example: ENT-92a44c64-7e4e-485f-a0c4-1f2adfc44625
+              intent_id:
+                type: string
+                description: The id of the intent that this label is appropriate for
+                example: INT-fda44c64-7e4e-485f-a0c4-234567c44627
+    Value:
+      description: A possible value for an Entity
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - name
+              - entity_id
+            properties:
+              entity_id:
+                type: string
+                description: the entity id the value is being created on.
+                example: ENT-92a44c64-7e4e-485f-a0c4-1f2adfc44625
+              name:
+                $ref: '#/components/schemas/value_name'              
+              metadata:
+                $ref: '#/components/schemas/metadata'
+              synonyms:
+                $ref: '#/components/schemas/synonyms'
+    Entity:
+      description: An entity representing a real world object      
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - name
+            properties:
+              name:
+                $ref: '#/components/schemas/entity_name'  
+              values:
+                $ref: '#/components/schemas/value_list'            
+    ValueUpdate:
+      description: A possible value for an Entity
+      content:
+        application/json:
+          schema:
+            type: object            
+            properties:
+              name:
+                $ref: '#/components/schemas/value_name'
+              metadata:
+                $ref: '#/components/schemas/metadata'
+              synonyms:
+                $ref: '#/components/schemas/synonyms'
+    EntityUpdate:
+      description: Update model of an entity.
+      content:
+        application/json:
+          schema:
+            type: object            
+            properties:
+              name:
+                $ref: '#/components/schemas/entity_name'
+              values:
+                $ref: '#/components/schemas/value_list_update'
+    Utterance:
+      description: An utterance labeled for a specific intent
+      x-nexmo-developer-collection-description-show: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:              
+              - text
+              - intent_id
+            properties:              
+              intent_id:
+                description: the intent to create the utterance on
+                type: string
+                example: INT-f972836a-550f-45fa-956c-12a2ab5b7d22
+              text:
+                $ref: '#/components/schemas/utterance_text'
+              labeled_entities:                
+                $ref: '#/components/schemas/labeled_entities'
+    UtteranceUpdate:
+      description: An utterance labeled for a specific intent
+      x-nexmo-developer-collection-description-show: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:              
+              text:
+                $ref: '#/components/schemas/utterance_text'
+              labeled_entities:
+                $ref: '#/components/schemas/labeled_entities'
+    LabeledEntity:
+      description: An entity tagged within an utterance of an intent
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - type
+              - name
+              - text
+              - start_idx
+              - end_idx
+            properties:
+              type:
+                $ref: '#/components/schemas/entity_name'
+              name:
+                $ref: '#/components/schemas/synonym_name'
+              text:
+                $ref: '#/components/schemas/labeled_text'
+              start_idx:
+                $ref: '#/components/schemas/start_idx'
+              end_idx:
+                $ref: '#/components/schemas/end_idx'
+    Synonym:
+      description: A Synonym of a Entity Value
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - value_id
+              - name
+            properties:
+              value_id:
+                type: string
+                description: The value id to create the synonym on
+                example: VAL-92a44c64-7e4e-485f-a0c4-1f2adfc44625
+              name:
+                type: string
+                description: the synonym for a given concrete value of an entity
+                example: tangerine
+  schemas:
+    ErrorNotFound:
+      type: object
+      required:
+        - type
+        - title
+        - detail
+        - instance
+      properties:
+        type:
+          type: string
+          description: Link to error / remediation options
+          example: https://developer.nexmo.com/api-errors#not-found
+        title:
+          type: string
+          description: Generic error message
+          example: Not Found
+        detail:
+          type: string
+          description: Additional information about the error
+          example: Requested resource wasn't found
+        instance:
+          type: string
+          description: Internal Trace ID
+          example: bf0ca0bf927b3b52e3cb03217e1a1ddf
+    ErrorUnauthorized:
+      type: object
+      required:
+        - type
+        - error
+        - detail
+        - instance
+      properties:
+        type:
+          type: string
+          description: Machine readable error type
+          example: https://developer.nexmo.com/api-errors#unauthorized
+        error:
+          type: string
+          description: Error title
+          example: Unauthorized
+        detail:
+          type: string
+          description: Unauthorized
+          example: Unauthorized
+        instance:
+          type: string
+          description: Internal Trace ID
+          example: bf0ca0bf927b3b52e3cb03217e1a1ddf
+    ErrorLabelDoesNotMatch:
+      description: Label does not match
+      type: object
+      required:
+        - title
+        - detail
+      properties:
+        type:
+          type: string
+          description: Link to error / remediation options
+          example: https://developer.nexmo.com/api-errors/athena#label-does-not-match
+        title:
+          type: string
+          description: Title of the error
+          example: Request could not be processed
+        detail:
+          type: string
+          description: More granular explanation of the error
+          example: The supplied label's associated entity and intent does not match the intent or entity of the labeled entity
+        instance:
+          type: string
+          description: Internal Trace ID
+          example: bf0ca0bf927b3b52e3cb03217e1a1ddf
+    ErrorUnprocessable:
+      description: Unprocessable entity
+      type: object
+      required:        
+        - title
+        - detail  
+      properties:
+        type:
+          type: string
+          description: Link to error / remediation options
+          example: https://developer.nexmo.com/api-errors/athena#missing-model
+        title:
+          type: string
+          description: Title of the error
+          example: Request is Unprocessable
+        detail:
+          type: string
+          description: More granular explanation of the error
+          example: Missing required parameter    
+        instance:
+          type: string
+          description: Internal Trace ID
+          example: bf0ca0bf927b3b52e3cb03217e1a1ddf
+    ErrorInvalidJson:
+      description: Invalid JSON
+      type: object
+      required:
+        - type
+        - title
+        - detail
+        - instance
+      properties:
+        type:
+          type: string
+          description: Link to error / remediation options
+          example: https://developer.nexmo.com/api-errors#invalid-json
+        title:
+          type: string
+          description: Generic error message
+          example: Invalid JSON
+        detail:
+          type: string
+          description: Additional information about the error
+          example: 'Unexpected character (''"'' (code 34)): was expecting comma to separate Object entries'
+        instance:
+          type: string
+          description: Internal Trace ID
+          example: bf0ca0bf927b3b52e3cb03217e1a1ddf
+    entity_id:
+      type: string
+      description: Unique id of an entity
+      example: ENT-92a44c64-7e4e-485f-a0c4-1f2adfc44625
+    start_idx:
+      type: integer
+      description: position in the utterance where the entity starts
+      example: 5
+    end_idx:
+      type: integer
+      description: position in the utterance where the entity ends
+      example: 10
+    labeled_text:
+      type: string
+      description: the text denoting the entity
+      example: tangerine
+    synonym_name:
+      type: string
+      description: the detectable synonym of the entity type in this utterance
+      example: tangerine
+    value_list:
+      type: array      
+      description: A list of intents for the entity
+      items:
+         type: object
+         x-nexmo-developer-collection-description-show: true
+         properties:
+          name:
+            type: string
+            example: fruit
+            description: The name of the value - a concrete instance of the entity
+          metadata: 
+            $ref: "#/components/schemas/metadata"
+          synonyms:
+            $ref: "#/components/schemas/synonyms"
+    value_list_update:
+      type: array      
+      description: |
+        The list of values to set for the entity.
+        > NOTE: This will overwrite the values already associated with the entity
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+            example: fruit
+            description: The name of the value - a concrete instance of the entity
+          metadata: 
+            $ref: "#/components/schemas/metadata"
+          synonyms:
+            $ref: "#/components/schemas/synonyms"
+    utterance_list:
+      type: array
+      x-nexmo-developer-collection-description-show: true
+      description: A list of utterances for the intent      
+      items:
+        type: object
+        properties:
+          text:
+            type: string
+            example: I'd like to buy a tangerine
+            description: the text of the utterance
+          labeled_entities:
+            type: array
+            description: the entities tagged in the utterance
+            x-nexmo-developer-collection-description-shown: true
+            items:
+              $ref: '#/components/schemas/labeled_entity'
+    utterance_list_update:
+      type: array
+      x-nexmo-developer-collection-description-show: true      
+      description: | 
+        The list of utterances associated with the intent
+        > NOTE This will overwrite any utterances already associated with the intent
+      items:
+        type: object
+        properties:
+          text:
+            type: string
+            example: I'd like to buy a tangerine
+            description: the text of the utterance
+          labeled_entities:
+            type: array
+            description: the entities tagged in the utterance
+            x-nexmo-developer-collection-description-shown: true
+            items:
+              $ref: '#/components/schemas/labeled_entity'      
+    labeled_entities:
+      x-nexmo-developer-collection-description-show: true
+      type: array      
+      example:
+          label_id: LAB-92a44c64-7e4e-485f-a0c4-1f2adfc44625
+          start_word: 5
+          end_word: 5
+      items:
+        $ref: '#/components/schemas/labeled_entity'
+    utterance_text:
+      type: string
+      description: The Text of the utterance
+      example: "I'd like to buy a tangerine"
+    labels:
+      type: object
+      properties:
+        page_size:
+          type: integer
+          description: the number of records returned in the response
+          example: 10
+        _embedded:
+          x-nexmo-developer-collection-description-shown: true
+          type: array
+          description: The labels applicable to the intent
+          items:
+            $ref: '#/components/schemas/label'
+        _links:
+          $ref: '#/components/schemas/label_links'
+    values:
+      type: object
+      properties:
+        page_size:
+          type: integer
+          description: the number of records returned in the response
+          example: 10        
+        _embedded:
+          x-nexmo-developer-collection-description-shown: true
+          type: array
+          description: concrete representations of the entity in the real world
+          items:            
+            $ref: '#/components/schemas/value'
+        _links:
+          $ref: '#/components/schemas/value_links'
+
+    entity_name:
+      type: string
+      example: color
+      description: the name of the entity - an abstract real world object
+    metadata:
+      type: object
+      x-nexmo-developer-collection-description-shown: true
+      description: metadata for the value you might want your app to use Limit 4k in size
+      example: 
+        genus: 'citrus'
+                      
+    value_name:
+      type: string
+      description: The name of the value - a concrete instance of the entity
+      example: orange
+    intent_name:
+      type: string
+      description: The name of the intent
+      example: Buy fruit
+    utterances:
+      type: object
+      properties:        
+        page_size:
+          type: integer
+          description: The amount of records returned by in the response
+          example: 10
+        _embedded:
+          type: array
+          x-nexmo-developer-collection-description-shown: true
+          description: pre-tagged utterances for the intent provided
+          items:
+            $ref: '#/components/schemas/utterance'
+        _links:
+          $ref: "#/components/schemas/utterance_links"              
+    model_name:
+      type: string
+      description: The name of the model
+      example: Airline Model
+    analyze_text:
+      type: string
+      description: the text to run the natural language analysis against
+      example: "I'd like to buy a tangerine"
+    language_code:
+      description: BCP-47 compliant language code of the language the submitted text is in - current supported languages are - `en-US`
+      type: string
+      default: en-US
+      example: en-US
+    model_id:
+      type: string
+      example: MOD-92a44c64-7e4e-485f-a0c4-1f2adfc44625
+      description: "The Model to be used in analysis"
+    intent_ids:
+      description: "the list of intents to be used in analysis"
+      type: array
+      x-nexmo-developer-collection-description-shown: true
+      items:
+        type: string
+      example:
+        - INT-12345c64-7e4e-485f-a0c4-1f2adfcabcde
+    model_intent_ids:
+      description: "the list of intents to be used in the model"
+      type: array
+      x-nexmo-developer-collection-description-shown: true
+      items:
+        type: string
+      example:
+        - INT-12345c64-7e4e-485f-a0c4-1f2adfcabcde
+    entity_ids:
+      description: The entities to use in analysis
+      type: array
+      x-nexmo-developer-collection-description-shown: true
+      items:
+        type: string
+      example:
+        - ENT-92a44c64-7e4e-485f-a0c4-1f2adfc44625
+    analysis:
+      type: object
+      description: The Result of an analysis request
+      properties:
+        analyze_id:
+          type: string
+          example: ANY-92a44c64-7e4e-485f-a0c4-1f2adfc44625
+          description: The ID of an analysis request
+        text:
+          type: string
+          example: "I'd like to buy a tangerine"
+          description: the text that was analyzed
+        intents:
+          type: array
+          description: Intent's detected by the model in order of confidence.
+          items:
+            type: object
+            properties:
+              confidence:
+                type: number
+                description: the confidence the model has that this was the intent of the utterance. Lies in the range of [0,1]
+                example: 0.95 
+              _embedded:
+                type: object
+                properties:
+                  intent:
+                    $ref: "#/components/schemas/intent"
+        entities:
+          type: array
+          items:
+            type: object
+            properties:
+              confidence:
+                type: number
+                description: the confidence the model has that this was the intent of the utterance. Lies in the range of [0,1]
+                example: 0.95
+              _embedded:
+                type: object
+                properties:
+                  entity:
+                    $ref: "#/components/schemas/entity"
+                  value:
+                    $ref: "#/components/schemas/value"
+                  label:
+                    $ref: "#/components/schemas/label"
+    model:
+      type: object
+      description: A model to run text analysis against
+      properties:
+        model_id:
+          type: string
+          description: the id of the model
+          example: MOD-92a44c64-7e4e-485f-a0c4-1f2adfc44625
+        name:
+          type: string
+          description: the name of the model
+          example: Airline Model
+        entity_ids:
+          type: array
+          x-nexmo-developer-collection-description-show: true
+          description: the entities included in the model
+          items:
+            type: string
+          example:
+            - ENT-92a44c64-7e4e-485f-a0c4-1f2adfc44625
+            - ENT-92a44c64-7e4e-485f-a0c4-1f2adfc44626
+        intent_ids:
+          type: array
+          x-nexmo-developer-collection-description-show: true
+          description: The intents included in the model
+          items:
+            type: string
+          example:
+            - INT-12345c64-7e4e-485f-a0c4-1f2adfcabcde
+            - INT-12345c64-7e4e-485f-a0c4-1f2adfcabcdf
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: https://api.nexmo.com/v0.1/athena/models/MOD-f972836a-550f-45fa-956c-12a2ab5b7d22
+            intents:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: https://api.nexmo.com/v0.1/athena/intents?model_id=MOD-f972836a-550f-45fa-956c-12a2ab5b7d22
+            entities:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: https://api.nexmo.com/v0.1/athena/entities?model_id=MOD-f972836a-550f-45fa-956c-12a2ab5b7d22
+                
+    model_links:
+      properties:
+        self:
+          type: object
+          properties:
+            href:
+              type: string
+              example: 'https://api.nexmo.com/v0.1/athena/models/MOD-f972836a-550f-45fa-956c-12a2ab5b7d22'
+        first:
+          type: object
+          properties:
+            href:
+              type: string
+              example: 'https://api.nexmo.com/v0.1/athena/models?order=desc&page_size=10'                  
+        next:
+          type: object
+          properties:
+            href:
+              type: string
+              example: 'https://api.nexmo.com/v0.1/athena/models?order=desc&page_size=10&cursor=88b395c167da4d94e929705cbd63b829a650e69a39197bfd4c949f4243f60dc4babb696afa404d2f44e7775e32b967f2a1a0bb8fb259c0999ba5a4e501eaab55'
+        prev:
+          type: object
+          properties:
+            href:
+              type: string
+              example: 'https://api.nexmo.com/v0.1/athena/models?order=desc&page_size=10&cursor=069626a3de11d2ec900dff5042197bd75f1ce41dafc3f2b2481eb9151086e59aae9dba3e3a8858dc355232d499c310fbfbec43923ff657c0de8d49ffed9f7edb'
+    labeled_entity:
+      type: object
+      description: An entity labeled for an utterance
+      properties:
+        label_id:
+          type: string
+          description: the label id of the labeled entity.
+          example: LAB-92a44c64-7e4e-485f-a0c4-1f2adfc44625
+        start_word:
+          type: integer
+          example: 5
+          description: position (in words) into the utterance where the entity starts - 0 based - setting start and end to the same value captures a single word
+        end_word:
+          type: integer
+          example: 5
+          description: position (in words) into the utterance where the entity ends - 0 based - setting start and end to the same value captures a single word    
+    utterance:
+      type: object
+      description: "labeled text conveying user's intent"
+      properties:
+        id:
+          description: The unique id of the utterance
+          example: UTT-f972836a-550f-45fa-956c-12a2ab5b7d22
+          type: string
+        intent_id:
+          description: The intent id that this utterance relates to
+          example: INT-f972836a-550f-45fa-956c-12a2ab5b7d22
+          type: string
+        text:
+          type: string
+          example: I'd like to buy a tangerine
+          description: the text of the utterance
+        labeled_entities:
+          type: array
+          description: the entities tagged in the utterance
+          x-nexmo-developer-collection-description-shown: true
+          items:
+            $ref: '#/components/schemas/labeled_entity'
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: https://api.nexmo.com/v0.1/athena/utterances/UTT-f972836a-550f-45fa-956c-12a2ab5b7d22
+            intent:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: https://api.nexmo.com/v0.1/athena/intents/INT-f972836a-550f-45fa-956c-12a2ab5b7d22
+    utterance_links:
+      type: object
+      properties:
+        self:
+          type: object
+          properties:
+            href:
+              type: string
+              example: 'https://api.nexmo.com/v0.1/athena/utterances/UTT-f972836a-550f-45fa-956c-12a2ab5b7d22'
+        first:
+          type: object
+          properties:
+            href:
+              type: string
+              example: 'https://api.nexmo.com/v0.1/athena/utterances?intent_id=INT-f972836a-550f-45fa-956c-12a2ab5b7d22&order=desc&page_size=10'                  
+        next:
+          type: object
+          properties:
+            href:
+              type: string
+              example: 'https://api.nexmo.com/v0.1/athena/utterances?intent_id=INT-f972836a-550f-45fa-956c-12a2ab5b7d22&order=desc&page_size=10&cursor=88b395c167da4d94e929705cbd63b829a650e69a39197bfd4c949f4243f60dc4babb696afa404d2f44e7775e32b967f2a1a0bb8fb259c0999ba5a4e501eaab55'
+        prev:
+          type: object
+          properties:
+            href:
+              type: string
+              example: 'https://api.nexmo.com/v0.1/athena/utterances?intent_id=INT-f972836a-550f-45fa-956c-12a2ab5b7d22&order=desc&page_size=10&cursor=069626a3de11d2ec900dff5042197bd75f1ce41dafc3f2b2481eb9151086e59aae9dba3e3a8858dc355232d499c310fbfbec43923ff657c0de8d49ffed9f7edb'
+            
+    intent:
+      type: object
+      description: "represents a real world task that a user want's to perform e.g. booking a flight"
+      properties:
+        id:
+          type: string
+          description: the identity of the intent
+          example: INT-f972836a-550f-45fa-956c-12a2ab5b7d22
+        name:
+          type: string
+          example: Buy fruit
+          description: The name of the intent                
+        _links:
+          type: object
+          properties:
+            utterances:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: https://api.nexmo.com/v0.1/athena/utterances?intent_id=INT-f972836a-550f-45fa-956c-12a2ab5b7d22
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: https://api.nexmo.com/v0.1/athena/intents/INT-f972836a-550f-45fa-956c-12a2ab5b7d22
+    intent_links:
+      type: object
+      properties:                      
+        self:
+          type: object
+          properties:
+            href:
+              type: string
+              example: 'https://api.nexmo.com/v0.1/athena/intents/INT-f972836a-550f-45fa-956c-12a2ab5b7d22'
+        first:
+          type: object
+          properties:
+            href:
+              type: string
+              example: 'https://api.nexmo.com/v0.1/athena/intents?order=desc&page_size=10'                
+        next:
+          type: object
+          properties:
+            href:
+              type: string
+              example: 'https://api.nexmo.com/v0.1/athena/intents?order=desc&page_size=10&cursor=88b395c167da4d94e929705cbd63b829a650e69a39197bfd4c949f4243f60dc4babb696afa404d2f44e7775e32b967f2a1a0bb8fb259c0999ba5a4e501eaab55'
+        prev:
+          type: object
+          properties:
+            href:
+              type: string
+              example: 'https://api.nexmo.com/v0.1/athena/intents?order=desc&page_size=10&cursor=069626a3de11d2ec900dff5042197bd75f1ce41dafc3f2b2481eb9151086e59aae9dba3e3a8858dc355232d499c310fbfbec43923ff657c0de8d49ffed9f7edb'
+    label:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The label applied to an entity to denote it's context within an intent
+          example: merchandise
+        id:
+          type: string
+          description: Unique identifier of the label for an entity in an intent
+          example: LAB-afe887d8-d587-4280-9aae-dfa4c9227d5f
+        entity_id:
+          $ref: "#/components/schemas/entity_id"
+        intent_id:
+          type: string
+          description: the identity of the intent
+          example: INT-f972836a-550f-45fa-956c-12a2ab5b7d22
+        _links:
+          type: object
+          properties:
+            entity:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: https://api.nexmo.com/v0.1/athena/entities/ENT-f972836a-550f-45fa-956c-12a2ab5b7d22
+            intent:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: https://api.nexmo.com/v0.1/athena/intents/INT-f972836a-550f-45fa-956c-12a2ab5b7d25
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: https://api.nexmo.com/v0.1/athena/labels/LAB-f972836a-550f-45fa-956c-12a2ab5b7d23
+    value:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of a concrete value of an entity
+          example: VAL-afe887d8-d587-4280-9aae-dfa4c9227d5e
+        name:
+          type: string
+          description: the name of a value representing a concrete instance of an entity. e.g. `orange` is a possible value of the entity `fruit`
+          example: orange
+        entity_id:
+          $ref: "#/components/schemas/entity_id"        
+        metadata:
+          $ref: "#/components/schemas/metadata"
+        synonyms:
+          $ref: "#/components/schemas/synonyms"
+        _links:
+          type: object
+          properties:            
+            entity:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: https://api.nexmo.com/v0.1/athena/entities/ENT-f972836a-550f-45fa-956c-12a2ab5b7d22
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: https://api.nexmo.com/v0.1/athena/values/VAL-f972836a-550f-45fa-956c-12a2ab5b7d22
+    label_links:
+      properties:
+        self:
+          type: object
+          properties:
+            href:
+              type: string
+              example: 'https://api.nexmo.com/v0.1/athena/labels/LAB-f972836a-550f-45fa-956c-12a2ab5b7d22'
+        first:
+          type: object
+          properties:
+            href:
+              type: string
+              example: 'https://api.nexmo.com/v0.1/athena/labels?intent_id=INT-92a44c64-7e4e-485f-a0c4-1f2adfc44625&order=desc&page_size=10'                
+        next:
+          type: object
+          properties:
+            href:
+              type: string
+              example: 'https://api.nexmo.com/v0.1/athena/labels?intent_id=INT-92a44c64-7e4e-485f-a0c4-1f2adfc44625&order=desc&page_size=10&cursor=88b395c167da4d94e929705cbd63b829a650e69a39197bfd4c949f4243f60dc4babb696afa404d2f44e7775e32b967f2a1a0bb8fb259c0999ba5a4e501eaab55'
+        prev:
+          type: object
+          properties:
+            href:
+              type: string
+              example: 'https://api.nexmo.com/v0.1/athena/labels?intent_id=INT-92a44c64-7e4e-485f-a0c4-1f2adfc44625&order=desc&page_size=10&cursor=069626a3de11d2ec900dff5042197bd75f1ce41dafc3f2b2481eb9151086e59aae9dba3e3a8858dc355232d499c310fbfbec43923ff657c0de8d49ffed9f7edb'
+    value_links:
+      properties:
+        self:
+          type: object
+          properties:
+            href:
+              type: string
+              example: 'https://api.nexmo.com/v0.1/athena/values/VAL-f972836a-550f-45fa-956c-12a2ab5b7d22'
+        first:
+          type: object
+          properties:
+            href:
+              type: string
+              example: 'https://api.nexmo.com/v0.1/athena/values?entity_id=ENT-92a44c64-7e4e-485f-a0c4-1f2adfc44625&order=desc&page_size=10'                
+        next:
+          type: object
+          properties:
+            href:
+              type: string
+              example: 'https://api.nexmo.com/v0.1/athena/values?entity_id=ENT-92a44c64-7e4e-485f-a0c4-1f2adfc44625&order=desc&page_size=10&cursor=88b395c167da4d94e929705cbd63b829a650e69a39197bfd4c949f4243f60dc4babb696afa404d2f44e7775e32b967f2a1a0bb8fb259c0999ba5a4e501eaab55'
+        prev:
+          type: object
+          properties:
+            href:
+              type: string
+              example: 'https://api.nexmo.com/v0.1/athena/values?entity_id=ENT-92a44c64-7e4e-485f-a0c4-1f2adfc44625&order=desc&page_size=10&cursor=069626a3de11d2ec900dff5042197bd75f1ce41dafc3f2b2481eb9151086e59aae9dba3e3a8858dc355232d499c310fbfbec43923ff657c0de8d49ffed9f7edb'
+    synonyms:
+      type: array
+      x-nexmo-developer-collection-description-shown: true
+      description: the synonyms for the value
+      items:
+        type: string
+      example:
+        - tangerine
+        - navel       
+    entity:
+      type: object
+      properties:
+        id:
+          type: string
+          example: ENT-92a44c64-7e4e-485f-a0c4-1f2adfc44625
+          description: The unique identifier for the entity
+        name:
+          type: string
+          example: fruit
+          description: the name of the entity             
+        _links:
+          type: object
+          properties:
+            values:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: https://api.nexmo.com/v0.1/athena/values?entity_id=ENT-f972836a-550f-45fa-956c-12a2ab5b7d22  
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: https://api.nexmo.com/v0.1/athena/entities/ENT-f972836a-550f-45fa-956c-12a2ab5b7d22  
+        
+    entity_links:
+      type: object
+      properties:
+        self:
+          type: object
+          properties:
+            href:
+              type: string
+              example: 'https://api.nexmo.com/v0.1/athena/entities/ENT-f972836a-550f-45fa-956c-12a2ab5b7d22'
+        first:
+          type: object
+          properties:
+            href:
+              type: string
+              example: 'https://api.nexmo.com/v0.1/athena/entities?order=desc&page_size=10'                
+        next:
+          type: object
+          properties:
+            href:
+              type: string
+              example: 'https://api.nexmo.com/v0.1/athena/entities?order=desc&page_size=10&cursor=88b395c167da4d94e929705cbd63b829a650e69a39197bfd4c949f4243f60dc4babb696afa404d2f44e7775e32b967f2a1a0bb8fb259c0999ba5a4e501eaab55'
+        prev:
+          type: object
+          properties:
+            href:
+              type: string
+              example: 'https://api.nexmo.com/v0.1/athena/entities?order=desc&page_size=10&cursor=069626a3de11d2ec900dff5042197bd75f1ce41dafc3f2b2481eb9151086e59aae9dba3e3a8858dc355232d499c310fbfbec43923ff657c0de8d49ffed9f7edb'              
+security:
+  - bearerAuth: []
+x-errors:
+  missing-model:
+    description: Model id or intent id not provided
+    resolution: Add either a model id or an intent id to your request
+    link:
+      url: /api/athena/#missing-model
+  label-does-not-match:
+    description: supplied label does not match the entity or intent
+    resolution: Ensure supplied label matches the intent and entity it is being registered with.
+    link:
+      url: /api/athena/#label-does-not-match
+  delete-conflict:
+    description: Delete operation would orphan child entities
+    resolution: Delete the child entities or set force tag to true
+    link:
+      url: /api/athena/#delete-conflict
+tags:
+  - name: Analyze
+    description: Used to Analyze text for Intents an entities
+  - name: Models
+    description: Models are used to compose different Intents and Entities from a knowledge base into a model that will be used to perform intent and entity detection on text inputs
+  - name: Intents
+    description: An intent of an utterance
+  - name: Labels
+    description: A label is a particular identifier of a given entity in the context of an intent. For example, someone might call in and say "Hi this is Steve, I'm calling for Michael." The intent may be `connectCall` but there are two separate noun's which might be of the entity type `sys.Name`, `Steve` and `Michael`. To provide more context you might label `Steve` as a `caller` and `Michael` as the `recipient` so as to allow your app to more intelligently handle the entities detected in the intent.
+  - name: Utterances
+    description: Utterances are real speech phrases corresponding to a given user intent. In addition to intents, they can be tagged with various entities denoting the entities present within the utterance.
+  - name: Entities
+    description: 'An entity representing a real world object e.g. Color, Location, persons, organizations'
+  - name: Values
+    description: "A Value is a potential value of an entity - for example 'green' is a possible value of the entity 'color'"  
