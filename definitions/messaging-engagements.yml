@@ -1,0 +1,1592 @@
+openapi: 3.0.3
+
+info:
+  version: 1.0.0
+  title: Identity Verification and Message Engagement Registration
+  contact:
+    name: Vonage
+    url: https://developer.nexmo.com
+    email: devrel@vonage.com
+  description: Wrapper for various Identity Verification services and Message Engagement Platforms
+
+servers:
+  - url: 'https://api.nexmo.com'
+
+paths:
+  /v1/messaging-engagement/identities:
+    get:
+      tags:
+        - Identities
+      description: List identities
+      operationId: listIdentities
+      summary: Retrieve all of the identities associated with your account.
+      responses:
+        '200':
+          $ref: '#/components/responses/MultiIdentitiesResponse'
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+
+    post:
+      tags:
+        - Identities
+      description: |
+        Create a new identity for your account. Most accounts will be created 
+        immediately, and you can move on to qualifying a new engagement for
+        the identity. Some brands may require additional vetting. In such cases,
+        please move on to the vetting API endpoints before attempting to 
+        create an engagement. 
+
+        Please note the `entity_type` field, as that field value will help
+        determine which fields are required.
+      operationId: createBrand
+      summary: Create a new identity for your account
+      requestBody:
+        $ref: '#/components/requestBodies/CreateIdentity'
+      responses:
+        '201':
+          $ref: '#/components/responses/SingleIdentity'
+        '400':
+          $ref: '#/components/responses/ErrorCreateIdentity'
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+
+  /v1/messaging-engagement/identities/{identity_id}:
+    parameters:
+      - $ref: '#/components/parameters/IdentityId'
+    get:
+      tags:
+        - Identities
+      summary: Retrieve a specific identity
+      description: Get an identity
+      operationId: getBrand
+      responses:
+        '200':
+          $ref: '#/components/responses/SingleIdentity'
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+    patch:
+      tags:
+        - Identities
+      summary: Partially update a specific identity
+      description: Partial update of an identity
+      operationId: patchBrand
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IdentityEditableFields'
+      responses:
+        '200':
+          $ref: '#/components/responses/SingleIdentity'
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+    put:
+      tags:
+        - Identities
+      summary: Update a specific identity
+      description: Update an identity
+      operationId: updateBrand
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IdentityEditableFields'
+      responses:
+        '200':
+          $ref: '#/components/responses/SingleIdentity'
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+    delete:
+      tags:
+        - Identities
+      summary: Remove a specific identity from your account
+      description: Delete an identity
+      operationId: deleteBrand
+      responses:
+        '204':
+          description: No content
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+
+  # /v1/messaging-engagement/identities/{identity_id}/use_cases/{use_case}:
+  #   parameters:
+  #     - $ref: "#/components/parameters/IdentityId"
+  #     - $ref: "#/components/parameters/UseCase"
+  #   get:
+  #     tags:
+  #       - Identities
+  #     description: |
+  #       Check to see if an identity is qualified to run an engagement against a given
+  #       use case. A identity must check this endpoint before attempting to generate
+  #       a new engagement. 
+
+  #       If the use case is not qualified, the identity may request additional third
+  #       party vetting to see if the additional use cases can be added to their
+  #       account.
+  #     summary: Check Use Case Qualifications for a Identity
+  #     operationId: qualifyBrandUseCase
+  #     responses:
+  #       '200':
+  #         $ref: '#/components/responses/QualifiedUseCase'
+  #       '400':
+  #         $ref: '#/components/responses/ErrorQualifyBrand'
+  #       '401':
+  #         $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+  #       '404':
+  #         $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+  #       '429':
+  #         $ref: "common/common_errors.yml#/components/responses/ThrottledError"
+  
+  # /v1/messaging-engagement/identities/{identity_id}/vetting:
+  #   get:
+  #     description: Retrieve current information needed for vetting an identity
+    # post:
+    #   description: Request vetting for an identity
+  #   put:
+  #     description: Update vetting information for an identity
+
+  /v1/messaging-engagement/engagements:
+    get:
+      tags:
+        - Engagements
+      description: List engagements
+      operationId: listEngagements
+      summary: Retrieve all of the engagements
+      responses:
+        '200':
+          $ref: '#/components/responses/MultiEngagementsResponse'
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+    post:
+      tags:
+        - Engagements
+      description: Create Engagement
+      operationId: CreateEngagement
+      summary: Add a new engagement to an identity
+      requestBody:
+        $ref: '#/components/requestBodies/CreateEngagement'
+      responses:
+        '201':
+          $ref: '#/components/responses/SingleEngagementResponse'
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+        # Add response for when we fail qualify
+
+    # post:
+    #   tags:
+    #     - Engagement
+    #   description: Create a new identity
+    #   operationId: CreateEngagement
+    #   summary: Create a new identity for your account
+    #   requestBody:
+    #     $ref: '#/components/requestBodies/CreateIdentity'
+    #   responses:
+    #     '201':
+    #       $ref: '#/components/responses/SingleEngagementResponse'
+    #     '401':
+    #       $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+    #     '404':
+    #       $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+
+  /v1/messaging-engagement/engagements/{engagement_id}:
+    parameters:
+      - $ref: '#/components/parameters/EngagementId'
+    get:
+      tags:
+        - Engagements
+      summary: Retrieve a specific engagement
+      description: Get an engagement
+      operationId: getEngagement
+      responses:
+        '200':
+          $ref: '#/components/responses/SingleEngagementResponse'
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+    patch:
+      tags:
+        - Engagements
+      summary: Partially update a specific engagement
+      description: Partial update of an engagement
+      operationId: patchEngagement
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Engagement'
+      responses:
+        '200':
+          $ref: '#/components/responses/SingleEngagementResponse'
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+    put:
+      tags:
+        - Engagements
+      summary: Update a specific engagement
+      description: Update an engagement
+      operationId: updateEngagement
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Engagement'
+      responses:
+        '200':
+          $ref: '#/components/responses/SingleEngagementResponse'
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+    delete:
+      tags:
+        - Engagements
+      summary: Stop a specific engagement on an identity
+      description: Stop an engagement
+      operationId: deleteEngagement
+      responses:
+        '204':
+          description: No content
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+
+  /v1/messaging-engagement/engagements/{engagement_id}/numbers:
+    parameters:
+      - $ref: '#/components/parameters/EngagementId'
+    get:
+      tags:
+        - Numbers
+      summary: Retrieve Numbers associated with an engagement
+      description: Get numbers in engagement
+      operationId: getNumbers
+      responses:
+        '200':
+          $ref: '#/components/responses/MultiNumbersResponse'
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+    post:
+      tags:
+        - Numbers
+      summary: Add numbers to an engagement
+      operationId: addNumbersToCampaign
+      description: |
+        Adds a series of numbers from an engagement. This endpoint supports _partial successes_. If a request is partially
+        successful, the response code will be `207` and details can be found in the response body.
+
+        If all items succeed, you will receive a `200`. If all items fail, you will receive a `400`.
+      requestBody:
+        $ref: '#/components/requestBodies/BulkNumbers'
+      responses:
+        '201':
+          $ref: '#/components/responses/BulkNumberSuccess'
+        '207':
+          $ref: '#/components/responses/BulkPartialSuccess'
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+        '413':
+          $ref: '#/components/responses/BulkNumberLimitExceeded'
+
+  /v1/messaging-engagement/engagements/{engagement_id}/numbers/delete:
+    parameters:
+      - $ref: '#/components/parameters/EngagementId'
+    post:
+      tags:
+        - Numbers
+      summary: Remove a series of number from an engagement
+      operationId: deleteNumbersFromCampaign
+      description: |
+        Remove a series of numbers from an engagement. This endpoint supports _partial successes_. If a request is partially
+        successful, the response code will be `207` and details can be found in the response body.
+
+        If all items succeed, you will receive a `200`. If all items fail, you will receive a `400`.
+      requestBody:
+        $ref: '#/components/requestBodies/BulkNumbers'
+      responses:
+        '201':
+          $ref: '#/components/responses/BulkNumberSuccess'
+        '207':
+          $ref: '#/components/responses/BulkPartialSuccess'
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+        '413':
+          $ref: '#/components/responses/BulkNumberLimitExceeded'
+
+components:
+  examples:
+    IdentityNexmo:
+      value:
+        identity_id: "56b754b9-b376-434d-b5b9-ef6e5ec4e1ed"
+        entity_type: "PUBLIC_PROFIT"
+        display_name: "Nexmo"
+        company_name: "Nexmo"
+        ein: "20-1111111"
+        alt_business_id_type: "DUNS"
+        alt_business_id: "150483782"
+        phone: "+15556660001"
+        street: "23 Main Street"
+        city: "Holmdel"
+        state: "NJ"
+        postal_code: "07733"
+        country: "US"
+        email: "devrel@vonage.com"
+        stock_symbol: "VG"
+        stock_exchange: "NASDAQ"
+        website: "https://vonage.com"
+        brand_relationship: "KEY_ACCOUNT"
+        vertical: "TECHNOLOGY"
+        _links:
+          self:
+            href: "/v1/messaging-engagement/identities/56b754b9-b376-434d-b5b9-ef6e5ec4e1ed"
+          engagements:
+            href: "/v1/messaging-engagement/engagements/?identity_id=56b754b9-b376-434d-b5b9-ef6e5ec4e1ed"
+
+    IdentityVonage:
+      value:
+        identity_id: "BLQKOPK"
+        entity_type: "PUBLIC_PROFIT"
+        display_name: "Vonage"
+        company_name: "Vonage"
+        ein: "20-1111111"
+        alt_business_id_type: "DUNS"
+        alt_business_id: "150483782"
+        phone: "+15556660001"
+        street: "23 Main Street"
+        city: "Holmdel"
+        state: "NJ"
+        postal_code: "07733"
+        country: "US"
+        email: "devrel@vonage.com"
+        stock_symbol: "VG"
+        stock_exchange: "NASDAQ"
+        website: "https://vonage.com"
+        brand_relationship: "KEY_ACCOUNT"
+        vertical: "TECHNOLOGY"
+        _links:
+          self:
+            href: "/10DLC/identities/BLQKOPK"
+          engagements:
+            href: "https://api.nexmo.com/v1/messaging-engagement/engagements/?identity_id=BLQKOPK"
+          use_cases:
+            href: "/10DLC/identities/BLQKOPK/use_cases"
+
+    Engagement:
+      value:
+        engagement_id: "C1DEB879"
+        csp_id: "string"
+        reseller_id: "string"
+        status: "ACTIVE"
+        created_date: "2020-10-06T08:51:32.119Z"
+        identity_id: "BLQKOPK"
+        vertical: "TECHNOLOGY"
+        use_case: "ACCOUNT_NOTIFICATION"
+        sub_use_cases: ["2FA", "SECURITY_ALERT"]
+        description: "User notifications"
+        embedded_link: false
+        embedded_phone: false
+        affiliate_marketing: true
+        number_pool: false
+        age_gated: true
+        direct_lending: true
+        subscriber_optin: false
+        subscriber_optout: false
+        subscriber_help: false
+        sample_one: "Sample Message"
+        sample_two: "Additional Sample Message"
+        sample_three: "Additional Sample Message"
+        sample_four: "Additional Sample Message"
+        sample_five: "Additional Sample Message"
+        message_flow: "string"
+        help_message: "string"
+        auto_renewal: true
+        _links:
+          self:
+            $ref: '#/components/examples/LinkCampaign'
+          numbers:
+            href: "https://api.nexmo.com/v1/messaging-engagement/engagements/81dd38e8-c172-4698-aa04-35c3709f5167/numbers"
+
+    LinkBrand:
+      value:
+        "https://api.nexmo.com/v1/messaging-engagement/identities/BLQKOPK"
+
+    LinkCampaign:
+      value:
+        "https://api.nexmo.com/v1/messaging-engagement/engagements/C1DEB879/"
+
+    Numbers:
+      value:
+        - "12025550150"
+        - "12025550142"
+        - "12025550178"
+        - "12025550117"
+        - "12025550182"
+        - "12025550192"
+
+    UseCases:
+      value:
+        - "ACCOUNT_NOTIFICATION"
+        - "CONVERSATIONAL"
+        - "DELIVERY_NOTIFICATION"
+
+    ValidUseCase:
+      value:
+        use_case: "POLITICAL"
+        quarterly_fee: 30
+        mno_metadata:
+          "10017":
+            surcharge: "0.0025"
+            min_msg_samples: 2
+            msg_class: Q
+            req_subscriber_opt_in: false
+            req_subscriber_help: false
+            req_subscriber_opt_out: false
+            mno: "AT&T"
+            tpm: 2000
+            mno_support: true
+            no_embedded_link: true
+            qualify: true
+          "10035":
+            min_msg_samples: 2
+            req_subscriber_opt_in: false
+            req_subscriber_help: false
+            req_subscriber_opt_out: false
+            mno: "TMO"
+            mno_support: true
+            mno_review: true
+            no_embedded_link: true
+            no_embedded_phone: true
+            qualify: true
+            brand_tier: "LOW"
+
+  responses:
+    BulkNumberLimitExceeded:
+      description: Too many numbers to process
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: 'common/common_errors.yml#/components/responses/DefaultError/content/application~1json/schema'
+              - type: object
+                description: Bulk Operations limit was exceeded
+                properties:
+                  title:
+                    description: Payload Too Large
+                    example: Payload Too Large
+                  type:
+                    description: Link to error / remediation options
+                    example: 'https://developer.nexmo.com/api-errors/10dlc#bulk-limit-exceeded'
+                  detail:
+                    description: Additional information about the error
+                    example: Your request contained too many items. Please reduce the number of items to 50 and try again.
+
+    BulkPartialSuccess:
+      description: Partially successfull bulk operation
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/responses/BulkNumberSuccess/content/application~1json/schema'
+              - type: object
+                properties:
+                  numbers:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Number'
+                    example:
+                      - "15556660001"
+                  errors:
+                    allOf:
+                      - $ref: 'common/common_errors.yml#/components/responses/DefaultError/content/application~1json/schema'
+                      - type: object
+                        description: Unable to process all numbers successfully
+                        properties:
+                          title:
+                            description: Description of error
+                            example: Not all of the numbers could be operated on successfully
+                          type:
+                            description: Link to error / remediation options
+                            example: 'https://developer.nexmo.com/api-errors/10dlc#bulk-partial-success'
+                          detail:
+                            description: Additional information about the error
+                            example: Some or all of the numbers you attempted to work with could not be processed.
+                          numbers:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/Number'
+                            example:
+                              - "15556660002"
+
+    BulkNumberSuccess:
+      description: Successful bulk operation
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              numbers:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Number'
+                example:
+                  - "15556660001"
+                  - "15556660002"
+              _links:
+                type: object
+                properties:
+                  engagement:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example:
+                          $ref: '#/components/examples/LinkCampaign'
+
+    ErrorCouldNotRemoveNumberResponse:
+      description: Error response for number deletion errors
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorCouldNotRemoveNumber'
+
+    ErrorCreateIdentity:
+      description: Various errors that can occur during identity creation
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: 'common/common_errors.yml#/components/responses/DefaultError/content/application~1json/schema'
+              - type: object
+                description: Errors with submission
+                properties:
+                  title:
+                    description: Generic error message
+                    example: There were some issues with the submitted data
+                  type:
+                    description: Link to error / remediation options
+                    example: 'https://developer.nexmo.com/api-errors/10dlc#invalid-identity-data'
+                  detail:
+                    description: Additional information about the error
+                    example: There were some errors submitting your identity, please correct the requested fields
+                  errors:
+                    description: Errors that are passed through from the Engagement Registry
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: integer
+                          description: Engagement Registry error code
+                          example: 503
+                        field:
+                          type: string
+                          description: Field that had a data issue
+                          example: company_name
+                        description:
+                          type: string
+                          description: Error text
+                          example: Field 'company_name' is not unique
+
+    ErrorQualifyBrand:
+      description: Various errors that can occur during identity use case qualification
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: 'common/common_errors.yml#/components/responses/DefaultError/content/application~1json/schema'
+              - type: object
+                description: Errors with submission
+                properties:
+                  title:
+                    description: Generic error message
+                    example: There were some issues with the submitted data
+                  type:
+                    description: Link to error / remediation options
+                    example: 'https://developer.nexmo.com/api-errors/10dlc#invalid-usecase-data'
+                  detail:
+                    description: Additional information about the error
+                    example: There were some errors qualifying the use case for your identity, please correct the requested fields
+                  errors:
+                    description: Errors that are passed through from the Engagement Registry
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: integer
+                          description: Engagement Registry error code
+                          example: 501
+                        field:
+                          type: string
+                          description: Field that had a data issue
+                          example: use_case
+                        description:
+                          type: string
+                          description: Error text
+                          example: Unrecognized Usecase
+
+    ErrorUnableToParseRequestResponse:
+      description: Error for when we cannot parse the client-supplied request
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: 'common/common_errors.yml#/components/responses/DefaultError/content/application~1json/schema'
+              - type: object
+                description: Unable To Parse Request
+                properties:
+                  title:
+                    description: Generic error message
+                    example: Unable to parse incoming request
+                  type:
+                    description: Link to error / remediation options
+                    example: 'https://developer.nexmo.com/api-errors/10dlc#invalid-json'
+                  detail:
+                    description: Additional information about the error
+                    example: invalid character 'f' after object key:value pair
+
+    MultiIdentitiesResponse:
+      description: List of brands that are associated with an account
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: 'common/hal_structures.yml#/components/schemas/PagedResponse'
+              - type: object
+                properties:
+                  _embedded:
+                    type: object
+                    properties:
+                      brands:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/IdentityResponse'
+          examples:
+            simple:
+              value:
+                - page_size: 10
+                  page: 1
+                  total_pages: 1
+                  total_items: 2
+                  _embedded:
+                    brands:
+                      - $ref: '#/components/examples/IdentityVonage/value'
+                      - $ref: '#/components/examples/IdentityNexmo/value'
+    
+    MultiEngagementsResponse:
+      description: List of engagements that are associated with an identity
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: 'common/hal_structures.yml#/components/schemas/PagedResponse'
+              - type: object
+                properties:
+                  _embedded:
+                    type: object
+                    properties:
+                      brands:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/EngagementResponse'
+          examples:
+            simple:
+              value:
+                - page_size: 10
+                  page: 1
+                  total_pages: 1
+                  total_items: 1
+                  _embedded:
+                    engagements:
+                      - $ref: '#/components/examples/Engagement/value'
+
+    MultiNumbersResponse:
+      description: List of numbers that are associated with an engagement
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: 'common/hal_structures.yml#/components/schemas/PagedResponse'
+              - type: object
+                properties:
+                  _embedded:
+                    type: object
+                    properties:
+                      numbers:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Number'
+                        example:
+                          - "15556660001"
+                          - "15556660002"
+                      _links:
+                        type: object
+                        properties:
+                          engagement:
+                            type: object
+                            properties:
+                              href:
+                                type: string
+                                example:
+                                  $ref: '#/components/examples/LinkCampaign'
+          examples:
+            simple:
+              value:
+                - page_size: 10
+                  page: 1
+                  total_pages: 1
+                  total_items: 6
+                  _embedded:
+                    numbers:
+                      $ref: '#/components/examples/Numbers/value'
+
+    MultiUseCasesResponse:
+      description: List of use cases that are associated with an identity
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: 'common/hal_structures.yml#/components/schemas/PagedResponse'
+              - type: object
+                properties:
+                  _embedded:
+                    type: object
+                    properties:
+                      use_cases:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/UseCase'
+          examples:
+            simple:
+              value:
+                - page_size: 10
+                  page: 1
+                  total_pages: 1
+                  total_items: 3
+                  _embedded:
+                    use_cases:
+                      $ref: '#/components/examples/UseCases/value'
+
+    QualifiedUseCase:
+      description: A valid qualified use case for an identity
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              use_case:
+                type: string
+                example:
+                  $ref: '#/components/examples/ValidUseCase/value/use_case'
+              quarterly_fee:
+                type: string
+                example:
+                  $ref: '#/components/examples/ValidUseCase/value/quarterly_fee'
+              mno_metadata:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/UseCaseMNOMetadata'
+                example:
+                  $ref: '#/components/examples/ValidUseCase/value/mno_metadata'
+
+          examples:
+            simple:
+              value:
+                $ref: '#/components/examples/ValidUseCase/value'
+
+    SingleIdentity:
+      description: Return a single identity
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/IdentityResponse'
+              - type: object
+                properties:
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "/v1/messaging-engagement/identities/5782db87-a867-4ccd-a0b5-1b7203cc438c"
+          examples:
+            vonage:
+              value:
+                $ref: '#/components/examples/IdentityVonage/value'
+
+    SingleEngagementResponse:
+      description: Return a single engagement
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/EngagementResponse'
+              - type: object
+                properties:
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "/v1/messaging-engagement/engagements/57b3a89e-c9fa-4860-aec2-ad7f51539dab"
+          examples:
+            simple:
+              value:
+                $ref: '#/components/examples/Engagement/value'
+
+    SingleNumberResponse:
+      description: Return a single number in an engagement
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/NumberResponse'
+              - type: object
+                properties:
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "/10dlc/identities/5782db87-a867-4ccd-a0b5-1b7203cc438c/campaigns/57b3a89e-c9fa-4860-aec2-ad7f51539dab"
+
+  requestBodies:
+    BulkNumbers:
+      required: true
+      content:
+        application/json:
+          schema:
+            description: List of numbers to perform a bulk operation against
+            type: object
+            properties:
+              numbers:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Number'
+                minItems: 1
+                maxItems: 50
+                example:
+                  - '15556660001'
+                  - '15556660002'
+            required:
+              - numbers
+
+    CreateIdentity:
+      required: true
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - title: Individual Person
+                x-tab-id: IndividualPerson
+                allOf:
+                  - $ref: '#/components/schemas/CreateIndividualBrand'
+              - title: Non-Profit
+                x-tab-id: NonProfit
+                allOf:
+                  - $ref: '#/components/schemas/CreateNonProfitBrand'
+              - title: Private Company
+                x-tab-id: PrivateCompany
+                allOf:
+                  - $ref: '#/components/schemas/CreatePrivateCompanyBrand'
+              - title: Public Company
+                x-tab-id: PublicCompany
+                allOf:
+                  - $ref: '#/components/schemas/CreatePublicCompanyBrand'
+
+    CreateEngagement:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              $ref: '#/components/schemas/Engagement/properties'
+            required:
+              - identity_id
+              - vertical
+              - use_case
+              - description
+
+    UpdateBrand:
+      required: true
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - title: Individual Person
+                x-tab-id: IndividualPerson
+                allOf:
+                  - $ref: '#/components/schemas/UpdateIndividualIdentity'
+              - title: Non-Profit
+                x-tab-id: NonProfit
+                allOf:
+                  - $ref: '#/components/schemas/UpdateNonProfitIdentity'
+              - title: Private Company
+                x-tab-id: PrivateCompany
+                allOf:
+                  - $ref: '#/components/schemas/UpdatePrivateCompanyIdentity'
+              - title: Public Company
+                x-tab-id: PublicCompany
+                allOf:
+                  - $ref: '#/components/schemas/UpdatePublicCompanyIdentity'
+
+  schemas:
+    Identity:
+      type: object
+      properties:
+        entity_type:
+          type: string
+          enum:
+            - INDIVIDUAL
+            - PRIVATE_PROFIT
+            - PUBLIC_PROFIC
+            - NON_PROFIT
+          example:
+            $ref: '#/components/examples/IdentityVonage/value/entity_type'
+        display_name:
+          type: string
+          example:
+            $ref: '#/components/examples/IdentityVonage/value/display_name'
+        company_name:
+          type: string
+          example:
+            $ref: '#/components/examples/IdentityVonage/value/company_name'
+        ein:
+          type: string
+          example:
+            $ref: '#/components/examples/IdentityVonage/value/ein'
+        alt_business_id_type:
+          type: string
+          example:
+            $ref: '#/components/examples/IdentityVonage/value/alt_business_id_type'
+        alt_business_id:
+          type: string
+          example:
+            $ref: '#/components/examples/IdentityVonage/value/alt_business_id'
+        phone:
+          type: string
+          example:
+            $ref: '#/components/examples/IdentityVonage/value/phone'
+        street:
+          type: string
+          example:
+            $ref: '#/components/examples/IdentityVonage/value/street'
+        city:
+          type: string
+          example:
+            $ref: '#/components/examples/IdentityVonage/value/city'
+        state:
+          type: string
+          example:
+            $ref: '#/components/examples/IdentityVonage/value/state'
+        postal_code:
+          type: string
+          example:
+            $ref: '#/components/examples/IdentityVonage/value/postal_code'
+        country:
+          type: string
+          example:
+            $ref: '#/components/examples/IdentityVonage/value/country'
+        email:
+          type: string
+          example:
+            $ref: '#/components/examples/IdentityVonage/value/email'
+        stock_symbol:
+          type: string
+          example:
+            $ref: '#/components/examples/IdentityVonage/value/stock_symbol'
+        stock_exchange:
+          type: string
+          example:
+            $ref: '#/components/examples/IdentityVonage/value/stock_exchange'
+        website:
+          type: string
+          example:
+            $ref: '#/components/examples/IdentityVonage/value/website'
+        brand_relationship:
+          type: string
+          enum:
+            - BASIC_ACCOUNT
+            - SMALL_ACCOUNT
+            - MEDIUM_ACCOUNT
+            - LARGE_ACCOUNT
+            - KEY_ACCOUNT
+          example:
+            $ref: '#/components/examples/IdentityVonage/value/brand_relationship'
+        vertical:
+          type: string
+          example:
+            $ref: '#/components/examples/IdentityVonage/value/vertical'
+
+    IdentityEditableFields:
+      description: Fields that are editable for an identity
+      type: object
+      properties:
+        entity_type:
+          type: string
+          enum:
+            - INDIVIDUAL
+            - PRIVATE_PROFIT
+            - PUBLIC_PROFIC
+            - NON_PROFIT
+          example:
+            $ref: '#/components/examples/IdentityVonage/value/entity_type'
+        display_name:
+          type: string
+          example:
+            $ref: '#/components/examples/IdentityVonage/value/display_name'
+        website:
+          type: string
+          example:
+            $ref: '#/components/examples/IdentityVonage/value/website'
+        phone:
+          type: string
+          example:
+            $ref: '#/components/examples/IdentityVonage/value/phone'
+        street:
+          type: string
+          example:
+            $ref: '#/components/examples/IdentityVonage/value/street'
+        city:
+          type: string
+          example:
+            $ref: '#/components/examples/IdentityVonage/value/city'
+        state:
+          type: string
+          example:
+            $ref: '#/components/examples/IdentityVonage/value/state'
+        postal_code:
+          type: string
+          example:
+            $ref: '#/components/examples/IdentityVonage/value/postal_code'
+        country:
+          type: string
+          example:
+            $ref: '#/components/examples/IdentityVonage/value/country'
+        email:
+          type: string
+          example:
+            $ref: '#/components/examples/IdentityVonage/value/email'
+        stock_symbol:
+          type: string
+          example:
+            $ref: '#/components/examples/IdentityVonage/value/stock_symbol'
+        stock_exchange:
+          type: string
+          example:
+            $ref: '#/components/examples/IdentityVonage/value/stock_exchange'
+        brand_relationship:
+          type: string
+          example:
+            $ref: '#/components/examples/IdentityVonage/value/brand_relationship'
+        vertical:
+          type: string
+          example:
+            $ref: '#/components/examples/IdentityVonage/value/vertical'
+
+    IdentityResponse:
+      allOf:
+        - $ref: '#/components/schemas/Identity'
+        - type: object
+          properties:
+            identity_id:
+              $ref: '#/components/schemas/IdentityId'
+            created_date:
+              type: string
+              pattern: ^\d{4}-[01]\d-[0-3]\d [0-2]\d:[0-5]\d:[0-5]\d$
+              example: '2020-01-02 05:12:14'
+            last_updated:
+              type: string
+              pattern: ^\d{4}-[01]\d-[0-3]\d [0-2]\d:[0-5]\d:[0-5]\d$
+              example: '2020-02-02 14:12:00'
+            _links:
+              type: object
+              properties:
+                self:
+                  type: object
+                  properties:
+                    href:
+                      type: string
+                      example: 'https://api.nexmo.com/v1/messaging-engagement/identities/BLQKOPK'
+                engagements:
+                  type: object
+                  properties:
+                    href:
+                      type: string
+                      example: 'https://api.nexmo.com/v1/messaging-envagement/engagements/?identity_id=BLQKOPK'
+
+    IdentityId:
+      description: Identity ID associated with a number
+      example:
+        $ref: '#/components/examples/IdentityVonage/value/identity_id'
+      type: string
+      pattern: ^[0-9A-F]{7}$
+
+    Engagement:
+      type: object
+      properties:
+        identity_id:
+          $ref: '#/components/schemas/IdentityId'
+        vertical:
+          type: string
+          example:
+            $ref: '#/components/examples/Engagement/value/vertical'
+        use_case:
+          type: string
+          example:
+            $ref: '#/components/examples/Engagement/value/use_case'
+        sub_use_cases:
+          type: array
+          items:
+            type: string
+          example:
+            $ref: '#/components/examples/Engagement/value/sub_use_cases'
+        reseller_id:
+          type: string
+          example:
+            $ref: '#/components/examples/Engagement/value/reseller_id'
+        description:
+          type: string
+          example:
+            $ref: '#/components/examples/Engagement/value/description'
+        embedded_link:
+          type: boolean
+          example:
+            $ref: '#/components/examples/Engagement/value/embedded_link'
+        embedded_phone:
+          type: boolean
+          example:
+            $ref: '#/components/examples/Engagement/value/embedded_phone'
+        number_pool:
+          type: boolean
+          example:
+            $ref: '#/components/examples/Engagement/value/number_pool'
+        age_gated:
+          type: boolean
+          example:
+            $ref: '#/components/examples/Engagement/value/age_gated'
+        direct_lending:
+          type: boolean
+          example:
+            $ref: '#/components/examples/Engagement/value/direct_lending'
+        subscriber_optin:
+          type: boolean
+          example:
+            $ref: '#/components/examples/Engagement/value/subscriber_optin'
+        subscriber_optout:
+          type: boolean
+          example:
+            $ref: '#/components/examples/Engagement/value/subscriber_optout'
+        subscriber_help:
+          type: boolean
+          example:
+            $ref: '#/components/examples/Engagement/value/subscriber_help'
+        sample_one:
+          type: string
+          example:
+            $ref: '#/components/examples/Engagement/value/sample_one'
+        sample_two:
+          type: string
+          example:
+            $ref: '#/components/examples/Engagement/value/sample_two'
+        sample_three:
+          type: string
+          example:
+            $ref: '#/components/examples/Engagement/value/sample_three'
+        sample_four:
+          type: string
+          example:
+            $ref: '#/components/examples/Engagement/value/sample_four'
+        message_flow:
+          type: string
+          example:
+            $ref: '#/components/examples/Engagement/value/message_flow'
+        help_message:
+          type: string
+          example:
+            $ref: '#/components/examples/Engagement/value/help_message'
+        # mno_ids:
+        #   type: array
+        #   items:
+        #     type: string
+        #   example:
+        #     $ref: '#/components/examples/Engagement/value/mno_ids'
+        affiliate_marketing:
+          type: boolean
+          example:
+            $ref: '#/components/examples/Engagement/value/affiliate_marketing'
+
+    EngagementId:
+      description: ID associated with a specific engagement
+      example: C1DEB879
+      type: string
+      pattern: ^[0-9A-F]{7}$
+
+    EngagementResponse:
+      allOf:
+        - $ref: '#/components/schemas/Engagement'
+        - type: object
+          properties:
+            engagement_id:
+              $ref: '#/components/schemas/EngagementId'
+            created_date:
+              type: string
+            last_updated:
+              type: string
+            _links:
+              type: object
+              properties:
+                self:
+                  type: object
+                  properties:
+                    href:
+                      type: string
+                numbers:
+                  type: object
+                  properties:
+                    href:
+                      type: string
+
+    CreateIndividualBrand:
+      type: object
+      properties:
+        $ref: '#/components/schemas/Identity/properties'
+      required:
+        - entity_type
+        - display_name
+        - phone
+        - country
+        - email
+        - brand_relationship
+
+    CreateNonProfitBrand:
+      type: object
+      properties:
+        $ref: '#/components/schemas/Identity/properties'
+      required:
+        - entity_type
+        - display_name
+        - company_name
+        - ein
+        - phone
+        - country
+        - email
+        - brand_relationship
+        - website
+
+    CreatePrivateCompanyBrand:
+      type: object
+      properties:
+        $ref: '#/components/schemas/Identity/properties'
+      required:
+        - entity_type
+        - display_name
+        - company_name
+        - ein
+        - phone
+        - country
+        - email
+        - brand_relationship
+
+    CreatePublicCompanyBrand:
+      type: object
+      properties:
+        $ref: '#/components/schemas/Identity/properties'
+      required:
+        - entity_type
+        - display_name
+        - company_name
+        - ein
+        - phone
+        - country
+        - email
+        - brand_relationship
+        - stock_symbol
+        - stock_exchange
+        - website
+
+    ErrorCouldNotRemoveNumber:
+      allOf:
+        - $ref: 'common/common_errors.yml#/components/responses/DefaultError/content/application~1json/schema'
+        - type: object
+          description: "Deletion Errors"
+          properties:
+            title:
+              description: Generic error message
+              example: There were errors removing numbers from the pool
+            type:
+              description: Link to error / remediation options
+              example: 'https://developer.nexmo.com/api-errors/10dlc#number-deletion-failure'
+            detail:
+              description: Additional information about the error
+              example: We were unable to remove any of the numbers from the engagement.
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  title:
+                    description: Generic error message
+                    example: Number not found
+                  type:
+                    description: Link to error / remediation options
+                    example: 'https://developer.nexmo.com/api-errors/10dlc#missing-number'
+                  detail:
+                    description: Additional information about the error
+                    example: One or more numbers being deleted are not available in the engagement
+                  numbers:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Number'
+                    example:
+                      - '15556660001'
+
+    ErrorTooManyNumbers:
+      type: object
+      description: "Limit Exceeded"
+      properties:
+        title:
+          description: Generic error message
+          example: Bad Request
+        type:
+          description: Link to error / remediation options
+          example: 'https://developer.nexmo.com/api-errors/10dlc#bulk-number-delete-limit'
+        detail:
+          description: Additional information about the error
+          example: The request failed due to validation errors
+        invalid_parameters:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Name of the invalid key
+                example: ids
+              reason:
+                type: string
+                description: Additional validation information
+                example: Limit of 50 numbers exceeded
+
+    Number:
+      description: Telephone Number
+      example: '14155550110'
+      type: string
+      minLength: 7
+      maxLength: 15
+      pattern: '^[0-9]{7,15}$'
+
+    NumberResponse:
+      type: object
+      properties:
+        number:
+          $ref: '#/components/schemas/Number'
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+            engagement:
+              type: object
+              properties:
+                href:
+                  type: string
+
+    UpdateIndividualIdentity:
+      type: object
+      properties:
+        $ref: '#/components/schemas/IdentityEditableFields/properties'
+      required:
+        - entity_type
+        - display_name
+        - phone
+        - country
+        - email
+        - brand_relationship
+
+    UpdateNonProfitIdentity:
+      type: object
+      properties:
+        $ref: '#/components/schemas/IdentityEditableFields/properties'
+      required:
+        - entity_type
+        - display_name
+        - ein
+        - phone
+        - country
+        - email
+        - brand_relationship
+        - website
+
+    UpdatePrivateCompanyIdentity:
+      type: object
+      properties:
+        $ref: '#/components/schemas/IdentityEditableFields/properties'
+      required:
+        - entity_type
+        - display_name
+        - ein
+        - phone
+        - country
+        - email
+        - brand_relationship
+
+    UpdatePublicCompanyIdentity:
+      type: object
+      properties:
+        $ref: '#/components/schemas/IdentityEditableFields/properties'
+      required:
+        - entity_type
+        - display_name
+        - phone
+        - country
+        - email
+        - brand_relationship
+        - stock_symbol
+        - stock_exchange
+        - website
+
+    UseCase:
+      description: Use Cases for Engagements
+      example: b047c816-4449-48a1-b4ad-a4a6ae2e9538
+      type: string
+      enum:
+        - "2FA"
+        - "ACCOUNT_NOTIFICATION"
+        - "CARRIER_EXEMPT"
+        - "CHARITY"
+        - "CONVERSATIONAL"
+        - "CUSTOMER_CARE"
+        - "DELIVERY_NOTIFICATION"
+        - "EMERGENCY"
+        - "FRAUD_ALERT"
+        - "HIGHER_EDUCATION"
+        - "LOW_VOLUME"
+        - "MARKETING"
+        - "MIXED"
+        - "POLITICAL"
+        - "POLLING_VOTING"
+        - "PUBLIC_SERVICE_ANNOUNCEMENT"
+        - "SECURITY_ALERT"
+        - "SOCIAL"
+        - "SWEEPSTAKE"
+        - "TRIAL"
+
+    UseCaseMNOMetadata:
+      type: object
+      properties:
+        mno:
+          type: string
+        mno_support:
+          type: boolean
+        mno_review:
+          type: boolean
+        qualify:
+          type: boolean
+        min_msg_samples:
+          type: integer
+          example: 2
+        req_subscriber_opt_in:
+          type: boolean
+        req_subscriber_opt_out:
+          type: boolean
+          example: false
+        req_subscriber_help:
+          type: boolean
+        no_embedded_link:
+          type: boolean
+        no_embedded_phone:
+          type: boolean
+        surcharge:
+          type: string
+          example: "0.0025"
+        msg_class:
+          type: string
+          example: "Q"
+        tpm:
+          type: integer
+        brand_tier:
+          type: string
+
+  parameters:
+    IdentityId:
+      name: identity_id
+      in: path
+      description: Identity ID associated with a number
+      required: true
+      schema:
+        $ref: '#/components/schemas/IdentityId'
+
+    EngagementId:
+      name: engagement_id
+      in: path
+      description: ID associated with a specific engagement
+      required: true
+      schema:
+        $ref: '#/components/schemas/EngagementId'
+
+    Number:
+      in: path
+      name: number
+      description: Number to work with inside an engagement
+      required: true
+      schema:
+        $ref: '#/components/schemas/Number'
+
+    UseCase:
+      in: path
+      name: use_case
+      description: Name of a use case
+      required: true
+      schema:
+        type: string
+
+tags:
+  - name: Identities
+    description: APIs relating to working with Identities
+  - name: Engagements
+    description: APIs relating to working with Engagements
+  - name: Numbers
+    description: APIs relating to working with Numbers in Engagements

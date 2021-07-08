@@ -1,0 +1,2237 @@
+openapi: 3.0.3
+
+info:
+  version: 1.0.0
+  title: 10DLC Brand and Campaign Provisioning
+  contact:
+    name: Vonage
+    url: https://developer.nexmo.com
+    email: devrel@vonage.com
+  description: APIs relating to 10DLC brand and campaign management
+
+servers:
+  - url: 'https://api-eu.vonage.com'
+
+security:
+  - basicAuth: []
+
+paths:
+  /v1/10dlc/brands:
+    get:
+      parameters:
+        - $ref: 'common/hal_structures.yml#/components/parameters/Page'
+        - $ref: 'common/hal_structures.yml#/components/parameters/PageSize'
+      tags:
+        - Brands
+      description: List brands
+      operationId: listBrands
+      summary: Retrieve all of the brands associated with your account.
+      responses:
+        '200':
+          $ref: '#/components/responses/MultiBrandsResponse'
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+
+    post:
+      tags:
+        - Brands
+      description: |
+        Create a new brand for your account. Most accounts will be created 
+        immediately, and you can move on to qualifying a new campaign for
+        the brand. Some brands may require additional vetting. In such cases,
+        please move on to the vetting API endpoints before attempting to 
+        create a campaign. 
+
+        Please note the `entity_type` field, as that field value will help
+        determine which fields are required.
+      operationId: createBrand
+      summary: Create a new brand for your account
+      requestBody:
+        $ref: '#/components/requestBodies/CreateBrand'
+      responses:
+        '201':
+          $ref: '#/components/responses/SingleBrand'
+        '400':
+          $ref: '#/components/responses/ErrorGeneric'
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+        '409':
+          $ref: '#/components/responses/ErrorBrandConflict'
+        '422':
+          $ref: '#/components/responses/ErrorBrandParameters'
+
+  /v1/10dlc/brands/{brand_id}:
+    parameters:
+      - $ref: '#/components/parameters/BrandId'
+    get:
+      tags:
+        - Brands
+      summary: Retrieve a specific brand
+      description: Get a brand
+      operationId: getBrand
+      responses:
+        '200':
+          $ref: '#/components/responses/SingleBrand'
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+    patch:
+      tags:
+        - Brands
+      summary: Partially update a specific brand
+      description: Partial update of a brand
+      operationId: patchBrand
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/BrandEditableFields'
+
+      responses:
+        '200':
+          $ref: '#/components/responses/SingleBrand'
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+        '422':
+          $ref: '#/components/responses/ErrorVettingParameters'
+
+    delete:
+      tags:
+        - Brands
+      summary: Remove a specific brand from your account
+      description: Delete a brand
+      operationId: deleteBrand
+      responses:
+        '204':
+          description: No content
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+
+  /v1/10dlc/brands/{brand_id}/usecases/{usecase}:
+    parameters:
+      - $ref: "#/components/parameters/BrandId"
+      - $ref: "#/components/parameters/UseCase"
+    get:
+      tags:
+        - Brands
+      description: |
+        Check to see if a brand is qualified to run a campaign against a given
+        use case. A brand must check this endpoint before attempting to generate
+        a new campaign. 
+
+        If the use case is not qualified, the brand may request additional third
+        party vetting to see if the additional use cases can be added to their
+        account.
+      summary: Check Use Case Qualifications for a Brand
+      operationId: qualifyBrandUseCase
+      responses:
+        '200':
+          $ref: '#/components/responses/QualifiedUseCase'
+        '400':
+          $ref: '#/components/responses/ErrorQualifyBrand'
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '403':
+          $ref: '#/components/responses/ErrorUseCaseDenied'
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+        '429':
+          $ref: "common/common_errors.yml#/components/responses/ThrottledError"
+
+  /v1/10dlc/brands/{brand_id}/vetting/requests:
+    parameters:
+      - $ref: "#/components/parameters/BrandId"
+    get:
+      tags:
+        - Brands
+      summary: Retrieve a list of vetting records for a brand
+      description: Retrieve a list of vetting records for a brand
+      operationId: getVettingRequests
+      responses:
+        '200':
+          description: Returns a list of vetting requests
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/VettingRequest'
+    post:
+      tags:
+        - Brands
+      summary: Request vetting for a brand
+      description: |
+        This performs a request to a specific vetting partner to perform
+        vetting for a brand. This authorizes Vonage to allow the vetting
+        partner access to the particular brand information. This request
+        can take anywhere from a few minutes to 48 hours.
+      operationId: requestVetting
+      requestBody:
+        $ref: '#/components/requestBodies/VettingRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/VettingRequest'
+        '409':
+          $ref: '#/components/responses/ErrorVettingConflict'
+        '422':
+          $ref: '#/components/responses/ErrorVettingParameters'
+        '429':
+          $ref: "common/common_errors.yml#/components/responses/ThrottledError"
+
+  /v1/10dlc/brands/{brand_id}/vetting/requests/{vetting_request_id}:
+    parameters:
+      - $ref: "#/components/parameters/BrandId"
+      - $ref: "#/components/parameters/VettingRequestId"
+    put:
+      tags:
+        - Brands
+      summary: Import an existing vetting request to Vonage
+      description: |
+        Vetting requests can either be automated or manual. In the case that a
+        vetting request has been manually performed, or was requested outside of
+        Vonage, you can request that the request be imported. The vetting
+        request will be validated and, if successful, added to the brand. This
+        validation process is not immediate.
+      operationId: importVettingRequest
+      requestBody:
+        $ref: '#/components/requestBodies/ExistingVettingRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/VettingRequest'
+        '422':
+          $ref: '#/components/responses/ErrorVettingParameters'
+        '429':
+          $ref: "common/common_errors.yml#/components/responses/ThrottledError"
+
+  /v1/10dlc/brands/{brand_id}/campaigns:
+    parameters:
+      - $ref: '#/components/parameters/BrandId'
+    get:
+      parameters:
+        - $ref: 'common/hal_structures.yml#/components/parameters/Page'
+        - $ref: 'common/hal_structures.yml#/components/parameters/PageSize'
+      tags:
+        - Campaigns
+      description: List campaigns
+      operationId: listCampaigns
+      summary: Retrieve all of the campaigns associated with a brand
+      responses:
+        '200':
+          $ref: '#/components/responses/MultiCampaignsResponse'
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+    post:
+      tags:
+        - Campaigns
+      description: Create Campaign
+      operationId: createCampaign
+      summary: Add a new campaign to a brand
+      requestBody:
+        $ref: '#/components/requestBodies/CreateCampaign'
+      responses:
+        '201':
+          $ref: '#/components/responses/SingleCampaignResponse'
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+        '409':
+          $ref: '#/components/responses/ErrorBrandNotQualified'
+        '422':
+          $ref: '#/components/responses/ErrorCampaignParameters'
+
+  /v1/10dlc/brands/{brand_id}/campaigns/{campaign_id}:
+    parameters:
+      - $ref: '#/components/parameters/BrandId'
+      - $ref: '#/components/parameters/CampaignId'
+    get:
+      tags:
+        - Campaigns
+      summary: Retrieve a specific campaign
+      description: Get a campaign
+      operationId: getCampaign
+      responses:
+        '200':
+          $ref: '#/components/responses/SingleCampaignResponse'
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+    patch:
+      tags:
+        - Campaigns
+      summary: Partially update a specific campaign
+      description: Partial update of a campaign
+      operationId: patchCampaign
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CampaignEditableFields'
+      responses:
+        '200':
+          $ref: '#/components/responses/SingleCampaignResponse'
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+        '422':
+          $ref: '#/components/responses/ErrorCampaignParameters'
+    delete:
+      tags:
+        - Campaigns
+      summary: Stop a specific campaign on a brand
+      description: Stop a brand
+      operationId: deleteCampaign
+      responses:
+        '204':
+          description: No content
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+
+  /v1/10dlc/brands/{brand_id}/campaigns/{campaign_id}/numbers:
+    parameters:
+      - $ref: '#/components/parameters/BrandId'
+      - $ref: '#/components/parameters/CampaignId'
+    get:
+      parameters:
+        - $ref: 'common/hal_structures.yml#/components/parameters/Page'
+        - $ref: 'common/hal_structures.yml#/components/parameters/PageSize'
+      tags:
+        - Numbers
+      summary: Retrieve Numbers associated with a campaign
+      description: Get numbers in campaign
+      operationId: getNumbers
+      responses:
+        '200':
+          $ref: '#/components/responses/MultiNumbersResponse'
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+    post:
+      tags:
+        - Numbers
+      summary: Link number to a campaign
+      operationId: linkNumberToCampaign
+      description: |
+        Links an existing Vonage number to a 10DLC campaign.
+      requestBody:
+        $ref: '#/components/requestBodies/LinkNumber'
+      responses:
+        '201':
+          $ref: '#/components/responses/NumberResponse'
+        '202':
+          $ref: '#/components/responses/NumberResponse'
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+        '409':
+          $ref: '#/components/responses/ErrorNumbersAlreadyLinked'
+        '422':
+          $ref: '#/components/responses/ErrorNumbersParameters'
+
+  /v1/10dlc/brands/{brand_id}/campaigns/{campaign_id}/numbers/{number}:
+    parameters:
+      - $ref: '#/components/parameters/BrandId'
+      - $ref: '#/components/parameters/CampaignId'
+      - $ref: '#/components/parameters/Number'
+    get:
+      tags:
+        - Numbers
+      summary: Retrieve information about a number in a campaign
+      description: Retrieve information about a number in a campaign
+      operationId: getNumber
+      responses:
+        '200':
+          $ref: '#/components/responses/NumberResponse'
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+    delete:
+      tags:
+        - Numbers
+      summary: Unlink a number from a campaign
+      description: Unlink a number from a campaign
+      operationId: unlinkNumber
+      responses:
+        '204':
+          description: No Content
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+
+  /v1/10dlc/enum/vetting/classes:
+    get:
+      tags:
+        - Brands
+      summary: Retrieve a list of vetting classifications that can be performed
+      description: |
+        When requesting brand vetting, a vetting class must be supplied. This
+        determines the scope of the vetting to be performed by the vetting
+        provider.
+      operationId: getVettingClasses
+      responses:
+        '200':
+          $ref: '#/components/responses/VettingClasses'
+
+  /v1/10dlc/enum/vetting/providers:
+    get:
+      tags:
+        - Brands
+      summary: Retrieve a list of vetting providers
+      description: |
+        When requesting external vetting, a user must select from a list of
+        approved vetting providers.
+      operationId: getVettingProviders
+      responses:
+        '200':
+          $ref: '#/components/responses/VettingProviders'
+components:
+  examples:
+    BrandNexmo:
+      value:
+        brand_id: "BLQKOPK"
+        entity_type: "PUBLIC_PROFIT"
+        display_name: "Nexmo"
+        company_name: "Nexmo"
+        ein: "20-1111111"
+        alt_business_id_type: "DUNS"
+        alt_business_id: "150483782"
+        phone: "+15556660001"
+        street: "23 Main Street"
+        city: "Holmdel"
+        state: "NJ"
+        postal_code: "07733"
+        country: "US"
+        email: "devrel@vonage.com"
+        stock_symbol: "VG"
+        stock_exchange: "NASDAQ"
+        website: "https://vonage.com"
+        vertical: "TECHNOLOGY"
+        _links:
+          self:
+            href: "https://api.nexmo.com/v1/10dlc/brands/BLQKOPK"
+          campaigns:
+            href: "https://api.nexmo.com/v1/10dlc/brands/BLQKOPK/campaigns"
+          usecases:
+            href: "https://api.nexmo.com/v1/10dlc/brands/BLQKOPK/usecases"
+
+    BrandVonage:
+      value:
+        brand_id: "BLQKOPK"
+        entity_type: "PUBLIC_PROFIT"
+        display_name: "Vonage"
+        company_name: "Vonage"
+        ein: "20-1111111"
+        alt_business_id_type: "DUNS"
+        alt_business_id: "150483782"
+        phone: "+15556660001"
+        street: "23 Main Street"
+        city: "Holmdel"
+        state: "NJ"
+        postal_code: "07733"
+        country: "US"
+        email: "devrel@vonage.com"
+        stock_symbol: "VG"
+        stock_exchange: "NASDAQ"
+        website: "https://vonage.com"
+        vertical: "TECHNOLOGY"
+        _links:
+          self:
+            href: "https://api.nexmo.com/v1/10dlc/brands/BLQKOPK"
+          campaigns:
+            href: "https://api.nexmo.com/v1/10dlc/brands/BLQKOPK/campaigns"
+          usecases:
+            href: "https://api.nexmo.com/v1/10dlc/brands/BLQKOPK/usecases"
+
+    Campaign:
+      value:
+        campaign_id: "C1DEB879"
+        csp_id: "string"
+        reseller_id: "string"
+        created_date: "2020-10-06T08:51:32.119Z"
+        vertical: "TECHNOLOGY"
+        usecase: "ACCOUNT_NOTIFICATION"
+        sub_usecases: ["2FA", "SECURITY_ALERT"]
+        description: "User notifications"
+        label: "This is a sample campaign"
+        embedded_link: false
+        embedded_phone: false
+        affiliate_marketing: true
+        number_pool: false
+        age_gated: true
+        direct_lending: true
+        subscriber_opt_in: false
+        subscriber_opt_out: false
+        subscriber_help: false
+        sample_one: "Sample Message"
+        sample_two: "Additional Sample Message"
+        sample_three: "Additional Sample Message"
+        sample_four: "Additional Sample Message"
+        sample_five: "Additional Sample Message"
+        message_flow: "string"
+        help_message: "string"
+        mno_metadata:
+          - network_id: "10017"
+            min_msg_samples: 1,
+            msg_class: A
+            req_subscriber_opt_out: false
+            mno_review: false,
+            no_embedded_phone: true,
+            mno: "AT&T"
+            tpm: 3000
+            req_subscriber_help: false
+            req_subscriber_opt_in: true
+            mno_support: true
+            no_embedded_link: true
+            qualify: true
+            status: "APPROVED"
+          - network_id: "10035"
+            min_msg_samples: 1,
+            req_subscriber_help: false
+            req_subscriber_opt_out: false
+            req_subscriber_opt_in: true
+            mno_review: false
+            mno_support: true
+            no_embedded_phone: true,
+            no_embedded_link: true
+            qualify: true
+            brand_tier: "LOW"
+            mno: "TMO"
+            status: "APPROVED"
+        auto_renewal: true
+        status: "ACTIVE"
+        _links:
+          self:
+            $ref: '#/components/examples/LinkCampaign'
+          numbers:
+            href: "https://api.nexmo.com/v1/10dlc/brands/BLQKOPK/campaigns/81dd38e8-c172-4698-aa04-35c3709f5167/numbers"
+
+    LinkBrand:
+      value:
+        "https://api.nexmo.com/v1/10dlc/brands/BLQKOPK"
+
+    LinkCampaign:
+      value:
+        "https://api.nexmo.com/v1/10dlc/brands/BLQKOPK/campaigns/C1DEB879/"
+
+    LinkNumber:
+      value:
+        "https://api.nexmo.com/v1/10dlc/brands/BLQKOPK/campaigns/C1DEB879/numbers/14155550110"
+
+    Numbers:
+      value:
+        - "12025550150"
+        - "12025550142"
+        - "12025550178"
+        - "12025550117"
+        - "12025550182"
+        - "12025550192"
+
+    UseCases:
+      value:
+        - "ACCOUNT_NOTIFICATION"
+        - "CONVERSATIONAL"
+        - "DELIVERY_NOTIFICATION"
+
+    ValidUseCase:
+      value:
+        usecase: "POLITICAL"
+        quarterly_fee: 30
+        annual_fee: 30
+        mno_metadata:
+          - network_id: "10017"
+            min_msg_samples: 2
+            att_msg_class: Q
+            req_subscriber_opt_in: false
+            req_subscriber_help: false
+            req_subscriber_opt_out: false
+            mno: "AT&T"
+            att_tpm: 2000
+            mno_support: true
+            mno_review: true
+            no_embedded_link: true
+            qualify: true
+            tmo_brand_tier: null
+          - network_id: "10035"
+            min_msg_samples: 2
+            req_subscriber_opt_in: false
+            req_subscriber_help: false
+            req_subscriber_opt_out: false
+            mno: "TMO"
+            mno_support: true
+            mno_review: true
+            no_embedded_link: true
+            no_embedded_phone: true
+            qualify: true
+            tmo_brand_tier: "LOW"
+            att_tpm: null
+            att_msg_class: null
+
+  responses:
+    ErrorCouldNotRemoveNumberResponse:
+      description: Error response for number deletion errors
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorCouldNotRemoveNumber'
+
+    ErrorGeneric:
+      description: Various errors that can occur during brand creation
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: 'common/common_errors.yml#/components/responses/DefaultError/content/application~1json/schema'
+              - type: object
+                description: Errors with submission
+                properties:
+                  title:
+                    description: Generic error message
+                    example: There were some issues with your submission
+                  type:
+                    description: Link to error / remediation options
+                    example: 'https://developer.nexmo.com/api-errors/10dlc#error-type'
+                  detail:
+                    description: Additional information about the error
+                    example: There were some errors submitting your brand, and a more detailed message would appear here
+
+    ErrorBrandConflict:
+      description: Error that can occur if there is a conflict working with an account
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: 'common/common_errors.yml#/components/responses/DefaultError/content/application~1json/schema'
+              - type: object
+                description: Conflict when a brand is being created or edited and there is an issue with a 3rd party vendor
+                properties:
+                  title:
+                    description: Generic error message
+                    example: An error occurred with this brand while communicating with a third party
+                  type:
+                    description: Link to error / remediation options
+                    example: 'https://developer.nexmo.com/api-errors/10dlc#error-brand-conflict'
+                  detail:
+                    description: Additional information about the error
+                    example: An unknown error occurred while processing this brand with the carrier system. Please contact support or try again later.
+
+    ErrorBrandNotQualified:
+      description: Various errors that can occur during brand creation
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: 'common/common_errors.yml#/components/responses/DefaultError/content/application~1json/schema'
+              - type: object
+                description: Conflict when a campaign is being created against a brand that hasn't qualified for the specified use case
+                properties:
+                  title:
+                    description: Generic error message
+                    example: This brand has not been qualified for the given use case
+                  type:
+                    description: Link to error / remediation options
+                    example: 'https://developer.nexmo.com/api-errors/10dlc#error-brand-not-qualified'
+                  detail:
+                    description: Additional information about the error
+                    example: A campaign use case must be checked before a campaign can be created. Please verify the brand use case before submitting this campaign.
+
+    ErrorBrandParameters:
+      description: Various errors that can occur during brand data submission
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: 'common/common_errors.yml#/components/responses/DefaultError/content/application~1json/schema'
+              - type: object
+                description: Errors with submission
+                properties:
+                  title:
+                    description: Generic error message
+                    example: There were some issues with the submitted data
+                  type:
+                    description: Link to error / remediation options
+                    example: 'https://developer.nexmo.com/api-errors/10dlc#invalid-brand-data'
+                  detail:
+                    description: Additional information about the error
+                    example: There were some errors submitting your brand, please correct the requested fields
+                  invalid_parameters:
+                    description: Errors that are passed through from the Campaign Registry
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: integer
+                          description: Campaign Registry error code
+                          example: 503
+                        field:
+                          type: string
+                          description: Field that had a data issue
+                          example: company_name
+                        description:
+                          type: string
+                          description: Error text
+                          example: Field 'company_name' is not unique
+
+    ErrorCampaignParameters:
+      description: Various errors that can occur during campaign data submission
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: 'common/common_errors.yml#/components/responses/DefaultError/content/application~1json/schema'
+              - type: object
+                description: Errors with submission
+                properties:
+                  title:
+                    description: Generic error message
+                    example: There were some issues with the submitted data
+                  type:
+                    description: Link to error / remediation options
+                    example: 'https://developer.nexmo.com/api-errors/10dlc#invalid-campaign-data'
+                  detail:
+                    description: Additional information about the error
+                    example: There were some errors submitting your campaign, please correct the requested fields
+                  invalid_parameters:
+                    description: Errors that are passed through from the Campaign Registry
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: integer
+                          description: Campaign Registry error code
+                          example: 503
+                        field:
+                          type: string
+                          description: Field that had a data issue
+                          example: usecase
+                        description:
+                          type: string
+                          description: Error text
+                          example: Field 'usecase' is not a valid value
+
+    ErrorNumbersAlreadyLinked:
+      description: The number that was requested to link is already associated with another campaign
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: 'common/common_errors.yml#/components/responses/DefaultError/content/application~1json/schema'
+              - type: object
+                description: Errors with submission
+                properties:
+                  title:
+                    description: Generic error message
+                    example: Number Already Linked
+                  type:
+                    description: Link to error / remediation options
+                    example: 'https://developer.nexmo.com/api-errors/10dlc#number-already-linked'
+                  detail:
+                    description: Additional information about the error
+                    example: The number requested has already been linked to another campaign
+
+    ErrorNumbersParameters:
+      description: Various errors that can occur during number data submission
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: 'common/common_errors.yml#/components/responses/DefaultError/content/application~1json/schema'
+              - type: object
+                description: Errors with submission
+                properties:
+                  title:
+                    description: Generic error message
+                    example: There were some issues with the submitted data
+                  type:
+                    description: Link to error / remediation options
+                    example: 'https://developer.nexmo.com/api-errors/10dlc#invalid-number-data'
+                  detail:
+                    description: Additional information about the error
+                    example: There were some errors submitting your campaign, please correct the requested fields
+                  invalid_parameters:
+                    description: Errors from the number system
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        field:
+                          type: string
+                          description: Field that had a data issue
+                          example: country
+                        description:
+                          type: string
+                          description: Error text
+                          example: Field 'country' is not a valid value
+
+    ErrorQualifyBrand:
+      description: Various errors that can occur during brand use case qualification
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: 'common/common_errors.yml#/components/responses/DefaultError/content/application~1json/schema'
+              - type: object
+                description: Errors with submission
+                properties:
+                  title:
+                    description: Generic error message
+                    example: There were some issues with the submitted data
+                  type:
+                    description: Link to error / remediation options
+                    example: 'https://developer.nexmo.com/api-errors/10dlc#invalid-usecase-data'
+                  detail:
+                    description: Additional information about the error
+                    example: There were some errors qualifying the use case for your brand, please correct the requested fields
+                  errors:
+                    description: Errors that are passed through from the Campaign Registry
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: integer
+                          description: Campaign Registry error code
+                          example: 501
+                        field:
+                          type: string
+                          description: Field that had a data issue
+                          example: usecase
+                        description:
+                          type: string
+                          description: Error text
+                          example: Unrecognized Usecase
+
+    ErrorUnableToParseRequestResponse:
+      description: Error for when we cannot parse the client-supplied request
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: 'common/common_errors.yml#/components/responses/DefaultError/content/application~1json/schema'
+              - type: object
+                description: Unable To Parse Request
+                properties:
+                  title:
+                    description: Generic error message
+                    example: Unable to parse incoming request
+                  type:
+                    description: Link to error / remediation options
+                    example: 'https://developer.nexmo.com/api-errors/10dlc#invalid-json'
+                  detail:
+                    description: Additional information about the error
+                    example: invalid character 'f' after object key:value pair
+
+    ErrorUseCaseDenied:
+      description: Error for when we cannot parse the client-supplied request
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: 'common/common_errors.yml#/components/responses/DefaultError/content/application~1json/schema'
+              - type: object
+                description: Use Case is denied for brand
+                properties:
+                  title:
+                    description: Generic error message
+                    example: The requested use case is denied for this brand
+                  type:
+                    description: Link to error / remediation options
+                    example: 'https://developer.nexmo.com/api-errors/10dlc#use-case-denied'
+                  detail:
+                    description: Additional information about the error
+                    example: The requested use case has been denied for this brand. Your brand may require additional third party vetting.
+
+    ErrorVettingConflict:
+      description: Error that can occur if there is a conflict during a vetting request
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: 'common/common_errors.yml#/components/responses/DefaultError/content/application~1json/schema'
+              - type: object
+                description: Conflict when a vetting is requested for a brand
+                properties:
+                  title:
+                    description: Generic error message
+                    example: An error occurred while requesting third party vetting
+                  type:
+                    description: Link to error / remediation options
+                    example: 'https://developer.nexmo.com/api-errors/10dlc#error-vetting-conflict'
+                  detail:
+                    description: Additional information about the error
+                    example: An unknown error occurred while requesting vetting with the carrier system. Please contact support or try again later.
+
+    ErrorVettingParameters:
+      description: Various errors that can occur during vetting requests
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: 'common/common_errors.yml#/components/responses/DefaultError/content/application~1json/schema'
+              - type: object
+                description: Errors with submission
+                properties:
+                  title:
+                    description: Generic error message
+                    example: There were some issues with the submitted data
+                  type:
+                    description: Link to error / remediation options
+                    example: 'https://developer.nexmo.com/api-errors/10dlc#invalid-vetting-data'
+                  detail:
+                    description: Additional information about the error
+                    example: There were some errors submitting your vetting request, please correct the requested fields
+                  invalid_parameters:
+                    description: Errors that are passed through from the Campaign Registry
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: integer
+                          description: Campaign Registry error code
+                          example: 503
+                        field:
+                          type: string
+                          description: Field that had a data issue
+                          example: evp_id
+                        description:
+                          type: string
+                          description: Error text
+                          example: Field 'evp_id' is not unique
+
+    MultiBrandsResponse:
+      description: List of brands that are associated with an account
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: 'common/hal_structures.yml#/components/schemas/PagedResponse'
+              - type: object
+                properties:
+                  _embedded:
+                    type: object
+                    properties:
+                      brands:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/BrandResponse'
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "https://api.nexmo.com/v1/10dlc/brands/BLQKOPK?page=2"
+                      next:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "https://api.nexmo.com/v1/10dlc/brands/?page=1"
+                      previous:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "https://api.nexmo.com/v1/10dlc/brands/?page=1"
+                      first:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "https://api.nexmo.com/v1/10dlc/brands/?page=1"
+                      last:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "https://api.nexmo.com/v1/10dlc/brands/?page=10"
+          examples:
+            simple:
+              value:
+                - page_size: 10
+                  page: 1
+                  total_pages: 1
+                  total_items: 2
+                  _embedded:
+                    brands:
+                      - $ref: '#/components/examples/BrandVonage/value'
+                      - $ref: '#/components/examples/BrandNexmo/value'
+    
+    MultiCampaignsResponse:
+      description: List of campaigns that are associated with a brand
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: 'common/hal_structures.yml#/components/schemas/PagedResponse'
+              - type: object
+                properties:
+                  _embedded:
+                    type: object
+                    properties:
+                      campaigns:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/CampaignResponse'
+                  _links:
+                    type: object
+                    properties:
+                      brand:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "https://api.nexmo.com/v1/10dlc/brands/BLQKOPK"
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "https://api.nexmo.com/v1/10dlc/brands/BLQKOPK/campaigns/?page=2"
+                      next:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "https://api.nexmo.com/v1/10dlc/brands/BLQKOPK/campaigns/?page=1"
+                      previous:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "https://api.nexmo.com/v1/10dlc/brands/BLQKOPK/campaigns/?page=1"
+                      first:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "https://api.nexmo.com/v1/10dlc/brands/BLQKOPK/campaigns/?page=1"
+                      last:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "https://api.nexmo.com/v1/10dlc/brands/BLQKOPK/campaigns/?page=10"
+          examples:
+            simple:
+              value:
+                - page_size: 10
+                  page: 1
+                  total_pages: 1
+                  total_items: 1
+                  _embedded:
+                    campaigns:
+                      - $ref: '#/components/examples/Campaign/value'
+
+    MultiNumbersResponse:
+      description: List of numbers that are associated with a campaign
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: 'common/hal_structures.yml#/components/schemas/PagedResponse'
+              - type: object
+                properties:
+                  _embedded:
+                    type: object
+                    properties:
+                      numbers:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/NumberResponse'
+
+    MultiUseCasesResponse:
+      description: List of use cases that are associated with a brand
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: 'common/hal_structures.yml#/components/schemas/PagedResponse'
+              - type: object
+                properties:
+                  _embedded:
+                    type: object
+                    properties:
+                      usecases:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/UseCase'
+          examples:
+            simple:
+              value:
+                - page_size: 10
+                  page: 1
+                  total_pages: 1
+                  total_items: 3
+                  _embedded:
+                    usecases:
+                      $ref: '#/components/examples/UseCases/value'
+
+    NumberResponse:
+      description: Information about a number
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NumberResponse'
+
+    QualifiedUseCase:
+      description: A valid qualified use case for a brand
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              usecase:
+                type: string
+                example:
+                  $ref: '#/components/examples/ValidUseCase/value/usecase'
+              quarterly_fee:
+                type: integer
+                format: int32
+                example:
+                  $ref: '#/components/examples/ValidUseCase/value/quarterly_fee'
+              annual_fee:
+                type: integer
+                format: int32
+                example:
+                  $ref: '#/components/examples/ValidUseCase/value/annual_fee'
+              mno_metadata:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UseCaseMNOMetadata'
+                example:
+                  $ref: '#/components/examples/ValidUseCase/value/mno_metadata'
+
+          examples:
+            simple:
+              value:
+                $ref: '#/components/examples/ValidUseCase/value'
+
+    SingleBrand:
+      description: Return a single brand
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/BrandResponse'
+              - type: object
+                properties:
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "https://api.nexmo.com/v1/10dlc/brands/BLQKOPK"
+                      brand:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "https://api.nexmo.com/v1/10dlc/brands/BLQKOPK"
+          examples:
+            vonage:
+              value:
+                $ref: '#/components/examples/BrandVonage/value'
+
+    SingleCampaignResponse:
+      description: Return a single campaign
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/CampaignResponse'
+              - type: object
+                properties:
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "https://api.nexmo.com/v1/10dlc/brands/BLQKOPK/campaigns/57b3a89e-c9fa-4860-aec2-ad7f51539dab"
+                      brand:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "https://api.nexmo.com/v1/10dlc/brands/BLQKOPK"
+          examples:
+            simple:
+              value:
+                $ref: '#/components/examples/Campaign/value'
+
+    SingleNumberResponse:
+      description: Return a single number in a campaign
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/NumberResponse'
+              - type: object
+                properties:
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example:
+                              $ref: '#/components/examples/LinkNumber/value'
+                      campaign:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example:
+                              $ref: '#/components/examples/LinkCampaign/value'
+
+    VettingClasses:
+      description: List of vetting classes
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                enabled:
+                  type: boolean
+                display_name:
+                  type: string
+                description:
+                  type: string
+                validity_months:
+                  type: integer
+                  example: 12
+
+    VettingProviders:
+      description: List of vetting providers
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                evp_id:
+                  type: string
+                display_name:
+                  type: string
+                tcr_billable:
+                  type: boolean
+                vetting_classes:
+                  type: array
+                  items:
+                    type: string
+                  example:
+                    - "class1"
+                    - "class2"
+                vetting_instruction:
+                  type: string
+
+    VettingRequest:
+      description: Information about a vetting request
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/VettingRequest'
+
+  requestBodies:
+    LinkNumber:
+      required: true
+      content:
+        application/json:
+          schema:
+            description: Information needed to link a number to a campaign
+            type: object
+            properties:
+              country:
+                $ref: '#/components/schemas/Country'
+              number:
+                $ref: '#/components/schemas/Number'
+            required:
+              - country
+              - number
+
+    CreateBrand:
+      required: true
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - title: Non-Profit
+                x-tab-id: NonProfit
+                allOf:
+                  - $ref: '#/components/schemas/CreateNonProfitBrand'
+              - title: Private Company
+                x-tab-id: PrivateCompany
+                allOf:
+                  - $ref: '#/components/schemas/CreatePrivateCompanyBrand'
+              - title: Public Company
+                x-tab-id: PublicCompany
+                allOf:
+                  - $ref: '#/components/schemas/CreatePublicCompanyBrand'
+
+    CreateCampaign:
+      required: true
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/CampaignBase'
+              - $ref: '#/components/schemas/CampaignEditableFields'
+              - type: object
+                required:
+                  - account_id
+                  - vertical
+                  - usecase
+                  - description
+                  - subscriber_opt_in
+                  - subscriber_opt_out
+                  - subscriber_help
+
+    ExistingVettingRequest:
+      required: true
+      content:
+        application/json:
+          schema:
+            description: Information needed to import a vetting request
+            type: object
+            properties:
+              evp_id:
+                type: string
+                example: "abcd123"
+              vetting_class:
+                description: Type of vetting to perform.
+                type: string
+                example: "abcd123"
+              vetting_token:
+                description: Type of vetting to perform. Not required for all vetting providers.
+                type: string
+                example: "abcd123"
+            required:
+              - evp_id
+              - vetting_class
+
+    UpdateBrand:
+      required: true
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - title: Non-Profit
+                x-tab-id: NonProfit
+                allOf:
+                  - $ref: '#/components/schemas/UpdateNonProfitBrand'
+              - title: Private Company
+                x-tab-id: PrivateCompany
+                allOf:
+                  - $ref: '#/components/schemas/UpdatePrivateCompanyBrand'
+              - title: Public Company
+                x-tab-id: PublicCompany
+                allOf:
+                  - $ref: '#/components/schemas/UpdatePublicCompanyBrand'
+
+    VettingRequest:
+      required: true
+      content:
+        application/json:
+          schema:
+            description: Information needed to authorize a vetting request
+            type: object
+            properties:
+              evp_id:
+                type: string
+                example: "abcd123"
+              vetting_class:
+                description: Type of vetting to perform.
+                type: string
+                example: "abcd123"
+            required:
+              - evp_id
+              - vetting_class
+
+  schemas:
+    AccountID:
+      description: The Vonage Account ID
+      type: string
+      example: abcd1234
+
+    BrandBase:
+      type: object
+      properties:
+        account_id:
+          $ref: '#/components/schemas/AccountID'
+        entity_type:
+          type: string
+          enum:
+            - PRIVATE_PROFIT
+            - PUBLIC_PROFIT
+            - NON_PROFIT
+          example:
+            $ref: '#/components/examples/BrandVonage/value/entity_type'
+        display_name:
+          type: string
+          example:
+            $ref: '#/components/examples/BrandVonage/value/display_name'
+        company_name:
+          type: string
+          example:
+            $ref: '#/components/examples/BrandVonage/value/company_name'
+        ein:
+          type: string
+          pattern: ^([0-9]{2}[-]?[0-9]{7})$|^([0-9]{3}[-]?[0-9]{2}[-]?[0-9]{4})$
+          example:
+            $ref: '#/components/examples/BrandVonage/value/ein'
+        alt_business_id_type:
+          type: string
+          example:
+            $ref: '#/components/examples/BrandVonage/value/alt_business_id_type'
+        alt_business_id:
+          type: string
+          example:
+            $ref: '#/components/examples/BrandVonage/value/alt_business_id'
+        phone:
+          type: string
+          example:
+            $ref: '#/components/examples/BrandVonage/value/phone'
+        street:
+          type: string
+          example:
+            $ref: '#/components/examples/BrandVonage/value/street'
+        city:
+          type: string
+          example:
+            $ref: '#/components/examples/BrandVonage/value/city'
+        state:
+          type: string
+          example:
+            $ref: '#/components/examples/BrandVonage/value/state'
+        postal_code:
+          type: string
+          example:
+            $ref: '#/components/examples/BrandVonage/value/postal_code'
+        country:
+          type: string
+          example:
+            $ref: '#/components/examples/BrandVonage/value/country'
+        email:
+          type: string
+          example:
+            $ref: '#/components/examples/BrandVonage/value/email'
+        stock_symbol:
+          type: string
+          example:
+            $ref: '#/components/examples/BrandVonage/value/stock_symbol'
+        stock_exchange:
+          type: string
+          example:
+            $ref: '#/components/examples/BrandVonage/value/stock_exchange'
+        website:
+          type: string
+          example:
+            $ref: '#/components/examples/BrandVonage/value/website'
+        vertical:
+          type: string
+          example:
+            $ref: '#/components/examples/BrandVonage/value/vertical'
+
+    BrandEditableFields:
+      description: Fields that are editable for a brand
+      type: object
+      properties:
+        display_name:
+          type: string
+          example:
+            $ref: '#/components/examples/BrandVonage/value/display_name'
+        website:
+          type: string
+          example:
+            $ref: '#/components/examples/BrandVonage/value/website'
+        phone:
+          type: string
+          example:
+            $ref: '#/components/examples/BrandVonage/value/phone'
+        street:
+          type: string
+          example:
+            $ref: '#/components/examples/BrandVonage/value/street'
+        city:
+          type: string
+          example:
+            $ref: '#/components/examples/BrandVonage/value/city'
+        state:
+          type: string
+          example:
+            $ref: '#/components/examples/BrandVonage/value/state'
+        postal_code:
+          type: string
+          example:
+            $ref: '#/components/examples/BrandVonage/value/postal_code'
+        country:
+          type: string
+          example:
+            $ref: '#/components/examples/BrandVonage/value/country'
+        email:
+          type: string
+          example:
+            $ref: '#/components/examples/BrandVonage/value/email'
+        stock_symbol:
+          type: string
+          example:
+            $ref: '#/components/examples/BrandVonage/value/stock_symbol'
+        stock_exchange:
+          type: string
+          example:
+            $ref: '#/components/examples/BrandVonage/value/stock_exchange'
+        vertical:
+          type: string
+          example:
+            $ref: '#/components/examples/BrandVonage/value/vertical'
+
+    BrandSystemFields:
+      description: Fields that are added to a brand by the system
+      type: object
+      properties:
+        campaign_count:
+          type: integer
+          description: Number of campaigns associated with the brand
+          example: 5
+        brand_relationship:
+          $ref: '#/components/schemas/BrandRelationship'
+        shared:
+          description: True when the brand is shared with the current Account ID.
+          type: boolean
+        registration_score:
+          description: >-
+            Brand score assigned by the registry. This score is supplanted by
+            external vetting score if present.
+          type: integer
+          format: int32
+          readOnly: true
+        status:
+          description: Brand status.
+          type: string
+
+    BrandRelationship:
+      description: Brand relationship level.
+      type: string
+      example: BASIC_ACCOUNT
+      enum:
+        - BASIC_ACCOUNT
+        - SMALL_ACCOUNT
+        - MEDIUM_ACCOUNT
+        - LARGE_ACCOUNT
+        - KEY_ACCOUNT
+
+    BrandResponse:
+      allOf:
+        - $ref: '#/components/schemas/BrandBase'
+        - $ref: '#/components/schemas/BrandEditableFields'
+        - $ref: '#/components/schemas/BrandSystemFields'
+        - type: object
+          properties:
+            brand_id:
+              $ref: '#/components/schemas/BrandId'
+            created_date:
+              type: string
+              pattern: ^\d{4}-[01]\d-[0-3]\d [0-2]\d:[0-5]\d:[0-5]\d$
+              example: '2020-01-02 05:12:14'
+            last_updated:
+              type: string
+              pattern: ^\d{4}-[01]\d-[0-3]\d [0-2]\d:[0-5]\d:[0-5]\d$
+              example: '2020-02-02 14:12:00'
+            _links:
+              type: object
+              properties:
+                self:
+                  type: object
+                  properties:
+                    href:
+                      type: string
+                      example: 'https://api.nexmo.com/10dlc/brands/BLQKOPK'
+                campaigns:
+                  type: object
+                  properties:
+                    href:
+                      type: string
+                      example: 'https://api.nexmo.com/10dlc/brands/BLQKOPK/campaigns'
+
+    BrandId:
+      description: Brand ID associated with a number
+      example:
+        $ref: '#/components/examples/BrandVonage/value/brand_id'
+      type: string
+      pattern: ^[0-9A-F]{7}$
+
+    CampaignBase:
+      type: object
+      properties:
+        account_id:
+          $ref: "#/components/schemas/AccountID"
+        vertical:
+          type: string
+          description: Business/industry segment of this campaign
+          maxLength: 20
+          example:
+            $ref: '#/components/examples/Campaign/value/vertical'
+        usecase:
+          type: string
+          description: Campaign usecase
+          maxLength: 20
+          example:
+            $ref: '#/components/examples/Campaign/value/usecase'
+        sub_usecases:
+          type: array
+          description: Campaign sub-usecases
+          items:
+            type: string
+          example:
+            $ref: '#/components/examples/Campaign/value/sub_usecases'
+        reseller_id:
+          type: string
+          description: Alphanumeric identifier of the reseller that you want to associate with this campaign
+          maxLength: 5
+          example:
+            $ref: '#/components/examples/Campaign/value/reseller_id'
+        description:
+          type: string
+          description: Summary description of this campaign
+          example:
+            $ref: '#/components/examples/Campaign/value/description'
+        embedded_link:
+          type: boolean
+          description: Does message generated by the campaign include URL link in SMS?
+          example:
+            $ref: '#/components/examples/Campaign/value/embedded_link'
+        embedded_phone:
+          type: boolean
+          description: Does message generated by the campaign include phone number in SMS?
+          example:
+            $ref: '#/components/examples/Campaign/value/embedded_phone'
+        number_pool:
+          type: boolean
+          description: Does campaign utilize pool of phone nubers?
+          example:
+            $ref: '#/components/examples/Campaign/value/number_pool'
+        age_gated:
+          type: boolean
+          description: Age gated message content in campaign.
+          example:
+            $ref: '#/components/examples/Campaign/value/age_gated'
+        direct_lending:
+          type: boolean
+          description: Direct lending or loan arrangement
+          example:
+            $ref: '#/components/examples/Campaign/value/direct_lending'
+        subscriber_opt_in:
+          type: boolean
+          description: Does campaign require subscriber to opt-in before SMS is sent to subscriber?
+          example:
+            $ref: '#/components/examples/Campaign/value/subscriber_opt_in'
+        subscriber_opt_out:
+          type: boolean
+          description: Does campaign support subscriber opt-out keyword(s)?
+          example:
+            $ref: '#/components/examples/Campaign/value/subscriber_opt_out'
+        subscriber_help:
+          type: boolean
+          description: Does campaign responds to help keyword(s)?
+          example:
+            $ref: '#/components/examples/Campaign/value/subscriber_help'
+        sample_one:
+          type: string
+          description: Message sample. Some campaign tiers require 1 or more message samples.
+          maxLength: 1024
+          example:
+            $ref: '#/components/examples/Campaign/value/sample_one'
+        sample_two:
+          type: string
+          description: Message sample. Some campaign tiers require 2 or more message samples.
+          maxLength: 1024
+          example:
+            $ref: '#/components/examples/Campaign/value/sample_two'
+        sample_three:
+          type: string
+          description: Message sample. Some campaign tiers require 3 or more message samples.
+          maxLength: 1024
+          example:
+            $ref: '#/components/examples/Campaign/value/sample_three'
+        sample_four:
+          type: string
+          description: Message sample. Some campaign tiers require 4 or more message samples.
+          maxLength: 1024
+          example:
+            $ref: '#/components/examples/Campaign/value/sample_four'
+        sample_five:
+          type: string
+          description: Message sample. Some campaign tiers require 5.
+          maxLength: 1024
+          example:
+            $ref: '#/components/examples/Campaign/value/sample_five'
+        message_flow:
+          type: string
+          description: Message flow description
+          maxLength: 2048
+          example:
+            $ref: '#/components/examples/Campaign/value/message_flow'
+        help_message:
+          type: string
+          description: Help message of the campaign
+          maxLength: 255
+          example:
+            $ref: '#/components/examples/Campaign/value/help_message'
+        affiliate_marketing:
+          type: boolean
+          description: Does message content controlled by affiliate marketing other than the brand?
+          example:
+            $ref: '#/components/examples/Campaign/value/affiliate_marketing'
+          
+    CampaignEditableFields:
+      description: Fields that are editable for a campaign
+      type: object
+      properties:
+        label:
+          type: string
+          example:
+            $ref: '#/components/examples/Campaign/value/label'
+        reseller_id:
+          type: string
+          example:
+            $ref: '#/components/examples/Campaign/value/reseller_id'
+        sample_one:
+          type: string
+          example:
+            $ref: '#/components/examples/Campaign/value/sample_one'
+        sample_two:
+          type: string
+          example:
+            $ref: '#/components/examples/Campaign/value/sample_two'
+        sample_three:
+          type: string
+          example:
+            $ref: '#/components/examples/Campaign/value/sample_three'
+        sample_four:
+          type: string
+          example:
+            $ref: '#/components/examples/Campaign/value/sample_four'
+        sample_five:
+          type: string
+          example:
+            $ref: '#/components/examples/Campaign/value/sample_five'
+        message_flow:
+          type: string
+          example:
+            $ref: '#/components/examples/Campaign/value/message_flow'
+        help_message:
+          type: string
+          example:
+            $ref: '#/components/examples/Campaign/value/help_message'
+        auto_renewal:
+          type: boolean
+          example:
+            $ref: '#/components/examples/Campaign/value/auto_renewal'
+
+    CampaignSystemFields:
+      description: Fields that are added by the system for a campaign
+      type: object
+      properties:
+        brand_id:
+          $ref: '#/components/schemas/BrandId'
+        mno_metadata:
+          type: array
+          items:
+            $ref: '#/components/schemas/UseCaseMNOMetadata'
+          example:
+            $ref: '#/components/examples/Campaign/value/mno_metadata'
+        status:
+          type: string
+          example:
+            $ref: '#/components/examples/Campaign/value/status'
+
+    CampaignId:
+      description: ID associated with a specific campaign
+      example: C1DEB879
+      type: string
+      pattern: ^[0-9A-F]{7}$
+
+    CampaignResponse:
+      allOf:
+        - $ref: '#/components/schemas/CampaignBase'
+        - $ref: '#/components/schemas/CampaignEditableFields'
+        - $ref: '#/components/schemas/CampaignSystemFields'
+        - type: object
+          properties:
+            account_id:
+              $ref: '#/components/schemas/AccountID'
+            campaign_id:
+              $ref: '#/components/schemas/CampaignId'
+            created_date:
+              type: string
+            last_updated:
+              type: string
+            _links:
+              type: object
+              properties:
+                self:
+                  type: object
+                  properties:
+                    href:
+                      type: string
+                      example: "https://api.nexmo.com/v1/10dlc/brands/BLQKOPK/campaigns/C1DEB879"
+                brand:
+                  type: object
+                  properties:
+                    href:
+                      type: string
+                      example: "https://api.nexmo.com/v1/10dlc/brands/BLQKOPK"
+                numbers:
+                  type: object
+                  properties:
+                    href:
+                      type: string
+                      example: "https://api.nexmo.com/v1/10dlc/brands/BLQKOPK/campaigns/C1DEB879/numbers"
+
+    CampaignStatus:
+      description: Statuses that a campaign can be in
+      type: string
+      example: APPROVED
+      enum:
+        - ACTIVE
+        - EXPIRED
+
+    Country:
+      type: string
+      example: 'US'
+      description: The two character country code in ISO 3166-1 alpha-2 format
+      pattern: '^[A-Z]{2}$'
+
+    CreateNonProfitBrand:
+      allOf:
+        - $ref: '#/components/schemas/BrandBase'
+        - $ref: '#/components/schemas/BrandEditableFields'
+        - type: object
+          properties:
+            account_id:
+              $ref: '#/components/schemas/AccountID'
+          required:
+            - account_id
+            - entity_type
+            - display_name
+            - company_name
+            - ein
+            - phone
+            - email
+            - website
+            - street
+            - city
+            - state
+            - postal_code
+            - country
+            - vertical
+
+    CreatePrivateCompanyBrand:
+      allOf:
+        - $ref: '#/components/schemas/BrandBase'
+        - $ref: '#/components/schemas/BrandEditableFields'
+        - type: object
+          properties:
+            account_id:
+              $ref: '#/components/schemas/AccountID'
+          required:
+            - account_id
+            - entity_type
+            - display_name
+            - company_name
+            - ein
+            - phone
+            - email
+            - street
+            - city
+            - state
+            - postal_code
+            - country
+            - vertical
+            - website
+
+    CreatePublicCompanyBrand:
+      allOf:
+        - $ref: '#/components/schemas/BrandBase'
+        - $ref: '#/components/schemas/BrandEditableFields'
+        - type: object
+          properties:
+            account_id:
+              $ref: '#/components/schemas/AccountID'
+          required:
+            - account_id
+            - entity_type
+            - display_name
+            - company_name
+            - ein
+            - phone
+            - email
+            - stock_symbol
+            - stock_exchange
+            - website
+            - street
+            - city
+            - state
+            - postal_code
+            - country
+            - vertical
+
+    ErrorCouldNotRemoveNumber:
+      allOf:
+        - $ref: 'common/common_errors.yml#/components/responses/DefaultError/content/application~1json/schema'
+        - type: object
+          description: "Deletion Errors"
+          properties:
+            title:
+              description: Generic error message
+              example: There were errors removing numbers from the pool
+            type:
+              description: Link to error / remediation options
+              example: 'https://developer.nexmo.com/api-errors/10dlc#number-deletion-failure'
+            detail:
+              description: Additional information about the error
+              example: We were unable to remove any of the numbers from the campaign.
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  title:
+                    description: Generic error message
+                    example: Number not found
+                  type:
+                    description: Link to error / remediation options
+                    example: 'https://developer.nexmo.com/api-errors/10dlc#missing-number'
+                  detail:
+                    description: Additional information about the error
+                    example: One or more numbers being deleted are not available in the campaign
+                  numbers:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Number'
+                    example:
+                      - '15556660001'
+
+    MNOCampaignStatus:
+      description: Statuses that a campaign has in relation to a specific MNO
+      type: string
+      example: APPROVED
+      enum:
+        - UNKNOWN
+        - REVIEW
+        - REJECTED
+        - APPROVED
+        - SUSPENDED
+
+    Number:
+      description: Telephone Number
+      example: '14155550110'
+      type: string
+      minLength: 7
+      maxLength: 15
+      pattern: '^[0-9]{7,15}$'
+
+    NumberResponse:
+      type: object
+      properties:
+        number:
+          $ref: '#/components/schemas/Number'
+        country:
+          $ref: '#/components/schemas/Country'
+        status:
+          $ref: '#/components/schemas/NumberStatus'
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example:
+                    $ref: '#/components/examples/LinkNumber/value'
+            campaign:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example:
+                    $ref: '#/components/examples/LinkCampaign/value'
+            brand:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example:
+                    $ref: '#/components/examples/LinkBrand/value'
+
+    NumberStatus:
+      type: string
+      description: Current status of a number in a campaign
+      example: APPROVED
+      enum:
+        - APPROVED
+        - REJECTED
+        - PENDING
+
+    UpdateNonProfitBrand:
+      type: object
+      properties:
+        $ref: '#/components/schemas/BrandEditableFields/properties'
+      required:
+        - entity_type
+        - display_name
+        - ein
+        - phone
+        - country
+        - email
+        - website
+
+    UpdatePrivateCompanyBrand:
+      type: object
+      properties:
+        $ref: '#/components/schemas/BrandEditableFields/properties'
+      required:
+        - entity_type
+        - display_name
+        - ein
+        - phone
+        - country
+        - email
+
+    UpdatePublicCompanyBrand:
+      type: object
+      properties:
+        $ref: '#/components/schemas/BrandEditableFields/properties'
+      required:
+        - entity_type
+        - display_name
+        - phone
+        - country
+        - email
+        - stock_symbol
+        - stock_exchange
+        - website
+
+    UseCase:
+      description: Use Cases for Campaigns
+      example: b047c816-4449-48a1-b4ad-a4a6ae2e9538
+      type: string
+      enum:
+        - "2FA"
+        - "ACCOUNT_NOTIFICATION"
+        - "CARRIER_EXEMPT"
+        - "CHARITY"
+        - "CONVERSATIONAL"
+        - "CUSTOMER_CARE"
+        - "DELIVERY_NOTIFICATION"
+        - "EMERGENCY"
+        - "FRAUD_ALERT"
+        - "HIGHER_EDUCATION"
+        - "LOW_VOLUME"
+        - "MARKETING"
+        - "MIXED"
+        - "POLITICAL"
+        - "POLLING_VOTING"
+        - "PUBLIC_SERVICE_ANNOUNCEMENT"
+        - "SECURITY_ALERT"
+        - "SOCIAL"
+        - "SWEEPSTAKE"
+        - "TRIAL"
+
+    UseCaseMNOMetadata:
+      type: object
+      properties:
+        network_id:
+          type: string
+          example: "10017"
+        mno:
+          type: string
+        mno_support:
+          type: boolean
+        mno_review:
+          type: boolean
+        qualify:
+          type: boolean
+        min_msg_samples:
+          type: integer
+          example: 2
+        req_subscriber_opt_in:
+          type: boolean
+        req_subscriber_opt_out:
+          type: boolean
+          example: false
+        req_subscriber_help:
+          type: boolean
+        no_embedded_link:
+          type: boolean
+        no_embedded_phone:
+          type: boolean
+        att_msg_class:
+          type: string
+          example: "Q"
+        att_tpm:
+          type: integer
+        tmo_brand_tier:
+          type: string
+
+    VettingRequest:
+      type: object
+      properties:
+        account_id:
+          $ref: '#/components/schemas/AccountID'
+        evp_id:
+          $ref: '#/components/schemas/VettingRequestId'
+        vetting_id:
+          type: string
+        vetting_token:
+          type: string
+        vetting_score:
+          type: integer
+          minimum: 0
+          maximum: 100
+        vetting_class:
+          type: string
+        vetting_status:
+          type: string
+        vetted_date:
+          type: string
+          format: date-time
+        create_date:
+          type: string
+          format: date-time
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: "https://api.nexmo.com/v1/10dlc/brands/BLQKOPK/vetting/requests/abcd1234"
+            brand:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: "https://api.nexmo.com/v1/10dlc/brands/BLQKOPK"
+
+    VettingRequestId:
+      description: ID associated with a vetting request
+      type: string
+      pattern: ^[0-9A-F]{7}$
+
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+
+  parameters:
+    BrandId:
+      name: brand_id
+      in: path
+      description: Brand ID associated with a number
+      required: true
+      schema:
+        $ref: '#/components/schemas/BrandId'
+
+    CampaignId:
+      name: campaign_id
+      in: path
+      description: ID associated with a specific campaign
+      required: true
+      schema:
+        $ref: '#/components/schemas/CampaignId'
+
+    Number:
+      in: path
+      name: number
+      description: Number to work with inside a campaign
+      required: true
+      schema:
+        $ref: '#/components/schemas/Number'
+
+    UseCase:
+      in: path
+      name: usecase
+      description: Name of a use case
+      required: true
+      schema:
+        type: string
+        enum:
+          - CUSTOMER_CARE
+          - POLLING_VOTING
+          - HIGHER_EDUCATION
+          - PUBLIC_SERVICE_ANNOUNCEMENT
+          - MARKETING
+          - SECURITY_ALERT
+          - DELIVERY_NOTIFICATION
+          - ACCOUNT_NOTIFICATION
+          - 2FA
+          - FRAUD_ALERT
+          - TRIAL
+          - CHARITY
+          - POLITICAL
+          - EMERGENCY
+          - SWEEPSTAKE
+          - CONVERSATIONAL
+          - MIXED
+          - CARRIER_EXEMPT
+          - SOCIAL
+          - LOW_VOLUME
+    VettingRequestId:
+      name: vetting_request_id
+      in: path
+      description: ID associated with a vetting request
+      required: true
+      schema:
+        $ref: '#/components/schemas/VettingRequestId'
+
+tags:
+  - name: Brands
+    description: APIs relating to working with Brands
+  - name: Campaigns
+    description: APIs relating to working with Campaigns`
+  - name: Numbers
+    description: APIs relating to working with Numbers in Campaigns

@@ -107,3 +107,24 @@ components:
                 example: "Unsupported Content-Type header provided. Must be one of the following: 'application/json'"
               instance:
                 $ref: "#/components/schemas/instance"
+    ThrottledError:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            properties:
+              type:
+                type: string
+                example: "https://developer.nexmo.com/api-errors#throttled"
+              title:
+                type: string
+                example: Too many requests
+              detail:
+                type: string
+                example: Your account has reached it's API limit and has been throttled
+              instance:
+                $ref: "#/components/schemas/instance"
+              retry_after:
+                description: Time in seconds the client should wait before sending a new request
+                type: integer
+                example: 30

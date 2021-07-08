@@ -1,0 +1,55 @@
+---
+components:
+  schemas:
+    Page:
+      description: Page Offset
+      example: 2
+      type: integer
+      minimum: 1
+
+    PagedResponse:
+      type: object
+      properties:
+        page_size:
+          $ref: '#/components/schemas/PageSize'
+        page:
+          $ref: '#/components/schemas/Page'
+        total_pages:
+          $ref: '#/components/schemas/TotalPages'
+        total_items:
+          $ref: '#/components/schemas/TotalItems'
+
+    PageSize:
+      description: Items per page
+      example: 10
+      type: integer
+      minimum: 0
+
+    TotalItems:
+      description: Number of items in the entire result set
+      example: 100
+      type: integer
+      minimum: 0
+
+    TotalPages:
+      description: Number of pages in the entire result set
+      example: 100
+      type: integer
+      minimum: 1
+
+  parameters:
+    Page:
+      in: query
+      name: page
+      description: Page of results to jump to
+      required: false
+      schema:
+        $ref: '#/components/schemas/Page'
+
+    PageSize:
+      in: query
+      name: page_size
+      description: Number of results per page
+      required: false
+      schema:
+        $ref: '#/components/schemas/PageSize'
