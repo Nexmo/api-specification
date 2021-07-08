@@ -2,6 +2,7 @@
 components:
   schemas:
     instance:
+      description: Instance ID
       type: string
       example: 797a8f199c45014ab7b08bfe9cc1c12c
   responses:

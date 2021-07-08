@@ -1,0 +1,1006 @@
+openapi: 3.0.0
+
+info:
+  version: 2.0.0
+  title: Number Pools
+  contact:
+    name: Nexmo
+    url: 'https://developer.nexmo.com/'
+    email: devrel@nexmo.com
+  description: Number Pools API
+
+servers:
+  - url: 'https://api.nexmo.com'
+
+security:
+  - basicAuth: []
+
+paths:
+  /v2/pools/{account_id}:
+    parameters:
+      - $ref: '#/components/parameters/AccountId'
+
+    get:
+      tags:
+        - Pools
+      operationId: listPools
+      summary: List all pools
+      description: Return all of the pools available on an account
+      parameters:
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/Page'
+      responses:
+        '200':
+          $ref: '#/components/responses/ListPoolsResponse'
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+    post:
+      tags:
+        - Pools
+      operationId: createPool
+      summary: Create a new pool of numbers
+      description: Create a pool that will contain a list of numbers to send or call from
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+               $ref: '#/components/schemas/CreatePool'
+      responses:
+        '201':
+          $ref: '#/components/responses/GetPoolResponse'
+        '400':
+          description: Client errors
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/responses/ErrorInvalidParametersResponse/content/application~1json/schema'
+                  - $ref: '#/components/responses/ErrorUnableToParseRequestResponse/content/application~1json/schema'
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+        '409':
+          $ref: '#/components/responses/ErrorPoolIdAlreadyExistsResponse'
+
+  /v2/pools/{account_id}/{pool_id}:
+    parameters:
+      - $ref: '#/components/parameters/AccountId'
+      - $ref: '#/components/parameters/PoolId'
+
+    get:
+      tags:
+        - Pools
+      operationId: getPool
+      description: Get information about a specific pool
+      summary: Get information about a specific pool
+      responses:
+        '200':
+          $ref: '#/components/responses/GetPoolResponse'
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+    patch:
+      tags:
+        - Pools
+      operationId: patchPool
+      summary: Update part of a number pool
+      description: Update an existing pool with new information without requiring all information
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchPool'
+      responses:
+        '201':
+          $ref: '#/components/responses/GetPoolResponse'
+        '400':
+          description: Client errors
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/responses/ErrorInvalidUpdatePoolResponse/content/application~1json/schema'
+                  - $ref: '#/components/responses/ErrorUnableToParseRequestResponse/content/application~1json/schema'
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+        '409':
+          $ref: '#/components/responses/ErrorAccountIdMismatchResponse'
+
+  /v2/pools/{account_id}/{pool_id}/numbers:
+    parameters:
+      - $ref: '#/components/parameters/AccountId'
+      - $ref: '#/components/parameters/PoolId'
+
+    get:
+      tags:
+        - Numbers
+      operationId: getPoolNumbers
+      description: Get numbers in a pool
+      summary: Get a list of numbers inside of a specific pool
+      parameters:
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/Page'
+      responses:
+        '200':
+          $ref: '#/components/responses/ListNumbersResponse'
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+    post:
+      tags:
+        - Numbers
+      summary: Add numbers to a pool
+      operationId: addNumbersToPool
+      description: |
+        Add a series of numbers to a pool. This endpoint supports _partial successes_. If a request is partially
+        successful, the response code will be `207` and information will be returned in the body.
+
+        If all items succeed, you will receive a `200`. If all items fail, you will receive a `400`.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddNumbersToPool'
+      responses:
+        '201':
+          $ref: '#/components/responses/AddNumberResponse'
+        '207':
+          $ref: '#/components/responses/AddNumberPartialResponse'
+        '400':
+          description: Client errors
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/responses/ErrorAddNumbersResponse/content/application~1json/schema'
+                  - $ref: '#/components/responses/ErrorTooManyNumbersResponse/content/application~1json/schema'
+                  - $ref: '#/components/responses/ErrorUnableToParseRequestResponse/content/application~1json/schema'
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+
+  /v2/pools/{account_id}/{pool_id}/numbers/delete:
+    parameters:
+      - $ref: '#/components/parameters/AccountId'
+      - $ref: '#/components/parameters/PoolId'
+
+    post:
+      tags:
+        - Numbers
+      summary: Remove a series of number from a pool
+      operationId: deleteNumbersFromPool
+      description: |
+        Remove a series of numbers from a pool. This endpoint supports _partial successes_. If a request is partially
+        successful, the response code will be `207` and details can be found in the response body.
+
+        If all items succeed, you will receive a `200`. If all items fail, you will receive a `400`.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddNumbersToPool'
+      responses:
+        '204':
+          description: No Content
+        '207':
+          $ref: '#/components/responses/ErrorCouldNotDeleteFromPoolPartialResponse'
+        '400':
+          description: Client errors
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/responses/ErrorCouldNotDeleteFromPoolResponse/content/application~1json/schema'
+                  - $ref: '#/components/responses/ErrorTooManyNumbersResponse/content/application~1json/schema'
+                  - $ref: '#/components/responses/ErrorUnableToParseRequestResponse/content/application~1json/schema'
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+  
+  /v2/pools/{account_id}/{pool_id}/numbers/{number}:
+    parameters:
+      - $ref: '#/components/parameters/AccountId'
+      - $ref: '#/components/parameters/PoolId'
+
+    delete:
+      tags:
+        - Numbers
+      summary: Remove a specific of number from a pool
+      operationId: deleteNumberFromPool
+      description: |
+        Remove a single number from a pool. 
+      parameters:
+        - $ref: '#/components/parameters/Number'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/ErrorDeleteSingleNumberResponse'
+        '401':
+          $ref: "common/common_errors.yml#/components/responses/BadCredentialsError"
+        '404':
+          $ref: "common/common_errors.yml#/components/responses/NotFoundError"
+
+components:
+  responses:
+    AddNumberResponse:
+      description: Numbers successfully added to pool
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              numbers:
+                type: array
+                description: Numbers added to pool
+                items:
+                  $ref: '#/components/schemas/Number'
+                example:
+                  - '15556660001'
+              _links:
+                type: object
+                properties:
+                  self:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        description: Link back to the number pool
+                        example: /v2/pools/abcd123/custom_user_pool_id/numbers
+
+    AddNumberPartialResponse:
+      description: Only part of a number list was added to a pool
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/responses/AddNumberResponse/content/application~1json/schema'
+              - type: object
+                properties:
+                  error:
+                    allOf:
+                      - $ref: '#/components/schemas/Error'
+                      - type: object
+                        properties:
+                          title:
+                            description: Generic error message
+                            example: Could not add all numbers to pool
+                          type:
+                            description: Link to error / remediation options
+                            example: 'https://developer.nexmo.com/api-errors/number-pools#add-numbers-partial-failure'
+                          detail:
+                            description: Additional information about the error
+                            example: One or more numbers encountered issues being added to the pool
+                          errors:
+                            type: array
+                            items:
+                              allOf:
+                                - $ref: '#/components/schemas/Error'
+                                - type: object
+                                  properties:
+                                    title:
+                                      description: Generic error message
+                                      example: No such number subscription
+                                    type:
+                                      description: Link to error / remediation options
+                                      example: 'https://developer.nexmo.com/api-errors/number-pools#missing-number-subscription'
+                                    detail:
+                                      description: Additional information about the error
+                                      example: One or more numbers being added are not subscribed to on this account
+                                    numbers:
+                                      type: array
+                                      items:
+                                        $ref: '#/components/schemas/Number'
+                                      example:
+                                        - '15556660001'
+
+    ErrorAccountIdMismatchResponse:
+      description: Error response when an account ID does not match original during update
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorAccountIdMismatch'
+
+    ErrorAddNumbersResponse:
+      description: If all numbers fail to be added
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Error'
+              - type: object
+                description: "Addition Errors"
+                properties:
+                  title:
+                    description: Generic error message
+                    example: Numbers could not be added to the pool
+                  type:
+                    description: Link to error / remediation options
+                    example: 'https://developer.nexmo.com/api-errors/number-pools#add-number-failure'
+                  detail:
+                    description: Additional information about the error
+                    example: None of the numbers could be added the pool
+                  errors:
+                    type: array
+                    items:
+                      allOf:
+                        - $ref: '#/components/schemas/Error'
+                        - type: object
+                          properties:
+                            title:
+                              description: Generic error message
+                              example: No such number subscription
+                            type:
+                              description: Link to error / remediation options
+                              example: 'https://developer.nexmo.com/api-errors/number-pools#missing-number-subscription'
+                            detail:
+                              description: Additional information about the error
+                              example: One or more numbers being added are not subscribed to on this account
+                            numbers:
+                              type: array
+                              items:
+                                $ref: '#/components/schemas/Number'
+                              example:
+                                - '15556660001'
+
+    ErrorCouldNotDeleteFromPoolResponse:
+      description: Error handle full or partial deletion errors
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorCouldNotDeleteFromPool'
+
+    ErrorCouldNotDeleteFromPoolPartialResponse:
+      description: Error handle full or partial deletion errors
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorCouldNotDeleteFromPoolPartial'
+
+    ErrorDeleteSingleNumberResponse:
+      description: Error when a single number is being deleted
+      content:
+        application/json:
+          schema:
+            allOf: 
+              - $ref: '#/components/schemas/Error'
+              - type: object
+                properties:
+                  title:
+                    description: Generic error message
+                    example: Could not delete number
+                  type:
+                    description: Link to error / remediation options
+                    example: 'https://developer.nexmo.com/api-errors/number-pools#number-deletion-error'
+                  detail:
+                    description: Additional information about the error
+                    example: An error occurred while removing the number from the pool
+
+    ErrorResponse:
+      description: Error response for most errors
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    ErrorPoolIdAlreadyExistsResponse:
+      description: Error response when a pool ID already exists
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorPoolIdAlreadyExists'
+
+    ErrorInvalidParametersResponse:
+      description: Error that has additional information attached
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorInvalidParameters'
+
+    ErrorInvalidUpdatePoolResponse:
+      description: Errors for when updating a Pool has problems
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorInvalidUpdatePool'
+
+    ErrorTooManyNumbersResponse:
+      description: Error for when there are too many numbers
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorTooManyNumbers'
+
+    ErrorUnableToParseRequestResponse:
+      description: Error for when we cannot parse the client-supplied request
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Error'
+              - type: object
+                description: Unable To Parse Request
+                properties:
+                  title:
+                    description: Generic error message
+                    example: Unable to parse incoming request
+                  type:
+                    description: Link to error / remediation options
+                    example: 'https://developer.nexmo.com/api-errors/number-pools#invalid-json'
+                  detail:
+                    description: Additional information about the error
+                    example: invalid character 'f' after object key:value pair
+
+    GetPoolResponse:
+      description: Information about a specific pool
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Pool'
+
+    ListNumbersResponse:
+      description: List of numbers that exist in a pool
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/PagedResponseSchema'
+              - type: object
+                properties:
+                  _embedded:
+                    type: object
+                    properties:
+                      numbers:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Number'
+                        example:
+                          - '15556660001'
+                          - '15556660002'
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            description: Link to the current page
+                            example: /v2/pools/abcd123/pool_id/numbers?page=3
+                      next:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            description: Link to the next available page
+                            example: /v2/pools/abcd123/pool_id/numbers?page=4
+                      previous:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            description: Link to the previous available page
+                            example: /v2/pools/abcd123/pool_id/numbers?page=2
+                      first:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            description: Link to the first available page
+                            example: /v2/pools/abcd123/pool_id/numbers?page=1
+                      last:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            description: Link to the last available page
+                            example: /v2/pools/abcd123/pool_id/numbers?page=10
+
+    ListPoolsResponse:
+      description: List of pools that are available
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/PagedResponseSchema'
+              - type: object
+                properties:
+                  _embedded:
+                    type: object
+                    properties:
+                      pools:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Pool'
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            description: Link to the current page
+                            example: /v2/pools?page=3
+                      next:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            description: Link to the next available page
+                            example: /v2/pools?page=4
+                      previous:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            description: Link to the previous available page
+                            example: /v2/pools?page=2
+                      first:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            description: Link to the first available page
+                            example: /v2/pools?page=1
+                      last:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            description: Link to the last available page
+                            example: /v2/pools?page=10
+
+  schemas:
+    AccountId:
+      description: Account ID to work against
+      example: abcd1234
+      type: string
+      pattern: ^[a-z0-9]{8}$
+
+    AddNumbersToPool:
+      description: Add numbers to a number pool
+      type: object
+      properties:
+        numbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Number'
+          example:
+            - '15556660001'
+            - '15556660002'
+      required:
+        - numbers
+
+    CreateOrUpdatePoolBase:
+      description: Base data needed to create or update a pool
+      type: object
+      properties:
+        fallback:
+          $ref: '#/components/schemas/Fallback'
+        localized_sender_preferred:
+          $ref: '#/components/schemas/LocalizedSenderPreferred'
+        predictable_sender_preferred:
+          $ref: '#/components/schemas/PredictableSenderPreferred'
+        pool_id:
+          $ref: '#/components/schemas/PoolId'
+
+    CreatePool:
+      description: Create a new pool
+      allOf:
+        - $ref: '#/components/schemas/CreateOrUpdatePoolBase'
+        - type: object
+          required:
+            - pool_id
+            - fallback
+            - localized_sender_preferred
+            - predictable_sender_preferred
+
+    Error:
+      description: Generic RFC 7807 response
+      type: object
+      required:
+        - type
+        - title
+        - detail
+      properties:
+        type:
+          type: string
+          description: Link to error / remediation options
+          example: 'https://developer.nexmo.com/api-errors#invalid-api-key'
+        title:
+          type: string
+          description: Generic error message
+          example: Invalid API Key
+        detail:
+          type: string
+          description: Additional information about the error
+          example: "API key 'ABC123' does not exist, or you do not have access"
+        instance:
+          $ref: "common/common_errors.yml#/components/fields/instance"
+
+    ErrorAccountIdMismatch:
+      allOf:
+        - $ref: '#/components/schemas/Error'
+        - type: object
+          properties:
+            title:
+              description: Generic error message
+              example: The Account ID does not match the original Account ID
+            type:
+              description: Link to error / remediation options
+              example: 'https://developer.nexmo.com/api-errors/number-pools#account-id-mismatch'
+            detail:
+              description: Additional information about the error
+              example: When updating a number pool, the account ID is read-only and cannot change
+
+    ErrorCouldNotAddPool:
+      allOf:
+        - $ref: '#/components/schemas/Error'
+        - type: object
+          properties:
+            title:
+              description: Generic error message
+              example: Number could not be added to pool
+            type:
+              description: Link to error / remediation options
+              example: 'https://developer.nexmo.com/api-errors/number-pools#could-not-add-to-pool'
+            detail:
+              description: Additional information about the error
+              example: One or more numbers could not be added to the specified pool
+            errors:
+              type: array
+              items:
+                $ref: '#/components/schemas/Number'
+              example:
+                - '15556660001'
+                - '15556660002'
+
+    ErrorCouldNotDeleteFromPoolPartial:
+      allOf:
+        - $ref: '#/components/schemas/AddNumbersToPool'
+        - type: object
+          properties:
+            error:
+              allOf:
+                - $ref: '#/components/schemas/Error'
+                - type: object
+                  description: "Partial errors when deleting"
+                  properties:
+                    title:
+                      description: Generic error message
+                      example: Could not remove all numbers to pool
+                    type:
+                      description: Link to error / remediation options
+                      example: 'https://developer.nexmo.com/api-errors/number-pools#delete-numbers-partial-failure'
+                    detail:
+                      description: Additional information about the error
+                      example: One or more numbers encountered issues being removed from the pool
+                    errors:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          error:
+                              type: object
+                              properties:
+                                title:
+                                  description: Generic error message
+                                  example: Number not found
+                                type:
+                                  description: Link to error / remediation options
+                                  example: 'https://developer.nexmo.com/api-errors/number-pools#missing-number'
+                                detail:
+                                  description: Additional information about the error
+                                  example: One or more numbers being deleted are not available in the pool
+                                numbers:
+                                  type: array
+                                  items:
+                                    $ref: '#/components/schemas/Number'
+                                  example:
+                                    - '15556660001'
+
+    ErrorCouldNotDeleteFromPool:
+      allOf:
+        - $ref: '#/components/schemas/Error'
+        - type: object
+          description: "Deletion Errors"
+          properties:
+            title:
+              description: Generic error message
+              example: There were errors removing numbers from the pool
+            type:
+              description: Link to error / remediation options
+              example: 'https://developer.nexmo.com/api-errors/number-pools#number-deletion-failure'
+            detail:
+              description: Additional information about the error
+              example: We were unable to remove any of the numbers from the pool.
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  title:
+                    description: Generic error message
+                    example: Number not found
+                  type:
+                    description: Link to error / remediation options
+                    example: 'https://developer.nexmo.com/api-errors/number-pools#missing-number'
+                  detail:
+                    description: Additional information about the error
+                    example: One or more numbers being deleted are not available in the pool
+                  numbers:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Number'
+                    example:
+                      - '15556660001'
+
+    ErrorInvalidParameters:
+      allOf:
+        - $ref: '#/components/schemas/Error'
+        - type: object
+          description: "Validation Errors"
+          properties:
+            invalid_parameters:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: Name of the invalid key
+                  reason:
+                    type: string
+                    description: Additional validation information
+
+    ErrorInvalidUpdatePool:
+      allOf:
+        - $ref: '#/components/schemas/Error'
+        - type: object
+          description: "Validation errors"
+          properties:
+            title:
+              description: Generic error message
+              example: Bad Request
+            type:
+              description: Link to error / remediation options
+              example: 'https://developer.nexmo.com/api-errors/number-pools#validation'
+            detail:
+              description: Additional information about the error
+              example: The request failed due to validation errors
+            invalid_parameters:
+              type: array
+              items:
+                $ref: '#/components/schemas/Number'
+              example:
+                name: 'localized_sender_preferred'
+                reason: 'Must be a boolean value'
+
+    ErrorPoolIdAlreadyExists:
+      allOf:
+        - $ref: '#/components/schemas/Error'
+        - type: object
+          properties:
+            title:
+              description: Generic error message
+              example: Pool ID already exists
+            type:
+              description: Link to error / remediation options
+              example: 'https://developer.nexmo.com/api-errors/number-pools#pool-id-exists'
+            detail:
+              description: Additional information about the error
+              example: A pool with the specified ID already exists
+
+    ErrorTooManyNumbers:
+      allOf:
+        - $ref: '#/components/schemas/Error'
+        - type: object
+          description: "Limit Exceeded"
+          properties:
+            title:
+              description: Generic error message
+              example: Bad Request
+            type:
+              description: Link to error / remediation options
+              example: 'https://developer.nexmo.com/api-errors/number-pools#bulk-number-delete-limit'
+            detail:
+              description: Additional information about the error
+              example: The request failed due to validation errors
+            invalid_parameters:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: Name of the invalid key
+                    example: ids
+                  reason:
+                    type: string
+                    description: Additional validation information
+                    example: Limit of 50 numbers exceeded
+
+    Fallback:
+      type: string
+      description: Specifies the behaviour when no number with matching prefix
+      example: Pool
+      enum:
+        - Pool
+        - CustomFrom
+        - Reject
+
+    LocalizedSenderPreferred:
+      type: boolean
+      description: 'If set to true and such a number is available, select a number at random from within this pool with the same country prefix as the destination.'
+      example: true
+
+    Number:
+      description: Number inside a number pool
+      example: '14155550110'
+      type: string
+      minLength: 7
+      maxLength: 15
+      pattern: '^[0-9]{7,15}$'
+
+    Page:
+      description: Page Offset
+      example: 2
+      type: integer
+      minimum: 1
+
+    PagedResponseSchema:
+      type: object
+      properties:
+        page_size:
+          $ref: '#/components/schemas/PageSize'
+        page:
+          $ref: '#/components/schemas/Page'
+        total_pages:
+          $ref: '#/components/schemas/TotalPages'
+        total_items:
+          $ref: '#/components/schemas/TotalItems'
+
+    PageSize:
+      description: Items per page
+      example: 10
+      type: integer
+      minimum: 0
+
+    PatchPool:
+      description: Partially update an existing pool
+      allOf:
+        - $ref: '#/components/schemas/CreateOrUpdatePoolBase'
+
+    Pool:
+      properties:
+        fallback:
+          $ref: '#/components/schemas/Fallback'
+        localized_sender_preferred:
+          $ref: '#/components/schemas/LocalizedSenderPreferred'
+        predictable_sender_preferred:
+          $ref: '#/components/schemas/PredictableSenderPreferred'
+        pool_id:
+          $ref: '#/components/schemas/PoolId'
+        account_id:
+          $ref: '#/components/schemas/AccountId'
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+                  description: Link to the current pool
+                  example: /v2/pools/abcd123/custom_user_pool_id
+            numbers:
+              type: object
+              properties:
+                href:
+                  type: string
+                  description: Link to the numbers in the pool
+                  example: /v2/pools/abcd123/custom_user_pool_id/numbers
+
+    PoolId:
+      description: ID assigned to a pool of numbers
+      example: pool_name
+      type: string
+      pattern: '^[a-z0-9]$'
+
+    PredictableSenderPreferred:
+      type: boolean
+      description: 'When true, select the same Sender ID on any subsequent messages to a given destination.'
+      example: true
+
+    TotalItems:
+      description: Number of items in the entire result set
+      example: 100
+      type: integer
+      minimum: 0
+
+    TotalPages:
+      description: Number of pages in the entire result set
+      example: 100
+      type: integer
+      minimum: 1
+
+    UpdatePool:
+      description: Update an existing pool
+      allOf:
+        - $ref: '#/components/schemas/CreateOrUpdatePoolBase'
+        - type: object
+          properties:
+            account_id:
+              $ref: '#/components/schemas/AccountId'
+          required:
+            - fallback
+            - localized_sender_preferred
+            - predictable_sender_preferred
+            - pool_id
+            - account_id
+
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+
+  parameters:
+    AccountId:
+      name: account_id
+      in: path
+      description: Account ID to filter to
+      required: true
+      schema:
+        $ref: '#/components/schemas/AccountId'
+
+    Number:
+      in: path
+      name: number
+      description: Number to work with inside a pool
+      required: true
+      schema:
+        $ref: '#/components/schemas/Number'
+
+    Page:
+      name: page
+      in: query
+      description: Page to offset the result to
+      schema:
+        $ref: '#/components/schemas/Page'
+
+    PageSize:
+      name: page_size
+      in: query
+      description: Number of objects to return on page
+      schema:
+        $ref: '#/components/schemas/PageSize'
+
+    PoolId:
+      name: pool_id
+      in: path
+      required: true
+      description: Pool ID to work with
+      schema:
+        $ref: '#/components/schemas/PoolId'
+
+tags:
+  - name: Pools
+    description: Pool management
+  - name: Numbers
+    description: Manage numbers within a pool
