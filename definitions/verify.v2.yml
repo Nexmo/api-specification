@@ -1,0 +1,534 @@
+openapi: 3.0.2
+info:
+  title: Vonage Verify API (v2)
+  version: 0.0.2
+  description: Verify API provides a choice of routes for sending a PIN code to a user. You can use this to confirm a user's contact information, as a second factor when authenticating users, or for step-up authentication.
+  contact:
+    name: Vonage DevRel
+    email: devrel@vonage.com
+    url: 'https://developer.nexmo.com/'
+servers:
+  - url: https://api.nexmo.com/v2/verify
+security:
+  - basicAuth: []
+  - bearerAuth: []
+
+paths:
+  /requests:
+    post:
+      operationId: newRequest
+      summary: Request a verification be sent to a user
+      description: Start verifying that we can reach this user given a set of contact details
+      requestBody:
+        $ref: '#/components/requestBodies/NewVerificationRequest'
+      responses:
+        "201":
+          description: The request was started
+          content:
+            application/json:
+              schema:
+                required:
+                  - request_id
+                type: object
+                properties:
+                  request_id:
+                    $ref: '#/components/schemas/RequestId'
+        "422":
+          description: The request could not be found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Error'
+                  - type: object
+                    description: Invalid Request
+                    properties:
+                      title:
+                        description: Generic error message
+                        example: There was a problem with your submission
+                      type:
+                        description: Link to error / remediation options
+                        example: 'https://developer.nexmo.com/api-errors/verify#invalid-parameters'
+                      detail:
+                        description: Additional information about the error
+                        example: Missing required field `to`
+        "429":
+          description: An error occured. Check the response for more information
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Error'
+                  - type: object
+                    description: Requests Throttled
+                    properties:
+                      title:
+                        description: Generic error message
+                        example: Your request has been throttled. Please try again later.
+                      type:
+                        description: Link to error / remediation options
+                        example: 'https://developer.nexmo.com/api-errors/verify#throttled'
+                      detail:
+                        description: Additional information about the error
+                        example: Throughput Rate Exceeded - please wait [ 99 ] and retry
+
+  /requests/{request_id}:
+    parameters:
+      - $ref: '#/components/parameters/request_id'
+    get:
+      operationId: RequestStatus
+      summary: Fetch full information about a specific request by ID
+      description: Returns detailed information about the original request, its current status, and any events that have already taken place.
+      responses:
+        "200":
+          description: Good
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerifyResource'
+        "404":
+          description: The request could not be found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Error'
+                  - type: object
+                    description: Request Not Found
+                    properties:
+                      title:
+                        description: Generic error message
+                        example: The request cannot be found
+                      type:
+                        description: Link to error / remediation options
+                        example: 'https://developer.nexmo.com/api-errors/verify#not-found'
+                      detail:
+                        description: Additional information about the error
+                        example: The request ID you request cannot be found.
+
+    post:
+      operationId: checkPIN
+      summary: Check a supplied PIN against a request to see if it is valid
+      description: Allows a PIN to be checked against an existing Verification request
+      requestBody:
+        $ref: '#/components/requestBodies/CheckPINRequest'
+
+      responses:
+        "204":
+          description: No content
+        "404":
+          description: The request could not be found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Error'
+                  - type: object
+                    description: Request Not Found
+                    properties:
+                      title:
+                        description: Generic error message
+                        example: The request cannot be found
+                      type:
+                        description: Link to error / remediation options
+                        example: 'https://developer.nexmo.com/api-errors/verify#not-found'
+                      detail:
+                        description: Additional information about the error
+                        example: The request ID you request cannot be found.
+        "409":
+          description: Request time limit has been exceeded
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Error'
+                  - type: object
+                    description: Request Expired
+                    properties:
+                      title:
+                        description: Generic error message
+                        example: PIN cannot be verified against an expired request
+                      type:
+                        description: Link to error / remediation options
+                        example: 'https://developer.nexmo.com/api-errors/verify#request-ttl-passed'
+                      detail:
+                        description: Additional information about the error
+                        example: Your request can no longer be verified. Please send a new request.
+        "429":
+          description: An error occured. Check the response for more information
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Error'
+                  - type: object
+                    description: Requests Throttled
+                    properties:
+                      title:
+                        description: Generic error message
+                        example: Your request has been throttled. Please try again later.
+                      type:
+                        description: Link to error / remediation options
+                        example: 'https://developer.nexmo.com/api-errors/verify#throttled'
+                      detail:
+                        description: Additional information about the error
+                        example: Throughput Rate Exceeded - please wait [ 99 ] and retry
+
+    delete:
+      operationId: CancelRequest
+      summary: Cancel an in-progress verify request
+      description: Stops any events yet to occur in a verify request workflow, and ends the request.
+      responses:
+        "204":
+          description: No content
+        "404":
+          description: The request could not be found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Error'
+                  - type: object
+                    description: Request Not Found
+                    properties:
+                      title:
+                        description: Generic error message
+                        example: The request cannot be found
+                      type:
+                        description: Link to error / remediation options
+                        example: 'https://developer.nexmo.com/api-errors/verify#not-found'
+                      detail:
+                        description: Additional information about the error
+                        example: The request ID you request cannot be found.
+        "429":
+            description: An error occured. Check the response for more information
+            content:
+              application/json:
+                schema:
+                  allOf:
+                    - $ref: '#/components/schemas/Error'
+                    - type: object
+                      description: Requests Throttled
+                      properties:
+                        title:
+                          description: Generic error message
+                          example: Your request has been throttled. Please try again later.
+                        type:
+                          description: Link to error / remediation options
+                          example: 'https://developer.nexmo.com/api-errors/verify#throttled'
+                        detail:
+                          description: Additional information about the error
+                          example: Throughput Rate Exceeded - please wait [ 99 ] and retry
+
+components:
+  requestBodies:
+    CheckPINRequest:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - pin
+            properties:
+              pin:
+                $ref: '#/components/schemas/PIN'
+
+    NewVerificationRequest:
+      required: true
+      content: 
+        application/json:
+          schema:
+            oneOf:
+              - title: PIN Verification
+                x-tab-id: PINVerification
+                allOf:
+                  - $ref: '#/components/schemas/NewPINRequest'
+              - title: PSD2 Verification
+                x-tab-id: PSD2Verification
+                allOf:
+                  - $ref: '#/components/schemas/NewPSD2Request'
+  parameters:
+    request_id:
+      name: request_id
+      in: path
+      required: true
+      description: ID of the verify request
+      schema:
+        type: string
+
+  schemas:
+    ClientRef:
+      type: string
+      description: If the `client-ref` is set when the request is sent, it will be included in the callbacks
+      example: my-personal-reference
+
+    Country:
+      type: string
+      description: If you do not provide the `to.number` in international format or you are not sure if `to.number` is correctly formatted, specify the two-character country code in `country`. Verify will then format the number for you.
+      pattern: '^[A-Z]{2}'
+      example: US
+
+    NewRequestBase:
+      type: object
+      properties:
+        to:
+          type: array
+          items:
+            $ref: '#/components/schemas/To'
+        sender:
+          $ref: '#/components/schemas/Sender'
+        country:
+          $ref: '#/components/schemas/Country'
+        language:
+          $ref: 'common/common_data.yml#/components/schemas/Language'
+        next_event_wait:
+          $ref: '#/components/schemas/NextEventWait'
+        client-ref:
+          $ref: '#/components/schemas/ClientRef'
+
+    NewPINRequest:
+      allOf:
+        - $ref: '#/components/schemas/NewRequestBase'
+        - type: object
+          description: Request a PIN be sent to a user
+          properties:
+            pin_length:
+              $ref: '#/components/schemas/PINLength'
+            pin_expiry:
+              $ref: '#/components/schemas/PINExpiry'
+          required:
+            - to
+            - sender
+
+    NewPSD2Request:
+      allOf:
+        - $ref: '#/components/schemas/NewRequestBase'
+        - type: object
+          description: Request a PIN be sent to a user
+          properties:
+            pin_length:
+              $ref: '#/components/schemas/PINLength'
+            pin_expiry:
+              $ref: '#/components/schemas/PINExpiry'
+            amount:
+              type: string
+              description: "Amount to be verified"
+              example: "2.50"
+            current:
+              type: string
+              description: ISO 4217 currency code to represent the amount in
+              pattern: '^[A-Z]{3}$'
+              example: EUR
+
+          required:
+            - to
+            - sender
+            - amount
+
+    NextEventWait:
+      type: integer
+      description: Specifies the wait time in seconds between attempts to delivery the verification code
+      minimum: 60
+      maximum: 900
+      default: 300
+      example: 300
+
+    MSISDN:
+      type: string
+      minLength: 1
+      maxLength: 50
+      example: '447700900000'
+      description: The phone number to contact, in the [E.164](https://en.wikipedia.org/wiki/E.164) format. Don't use a leading + or 00 when entering a phone number, start with the country code, for example, 447700900000.
+
+    PINExpiry:
+      type: integer
+      description: How long the generated PIN code is valid for
+      minimum: 60
+      maximum: 3600
+      default: 300
+      example: 300
+
+    PINLength:
+      type: integer
+      description: Length of the PIN to send to the user
+      default: 4
+      example: 4
+      enum:
+        - 4
+        - 6
+
+    RequestId:
+      type: string
+      description: 'The ID of the request'
+      example: '0123456789abcdef0123456789abcdef'
+
+    Sender:
+      type: string
+      description: Identify the originator of this message to the message recipient. Restrictions may apply.
+      minLength: 2
+      maxLength: 16
+      example: 'ACME, Inc'
+
+    To:
+      description: List of contact options to attempt to send a 
+      oneOf:
+        - $ref: '#/components/schemas/ToTelephone'
+        - $ref: '#/components/schemas/ToFacebook'
+
+    ToTelephone:
+      type: object
+      required:
+        - type
+        - number
+      properties:
+        type:
+          type: string
+          description: The type of telephone-number-based message you would like to send
+          example: 'sms'
+          enum:
+            - sms
+            - viber_service_msg
+            - voice
+            - whatsapp
+        number:
+          $ref: '#/components/schemas/MSISDN'
+        pin:
+          $ref: '#/components/schemas/PIN'
+
+    ToFacebook:
+      type: object
+      required:
+        - type
+        - account_id
+      properties:
+        type:
+          type: string
+          description: The type of Facebook-account-based message you would like to send
+          example: 'facebook'
+          enum:
+            - facebook
+        account_id:
+          type: string
+          description: Facebook Recipient ID
+          example: "1254477777772919"
+        pin:
+          $ref: '#/components/schemas/PIN'
+
+    VerifyResource:
+      required:
+        - request_id
+      properties:
+        request_id:
+          $ref: '#/components/schemas/RequestId'
+        status:
+          type: string
+          description: Current status of this request
+          example: in_progress
+          enum:
+            - in_progress
+            - completed
+            - failed
+            - expired
+            - cancelled
+        account_key:
+          type: string
+          description: The API key that made this Verify Request (may include subaccounts)
+          example: "acbd1234"
+        messages_cost:
+          type: number
+          description: The per-message/call costs for this request so far, in EUR. This number may update as the request progresses.
+        submitted_at:
+          type: string
+          description: >-
+            The date and time the verification request was submitted, in ISO 8601 format.
+          example: "2020-01-01T14:00:00.000Z"
+        finalized_at:
+          type: string
+          description: >-
+            The date and time the verification request was completed. This
+            response parameter is in ISO 8601 format.
+          example: "2020-01-01T14:00:00.000Z"
+        first_event_at:
+          type: string
+          description: >-
+            The date and time the first verification attempt was made, in ISO 8601 format.
+          example: "2020-01-01T14:00:00.000Z"
+        last_event_at:
+          type: string
+          description: >-
+            The date and time the last verification attempt was made, in ISO 8601 format.
+          example: "2020-01-01T14:00:00.000Z"
+        events:
+          type: array
+          description: The events that have already taken place
+          items:
+            type: object
+            required:
+              - type
+              - created_at
+            properties:
+              type:
+                type: string
+                description: The communication type
+                example: "sms"
+                enum:
+                  - sms
+                  - voice
+                  - whatsapp
+                  - viber_service_msg
+                  - messenger
+              created_at:
+                type: string
+                description: The date and time that the event was started, in ISO 8601 format.
+                example: "2020-01-01T14:00:00.000Z"
+
+    PIN:
+      type: string
+      description: The PIN the user supplied
+      example: 1234
+      minLength: 4
+      maxLength: 10
+
+    Error:
+      description: 'Information about what went wrong, with a description of the problem and a link to more information'
+      required:
+        - type
+        - title
+        - instance
+      type: object
+      properties:
+        type:
+          type: string
+          description: URL to more information about this type of error
+          example: 'https://www.nexmo.com/messages/Errors#InvalidParams'
+        title:
+          type: string
+          description: Information about the error
+          example: 'Missing `to` parameter'
+        detail:
+          type: string
+          description: Further information, if available
+          example: 'The `to` parameter is required and must be an array'
+        instance:
+          type: string
+          description: An internal identifier, we may request this to assist with debugging
+          example: abcd
+      example:
+        invalid-parameters:
+          type: 'https://www.nexmo.com/messages/Errors#InvalidParams'
+          title: 'Missing `to` parameter'
+          detail: 'The `to` parameter is required and must be an array'
+          instance: abcd
+
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP auth can be used for syncronous calls, for asyncronous calls and call backs use JWT authentication
+
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
