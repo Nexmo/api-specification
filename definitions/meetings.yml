@@ -1,0 +1,516 @@
+openapi: 3.0.0
+info:
+  title: Vonage Meetings Public API
+  version: 1.0.0
+servers:
+  - url: /api
+paths:
+  /rooms:
+    get:
+      summary: Get all available rooms
+      operationId: getRooms
+      parameters:
+        - $ref: '#/components/parameters/start_id_parameter'
+        - $ref: '#/components/parameters/end_id_parameter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  page_size:
+                    type: integer
+                    example: 10
+                    description: The number of results returned on this page.
+                  _embedded:
+                    type: object
+                    properties:
+                      rooms:
+                        type: array
+                        description: List of all accessible rooms
+                        items:
+                          $ref: '#/components/schemas/Room'
+                  _links:
+                    type: object
+                    properties:
+                      first:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: 'https://api.nexmo.com/v0.1/meetings/rooms?page_size=10'
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: 'https://api.nexmo.com/v0.1/meetings/rooms?page_size=10&start_id=20'
+                      next:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: 'https://api.nexmo.com/v0.1/meetings/rooms?page_size=10&start_id=30'
+                      prev:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: 'https://api.nexmo.com/v0.1/meetings/rooms?page_size=10&end_id=20'
+    post:
+      summary: Create a room
+      operationId: createRoom
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRoomDetails'
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'
+        '403':
+          description: Maximum number of rooms for owner exceeded
+      callbacks:
+        meeting-events:
+          room-expired:
+            post:
+              summary: Room Expired Callback
+              operationId: room-expired
+              description: 'A notification about a room becoming inactive, which means no more sessions can be created for it'
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      properties:
+                        event:
+                          type: string
+                          enum:
+                            - 'room:expired'
+                        room_id:
+                          type: string
+                          format: uuid
+              responses:
+                '204':
+                  description: Your server returns this code if it accepts the callback
+          session-started:
+            post:
+              summary: Session Started Callback
+              operationId: session-started
+              description: A notification about a newly started session
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      properties:
+                        event:
+                          type: string
+                          enum:
+                            - 'session:started'
+                        session_id:
+                          type: string
+                        room_id:
+                          type: string
+                          format: uuid
+                        started_at:
+                          type: string
+                          format: date-time
+              responses:
+                '204':
+                  description: Your server returns this code if it accepts the callback
+          session-ended:
+            post:
+              summary: Session Ended Callback
+              operationId: session-ended
+              description: A notification about a session that has just ended
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      properties:
+                        event:
+                          type: string
+                          enum:
+                            - 'session:ended'
+                        session_id:
+                          type: string
+                        room_id:
+                          type: string
+                          format: uuid
+                        started_at:
+                          type: string
+                          format: date-time
+                        ended_at:
+                          type: string
+                          format: date-time
+              responses:
+                '204':
+                  description: Your server returns this code if it accepts the callback
+          recording-started:
+            post:
+              summary: Recording Started Callback
+              operationId: recording-started
+              description: A notification about recording being turned on in a specific session
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      properties:
+                        event:
+                          type: string
+                          enum:
+                            - 'recording:started'
+                        recording_id:
+                          type: string
+                          format: uuid
+                        session_id:
+                          type: string
+              responses:
+                '204':
+                  description: Your server returns this code if it accepts the callback
+          recording-ended:
+            post:
+              summary: Recording Ended Callback
+              operationId: recording-stopped
+              description: A notification about recording being turned off in a specific session
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      properties:
+                        event:
+                          type: string
+                          enum:
+                            - 'recording:ended'
+                        recording_id:
+                          type: string
+                          format: uuid
+                        session_id:
+                          type: string
+                        started_at:
+                          type: string
+                          format: date-time
+                        ended_at:
+                          type: string
+                          format: date-time
+                        duration:
+                          type: number
+                          description: Duration of the recording in seconds
+              responses:
+                '204':
+                  description: Your server returns this code if it accepts the callback
+          recording-ready:
+            post:
+              summary: Recording Ready Callback
+              operationId: recording-ready
+              description: A notification about recording ready to be downloaded
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      properties:
+                        event:
+                          type: string
+                          enum:
+                            - 'recording:ready'
+                        recording_id:
+                          type: string
+                          format: uuid
+                        session_id:
+                          type: string
+                        room_id:
+                          type: string
+                          format: uuid
+                        started_at:
+                          type: string
+                          format: date-time
+                        ended_at:
+                          type: string
+                          format: date-time
+                        duration:
+                          type: number
+                          description: Duration of the recording in seconds
+                        url:
+                          type: string
+                          format: uri
+              responses:
+                '204':
+                  description: Your server returns this code if it accepts the callback
+          participant-joined:
+            post:
+              summary: Participant Joined Callback
+              operationId: participant-joined
+              description: A notification about someone joining a specific session
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      properties:
+                        event:
+                          type: string
+                          enum:
+                            - 'session:participant:joined'
+                        participant_id:
+                          type: string
+                          format: uuid
+                        session_id:
+                          type: string
+                        room_id:
+                          type: string
+                          format: uuid
+                        name:
+                          type: string
+                        type:
+                          type: string
+                        is_host:
+                          description: indicates if this participant is the session's host
+                          type: boolean
+              responses:
+                '204':
+                  description: Your server returns this code if it accepts the callback
+          participant-left:
+            post:
+              summary: Participant Left Callback
+              operationId: participant-left
+              description: A notification about someone leaving a specific session
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      properties:
+                        event:
+                          type: string
+                          enum:
+                            - 'session:participant:left'
+                        participant_id:
+                          type: string
+                          format: uuid
+                        session_id:
+                          type: string
+                        room_id:
+                          type: string
+                          format: uuid
+                        name:
+                          type: string
+                        type:
+                          type: string
+                        is_host:
+                          description: indicates if this participant is the session's host
+                          type: boolean
+              responses:
+                '204':
+                  description: Your server returns this code if it accepts the callback
+  '/rooms/:room_id':
+    get:
+      summary: Get room details
+      operationId: getRoom
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'
+        '404':
+          description: Room not found
+    delete:
+      summary: Delete a room
+      operationId: deleteRoom
+      responses:
+        '204':
+          description: OK
+        '404':
+          description: Room not found
+  '/recordings/:recording_id':
+    get:
+      summary: Get a recording
+      operationId: getRecording
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recording'
+        '404':
+          description: Recording not found
+    delete:
+      summary: Delete a recording
+      operationId: deleteRecording
+      responses:
+        '204':
+          description: No Content
+        '403':
+          description: Can only delete recordings in 'uploaded' status
+        '404':
+          description: Recording not found
+  '/sessions/:session_id/recordings':
+    get:
+      summary: Get recordings of a session
+      operationId: getSessionRecordings
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _embedded:
+                    type: object
+                    properties:
+                      recordings:
+                        type: array
+                        description: List of recordings for the given session
+                        items:
+                          $ref: '#/components/schemas/Recording'
+        '404':
+          description: Session not found
+  /dial-in-numbers:
+    get:
+      summary: Get numbers that can be used to dial into a meeting
+      operationId: getDialInNumbers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DialInNumber'
+components:
+  parameters:
+    start_id_parameter:
+      name: start_id
+      in: query
+      schema:
+        type: string
+      example: 13
+      required: false
+      description: The ID to start returning events at
+    end_id_parameter:
+      name: end_id
+      in: query
+      schema:
+        type: string
+      example: 13
+      required: false
+      description: The ID to end returning events at (excluding end_id itself)
+  schemas:
+    Room:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        display_name:
+          type: string
+          maxLength: 200
+        metadata:
+          maxLength: 500
+          type: string
+          description: Free text that can be attached to a room. This will be passed in the form of a header in events related to this room.
+        recording_options:
+          $ref: '#/components/schemas/RecordingOptions'
+        meeting_code:
+          type: string
+          pattern: ^\d+$
+          example: '123456789'
+          minLength: 9
+        status:
+          type: string
+          enum:
+            - available
+            - unavailable
+          description: 'Once a room becomes unavailable, no new sessions can be created under it'
+        _links:
+          type: object
+          properties:
+            guest_url:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: 'https://meetings.vonage.com/123456789'
+            host_url:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: 'https://meetings.vonage.com/123456789?participant_token=xyz'
+    CreateRoomDetails:
+      type: object
+      properties:
+        display_name:
+          type: string
+          maxLength: 200
+        metadata:
+          maxLength: 500
+          type: string
+          description: Free text that can be attached to a room. This will be passed in the form of a header in events related to this room.
+        recording_options:
+          $ref: '#/components/schemas/RecordingOptions'
+    RecordingOptions:
+      type: object
+      properties:
+        auto_record:
+          type: boolean
+          description: Automatically record all sessions in this room. Recording cannot be stopped when this is set to `true`.
+    Recording:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        session_id:
+          type: string
+          example: 2_MX40NjMwODczMn5-MTU3NTgyODEwNzQ2MH5OZDJrVmdBRUNDbG5MUzNqNXgya20yQ1Z-fg
+          description: Corresponds to the underlying Video API session id
+        started_at:
+          type: string
+          format: date-time
+        ended_at:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+            - started
+            - stopped
+            - paused
+            - uploaded
+        _links:
+          type: object
+          properties:
+            url:
+              type: object
+              properties:
+                href:
+                  type: string
+    DialInNumber:
+      type: object
+      properties:
+        number:
+          type: string
+          example: '17323338801'
+        locale:
+          type: string
+          example: en-US
+        display_name:
+          type: string
+          example: United States
+tags: []
